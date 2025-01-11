@@ -22,6 +22,9 @@ public class PlayerCharacterMovement : NetworkBehaviour
     // The most recent desired rotation for this character.
     float recentDesiredRotation;
 
+    // Is the component listening to the input?
+    bool isSubscribedToAction = false;
+
     void Awake()
     {
         if (rigidBody == null)
@@ -47,10 +50,44 @@ public class PlayerCharacterMovement : NetworkBehaviour
     {
         if (IsOwner)
         {
-            // We are the owner of this character. Attach movement functions to the input.
+            // We are the owner of this character. Attach movement functions to the action.
+            SubscribeToAction();
+        }
+    }
+
+    void OnEnable()
+    {
+        if (IsSpawned && IsOwner)
+        {
+            // If we are the owner and the network object is spawned, subscribe to actions.
+            // We need this functionality because we unsubscribe on disable.
+            SubscribeToAction();
+        }
+    }
+
+    void OnDisable()
+    {
+        UnsubscribeFromAction();
+    }
+
+    void SubscribeToAction()
+    {
+        if (!isSubscribedToAction)
+        {
             moveAction.performed += OnMoveAction;
             moveAction.canceled += OnCancel;
             lookAction.performed += OnLookAction;
+            isSubscribedToAction = true;
+        }
+    }
+    void UnsubscribeFromAction()
+    {
+        if (isSubscribedToAction)
+        {
+            moveAction.performed -= OnMoveAction;
+            moveAction.canceled -= OnCancel;
+            lookAction.performed -= OnLookAction;
+            isSubscribedToAction = false;
         }
     }
 
@@ -114,6 +151,6 @@ public class PlayerCharacterMovement : NetworkBehaviour
         Vector2 moveDirection = recentMoveInput;
         rigidBody.linearVelocity = moveDirection * maxSpeed;
 
-        rigidBody.rotation = recentDesiredRotation;
+        rigidBody.MoveRotation(recentDesiredRotation);
     }
 }
