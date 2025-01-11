@@ -10,17 +10,17 @@ public class PlayerCharacterMovement : NetworkBehaviour
 
     // Reference to the character's Rigidbody2D.
     [SerializeField]
-    private Rigidbody2D rigidBody;
+    Rigidbody2D rigidBody;
 
     // Reference to InputAction for character movement.
-    private InputAction moveAction;
+    InputAction moveAction;
     // Reference to InputAction for character rotation.
-    private InputAction lookAction;
+    InputAction lookAction;
 
     // The most recent movement input from the client controlling this character.
-    private Vector2 recentMoveInput;
+    Vector2 recentMoveInput;
     // The most recent desired rotation for this character.
-    private float recentDesiredRotation;
+    float recentDesiredRotation;
 
     void Awake()
     {
@@ -56,7 +56,7 @@ public class PlayerCharacterMovement : NetworkBehaviour
 
     // Bound to `moveAction.performed`.
     // Sends the keyboard input to the authority.
-    private void OnMoveAction(InputAction.CallbackContext context)
+    void OnMoveAction(InputAction.CallbackContext context)
     {
         Vector2 moveInput = context.ReadValue<Vector2>();
         SendMoveInputRpc(moveInput);
@@ -65,14 +65,14 @@ public class PlayerCharacterMovement : NetworkBehaviour
     // Bound to `moveAction.canceled`.
     // Sends the keyboard input to the authority.
     // This is required since `moveAction.performed` won't be triggered when the action value is set to zero.
-    private void OnCancel(InputAction.CallbackContext context)
+    void OnCancel(InputAction.CallbackContext context)
     {
         Vector2 moveInput = context.ReadValue<Vector2>();
         SendMoveInputRpc(moveInput);
     }
 
     // Bound to `lookAction.performed`. Sends the desired rotation to the authority.
-    private void OnLookAction(InputAction.CallbackContext context)
+    void OnLookAction(InputAction.CallbackContext context)
     {
         Vector2 mousePosition = context.ReadValue<Vector2>();
         Camera mainCam = Camera.main; // Since this function is called only on the owner, we surely have a main camera.
@@ -91,14 +91,14 @@ public class PlayerCharacterMovement : NetworkBehaviour
 
     // RPC to set `recentMoveInput` on the authority. The value will be read in `FixedUpdate()` for physics-based movement.
     [Rpc(SendTo.Authority)]
-    private void SendMoveInputRpc(Vector2 moveInput)
+    void SendMoveInputRpc(Vector2 moveInput)
     {
         recentMoveInput = moveInput;
     }
 
     // RPC to set `recentDesiredRotation` on the authority. The value will be read in `FixedUpdate()` for rotation.
     [Rpc(SendTo.Authority)]
-    private void SendDesiredRotationRpc(float desiredRotation)
+    void SendDesiredRotationRpc(float desiredRotation)
     {
         recentDesiredRotation = desiredRotation;
     }

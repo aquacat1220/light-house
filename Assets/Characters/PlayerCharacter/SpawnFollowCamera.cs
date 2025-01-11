@@ -6,7 +6,7 @@ public class SpawnFollowCamera : NetworkBehaviour
 {
     // Reference to the FollowCamera prefab to use.
     [SerializeField]
-    private GameObject followCameraPrefab;
+    GameObject followCameraPrefab;
 
     void Awake()
     {

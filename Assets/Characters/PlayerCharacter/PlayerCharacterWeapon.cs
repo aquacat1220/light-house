@@ -8,35 +8,35 @@ public class PlayerCharacterWeapon : NetworkBehaviour
 {
     // Reference to the light component of the muzzle.
     [SerializeField]
-    private Light2D muzzleFlash;
+    Light2D muzzleFlash;
     // Time in seconds for the muzzle flash to vanish.
     [SerializeField]
-    private float muzzleFlashDuration;
+    float muzzleFlashDuration;
     // Intensity gain of muzzle flash per shot.
     [SerializeField]
-    private float muzzleFlashPerShot;
+    float muzzleFlashPerShot;
 
     // Light2D component of the character's flashlight.
     [SerializeField]
-    private Light2D flashlight;
+    Light2D flashlight;
 
     // Line renderer component for the aim line.
     [SerializeField]
-    private LineRenderer aimLine;
+    LineRenderer aimLine;
 
     // Prefab to spawn on bullet impact.
     [SerializeField]
-    private GameObject bulletImpactPrefab;
+    GameObject bulletImpactPrefab;
     // Time in seconds for the bullet impact to vanish.
     [SerializeField]
-    private float bulletImpactDuration;
+    float bulletImpactDuration;
 
     // Reference to InputAction for character weapons.
-    private InputAction fireAction;
-    private InputAction toggleLightAction;
+    InputAction fireAction;
+    InputAction toggleLightAction;
 
     // Intensity of the flashlight when it's on. Stored before turning the light off.
-    private float flashlightIntensity;
+    float flashlightIntensity;
 
     void Awake()
     {
