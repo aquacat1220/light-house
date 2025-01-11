@@ -9,6 +9,11 @@ public class FollowCamera : MonoBehaviour
 
     void LateUpdate()
     {
+        if (target == null)
+        {
+            // If target transform is null, abort.
+            return;
+        }
         transform.position = new Vector3(target.position.x, target.position.y, -10);
         if (followRotation)
         {
