@@ -24,19 +24,19 @@ public class PlayerCharacterMovement : NetworkBehaviour
 
     void Awake()
     {
-        if (rigidBody is null)
+        if (rigidBody == null)
         {
             Debug.Log("\"rigidBody\" wasn't set.");
             throw new Exception();
         }
         moveAction = InputSystem.actions.FindAction("Move");
-        if (moveAction is null)
+        if (moveAction == null)
         {
             Debug.Log("\"Move\" action wasn't found.");
             throw new Exception();
         }
         lookAction = InputSystem.actions.FindAction("Look");
-        if (lookAction is null)
+        if (lookAction == null)
         {
             Debug.Log("\"Look\" action wasn't found.");
             throw new Exception();
@@ -76,7 +76,7 @@ public class PlayerCharacterMovement : NetworkBehaviour
     {
         Vector2 mousePosition = context.ReadValue<Vector2>();
         Camera mainCam = Camera.main; // Since this function is called only on the owner, we surely have a main camera.
-        if (mainCam is null)
+        if (mainCam == null)
         {
             // This shouldn't happen, but check just to make sure.
             Debug.Log("\"Look\" action was triggered, but no main cameras were found.");

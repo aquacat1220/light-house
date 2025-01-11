@@ -40,26 +40,26 @@ public class PlayerCharacterWeapon : NetworkBehaviour
 
     void Awake()
     {
-        if (muzzleFlash is null)
+        if (muzzleFlash == null)
         {
             Debug.Log("\"muzzleFlash\" wasn't set.");
             throw new Exception();
         }
 
-        if (aimLine is null)
+        if (aimLine == null)
         {
             Debug.Log("\"aimLine\" wasn't set.");
             throw new Exception();
         }
 
-        if (bulletImpactPrefab is null)
+        if (bulletImpactPrefab == null)
         {
             Debug.Log("\"bulletImpact\" wasn't set.");
             throw new Exception();
         }
 
         fireAction = InputSystem.actions.FindAction("Fire");
-        if (fireAction is null)
+        if (fireAction == null)
         {
             Debug.Log("\"Fire\" action wasn't found.");
             throw new Exception();
@@ -67,7 +67,7 @@ public class PlayerCharacterWeapon : NetworkBehaviour
         fireAction.performed += Fire;
 
         toggleLightAction = InputSystem.actions.FindAction("ToggleLight");
-        if (toggleLightAction is null)
+        if (toggleLightAction == null)
         {
             Debug.Log("\"ToggleLight\" action wasn't found.");
             throw new Exception();

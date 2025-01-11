@@ -10,7 +10,7 @@ public class SpawnFollowCamera : NetworkBehaviour
 
     void Awake()
     {
-        if (followCameraPrefab is null)
+        if (followCameraPrefab == null)
         {
             Debug.Log("\"followCamera\" wasn't set.");
             throw new Exception();
