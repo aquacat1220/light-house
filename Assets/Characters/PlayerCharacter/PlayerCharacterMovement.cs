@@ -22,7 +22,7 @@ public class PlayerCharacterMovement : NetworkBehaviour
     // The most recent desired rotation for this character.
     float recentDesiredRotation;
 
-    // Is the component listening to the input?
+    // Is the component subscribed to the action?
     bool isSubscribedToAction = false;
 
     void Awake()
