@@ -12,8 +12,10 @@ public class BulletImpact : MonoBehaviour
     // Initial light intensity.
     private float initialIntensity;
 
-    void Start() {
-        if (light2D is null) {
+    void Start()
+    {
+        if (light2D is null)
+        {
             Debug.Log("\"light2D\" wasn't set.");
             throw new Exception();
         }
@@ -25,7 +27,8 @@ public class BulletImpact : MonoBehaviour
     void Update()
     {
         light2D.intensity = Mathf.Clamp(light2D.intensity - initialIntensity * (Time.deltaTime / bulletImpactDuration), 0, 1);
-        if (light2D.intensity <= 0f) {
+        if (light2D.intensity <= 0f)
+        {
             Destroy(gameObject);
         }
     }

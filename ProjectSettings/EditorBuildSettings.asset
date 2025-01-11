@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/Scenes/Oregon/Oregon.unity
+    guid: 28a969813730749859742147d971ebd9
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 1ae1c31adc91d9b0f8683fa6411ab6d6, type: 3}
   m_UseUCBPForAssetBundles: 0
