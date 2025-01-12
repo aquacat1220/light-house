@@ -38,6 +38,9 @@ public class PlayerCharacterWeapon : NetworkBehaviour
     // Intensity of the flashlight when it's on. Stored before turning the light off.
     float flashlightIntensity;
 
+    // Is the component subscribed to the action?
+    bool isSubscribedToAction = false;
+
     void Awake()
     {
         if (muzzleFlash == null)
@@ -64,7 +67,6 @@ public class PlayerCharacterWeapon : NetworkBehaviour
             Debug.Log("\"Fire\" action wasn't found.");
             throw new Exception();
         }
-        fireAction.performed += Fire;
 
         toggleLightAction = InputSystem.actions.FindAction("ToggleLight");
         if (toggleLightAction == null)
@@ -72,20 +74,87 @@ public class PlayerCharacterWeapon : NetworkBehaviour
             Debug.Log("\"ToggleLight\" action wasn't found.");
             throw new Exception();
         }
-        toggleLightAction.performed += ToggleLight;
     }
 
-    void Fire(InputAction.CallbackContext context)
+    public override void OnNetworkSpawn()
+    {
+        if (IsOwner)
+        {
+            // We are the owner of this character. Attach weapon functions to the action.
+            SubscribeToAction();
+        }
+    }
+
+    void OnEnable()
+    {
+        if (IsSpawned && IsOwner)
+        {
+            // If we are the owner and the network object is spawned, subscribe to actions.
+            // We need this functionality because we unsubscribe on disable.
+            SubscribeToAction();
+        }
+    }
+
+    void OnDisable()
+    {
+        UnsubscribeFromAction();
+    }
+
+    void SubscribeToAction()
+    {
+        if (!isSubscribedToAction)
+        {
+            fireAction.performed += OnFireAction;
+            toggleLightAction.performed += OnToggleLightAction;
+            isSubscribedToAction = true;
+        }
+    }
+    void UnsubscribeFromAction()
+    {
+        if (isSubscribedToAction)
+        {
+            fireAction.performed -= OnFireAction;
+            toggleLightAction.performed -= OnToggleLightAction;
+            isSubscribedToAction = false;
+        }
+    }
+
+    void OnFireAction(InputAction.CallbackContext context)
+    {
+        ServerFireRpc();
+    }
+
+    [Rpc(SendTo.Authority)]
+    void ServerFireRpc()
     {
         RaycastHit2D hit = Physics2D.Raycast(muzzleFlash.transform.position, muzzleFlash.transform.up);
         if (hit)
         {
             GameObject newBulletImpact = Instantiate(bulletImpactPrefab, hit.point + hit.normal * 0.01f, Quaternion.identity);
+            newBulletImpact.GetComponent<NetworkObject>().Spawn(destroyWithScene: true);
         }
+        MuzzleFlashRpc();
+    }
+
+    [Rpc(SendTo.Everyone)]
+    void MuzzleFlashRpc()
+    {
         muzzleFlash.intensity = Mathf.Clamp(muzzleFlash.intensity + muzzleFlashPerShot, 0, 1);
     }
 
-    void ToggleLight(InputAction.CallbackContext context)
+    void OnToggleLightAction(InputAction.CallbackContext context)
+    {
+        ServerToggleLightRpc();
+    }
+
+    [Rpc(SendTo.Authority)]
+    void ServerToggleLightRpc()
+    {
+        ToggleLightRpc();
+    }
+
+    [Rpc(SendTo.Everyone)]
+    void ToggleLightRpc()
     {
         if (flashlight.intensity != 0f)
         {
@@ -100,6 +169,11 @@ public class PlayerCharacterWeapon : NetworkBehaviour
 
     void DrawAimLine()
     {
+        if (!IsOwner)
+        {
+            // If not locally controlled, do not draw aim lines.
+            return;
+        }
         aimLine.SetPosition(0, muzzleFlash.transform.position);
         RaycastHit2D hit = Physics2D.Raycast(muzzleFlash.transform.position, muzzleFlash.transform.up);
         aimLine.SetPosition(1, hit.point);
