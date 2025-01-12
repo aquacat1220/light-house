@@ -1,16 +1,14 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/MainMenu/main-menu.uss?fileID=7433441132597879392&amp;guid=2326f48b5725b17c0ab4fff292379e41&amp;type=3#main-menu" />
     <ui:VisualElement name="Panel" class="panel">
-        <ui:VisualElement name="Menu" class="menu">
-            <ui:VisualElement name="SessionInfos" class="menu-item">
-                <ui:VisualElement name="Address" class="session-info">
-                    <ui:Label text="address :" name="AddressLabel" class="text" />
-                    <ui:TextField max-length="15" value="127.0.0.1" name="AddressInput" focusable="true" class="transparent-textfield text session-info-input address-input" />
-                </ui:VisualElement>
-                <ui:VisualElement name="Port" class="session-info">
-                    <ui:Label text="port :" name="PortLabel" class="text" />
-                    <ui:TextField max-length="5" value="7777" name="PortInput" class="transparent-textfield text session-info-input port-input" />
-                </ui:VisualElement>
+        <ui:VisualElement name="Menu" class="menu" style="border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px;">
+            <ui:VisualElement name="Address" class="session-info menu-item">
+                <ui:Label text="address :" name="AddressLabel" class="text" />
+                <ui:TextField max-length="15" value="127.0.0.1" name="AddressInput" focusable="true" class="transparent-textfield text session-info-input address-input" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Port" class="session-info menu-item">
+                <ui:Label text="port :" name="PortLabel" class="text" />
+                <ui:TextField max-length="5" value="7777" name="PortInput" class="transparent-textfield text session-info-input port-input" />
             </ui:VisualElement>
             <ui:VisualElement name="SessionButtons" class="menu-item">
                 <ui:Button text="Host" name="HostButton" class="text button" />
