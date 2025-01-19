@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Start.unity
+    guid: 97433da4ffca4a1b5aa1862113fc9e07
+  - enabled: 1
+    path: Assets/Scenes/Solo.unity
+    guid: 75c1a3a1ede067a5daee42177577f48e
+  - enabled: 1
     path: Assets/Scenes/Oregon/Oregon.unity
     guid: 28a969813730749859742147d971ebd9
   m_configObjects:

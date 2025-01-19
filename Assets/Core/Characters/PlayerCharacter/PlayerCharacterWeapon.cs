@@ -78,6 +78,8 @@ public class PlayerCharacterWeapon : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        base.OnNetworkSpawn();
+
         if (IsOwner)
         {
             // We are the owner of this character. Attach weapon functions to the action.

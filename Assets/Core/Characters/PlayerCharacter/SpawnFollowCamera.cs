@@ -20,6 +20,8 @@ public class SpawnFollowCamera : NetworkBehaviour
     // Check if we are the owner, and intantiate a follow camera if so.
     public override void OnNetworkSpawn()
     {
+        base.OnNetworkSpawn();
+
         if (!IsOwner)
         {
             // We are not the owner. Non-local-controlled characters don't need cameras.

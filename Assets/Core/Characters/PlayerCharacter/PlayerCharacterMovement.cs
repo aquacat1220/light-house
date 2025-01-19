@@ -48,6 +48,7 @@ public class PlayerCharacterMovement : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        base.OnNetworkSpawn();
         if (IsOwner)
         {
             // We are the owner of this character. Attach movement functions to the action.

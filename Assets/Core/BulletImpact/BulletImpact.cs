@@ -1,8 +1,9 @@
 using System;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class BulletImpact : MonoBehaviour
+public class BulletImpact : NetworkBehaviour
 {
     // Reference to the light 2D component.
     public Light2D light2D;
@@ -12,7 +13,7 @@ public class BulletImpact : MonoBehaviour
     // Initial light intensity.
     private float initialIntensity;
 
-    void Start()
+    void Awake()
     {
         if (light2D is null)
         {
@@ -29,7 +30,10 @@ public class BulletImpact : MonoBehaviour
         light2D.intensity = Mathf.Clamp(light2D.intensity - initialIntensity * (Time.deltaTime / bulletImpactDuration), 0, 1);
         if (light2D.intensity <= 0f)
         {
-            Destroy(gameObject);
+            if (IsSpawned && HasAuthority)
+            {
+                gameObject.GetComponent<NetworkObject>().Despawn();
+            }
         }
     }
 }
