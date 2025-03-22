@@ -1,5 +1,5 @@
 using System;
-using Unity.Netcode;
+using FishNet.Object;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
@@ -76,22 +76,26 @@ public class PlayerCharacterWeapon : NetworkBehaviour
         }
     }
 
-    public override void OnNetworkSpawn()
+    public override void OnStartClient()
     {
-        base.OnNetworkSpawn();
-
-        if (IsOwner)
+        if (base.IsOwner)
         {
-            // We are the owner of this character. Attach weapon functions to the action.
+            // We are the owning client of this character. Attach weapon functions to the action.
             SubscribeToAction();
         }
     }
 
+    public override void OnStopClient()
+    {
+        // We don't check for ownership here, since calling `UnsubscribeFromAction()` when we are not subscribed shouldn't cause any problems.
+        UnsubscribeFromAction();
+    }
+
     void OnEnable()
     {
-        if (IsSpawned && IsOwner)
+        if (base.IsOwner)
         {
-            // If we are the owner and the network object is spawned, subscribe to actions.
+            // We are the owning client of this character. Attach weapon functions to the action.
             // We need this functionality because we unsubscribe on disable.
             SubscribeToAction();
         }
@@ -99,6 +103,7 @@ public class PlayerCharacterWeapon : NetworkBehaviour
 
     void OnDisable()
     {
+        // We don't check for ownership here, since calling `UnsubscribeFromAction()` when we are not subscribed shouldn't cause any problems.
         UnsubscribeFromAction();
     }
 
@@ -126,19 +131,19 @@ public class PlayerCharacterWeapon : NetworkBehaviour
         ServerFireRpc();
     }
 
-    [Rpc(SendTo.Authority)]
+    [ServerRpc]
     void ServerFireRpc()
     {
         RaycastHit2D hit = Physics2D.Raycast(muzzleFlash.transform.position, muzzleFlash.transform.up);
         if (hit)
         {
             GameObject newBulletImpact = Instantiate(bulletImpactPrefab, hit.point + hit.normal * 0.01f, Quaternion.identity);
-            newBulletImpact.GetComponent<NetworkObject>().Spawn(destroyWithScene: true);
+            base.Spawn(newBulletImpact);
         }
         MuzzleFlashRpc();
     }
 
-    [Rpc(SendTo.Everyone)]
+    [ServerRpc]
     void MuzzleFlashRpc()
     {
         muzzleFlash.intensity = Mathf.Clamp(muzzleFlash.intensity + muzzleFlashPerShot, 0, 1);
@@ -149,13 +154,13 @@ public class PlayerCharacterWeapon : NetworkBehaviour
         ServerToggleLightRpc();
     }
 
-    [Rpc(SendTo.Authority)]
+    [ServerRpc]
     void ServerToggleLightRpc()
     {
         ToggleLightRpc();
     }
 
-    [Rpc(SendTo.Everyone)]
+    [ObserversRpc]
     void ToggleLightRpc()
     {
         if (flashlight.intensity != 0f)
@@ -171,9 +176,9 @@ public class PlayerCharacterWeapon : NetworkBehaviour
 
     void DrawAimLine()
     {
-        if (!IsOwner)
+        if (!base.IsOwner)
         {
-            // If not locally controlled, do not draw aim lines.
+            // If not owning client, do not draw aim lines.
             return;
         }
         aimLine.SetPosition(0, muzzleFlash.transform.position);
@@ -183,9 +188,9 @@ public class PlayerCharacterWeapon : NetworkBehaviour
 
     void Update()
     {
-        // Lower down muzzle flash intensity.
+        // Lower down muzzle flash intensity over time.
         muzzleFlash.intensity = Mathf.Clamp(muzzleFlash.intensity - (Time.deltaTime / muzzleFlashDuration), 0, 1);
-        // Update the aim line.
+        // Draw the aim line.
         DrawAimLine();
     }
 }

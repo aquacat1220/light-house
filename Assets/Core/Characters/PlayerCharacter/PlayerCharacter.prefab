@@ -13,6 +13,14 @@ PrefabInstance:
       value: PlayerCharacter
       objectReference: {fileID: 0}
     - target: {fileID: 6891197595918081331, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6891197595918081331, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6891197595918081331, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -52,6 +60,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: <AssetPathHash>k__BackingField
+      value: 13818779747147471511
+      objectReference: {fileID: 0}
     - target: {fileID: 8779856770378147711, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2803149745
@@ -73,6 +85,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7544029604669326017}
   m_SourcePrefab: {fileID: 100100000, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+--- !u!114 &2566409721090996822 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+  m_PrefabInstance: {fileID: 5300799141838639858}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5139385379916303670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &4184858578783768206 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 8323674693388983420, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
@@ -95,7 +118,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64a11691e8aa8456495080fae6ddb1dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2566409721090996822}
+  _networkObjectCache: {fileID: 0}
   maxSpeed: 3
   rigidBody: {fileID: 4184858578783768206}
 --- !u!114 &8558529402904053165
@@ -110,7 +135,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75b163082d82eb51ea19f9f819fe213a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2566409721090996822}
+  _networkObjectCache: {fileID: 0}
   muzzleFlash: {fileID: 7567460817300730415}
   muzzleFlashDuration: 1
   muzzleFlashPerShot: 0.3
@@ -237,7 +264,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71aa291e9cc890685a96c793a859b225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2566409721090996822}
+  _networkObjectCache: {fileID: 0}
   followCameraPrefab: {fileID: 258465775392396985, guid: dae3921024e8f589f9e34b72c793880e, type: 3}
 --- !u!114 &7471076663653112830 stripped
 MonoBehaviour:

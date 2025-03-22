@@ -1,24 +1,31 @@
 using System;
-using Unity.Netcode;
+using System.Collections.Generic;
+using FishNet.Connection;
+using FishNet.Object;
+using FishNet.Transporting;
 using UnityEngine;
 
+// Responsible for spawning characters for connected-and-authenticated clients.
+// When initialized on the server, spawns characters for all connected-and-authenticated clients,
+// as well as future connected-and-authenticated clients.
 public class CharacterSpawner : NetworkBehaviour
 {
     [SerializeField]
-    GameObject playerPrefab;
+    GameObject characterPrefab;
 
     [SerializeField]
     Transform[] spawnPositions;
 
-    NetworkManager networkManager;
+    bool isSubscribedToAuthEvent = false;
+    bool isSubscribedToConnEvent = false;
 
-    bool isSubscribedToEvent = false;
+    HashSet<NetworkConnection> spawned = new HashSet<NetworkConnection>();
 
     uint nextSpawnPositionIndex = 0;
 
     void Awake()
     {
-        if (playerPrefab == null)
+        if (characterPrefab == null)
         {
             Debug.Log("\"playerPrefab\" wasn't set.");
             throw new Exception();
@@ -30,130 +37,147 @@ public class CharacterSpawner : NetworkBehaviour
         }
     }
 
-    void Start()
+    // Spawn characters on the server side for all connected-and-authenticated clients.
+    public override void OnStartServer()
     {
-        Initialize();
-    }
+        // First subscribe to the auth event to make sure no clients are lost.
+        SubscribeToAuthEvent();
+        // And to the connection state change event to handle disconenctions.
+        SubscribeToConnEvent();
 
-    // Check if we are the authority, and spawn in player characters it we are.
-    public override void OnNetworkSpawn()
-    {
-        base.OnNetworkSpawn();
-
-        // Set `networkManager`.
-        Initialize();
-
-        if (!HasAuthority)
+        // Then loop over all connected-and-authenticated clients to spawn characters for them.
+        foreach (var keyvalue in base.ServerManager.Clients)
         {
-            // No need to go further if we are not the authority. Spawning should happen only on the server side.
-            return;
-        }
-
-        // First subscribe to the event, to make sure no clients are lost.
-        SubscribeToEvent();
-
-        // Then loop over all "already-joined" clients to spawn characters for them.
-        foreach (var keyvalue in networkManager.ConnectedClients)
-        {
-            ulong clientId = keyvalue.Value.ClientId;
-            SpawnCharacter(clientId);
-        }
-    }
-
-    void Initialize()
-    {
-        if (networkManager == null)
-        {
-            networkManager = NetworkManager.Singleton;
-            if (networkManager == null)
+            var clientConnection = keyvalue.Value;
+            if (clientConnection.IsAuthenticated)
             {
-                Debug.Log("NetworkManager singleton was null.");
-                throw new Exception();
+                SpawnCharacter(clientConnection);
             }
         }
     }
 
+    // Unsubscribe from events after object deinitializes.
+    public override void OnStopServer()
+    {
+        // Unsubscribe from events, and clear the internal hashset.
+        UnsubscribeFromAuthEvent();
+        UnsubscribeFromConnEvent();
+        spawned.Clear();
+    }
+
     void OnEnable()
     {
-        if (!IsSpawned || !HasAuthority)
+        if (!base.IsServerInitialized)
         {
-            // If we are network-spawned already, or not the authority, no need to proceed.
+            // If we are not the server, no need to proceed.
             return;
         }
 
-        // First subscribe to the event, to make sure no clients are lost.
-        SubscribeToEvent();
+        // We ARE the server. Proceed to spawn characters for all connected-and-authenticated clients that might have changed while we were disabled.
 
-        // Then loop over all "already-joined" clients to spawn characters for them.
-        // We do this in `OnEnable()` too, so that we can spawn characters for clients that we missed.
-        foreach (var keyvalue in networkManager.ConnectedClients)
+        // First subscribe to the event, to make sure no clients are lost.
+        SubscribeToAuthEvent();
+        // And to the connection state change event to handle disconenctions.
+        // We should already be subscribed, since we don't subscribe on disable, but just to be sure.
+        SubscribeToConnEvent();
+
+        // Then loop over all connected-and-authenticated clients to spawn characters for them.
+        foreach (var keyvalue in base.ServerManager.Clients)
         {
-            ulong clientId = keyvalue.Value.ClientId;
-            SpawnCharacter(clientId);
+            var clientConnection = keyvalue.Value;
+            if (clientConnection.IsAuthenticated)
+            {
+                SpawnCharacter(clientConnection);
+            }
         }
     }
 
     void OnDisable()
     {
-        UnsubscribeToEvent();
+        UnsubscribeFromAuthEvent();
     }
 
-    void SubscribeToEvent()
+    void SubscribeToAuthEvent()
     {
-        if (!isSubscribedToEvent)
+        if (!isSubscribedToAuthEvent)
         {
-            networkManager.OnConnectionEvent += OnConnectionEvent;
-            isSubscribedToEvent = true;
+            base.ServerManager.OnAuthenticationResult += ServerManager_OnAuthenticationResult;
+            isSubscribedToAuthEvent = true;
         }
     }
 
-    void UnsubscribeToEvent()
+    void UnsubscribeFromAuthEvent()
     {
-        if (isSubscribedToEvent)
+        if (isSubscribedToAuthEvent)
         {
-            networkManager.OnConnectionEvent -= OnConnectionEvent;
-            isSubscribedToEvent = false;
+            base.ServerManager.OnAuthenticationResult -= ServerManager_OnAuthenticationResult;
+            isSubscribedToAuthEvent = false;
         }
     }
 
-    void OnConnectionEvent(NetworkManager manager, ConnectionEventData data)
+    void SubscribeToConnEvent()
     {
-        if (data.EventType != ConnectionEvent.ClientConnected)
+        if (!isSubscribedToConnEvent)
         {
-            // This is not a client connected event.
+            base.ServerManager.OnRemoteConnectionState += ServerManager_OnRemoteConnectionState;
+            isSubscribedToConnEvent = true;
+        }
+    }
+
+    void UnsubscribeFromConnEvent()
+    {
+        if (isSubscribedToConnEvent)
+        {
+            base.ServerManager.OnRemoteConnectionState += ServerManager_OnRemoteConnectionState;
+            isSubscribedToConnEvent = false;
+        }
+    }
+
+    void ServerManager_OnAuthenticationResult(NetworkConnection clientConnection, bool authenticationPassed)
+    {
+        if (!authenticationPassed)
+        {
+            // Authentication failed.
+            // According to `ServerManager` implementation, this event wouldn't even be called if authentication fails.
+            // But just in case implementations change...!
             return;
         }
 
-        SpawnCharacter(data.ClientId);
+        SpawnCharacter(clientConnection);
     }
 
-    void SpawnCharacter(ulong clientId)
+    void ServerManager_OnRemoteConnectionState(NetworkConnection connection, RemoteConnectionStateArgs args)
     {
-        if (!HasAuthority)
+        if (args.ConnectionState == RemoteConnectionState.Stopped)
         {
-            // If we are not the authority, spawning the character shouldn't be possible.
-            // Since we bind this function only on the authority, this shouldn't happen. But just to make sure...
-            Debug.Log("\"SpawnCharacter\" was called on non-authority.");
-            return;
+            // Connection has been stopped.
+            // Remove the conenction from the spawned set.
+            spawned.Remove(connection);
+            // We don't care if the connection wasn't in the set, because `Remove()` will just return false if so.
         }
-
-        if (networkManager.ConnectedClients[clientId].PlayerObject != null)
-        {
-            // This client already has a player object. Not sure if this can ever happen, but its good to be extra careful.
-            return;
-        }
-        GameObject playerCharacter = Instantiate(playerPrefab, SelectSpawnPosition(clientId), Quaternion.identity);
-        NetworkObject playerCharacterNetworkObject = playerCharacter.GetComponent<NetworkObject>();
-        if (playerCharacterNetworkObject == null)
-        {
-            // The supplied player prefab isn't a network object.
-            Debug.Log("\"playerPrefab\" doesn't have a NetworkObject component.");
-            throw new Exception();
-        }
-        playerCharacterNetworkObject.SpawnAsPlayerObject(clientId, destroyWithScene: true);
     }
 
-    Vector3 SelectSpawnPosition(ulong clientId)
+    void SpawnCharacter(NetworkConnection clientConnection)
+    {
+        if (!base.IsServerInitialized)
+        {
+            // If we are not the server, spawning the character shouldn't be possible.
+            // Since we bind this function only on the server, this shouldn't happen. But just to make sure...
+            Debug.Log("\"SpawnCharacter\" was called on non-server.");
+            return;
+        }
+
+        if (spawned.Contains(clientConnection))
+        {
+            // This client already has a character spawned by this instance.
+            return;
+        }
+        spawned.Add(clientConnection);
+        GameObject character = Instantiate(characterPrefab, SelectSpawnPosition(clientConnection), Quaternion.identity);
+        base.Spawn(character, clientConnection, gameObject.scene);
+    }
+
+    Vector3 SelectSpawnPosition(NetworkConnection clientConnection)
     {
         var length = spawnPositions.Length;
         if (length == 0)

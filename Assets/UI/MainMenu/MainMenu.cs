@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
-using Unity.Netcode;
-using Unity.Netcode.Transports.UTP;
+using FishNet;
+using FishNet.Connection;
+using FishNet.Managing.Scened;
+using FishNet.Transporting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -21,25 +23,17 @@ public class MainMenu : MonoBehaviour
     Button joinButton;
     Button soloButton;
 
-    NetworkManager networkManager;
-    UnityTransport unityTransport;
-
     // Is the component subscribed to button clicked?
-    bool isSubscribedToClicked = false;
+    bool isSubscribedToButtons = false;
 
     // Reference to InputAction for UI toggle.
     InputAction cancelAction;
 
     // Is the component subscribed to the action?
-    bool isSubscribedToAction = false;
+    bool isSubscribedToCancel = false;
 
     // Is the menu currently visible? Synced with the actual USS selector.
     bool isMenuVisible = true;
-
-
-    // Reference to a coroutine created by `StartCoroutine(StartSessionCoroutine())`.
-    // `null` if no coroutine is running.
-    Coroutine runningCoroutine;
 
     void Awake()
     {
@@ -101,144 +95,124 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        if (networkManager == null)
-        {
-            networkManager = NetworkManager.Singleton;
-            if (networkManager == null)
-            {
-                Debug.Log("NetworkManager singleton was null.");
-                throw new Exception();
-            }
-            unityTransport = networkManager.GetComponent<UnityTransport>();
-            if (unityTransport == null)
-            {
-                Debug.Log("NetworkManager didn't have a UnityTransport component.");
-                throw new Exception();
-            }
-        }
-    }
-
     void OnEnable()
     {
-        if (!isSubscribedToClicked)
+        if (!isSubscribedToButtons)
         {
             hostButton.clicked += OnHostButtonClicked;
             joinButton.clicked += OnJoinButtonClicked;
             soloButton.clicked += OnSoloButtonClicked;
-            isSubscribedToClicked = true;
+            isSubscribedToButtons = true;
         }
 
-        if (!isSubscribedToAction)
+        if (!isSubscribedToCancel)
         {
             cancelAction.performed += OnCancel;
-            isSubscribedToAction = true;
+            isSubscribedToCancel = true;
         }
     }
 
     void OnDisable()
     {
-        if (isSubscribedToClicked)
+        if (isSubscribedToButtons)
         {
             hostButton.clicked -= OnHostButtonClicked;
             joinButton.clicked -= OnJoinButtonClicked;
             soloButton.clicked -= OnSoloButtonClicked;
-            isSubscribedToClicked = false;
+            isSubscribedToButtons = false;
         }
 
-        if (isSubscribedToAction)
+        if (isSubscribedToCancel)
         {
             cancelAction.performed -= OnCancel;
-            isSubscribedToAction = false;
+            isSubscribedToCancel = false;
         }
     }
 
     void OnHostButtonClicked()
     {
-        if (runningCoroutine != null)
+        string address = addressInput.value;
+        ushort port = 0;
+        if (!ushort.TryParse(portInput.value, out port))
         {
-            StopCoroutine(runningCoroutine);
+            // Supplied port input is invalid.
+            Debug.Log("Supplied port was invalid.");
+            return;
         }
-        runningCoroutine = StartCoroutine(StartSessionCoroutine(StartSessionMode.Host));
+
+        // Start the instance as a server and a client.
+        InstanceFinder.ServerManager.StartConnection(port);
+        // TODO: What happens if the address is invalid?
+        // InstanceFinder.ClientManager.StartConnection("0.0.0.0", port);
+
+        // Scene loading is only possible after the server is started.
+        // Bind a one-shot lambda to the event.
+        Action<ServerConnectionStateArgs> loadSceneOnServerStart = null;
+        loadSceneOnServerStart = (args) =>
+        {
+            if (args.ConnectionState == LocalConnectionState.Started)
+            {
+                // First remove the lambda from the event to ensure it is called only once.
+                InstanceFinder.ServerManager.OnServerConnectionState -= loadSceneOnServerStart;
+                // Scene load should be global.
+                SceneLoadData sld = new SceneLoadData("Oregon");
+                // Replace the currently loaded scene.
+                sld.ReplaceScenes = ReplaceOption.All;
+                InstanceFinder.SceneManager.LoadGlobalScenes(sld);
+            }
+        };
+        InstanceFinder.ServerManager.OnServerConnectionState += loadSceneOnServerStart;
     }
 
     void OnJoinButtonClicked()
     {
-        if (runningCoroutine != null)
+        string address = addressInput.value;
+        ushort port = 0;
+        if (!ushort.TryParse(portInput.value, out port))
         {
-            StopCoroutine(runningCoroutine);
+            // Supplied port input is invalid.
+            Debug.Log("Supplied port was invalid.");
+            return;
         }
-        runningCoroutine = StartCoroutine(StartSessionCoroutine(StartSessionMode.Join));
+
+        // Start the instance as a client.
+        // TODO: What happens if the address is invalid?
+        InstanceFinder.ClientManager.StartConnection(address, port);
     }
 
     void OnSoloButtonClicked()
     {
-        if (runningCoroutine != null)
-        {
-            StopCoroutine(runningCoroutine);
-        }
-        runningCoroutine = StartCoroutine(StartSessionCoroutine(StartSessionMode.Solo));
-    }
-
-    enum StartSessionMode
-    {
-        Host,
-        Join,
-        Solo
-    }
-
-    IEnumerator StartSessionCoroutine(StartSessionMode sessionMode)
-    {
-        if (networkManager.IsListening && !networkManager.ShutdownInProgress)
-        {
-            // We are connected to a session, and shutdown isn't in progress.
-            // Shutdown the current session to join a new one.
-            networkManager.Shutdown();
-        }
-        while (networkManager.IsListening)
-        {
-            // Shutdown might take multiple frames. Wait for it to end.
-            yield return null;
-        }
-
-        SetConnectionData();
-
-        switch (sessionMode)
-        {
-            case StartSessionMode.Host:
-                if (networkManager.StartHost())
-                {
-                    networkManager.SceneManager.LoadScene("Oregon", LoadSceneMode.Single);
-                    HideMainMenu();
-                };
-                break;
-            case StartSessionMode.Join:
-                if (networkManager.StartClient())
-                {
-                    HideMainMenu();
-                };
-                break;
-            case StartSessionMode.Solo:
-                if (networkManager.StartHost())
-                {
-                    networkManager.SceneManager.LoadScene("Solo", LoadSceneMode.Single);
-                    HideMainMenu();
-                };
-                break;
-        }
-    }
-
-    void SetConnectionData()
-    {
-        string addressValue = addressInput.value;
-        ushort portValue = 0;
-        if (!ushort.TryParse(portInput.value, out portValue))
+        string address = addressInput.value;
+        ushort port = 0;
+        if (!ushort.TryParse(portInput.value, out port))
         {
             // Supplied port input is invalid.
+            Debug.Log("Supplied port was invalid.");
             return;
         }
-        unityTransport.SetConnectionData(addressInput.value, portValue, "0.0.0.0");
+
+        // Start the instance as a server and a client.
+        InstanceFinder.ServerManager.StartConnection(port);
+        // TODO: What happens if the address is invalid?
+        InstanceFinder.ClientManager.StartConnection("0.0.0.0", port);
+
+        // Scene loading is only possible after the server is started.
+        // Bind a one-shot lambda to the event.
+        Action<ServerConnectionStateArgs> loadSceneOnServerStart = null;
+        loadSceneOnServerStart = (args) =>
+        {
+            if (args.ConnectionState == LocalConnectionState.Started)
+            {
+                // First remove the lambda from the event to ensure it is called only once.
+                InstanceFinder.ServerManager.OnServerConnectionState -= loadSceneOnServerStart;
+                // Scene load should be global.
+                SceneLoadData sld = new SceneLoadData("Solo");
+                // Replace the currently loaded scene.
+                sld.ReplaceScenes = ReplaceOption.All;
+                InstanceFinder.SceneManager.LoadGlobalScenes(sld);
+            }
+        };
+        InstanceFinder.ServerManager.OnServerConnectionState += loadSceneOnServerStart;
     }
 
     void OnCancel(InputAction.CallbackContext context)

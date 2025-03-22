@@ -1,5 +1,5 @@
 using System;
-using Unity.Netcode;
+using FishNet.Object;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -46,21 +46,26 @@ public class PlayerCharacterMovement : NetworkBehaviour
         }
     }
 
-    public override void OnNetworkSpawn()
+    public override void OnStartClient()
     {
-        base.OnNetworkSpawn();
-        if (IsOwner)
+        if (base.IsOwner)
         {
-            // We are the owner of this character. Attach movement functions to the action.
+            // We are the owning client of this character. Subscribe movement functions to the action.
             SubscribeToAction();
         }
     }
 
+    public override void OnStopClient()
+    {
+        // We don't check for ownership here, since calling `UnsubscribeFromAction()` when we are not subscribed shouldn't cause any problems.
+        UnsubscribeFromAction();
+    }
+
     void OnEnable()
     {
-        if (IsSpawned && IsOwner)
+        if (base.IsOwner)
         {
-            // If we are the owner and the network object is spawned, subscribe to actions.
+            // We are the owning client of this character. Subscribe movement functions to the action.
             // We need this functionality because we unsubscribe on disable.
             SubscribeToAction();
         }
@@ -68,6 +73,7 @@ public class PlayerCharacterMovement : NetworkBehaviour
 
     void OnDisable()
     {
+        // We don't check for ownership here, since calling `UnsubscribeFromAction()` when we are not subscribed shouldn't cause any problems.
         UnsubscribeFromAction();
     }
 
@@ -93,7 +99,7 @@ public class PlayerCharacterMovement : NetworkBehaviour
     }
 
     // Bound to `moveAction.performed`.
-    // Sends the keyboard input to the authority.
+    // Sends the keyboard input to the server.
     void OnMoveAction(InputAction.CallbackContext context)
     {
         Vector2 moveInput = context.ReadValue<Vector2>();
@@ -101,7 +107,7 @@ public class PlayerCharacterMovement : NetworkBehaviour
     }
 
     // Bound to `moveAction.canceled`.
-    // Sends the keyboard input to the authority.
+    // Sends the keyboard input to the server.
     // This is required since `moveAction.performed` won't be triggered when the action value is set to zero.
     void OnCancel(InputAction.CallbackContext context)
     {
@@ -109,11 +115,11 @@ public class PlayerCharacterMovement : NetworkBehaviour
         SendMoveInputRpc(moveInput);
     }
 
-    // Bound to `lookAction.performed`. Sends the desired rotation to the authority.
+    // Bound to `lookAction.performed`. Sends the desired rotation to the server.
     void OnLookAction(InputAction.CallbackContext context)
     {
         Vector2 mousePosition = context.ReadValue<Vector2>();
-        Camera mainCam = Camera.main; // Since this function is called only on the owner, we surely have a main camera.
+        Camera mainCam = Camera.main; // Since this function is called only on the owning client, we surely have a main camera.
         if (mainCam == null)
         {
             // This shouldn't happen, but check just to make sure.
@@ -127,15 +133,15 @@ public class PlayerCharacterMovement : NetworkBehaviour
         SendDesiredRotationRpc(rotation);
     }
 
-    // RPC to set `recentMoveInput` on the authority. The value will be read in `FixedUpdate()` for physics-based movement.
-    [Rpc(SendTo.Authority)]
+    // RPC to set `recentMoveInput` on the server. The value will be read in `FixedUpdate()` for physics-based movement.
+    [ServerRpc]
     void SendMoveInputRpc(Vector2 moveInput)
     {
         recentMoveInput = moveInput;
     }
 
-    // RPC to set `recentDesiredRotation` on the authority. The value will be read in `FixedUpdate()` for rotation.
-    [Rpc(SendTo.Authority)]
+    // RPC to set `recentDesiredRotation` on the server. The value will be read in `FixedUpdate()` for rotation.
+    [ServerRpc]
     void SendDesiredRotationRpc(float desiredRotation)
     {
         recentDesiredRotation = desiredRotation;
@@ -143,12 +149,12 @@ public class PlayerCharacterMovement : NetworkBehaviour
 
     void FixedUpdate()
     {
-        if (!HasAuthority)
+        if (!IsServerInitialized)
         {
-            // If we are not the authority, return. Movement will be taken care there, and be synced over.
+            // If we are not the server, return. Movement will be taken care there, and be synced over.
             return;
         }
-        // Else, we are the authority.
+        // Else, we are the server.
         Vector2 moveDirection = recentMoveInput;
         rigidBody.linearVelocity = moveDirection * maxSpeed;
 

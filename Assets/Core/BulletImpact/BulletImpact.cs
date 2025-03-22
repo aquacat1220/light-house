@@ -1,5 +1,5 @@
 using System;
-using Unity.Netcode;
+using FishNet.Object;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -30,9 +30,9 @@ public class BulletImpact : NetworkBehaviour
         light2D.intensity = Mathf.Clamp(light2D.intensity - initialIntensity * (Time.deltaTime / bulletImpactDuration), 0, 1);
         if (light2D.intensity <= 0f)
         {
-            if (IsSpawned && HasAuthority)
+            if (base.IsSpawned && base.IsServerInitialized)
             {
-                gameObject.GetComponent<NetworkObject>().Despawn();
+                base.Despawn();
             }
         }
     }

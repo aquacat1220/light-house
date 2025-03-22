@@ -262,6 +262,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4775411344567516276, guid: faa6a290c4d415d30881c8aeb3f60d3f, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2011168765
+      objectReference: {fileID: 0}
     - target: {fileID: 5605672732705489660, guid: faa6a290c4d415d30881c8aeb3f60d3f, type: 3}
       propertyPath: playerPrefab
       value: 
@@ -306,6 +310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uIDocument: {fileID: 1444957840}
+  startVisible: 0
 --- !u!114 &1444957840
 MonoBehaviour:
   m_ObjectHideFlags: 0
