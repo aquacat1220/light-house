@@ -6,40 +6,40 @@ using UnityEngine.InputSystem;
 public class PlayerCharacterMovement : NetworkBehaviour
 {
     // Maximum movement speed of this character.
-    public float maxSpeed;
+    public float MaxSpeed;
 
     // Reference to the character's Rigidbody2D.
     [SerializeField]
-    Rigidbody2D rigidBody;
+    Rigidbody2D _rigidBody;
 
     // Reference to InputAction for character movement.
-    InputAction moveAction;
+    InputAction _moveAction;
     // Reference to InputAction for character rotation.
-    InputAction lookAction;
+    InputAction _lookAction;
 
     // The most recent movement input from the client controlling this character.
-    Vector2 recentMoveInput;
+    Vector2 _recentMoveInput;
     // The most recent desired rotation for this character.
-    float recentDesiredRotation;
+    float _recentDesiredRotation;
 
     // Is the component subscribed to the action?
-    bool isSubscribedToAction = false;
+    bool _isSubscribedToAction = false;
 
     void Awake()
     {
-        if (rigidBody == null)
+        if (_rigidBody == null)
         {
             Debug.Log("\"rigidBody\" wasn't set.");
             throw new Exception();
         }
-        moveAction = InputSystem.actions.FindAction("Move");
-        if (moveAction == null)
+        _moveAction = InputSystem.actions.FindAction("Move");
+        if (_moveAction == null)
         {
             Debug.Log("\"Move\" action wasn't found.");
             throw new Exception();
         }
-        lookAction = InputSystem.actions.FindAction("Look");
-        if (lookAction == null)
+        _lookAction = InputSystem.actions.FindAction("Look");
+        if (_lookAction == null)
         {
             Debug.Log("\"Look\" action wasn't found.");
             throw new Exception();
@@ -79,22 +79,22 @@ public class PlayerCharacterMovement : NetworkBehaviour
 
     void SubscribeToAction()
     {
-        if (!isSubscribedToAction)
+        if (!_isSubscribedToAction)
         {
-            moveAction.performed += OnMoveAction;
-            moveAction.canceled += OnCancel;
-            lookAction.performed += OnLookAction;
-            isSubscribedToAction = true;
+            _moveAction.performed += OnMoveAction;
+            _moveAction.canceled += OnCancel;
+            _lookAction.performed += OnLookAction;
+            _isSubscribedToAction = true;
         }
     }
     void UnsubscribeFromAction()
     {
-        if (isSubscribedToAction)
+        if (_isSubscribedToAction)
         {
-            moveAction.performed -= OnMoveAction;
-            moveAction.canceled -= OnCancel;
-            lookAction.performed -= OnLookAction;
-            isSubscribedToAction = false;
+            _moveAction.performed -= OnMoveAction;
+            _moveAction.canceled -= OnCancel;
+            _lookAction.performed -= OnLookAction;
+            _isSubscribedToAction = false;
         }
     }
 
@@ -137,14 +137,14 @@ public class PlayerCharacterMovement : NetworkBehaviour
     [ServerRpc]
     void SendMoveInputRpc(Vector2 moveInput)
     {
-        recentMoveInput = moveInput;
+        _recentMoveInput = moveInput;
     }
 
     // RPC to set `recentDesiredRotation` on the server. The value will be read in `FixedUpdate()` for rotation.
     [ServerRpc]
     void SendDesiredRotationRpc(float desiredRotation)
     {
-        recentDesiredRotation = desiredRotation;
+        _recentDesiredRotation = desiredRotation;
     }
 
     void FixedUpdate()
@@ -155,9 +155,9 @@ public class PlayerCharacterMovement : NetworkBehaviour
             return;
         }
         // Else, we are the server.
-        Vector2 moveDirection = recentMoveInput;
-        rigidBody.linearVelocity = moveDirection * maxSpeed;
+        Vector2 moveDirection = _recentMoveInput;
+        _rigidBody.linearVelocity = moveDirection * MaxSpeed;
 
-        rigidBody.MoveRotation(recentDesiredRotation);
+        _rigidBody.MoveRotation(_recentDesiredRotation);
     }
 }

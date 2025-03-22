@@ -6,14 +6,14 @@ public class SpawnFollowCamera : NetworkBehaviour
 {
     // Reference to the FollowCamera prefab to use.
     [SerializeField]
-    GameObject followCameraPrefab;
+    GameObject _followCameraPrefab;
 
     // Reference to created FollowCamera.
-    GameObject followCameraRef;
+    GameObject _followCameraRef;
 
     void Awake()
     {
-        if (followCameraPrefab == null)
+        if (_followCameraPrefab == null)
         {
             Debug.Log("\"followCamera\" wasn't set.");
             throw new Exception();
@@ -32,23 +32,23 @@ public class SpawnFollowCamera : NetworkBehaviour
 
         // Instantiate a follow camera, and set it to follow this character.
         // This happens only locally, since we don't need cameras to be synced.
-        if (followCameraRef != null)
+        if (_followCameraRef != null)
         {
             Debug.Log("\"followCameraRef\" is not null before spawning.");
             throw new Exception();
         }
-        followCameraRef = Instantiate(followCameraPrefab);
-        followCameraRef.transform.parent = this.transform;
-        followCameraRef.GetComponent<FollowCamera>().target = transform;
+        _followCameraRef = Instantiate(_followCameraPrefab);
+        _followCameraRef.transform.parent = this.transform;
+        _followCameraRef.GetComponent<FollowCamera>().Target = transform;
     }
 
     // Destroy the followcam.
     public override void OnStopClient()
     {
         // We don't check for ownership here, just in case something went wrong and we got a followcam for a non-owner.
-        if (followCameraRef != null)
+        if (_followCameraRef != null)
         {
-            Destroy(followCameraRef);
+            Destroy(_followCameraRef);
         }
     }
 }

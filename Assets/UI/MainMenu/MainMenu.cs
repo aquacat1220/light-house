@@ -12,38 +12,38 @@ using UnityEngine.UIElements;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField]
-    UIDocument uIDocument;
+    UIDocument _uIDocument;
 
     [SerializeField]
-    bool startVisible = false;
+    bool _startVisible = false;
 
-    TextField addressInput;
-    TextField portInput;
-    Button hostButton;
-    Button joinButton;
-    Button soloButton;
+    TextField _addressInput;
+    TextField _portInput;
+    Button _hostButton;
+    Button _joinButton;
+    Button _soloButton;
 
     // Is the component subscribed to button clicked?
-    bool isSubscribedToButtons = false;
+    bool _isSubscribedToButtons = false;
 
     // Reference to InputAction for UI toggle.
-    InputAction cancelAction;
+    InputAction _cancelAction;
 
     // Is the component subscribed to the action?
-    bool isSubscribedToCancel = false;
+    bool _isSubscribedToCancel = false;
 
     // Is the menu currently visible? Synced with the actual USS selector.
-    bool isMenuVisible = true;
+    bool _isMenuVisible = true;
 
     void Awake()
     {
-        if (uIDocument == null)
+        if (_uIDocument == null)
         {
             Debug.Log("\"uIDocument\" wasn't set.");
             throw new Exception();
         }
 
-        if (startVisible)
+        if (_startVisible)
         {
             ShowMainMenu();
         }
@@ -52,43 +52,43 @@ public class MainMenu : MonoBehaviour
             HideMainMenu();
         }
 
-        addressInput = uIDocument.rootVisualElement.Q<TextField>("AddressInput");
-        if (addressInput == null)
+        _addressInput = _uIDocument.rootVisualElement.Q<TextField>("AddressInput");
+        if (_addressInput == null)
         {
             Debug.Log("TextField with name \"AddressInput\" wasn't found.");
             throw new Exception();
         }
 
-        portInput = uIDocument.rootVisualElement.Q<TextField>("PortInput");
-        if (portInput == null)
+        _portInput = _uIDocument.rootVisualElement.Q<TextField>("PortInput");
+        if (_portInput == null)
         {
             Debug.Log("TextField with name \"PortInput\" wasn't found.");
             throw new Exception();
         }
 
-        hostButton = uIDocument.rootVisualElement.Q<Button>("HostButton");
-        if (hostButton == null)
+        _hostButton = _uIDocument.rootVisualElement.Q<Button>("HostButton");
+        if (_hostButton == null)
         {
             Debug.Log("Button with name \"HostButton\" wasn't found.");
             throw new Exception();
         }
 
-        joinButton = uIDocument.rootVisualElement.Q<Button>("JoinButton");
-        if (joinButton == null)
+        _joinButton = _uIDocument.rootVisualElement.Q<Button>("JoinButton");
+        if (_joinButton == null)
         {
             Debug.Log("Button with name \"JoinButton\" wasn't found.");
             throw new Exception();
         }
 
-        soloButton = uIDocument.rootVisualElement.Q<Button>("SoloButton");
-        if (soloButton == null)
+        _soloButton = _uIDocument.rootVisualElement.Q<Button>("SoloButton");
+        if (_soloButton == null)
         {
             Debug.Log("Button with name \"SoloButton\" wasn't found.");
             throw new Exception();
         }
 
-        cancelAction = InputSystem.actions.FindAction("Cancel");
-        if (cancelAction == null)
+        _cancelAction = InputSystem.actions.FindAction("Cancel");
+        if (_cancelAction == null)
         {
             Debug.Log("\"Cancel\" action wasn't found.");
             throw new Exception();
@@ -97,43 +97,43 @@ public class MainMenu : MonoBehaviour
 
     void OnEnable()
     {
-        if (!isSubscribedToButtons)
+        if (!_isSubscribedToButtons)
         {
-            hostButton.clicked += OnHostButtonClicked;
-            joinButton.clicked += OnJoinButtonClicked;
-            soloButton.clicked += OnSoloButtonClicked;
-            isSubscribedToButtons = true;
+            _hostButton.clicked += OnHostButtonClicked;
+            _joinButton.clicked += OnJoinButtonClicked;
+            _soloButton.clicked += OnSoloButtonClicked;
+            _isSubscribedToButtons = true;
         }
 
-        if (!isSubscribedToCancel)
+        if (!_isSubscribedToCancel)
         {
-            cancelAction.performed += OnCancel;
-            isSubscribedToCancel = true;
+            _cancelAction.performed += OnCancel;
+            _isSubscribedToCancel = true;
         }
     }
 
     void OnDisable()
     {
-        if (isSubscribedToButtons)
+        if (_isSubscribedToButtons)
         {
-            hostButton.clicked -= OnHostButtonClicked;
-            joinButton.clicked -= OnJoinButtonClicked;
-            soloButton.clicked -= OnSoloButtonClicked;
-            isSubscribedToButtons = false;
+            _hostButton.clicked -= OnHostButtonClicked;
+            _joinButton.clicked -= OnJoinButtonClicked;
+            _soloButton.clicked -= OnSoloButtonClicked;
+            _isSubscribedToButtons = false;
         }
 
-        if (isSubscribedToCancel)
+        if (_isSubscribedToCancel)
         {
-            cancelAction.performed -= OnCancel;
-            isSubscribedToCancel = false;
+            _cancelAction.performed -= OnCancel;
+            _isSubscribedToCancel = false;
         }
     }
 
     void OnHostButtonClicked()
     {
-        string address = addressInput.value;
+        string address = _addressInput.value;
         ushort port = 0;
-        if (!ushort.TryParse(portInput.value, out port))
+        if (!ushort.TryParse(_portInput.value, out port))
         {
             // Supplied port input is invalid.
             Debug.Log("Supplied port was invalid.");
@@ -166,9 +166,9 @@ public class MainMenu : MonoBehaviour
 
     void OnJoinButtonClicked()
     {
-        string address = addressInput.value;
+        string address = _addressInput.value;
         ushort port = 0;
-        if (!ushort.TryParse(portInput.value, out port))
+        if (!ushort.TryParse(_portInput.value, out port))
         {
             // Supplied port input is invalid.
             Debug.Log("Supplied port was invalid.");
@@ -182,9 +182,9 @@ public class MainMenu : MonoBehaviour
 
     void OnSoloButtonClicked()
     {
-        string address = addressInput.value;
+        string address = _addressInput.value;
         ushort port = 0;
-        if (!ushort.TryParse(portInput.value, out port))
+        if (!ushort.TryParse(_portInput.value, out port))
         {
             // Supplied port input is invalid.
             Debug.Log("Supplied port was invalid.");
@@ -217,7 +217,7 @@ public class MainMenu : MonoBehaviour
 
     void OnCancel(InputAction.CallbackContext context)
     {
-        if (isMenuVisible)
+        if (_isMenuVisible)
         {
             HideMainMenu();
         }
@@ -229,19 +229,19 @@ public class MainMenu : MonoBehaviour
 
     void HideMainMenu()
     {
-        if (isMenuVisible)
+        if (_isMenuVisible)
         {
-            uIDocument.rootVisualElement.AddToClassList("display-none");
-            isMenuVisible = false;
+            _uIDocument.rootVisualElement.AddToClassList("display-none");
+            _isMenuVisible = false;
         }
     }
 
     void ShowMainMenu()
     {
-        if (!isMenuVisible)
+        if (!_isMenuVisible)
         {
-            uIDocument.rootVisualElement.RemoveFromClassList("display-none");
-            isMenuVisible = true;
+            _uIDocument.rootVisualElement.RemoveFromClassList("display-none");
+            _isMenuVisible = true;
         }
     }
 }

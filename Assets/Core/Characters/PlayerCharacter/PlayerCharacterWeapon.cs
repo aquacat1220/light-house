@@ -8,68 +8,68 @@ public class PlayerCharacterWeapon : NetworkBehaviour
 {
     // Reference to the light component of the muzzle.
     [SerializeField]
-    Light2D muzzleFlash;
+    Light2D _muzzleFlash;
     // Time in seconds for the muzzle flash to vanish.
     [SerializeField]
-    float muzzleFlashDuration;
+    float _muzzleFlashDuration;
     // Intensity gain of muzzle flash per shot.
     [SerializeField]
-    float muzzleFlashPerShot;
+    float _muzzleFlashPerShot;
 
     // Light2D component of the character's flashlight.
     [SerializeField]
-    Light2D flashlight;
+    Light2D _flashlight;
 
     // Line renderer component for the aim line.
     [SerializeField]
-    LineRenderer aimLine;
+    LineRenderer _aimLine;
 
     // Prefab to spawn on bullet impact.
     [SerializeField]
-    GameObject bulletImpactPrefab;
+    GameObject _bulletImpactPrefab;
     // Time in seconds for the bullet impact to vanish.
     [SerializeField]
-    float bulletImpactDuration;
+    float _bulletImpactDuration;
 
     // Reference to InputAction for character weapons.
-    InputAction fireAction;
-    InputAction toggleLightAction;
+    InputAction _fireAction;
+    InputAction _toggleLightAction;
 
     // Intensity of the flashlight when it's on. Stored before turning the light off.
-    float flashlightIntensity;
+    float _flashlightIntensity;
 
     // Is the component subscribed to the action?
-    bool isSubscribedToAction = false;
+    bool _isSubscribedToAction = false;
 
     void Awake()
     {
-        if (muzzleFlash == null)
+        if (_muzzleFlash == null)
         {
             Debug.Log("\"muzzleFlash\" wasn't set.");
             throw new Exception();
         }
 
-        if (aimLine == null)
+        if (_aimLine == null)
         {
             Debug.Log("\"aimLine\" wasn't set.");
             throw new Exception();
         }
 
-        if (bulletImpactPrefab == null)
+        if (_bulletImpactPrefab == null)
         {
             Debug.Log("\"bulletImpact\" wasn't set.");
             throw new Exception();
         }
 
-        fireAction = InputSystem.actions.FindAction("Fire");
-        if (fireAction == null)
+        _fireAction = InputSystem.actions.FindAction("Fire");
+        if (_fireAction == null)
         {
             Debug.Log("\"Fire\" action wasn't found.");
             throw new Exception();
         }
 
-        toggleLightAction = InputSystem.actions.FindAction("ToggleLight");
-        if (toggleLightAction == null)
+        _toggleLightAction = InputSystem.actions.FindAction("ToggleLight");
+        if (_toggleLightAction == null)
         {
             Debug.Log("\"ToggleLight\" action wasn't found.");
             throw new Exception();
@@ -109,20 +109,20 @@ public class PlayerCharacterWeapon : NetworkBehaviour
 
     void SubscribeToAction()
     {
-        if (!isSubscribedToAction)
+        if (!_isSubscribedToAction)
         {
-            fireAction.performed += OnFireAction;
-            toggleLightAction.performed += OnToggleLightAction;
-            isSubscribedToAction = true;
+            _fireAction.performed += OnFireAction;
+            _toggleLightAction.performed += OnToggleLightAction;
+            _isSubscribedToAction = true;
         }
     }
     void UnsubscribeFromAction()
     {
-        if (isSubscribedToAction)
+        if (_isSubscribedToAction)
         {
-            fireAction.performed -= OnFireAction;
-            toggleLightAction.performed -= OnToggleLightAction;
-            isSubscribedToAction = false;
+            _fireAction.performed -= OnFireAction;
+            _toggleLightAction.performed -= OnToggleLightAction;
+            _isSubscribedToAction = false;
         }
     }
 
@@ -134,10 +134,10 @@ public class PlayerCharacterWeapon : NetworkBehaviour
     [ServerRpc]
     void ServerFireRpc()
     {
-        RaycastHit2D hit = Physics2D.Raycast(muzzleFlash.transform.position, muzzleFlash.transform.up);
+        RaycastHit2D hit = Physics2D.Raycast(_muzzleFlash.transform.position, _muzzleFlash.transform.up);
         if (hit)
         {
-            GameObject newBulletImpact = Instantiate(bulletImpactPrefab, hit.point + hit.normal * 0.01f, Quaternion.identity);
+            GameObject newBulletImpact = Instantiate(_bulletImpactPrefab, hit.point + hit.normal * 0.01f, Quaternion.identity);
             base.Spawn(newBulletImpact);
         }
         MuzzleFlashRpc();
@@ -146,7 +146,7 @@ public class PlayerCharacterWeapon : NetworkBehaviour
     [ServerRpc]
     void MuzzleFlashRpc()
     {
-        muzzleFlash.intensity = Mathf.Clamp(muzzleFlash.intensity + muzzleFlashPerShot, 0, 1);
+        _muzzleFlash.intensity = Mathf.Clamp(_muzzleFlash.intensity + _muzzleFlashPerShot, 0, 1);
     }
 
     void OnToggleLightAction(InputAction.CallbackContext context)
@@ -163,14 +163,14 @@ public class PlayerCharacterWeapon : NetworkBehaviour
     [ObserversRpc]
     void ToggleLightRpc()
     {
-        if (flashlight.intensity != 0f)
+        if (_flashlight.intensity != 0f)
         {
-            flashlightIntensity = flashlight.intensity;
-            flashlight.intensity = 0f;
+            _flashlightIntensity = _flashlight.intensity;
+            _flashlight.intensity = 0f;
         }
         else
         {
-            flashlight.intensity = flashlightIntensity;
+            _flashlight.intensity = _flashlightIntensity;
         }
     }
 
@@ -181,15 +181,15 @@ public class PlayerCharacterWeapon : NetworkBehaviour
             // If not owning client, do not draw aim lines.
             return;
         }
-        aimLine.SetPosition(0, muzzleFlash.transform.position);
-        RaycastHit2D hit = Physics2D.Raycast(muzzleFlash.transform.position, muzzleFlash.transform.up);
-        aimLine.SetPosition(1, hit.point);
+        _aimLine.SetPosition(0, _muzzleFlash.transform.position);
+        RaycastHit2D hit = Physics2D.Raycast(_muzzleFlash.transform.position, _muzzleFlash.transform.up);
+        _aimLine.SetPosition(1, hit.point);
     }
 
     void Update()
     {
         // Lower down muzzle flash intensity over time.
-        muzzleFlash.intensity = Mathf.Clamp(muzzleFlash.intensity - (Time.deltaTime / muzzleFlashDuration), 0, 1);
+        _muzzleFlash.intensity = Mathf.Clamp(_muzzleFlash.intensity - (Time.deltaTime / _muzzleFlashDuration), 0, 1);
         // Draw the aim line.
         DrawAimLine();
     }

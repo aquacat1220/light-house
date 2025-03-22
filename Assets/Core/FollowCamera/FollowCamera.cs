@@ -3,22 +3,22 @@ using UnityEngine;
 public class FollowCamera : MonoBehaviour
 {
     // The target transform to follow.
-    public Transform target;
+    public Transform Target;
     // Whether or not to follow the rotation of the target.
-    public bool followRotation;
+    public bool _followRotation;
 
     void LateUpdate()
     {
-        if (target == null)
+        if (Target == null)
         {
             // If target transform is null, abort.
             return;
         }
-        transform.position = new Vector3(target.position.x, target.position.y, -10);
+        transform.position = new Vector3(Target.position.x, Target.position.y, -10);
         transform.rotation = Quaternion.identity;
-        if (followRotation)
+        if (_followRotation)
         {
-            transform.rotation = target.rotation;
+            transform.rotation = Target.rotation;
         }
     }
 }

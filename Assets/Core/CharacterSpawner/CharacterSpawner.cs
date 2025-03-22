@@ -11,27 +11,27 @@ using UnityEngine;
 public class CharacterSpawner : NetworkBehaviour
 {
     [SerializeField]
-    GameObject characterPrefab;
+    GameObject _characterPrefab;
 
     [SerializeField]
-    Transform[] spawnPositions;
+    Transform[] _spawnPositions;
 
-    bool isSubscribedToAuthEvent = false;
-    bool isSubscribedToConnEvent = false;
+    bool _isSubscribedToAuthEvent = false;
+    bool _isSubscribedToConnEvent = false;
 
-    HashSet<NetworkConnection> spawned = new HashSet<NetworkConnection>();
+    HashSet<NetworkConnection> _spawned = new HashSet<NetworkConnection>();
 
-    uint nextSpawnPositionIndex = 0;
+    uint _nextSpawnPositionIndex = 0;
 
     void Awake()
     {
-        if (characterPrefab == null)
+        if (_characterPrefab == null)
         {
             Debug.Log("\"playerPrefab\" wasn't set.");
             throw new Exception();
         }
 
-        if (spawnPositions.Length == 0)
+        if (_spawnPositions.Length == 0)
         {
             Debug.Log("Spawn positions are empty. Will default to origin.");
         }
@@ -62,7 +62,7 @@ public class CharacterSpawner : NetworkBehaviour
         // Unsubscribe from events, and clear the internal hashset.
         UnsubscribeFromAuthEvent();
         UnsubscribeFromConnEvent();
-        spawned.Clear();
+        _spawned.Clear();
     }
 
     void OnEnable()
@@ -99,37 +99,37 @@ public class CharacterSpawner : NetworkBehaviour
 
     void SubscribeToAuthEvent()
     {
-        if (!isSubscribedToAuthEvent)
+        if (!_isSubscribedToAuthEvent)
         {
             base.ServerManager.OnAuthenticationResult += ServerManager_OnAuthenticationResult;
-            isSubscribedToAuthEvent = true;
+            _isSubscribedToAuthEvent = true;
         }
     }
 
     void UnsubscribeFromAuthEvent()
     {
-        if (isSubscribedToAuthEvent)
+        if (_isSubscribedToAuthEvent)
         {
             base.ServerManager.OnAuthenticationResult -= ServerManager_OnAuthenticationResult;
-            isSubscribedToAuthEvent = false;
+            _isSubscribedToAuthEvent = false;
         }
     }
 
     void SubscribeToConnEvent()
     {
-        if (!isSubscribedToConnEvent)
+        if (!_isSubscribedToConnEvent)
         {
             base.ServerManager.OnRemoteConnectionState += ServerManager_OnRemoteConnectionState;
-            isSubscribedToConnEvent = true;
+            _isSubscribedToConnEvent = true;
         }
     }
 
     void UnsubscribeFromConnEvent()
     {
-        if (isSubscribedToConnEvent)
+        if (_isSubscribedToConnEvent)
         {
             base.ServerManager.OnRemoteConnectionState += ServerManager_OnRemoteConnectionState;
-            isSubscribedToConnEvent = false;
+            _isSubscribedToConnEvent = false;
         }
     }
 
@@ -152,7 +152,7 @@ public class CharacterSpawner : NetworkBehaviour
         {
             // Connection has been stopped.
             // Remove the conenction from the spawned set.
-            spawned.Remove(connection);
+            _spawned.Remove(connection);
             // We don't care if the connection wasn't in the set, because `Remove()` will just return false if so.
         }
     }
@@ -167,24 +167,24 @@ public class CharacterSpawner : NetworkBehaviour
             return;
         }
 
-        if (spawned.Contains(clientConnection))
+        if (_spawned.Contains(clientConnection))
         {
             // This client already has a character spawned by this instance.
             return;
         }
-        spawned.Add(clientConnection);
-        GameObject character = Instantiate(characterPrefab, SelectSpawnPosition(clientConnection), Quaternion.identity);
+        _spawned.Add(clientConnection);
+        GameObject character = Instantiate(_characterPrefab, SelectSpawnPosition(clientConnection), Quaternion.identity);
         base.Spawn(character, clientConnection, gameObject.scene);
     }
 
     Vector3 SelectSpawnPosition(NetworkConnection clientConnection)
     {
-        var length = spawnPositions.Length;
+        var length = _spawnPositions.Length;
         if (length == 0)
         {
             return Vector3.zero;
         }
 
-        return spawnPositions[nextSpawnPositionIndex++ % length].transform.position;
+        return _spawnPositions[_nextSpawnPositionIndex++ % length].transform.position;
     }
 }
