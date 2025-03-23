@@ -22,13 +22,6 @@ namespace FishNet.Demo.Benchmarks.NetworkTransforms
         [SerializeField]
         private FloatRange _interval = new FloatRange(3f, 10f);
 
-        [SerializeField]
-        private bool _forceOppositeX = true;
-        [SerializeField]
-        private bool _forceOppositeY = true;
-        [SerializeField]
-        private bool _forceOppositeZ = true;
-
         private uint _nextForceTick = TimeManager.UNSET_TICK;
         private Rigidbody _rigidbody;
 
@@ -69,17 +62,13 @@ namespace FishNet.Demo.Benchmarks.NetworkTransforms
 
             Vector3 force = Random.insideUnitSphere * _force;
 
-            bool flipX = Math.Sign(force.x) == Math.Sign(transform.position.x);
-            if (_forceOppositeX && flipX)
+            //Always ensure vertical movement, and movement away from center.
+            if (Math.Sign(force.x) == Math.Sign(transform.position.x))
                 force.x *= -1f;
-
-            if (_forceOppositeY && force.y < 0f)
-                force.y *= -1f;
-            
-            bool flipZ = Math.Sign(force.z) == Math.Sign(transform.position.z);
-            if (_forceOppositeZ && flipZ)
+            force.y = _force;
+            if (Math.Sign(force.z) == Math.Sign(transform.position.z))
                 force.z *= -1f;
-            
+
             _rigidbody.AddForce(force, ForceMode.Impulse);
         }
     }
