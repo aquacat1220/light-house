@@ -27,9 +27,6 @@ public class PlayerCharacterWeapon : NetworkBehaviour
     // Prefab to spawn on bullet impact.
     [SerializeField]
     GameObject _bulletImpactPrefab;
-    // Time in seconds for the bullet impact to vanish.
-    [SerializeField]
-    float _bulletImpactDuration;
 
     // Reference to InputAction for character weapons.
     InputAction _fireAction;
@@ -143,7 +140,7 @@ public class PlayerCharacterWeapon : NetworkBehaviour
         MuzzleFlashRpc();
     }
 
-    [ServerRpc]
+    [ObserversRpc]
     void MuzzleFlashRpc()
     {
         _muzzleFlash.intensity = Mathf.Clamp(_muzzleFlash.intensity + _muzzleFlashPerShot, 0, 1);

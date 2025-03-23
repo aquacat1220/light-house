@@ -5,10 +5,12 @@ using UnityEngine.Rendering.Universal;
 
 public class BulletImpact : NetworkBehaviour
 {
-    // Reference to the light 2D component.
-    public Light2D Light2D;
     // Time in seconds for the impact to vanish.
     public float BulletImpactDuration;
+
+    // Reference to the light 2D component.
+    [SerializeField]
+    Light2D Light2D;
 
     // Initial light intensity.
     private float _initialIntensity;

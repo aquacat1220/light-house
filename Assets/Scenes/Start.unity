@@ -236,8 +236,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05f3dd1586fc7b62a71848faffa965b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uIDocument: {fileID: 1040856509}
-  startVisible: 1
+  _uIDocument: {fileID: 1040856509}
+  _startVisible: 1
 --- !u!114 &1040856509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,12 +375,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateOrder: 0
-  _timingType: 1
+  _timingType: 0
   _allowTickDropping: 1
   _maximumFrameTicks: 3
-  _tickRate: 30
+  _tickRate: 60
   _pingInterval: 1
-  _physicsMode: 0
+  _physicsMode: 1
 --- !u!1 &2013472932
 GameObject:
   m_ObjectHideFlags: 0

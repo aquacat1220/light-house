@@ -61,8 +61,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: NetworkBehaviours.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: <AssetPathHash>k__BackingField
       value: 13818779747147471511
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[1]'
+      value: 
+      objectReference: {fileID: 3324938354885705573}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8558529402904053165}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[3]'
+      value: 
+      objectReference: {fileID: 7544029604669326017}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: SerializedTransformProperties.Scale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: SerializedTransformProperties.Scale.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8779856770378147711, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: GlobalObjectIdHash
@@ -118,11 +146,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64a11691e8aa8456495080fae6ddb1dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: 2566409721090996822}
-  _networkObjectCache: {fileID: 0}
-  maxSpeed: 3
-  rigidBody: {fileID: 4184858578783768206}
+  _networkObjectCache: {fileID: 2566409721090996822}
+  MaxSpeed: 2
+  _rigidBody: {fileID: 4184858578783768206}
 --- !u!114 &8558529402904053165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,16 +163,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75b163082d82eb51ea19f9f819fe213a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 2566409721090996822}
-  _networkObjectCache: {fileID: 0}
-  muzzleFlash: {fileID: 7567460817300730415}
-  muzzleFlashDuration: 1
-  muzzleFlashPerShot: 0.3
-  flashlight: {fileID: 7471076663653112830}
-  aimLine: {fileID: 8205642352890503678}
-  bulletImpactPrefab: {fileID: 8421305414578404092, guid: 242ab4b6d8d3f580192392fac1965e7e, type: 3}
-  bulletImpactDuration: 0.5
+  _networkObjectCache: {fileID: 2566409721090996822}
+  _muzzleFlash: {fileID: 7567460817300730415}
+  _muzzleFlashDuration: 1
+  _muzzleFlashPerShot: 0.3
+  _flashlight: {fileID: 7471076663653112830}
+  _aimLine: {fileID: 8205642352890503678}
+  _bulletImpactPrefab: {fileID: 8421305414578404092, guid: 242ab4b6d8d3f580192392fac1965e7e, type: 3}
+  _bulletImpactDuration: 5
 --- !u!120 &8205642352890503678
 LineRenderer:
   serializedVersion: 2
@@ -264,10 +292,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71aa291e9cc890685a96c793a859b225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 2566409721090996822}
-  _networkObjectCache: {fileID: 0}
-  followCameraPrefab: {fileID: 258465775392396985, guid: dae3921024e8f589f9e34b72c793880e, type: 3}
+  _networkObjectCache: {fileID: 2566409721090996822}
+  _followCameraPrefab: {fileID: 258465775392396985, guid: dae3921024e8f589f9e34b72c793880e, type: 3}
 --- !u!114 &7471076663653112830 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3332276801123502348, guid: d2c828e519c166684af8c10a7975ee06, type: 3}

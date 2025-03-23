@@ -270,6 +270,10 @@ PrefabInstance:
       propertyPath: playerPrefab
       value: 
       objectReference: {fileID: 5139385379916303670, guid: a05b8bdaad09aaae8838bc5654bcd0a3, type: 3}
+    - target: {fileID: 5605672732705489660, guid: faa6a290c4d415d30881c8aeb3f60d3f, type: 3}
+      propertyPath: _characterPrefab
+      value: 
+      objectReference: {fileID: 5139385379916303670, guid: a05b8bdaad09aaae8838bc5654bcd0a3, type: 3}
     - target: {fileID: 7430758273287314766, guid: faa6a290c4d415d30881c8aeb3f60d3f, type: 3}
       propertyPath: m_Name
       value: CharacterSpawner
@@ -309,8 +313,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05f3dd1586fc7b62a71848faffa965b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uIDocument: {fileID: 1444957840}
-  startVisible: 0
+  _uIDocument: {fileID: 1444957840}
+  _startVisible: 0
 --- !u!114 &1444957840
 MonoBehaviour:
   m_ObjectHideFlags: 0
