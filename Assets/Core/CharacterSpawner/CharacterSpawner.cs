@@ -101,7 +101,7 @@ public class CharacterSpawner : NetworkBehaviour
     {
         if (!_isSubscribedToAuthEvent)
         {
-            base.ServerManager.OnAuthenticationResult += ServerManager_OnAuthenticationResult;
+            base.ServerManager.OnAuthenticationResult += OnServerManagerAuthenticationResult;
             _isSubscribedToAuthEvent = true;
         }
     }
@@ -110,7 +110,7 @@ public class CharacterSpawner : NetworkBehaviour
     {
         if (_isSubscribedToAuthEvent)
         {
-            base.ServerManager.OnAuthenticationResult -= ServerManager_OnAuthenticationResult;
+            base.ServerManager.OnAuthenticationResult -= OnServerManagerAuthenticationResult;
             _isSubscribedToAuthEvent = false;
         }
     }
@@ -119,7 +119,7 @@ public class CharacterSpawner : NetworkBehaviour
     {
         if (!_isSubscribedToConnEvent)
         {
-            base.ServerManager.OnRemoteConnectionState += ServerManager_OnRemoteConnectionState;
+            base.ServerManager.OnRemoteConnectionState += OnServerManagerRemoteConnectionState;
             _isSubscribedToConnEvent = true;
         }
     }
@@ -128,12 +128,12 @@ public class CharacterSpawner : NetworkBehaviour
     {
         if (_isSubscribedToConnEvent)
         {
-            base.ServerManager.OnRemoteConnectionState += ServerManager_OnRemoteConnectionState;
+            base.ServerManager.OnRemoteConnectionState += OnServerManagerRemoteConnectionState;
             _isSubscribedToConnEvent = false;
         }
     }
 
-    void ServerManager_OnAuthenticationResult(NetworkConnection clientConnection, bool authenticationPassed)
+    void OnServerManagerAuthenticationResult(NetworkConnection clientConnection, bool authenticationPassed)
     {
         if (!authenticationPassed)
         {
@@ -146,7 +146,7 @@ public class CharacterSpawner : NetworkBehaviour
         SpawnCharacter(clientConnection);
     }
 
-    void ServerManager_OnRemoteConnectionState(NetworkConnection connection, RemoteConnectionStateArgs args)
+    void OnServerManagerRemoteConnectionState(NetworkConnection connection, RemoteConnectionStateArgs args)
     {
         if (args.ConnectionState == RemoteConnectionState.Stopped)
         {

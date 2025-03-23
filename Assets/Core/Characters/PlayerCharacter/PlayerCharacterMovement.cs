@@ -1,12 +1,56 @@
 using System;
 using FishNet.Object;
+using FishNet.Object.Prediction;
+using FishNet.Transporting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerCharacterMovement : NetworkBehaviour
 {
+    public struct ReplicateData : IReplicateData
+    {
+        public ReplicateData(Vector2 moveInput, float desiredRotation)
+        {
+            MoveInput = moveInput;
+            DesiredRotation = desiredRotation;
+            _tick = 0;
+        }
+
+        public Vector2 MoveInput;
+
+        public float DesiredRotation;
+
+        private uint _tick;
+
+        public void Dispose() { }
+
+        public uint GetTick() => _tick;
+        public void SetTick(uint value) => _tick = value;
+    }
+
+    public struct ReconcileData : IReconcileData
+    {
+        public ReconcileData(PredictionRigidbody2D predictionRigidbody2D)
+        {
+            PredictionRigidbody2D = predictionRigidbody2D;
+            _tick = 0;
+        }
+
+        public PredictionRigidbody2D PredictionRigidbody2D;
+
+        private uint _tick;
+
+        public void Dispose() { }
+
+        public uint GetTick() => _tick;
+        public void SetTick(uint value) => _tick = value;
+    }
+
+    public PredictionRigidbody2D PredictionRigidbody2D;
+
     // Maximum movement speed of this character.
-    public float MaxSpeed;
+    [SerializeField]
+    float _maxSpeed;
 
     // Reference to the character's Rigidbody2D.
     [SerializeField]
@@ -22,8 +66,12 @@ public class PlayerCharacterMovement : NetworkBehaviour
     // The most recent desired rotation for this character.
     float _recentDesiredRotation;
 
-    // Is the component subscribed to the action?
-    bool _isSubscribedToAction = false;
+    // Is the component subscribed to timemanager callbacks?
+    bool _isSubscribedToTimeManager = false;
+
+    // Is the component subscribed to input actions?
+    bool _isSubscribedToInputActions = false;
+
 
     void Awake()
     {
@@ -32,6 +80,9 @@ public class PlayerCharacterMovement : NetworkBehaviour
             Debug.Log("\"rigidBody\" wasn't set.");
             throw new Exception();
         }
+        PredictionRigidbody2D = new PredictionRigidbody2D();
+        PredictionRigidbody2D.Initialize(_rigidBody);
+
         _moveAction = InputSystem.actions.FindAction("Move");
         if (_moveAction == null)
         {
@@ -44,6 +95,16 @@ public class PlayerCharacterMovement : NetworkBehaviour
             Debug.Log("\"Look\" action wasn't found.");
             throw new Exception();
         }
+    }
+
+    public override void OnStartNetwork()
+    {
+        SubscribeToTimeManager();
+    }
+
+    public override void OnStopNetwork()
+    {
+        UnsubscribeFromTimeManager();
     }
 
     public override void OnStartClient()
@@ -68,6 +129,7 @@ public class PlayerCharacterMovement : NetworkBehaviour
             // We are the owning client of this character. Subscribe movement functions to the action.
             // We need this functionality because we unsubscribe on disable.
             SubscribeToAction();
+            SubscribeToTimeManager();
         }
     }
 
@@ -75,27 +137,103 @@ public class PlayerCharacterMovement : NetworkBehaviour
     {
         // We don't check for ownership here, since calling `UnsubscribeFromAction()` when we are not subscribed shouldn't cause any problems.
         UnsubscribeFromAction();
+        UnsubscribeFromTimeManager();
     }
 
     void SubscribeToAction()
     {
-        if (!_isSubscribedToAction)
+        if (!_isSubscribedToInputActions)
         {
             _moveAction.performed += OnMoveAction;
             _moveAction.canceled += OnCancel;
             _lookAction.performed += OnLookAction;
-            _isSubscribedToAction = true;
+            _isSubscribedToInputActions = true;
         }
     }
+
     void UnsubscribeFromAction()
     {
-        if (_isSubscribedToAction)
+        if (_isSubscribedToInputActions)
         {
             _moveAction.performed -= OnMoveAction;
             _moveAction.canceled -= OnCancel;
             _lookAction.performed -= OnLookAction;
-            _isSubscribedToAction = false;
+            _isSubscribedToInputActions = false;
         }
+    }
+
+    void SubscribeToTimeManager()
+    {
+        if (!_isSubscribedToTimeManager)
+        {
+            base.TimeManager.OnTick += OnTimeManagerTick;
+            base.TimeManager.OnPostTick += OnTimeManagerPostTick;
+            _isSubscribedToTimeManager = true;
+        }
+    }
+
+    void UnsubscribeFromTimeManager()
+    {
+        if (_isSubscribedToTimeManager)
+        {
+            base.TimeManager.OnTick -= OnTimeManagerTick;
+            base.TimeManager.OnPostTick -= OnTimeManagerPostTick;
+            _isSubscribedToTimeManager = false;
+        }
+    }
+
+    private void OnTimeManagerTick()
+    {
+        Replicate(CreateReplicate());
+    }
+
+    private void OnTimeManagerPostTick()
+    {
+        CreateReconcile();
+    }
+
+    [Replicate]
+    private void Replicate(ReplicateData data, ReplicateState state = ReplicateState.Invalid, Channel channel = Channel.Unreliable)
+    {
+        if (!state.ContainsCreated())
+        {
+            // `data` isn't created by the owner; it is a default object provided by FishNet.
+            // Return early so rotation doesn't have to snap.
+            // This means we don't do any input prediction: we assume the owning client wouldn't be pressing any inputs when we can't see them.
+            return;
+        }
+        Vector2 moveDirection = data.MoveInput.normalized;
+        PredictionRigidbody2D.Velocity(moveDirection * _maxSpeed);
+
+        PredictionRigidbody2D.Rotation(data.DesiredRotation);
+        // float rotationAmount = data.DesiredRotation - _rigidBody.rotation;
+        // PredictionRigidbody2D.AngularVelocity(rotationAmount / (float)base.TimeManager.TickDelta);
+        PredictionRigidbody2D.Simulate();
+    }
+
+    private ReplicateData CreateReplicate()
+    {
+        // If non-owning, return default. FishNet will automatically supply the correct values.
+        if (!base.IsOwner)
+        {
+            return default;
+        }
+
+        ReplicateData data = new ReplicateData(_recentMoveInput, _recentDesiredRotation);
+        return data;
+    }
+
+    [Reconcile]
+    private void Reconcile(ReconcileData data, Channel channel = Channel.Unreliable)
+    {
+        PredictionRigidbody2D.Reconcile(data.PredictionRigidbody2D);
+    }
+
+
+    public override void CreateReconcile()
+    {
+        ReconcileData data = new ReconcileData(PredictionRigidbody2D);
+        Reconcile(data);
     }
 
     // Bound to `moveAction.performed`.
@@ -103,7 +241,7 @@ public class PlayerCharacterMovement : NetworkBehaviour
     void OnMoveAction(InputAction.CallbackContext context)
     {
         Vector2 moveInput = context.ReadValue<Vector2>();
-        SendMoveInputRpc(moveInput);
+        _recentMoveInput = moveInput;
     }
 
     // Bound to `moveAction.canceled`.
@@ -112,7 +250,7 @@ public class PlayerCharacterMovement : NetworkBehaviour
     void OnCancel(InputAction.CallbackContext context)
     {
         Vector2 moveInput = context.ReadValue<Vector2>();
-        SendMoveInputRpc(moveInput);
+        _recentMoveInput = moveInput;
     }
 
     // Bound to `lookAction.performed`. Sends the desired rotation to the server.
@@ -130,34 +268,6 @@ public class PlayerCharacterMovement : NetworkBehaviour
         Vector3 worldPosition = mainCam.ScreenToWorldPoint(screenPosition);
         Vector3 viewDirection = worldPosition - transform.position;
         float rotation = Mathf.Atan2(viewDirection.y, viewDirection.x) * Mathf.Rad2Deg - 90;
-        SendDesiredRotationRpc(rotation);
-    }
-
-    // RPC to set `recentMoveInput` on the server. The value will be read in `FixedUpdate()` for physics-based movement.
-    [ServerRpc]
-    void SendMoveInputRpc(Vector2 moveInput)
-    {
-        _recentMoveInput = moveInput;
-    }
-
-    // RPC to set `recentDesiredRotation` on the server. The value will be read in `FixedUpdate()` for rotation.
-    [ServerRpc]
-    void SendDesiredRotationRpc(float desiredRotation)
-    {
-        _recentDesiredRotation = desiredRotation;
-    }
-
-    void FixedUpdate()
-    {
-        if (!IsServerInitialized)
-        {
-            // If we are not the server, return. Movement will be taken care there, and be synced over.
-            return;
-        }
-        // Else, we are the server.
-        Vector2 moveDirection = _recentMoveInput;
-        _rigidBody.linearVelocity = moveDirection * MaxSpeed;
-
-        _rigidBody.MoveRotation(_recentDesiredRotation);
+        _recentDesiredRotation = rotation;
     }
 }

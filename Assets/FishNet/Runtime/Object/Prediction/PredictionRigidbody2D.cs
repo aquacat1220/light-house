@@ -239,8 +239,19 @@ namespace FishNet.Object.Prediction
         /// </summary>
         public void Velocity(Vector3 force)
         {
-            Rigidbody2D.velocity = force;
+            Rigidbody2D.linearVelocity = force;
             RemoveForces(true);
+        }
+
+        /// <summary>
+        /// Added by aquacat1220.
+        /// Sets rotation while clearing pending torques.
+        /// Simulate should still be called normally.
+        /// </summary>
+        public void Rotation(float rotation)
+        {
+            Rigidbody2D.rotation = rotation;
+            RemoveForces(false);
         }
 
         /// <summary>

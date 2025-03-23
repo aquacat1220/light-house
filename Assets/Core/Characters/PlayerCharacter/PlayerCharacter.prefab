@@ -149,7 +149,7 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
-  MaxSpeed: 2
+  _maxSpeed: 3
   _rigidBody: {fileID: 4184858578783768206}
 --- !u!114 &8558529402904053165
 MonoBehaviour:
@@ -172,7 +172,6 @@ MonoBehaviour:
   _flashlight: {fileID: 7471076663653112830}
   _aimLine: {fileID: 8205642352890503678}
   _bulletImpactPrefab: {fileID: 8421305414578404092, guid: 242ab4b6d8d3f580192392fac1965e7e, type: 3}
-  _bulletImpactDuration: 5
 --- !u!120 &8205642352890503678
 LineRenderer:
   serializedVersion: 2

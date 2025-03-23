@@ -143,7 +143,8 @@ public class MainMenu : MonoBehaviour
         // Start the instance as a server and a client.
         InstanceFinder.ServerManager.StartConnection(port);
         // TODO: What happens if the address is invalid?
-        // InstanceFinder.ClientManager.StartConnection("0.0.0.0", port);
+        // TODO: Stop existing connections if any exist, and return early.
+        InstanceFinder.ClientManager.StartConnection(address, port);
 
         // Scene loading is only possible after the server is started.
         // Bind a one-shot lambda to the event.
@@ -193,8 +194,9 @@ public class MainMenu : MonoBehaviour
 
         // Start the instance as a server and a client.
         InstanceFinder.ServerManager.StartConnection(port);
+        // TODO: Stop existing connections if any exist, and return early.
         // TODO: What happens if the address is invalid?
-        InstanceFinder.ClientManager.StartConnection("0.0.0.0", port);
+        InstanceFinder.ClientManager.StartConnection(address, port);
 
         // Scene loading is only possible after the server is started.
         // Bind a one-shot lambda to the event.
