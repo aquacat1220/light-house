@@ -107,6 +107,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8756711534012270892}
+    - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7058987481657596826}
   m_SourcePrefab: {fileID: 100100000, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
 --- !u!212 &731988405665824101 stripped
 SpriteRenderer:
@@ -344,6 +347,23 @@ MonoBehaviour:
   - {fileID: 4043297911530668906}
   - {fileID: 4101758434150196559}
   - {fileID: 731988405665824101}
+--- !u!114 &7058987481657596826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5139385379916303670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0a0790a406da3c1195c32a40d037a15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2566409721090996822}
+  _networkObjectCache: {fileID: 0}
+  _itemPrimaryAction: {fileID: -5478432744384483544, guid: 1ae1c31adc91d9b0f8683fa6411ab6d6, type: 3}
+  _itemSecondaryAction: {fileID: 0}
 --- !u!114 &7471076663653112830 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3332276801123502348, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
