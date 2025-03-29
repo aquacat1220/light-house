@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "hello-unity.sln"
+    "dotnet.defaultSolution": "light-house.sln"
 }
