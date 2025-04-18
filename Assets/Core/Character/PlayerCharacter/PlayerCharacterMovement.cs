@@ -77,7 +77,7 @@ public class PlayerCharacterMovement : NetworkBehaviour
     {
         if (_rigidBody == null)
         {
-            Debug.Log("\"rigidBody\" wasn't set.");
+            Debug.Log("`rigidBody` wasn't set.");
             throw new Exception();
         }
         PredictionRigidbody2D = new PredictionRigidbody2D();
@@ -86,13 +86,13 @@ public class PlayerCharacterMovement : NetworkBehaviour
         _moveAction = InputSystem.actions.FindAction("Move");
         if (_moveAction == null)
         {
-            Debug.Log("\"Move\" action wasn't found.");
+            Debug.Log("`Move` action wasn't found.");
             throw new Exception();
         }
         _lookAction = InputSystem.actions.FindAction("Look");
         if (_lookAction == null)
         {
-            Debug.Log("\"Look\" action wasn't found.");
+            Debug.Log("`Look` action wasn't found.");
             throw new Exception();
         }
     }
@@ -261,7 +261,7 @@ public class PlayerCharacterMovement : NetworkBehaviour
         if (mainCam == null)
         {
             // This shouldn't happen, but check just to make sure.
-            Debug.Log("\"Look\" action was triggered, but no main cameras were found.");
+            Debug.Log("`Look` action was triggered, but no main cameras were found.");
             return;
         }
         Vector3 screenPosition = new Vector3(mousePosition.x, mousePosition.y, -mainCam.transform.position.z);

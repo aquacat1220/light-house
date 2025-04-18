@@ -19,7 +19,7 @@ public class BulletImpact : NetworkBehaviour
     {
         if (Light2D is null)
         {
-            Debug.Log("\"light2D\" wasn't set.");
+            Debug.Log("`light2D` wasn't set.");
             throw new Exception();
         }
 

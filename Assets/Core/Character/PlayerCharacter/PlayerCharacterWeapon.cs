@@ -42,33 +42,33 @@ public class PlayerCharacterWeapon : NetworkBehaviour
     {
         if (_muzzleFlash == null)
         {
-            Debug.Log("\"muzzleFlash\" wasn't set.");
+            Debug.Log("`muzzleFlash` wasn't set.");
             throw new Exception();
         }
 
         if (_aimLine == null)
         {
-            Debug.Log("\"aimLine\" wasn't set.");
+            Debug.Log("`aimLine` wasn't set.");
             throw new Exception();
         }
 
         if (_bulletImpactPrefab == null)
         {
-            Debug.Log("\"bulletImpact\" wasn't set.");
+            Debug.Log("`bulletImpact` wasn't set.");
             throw new Exception();
         }
 
         _fireAction = InputSystem.actions.FindAction("Fire");
         if (_fireAction == null)
         {
-            Debug.Log("\"Fire\" action wasn't found.");
+            Debug.Log("`Fire` action wasn't found.");
             throw new Exception();
         }
 
         _toggleLightAction = InputSystem.actions.FindAction("ToggleLight");
         if (_toggleLightAction == null)
         {
-            Debug.Log("\"ToggleLight\" action wasn't found.");
+            Debug.Log("`ToggleLight` action wasn't found.");
             throw new Exception();
         }
     }

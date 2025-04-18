@@ -22,19 +22,19 @@ public class MaterialSelector : NetworkBehaviour
     {
         if (_owner_material == null)
         {
-            Debug.Log("\"_owner_material\" wasn't set.");
+            Debug.Log("`_owner_material` wasn't set.");
             throw new Exception();
         }
 
         if (_nonowner_material == null)
         {
-            Debug.Log("\"_nonowner_material\" wasn't set.");
+            Debug.Log("`_nonowner_material` wasn't set.");
             throw new Exception();
         }
 
         if (_sprite_renderers.Count == 0)
         {
-            Debug.Log("\"_sprite_renderers\" is an empty list, so the component won't be doing anything. Is this intentional?");
+            Debug.Log("`_sprite_renderers` is an empty list, so the component won't be doing anything. Is this intentional?");
         }
     }
 

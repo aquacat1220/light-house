@@ -29,7 +29,7 @@ public class CharacterSpawner : NetworkBehaviour
     {
         if (_characterPrefab == null)
         {
-            Debug.Log("\"playerPrefab\" wasn't set.");
+            Debug.Log("`playerPrefab` wasn't set.");
             throw new Exception();
         }
 
@@ -174,7 +174,7 @@ public class CharacterSpawner : NetworkBehaviour
         {
             // If we are not the server, spawning the character shouldn't be possible.
             // Since we bind this function only on the server, this shouldn't happen. But just to make sure...
-            Debug.Log("\"TrySpawnCharacter\" was called on non-server.");
+            Debug.Log("`TrySpawnCharacter` was called on non-server.");
             return;
         }
 

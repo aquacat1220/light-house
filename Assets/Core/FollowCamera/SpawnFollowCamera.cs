@@ -15,7 +15,7 @@ public class SpawnFollowCamera : NetworkBehaviour
     {
         if (_followCameraPrefab == null)
         {
-            Debug.Log("\"followCamera\" wasn't set.");
+            Debug.Log("`followCamera` wasn't set.");
             throw new Exception();
         }
     }
@@ -34,7 +34,7 @@ public class SpawnFollowCamera : NetworkBehaviour
         // This happens only locally, since we don't need cameras to be synced.
         if (_followCameraRef != null)
         {
-            Debug.Log("\"followCameraRef\" is not null before spawning.");
+            Debug.Log("`followCameraRef` is not null before spawning.");
             throw new Exception();
         }
         _followCameraRef = Instantiate(_followCameraPrefab);

@@ -39,7 +39,7 @@ public class MainMenu : MonoBehaviour
     {
         if (_uIDocument == null)
         {
-            Debug.Log("\"uIDocument\" wasn't set.");
+            Debug.Log("`uIDocument` wasn't set.");
             throw new Exception();
         }
 
@@ -55,42 +55,42 @@ public class MainMenu : MonoBehaviour
         _addressInput = _uIDocument.rootVisualElement.Q<TextField>("AddressInput");
         if (_addressInput == null)
         {
-            Debug.Log("TextField with name \"AddressInput\" wasn't found.");
+            Debug.Log("TextField with name `AddressInput` wasn't found.");
             throw new Exception();
         }
 
         _portInput = _uIDocument.rootVisualElement.Q<TextField>("PortInput");
         if (_portInput == null)
         {
-            Debug.Log("TextField with name \"PortInput\" wasn't found.");
+            Debug.Log("TextField with name `PortInput` wasn't found.");
             throw new Exception();
         }
 
         _hostButton = _uIDocument.rootVisualElement.Q<Button>("HostButton");
         if (_hostButton == null)
         {
-            Debug.Log("Button with name \"HostButton\" wasn't found.");
+            Debug.Log("Button with name `HostButton` wasn't found.");
             throw new Exception();
         }
 
         _joinButton = _uIDocument.rootVisualElement.Q<Button>("JoinButton");
         if (_joinButton == null)
         {
-            Debug.Log("Button with name \"JoinButton\" wasn't found.");
+            Debug.Log("Button with name `JoinButton` wasn't found.");
             throw new Exception();
         }
 
         _soloButton = _uIDocument.rootVisualElement.Q<Button>("SoloButton");
         if (_soloButton == null)
         {
-            Debug.Log("Button with name \"SoloButton\" wasn't found.");
+            Debug.Log("Button with name `SoloButton` wasn't found.");
             throw new Exception();
         }
 
         _cancelAction = InputSystem.actions.FindAction("Cancel");
         if (_cancelAction == null)
         {
-            Debug.Log("\"Cancel\" action wasn't found.");
+            Debug.Log("`Cancel` action wasn't found.");
             throw new Exception();
         }
     }
