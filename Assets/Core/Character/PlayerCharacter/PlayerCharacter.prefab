@@ -110,6 +110,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7058987481657596826}
+    - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3249859740518625943}
   m_SourcePrefab: {fileID: 100100000, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
 --- !u!212 &731988405665824101 stripped
 SpriteRenderer:
@@ -366,6 +369,28 @@ MonoBehaviour:
   _itemSecondaryActionRef: {fileID: 0}
   LeftItemAnchor: {fileID: 0}
   RightItemAnchor: {fileID: 0}
+--- !u!114 &-3249859740518625943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5139385379916303670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abd475d33261974079ddf83faab57fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2566409721090996822}
+  _networkObjectCache: {fileID: 0}
+  _components_to_disable:
+  - {fileID: 3324938354885705573}
+  - {fileID: 7058987481657596826}
+  _sprite_renderer: {fileID: 2101235380917101776}
+  _color_on_death: {r: 1, g: 0, b: 0, a: 1}
+  _time_to_respawn: 3
+  _time_to_despawn: 15
 --- !u!114 &7471076663653112830 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3332276801123502348, guid: d2c828e519c166684af8c10a7975ee06, type: 3}

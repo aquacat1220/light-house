@@ -10,6 +10,8 @@ using UnityEngine;
 // as well as future connected-and-authenticated clients.
 public class CharacterSpawner : NetworkBehaviour
 {
+    public static CharacterSpawner Singleton { get; private set; }
+
     [SerializeField]
     GameObject _characterPrefab;
 
@@ -35,6 +37,13 @@ public class CharacterSpawner : NetworkBehaviour
         {
             Debug.Log("Spawn positions are empty. Will default to origin.");
         }
+
+        if (Singleton != null)
+        {
+            Debug.Log("`Singleton` was non-null, implying there are multiple instances of `CharacterSpawner`s in this scene.");
+            throw new Exception();
+        }
+        Singleton = this;
     }
 
     // Spawn characters on the server side for all connected-and-authenticated clients.
@@ -51,7 +60,7 @@ public class CharacterSpawner : NetworkBehaviour
             var clientConnection = keyvalue.Value;
             if (clientConnection.IsAuthenticated)
             {
-                SpawnCharacter(clientConnection);
+                TrySpawnCharacter(clientConnection);
             }
         }
     }
@@ -87,7 +96,7 @@ public class CharacterSpawner : NetworkBehaviour
             var clientConnection = keyvalue.Value;
             if (clientConnection.IsAuthenticated)
             {
-                SpawnCharacter(clientConnection);
+                TrySpawnCharacter(clientConnection);
             }
         }
     }
@@ -143,7 +152,7 @@ public class CharacterSpawner : NetworkBehaviour
             return;
         }
 
-        SpawnCharacter(clientConnection);
+        TrySpawnCharacter(clientConnection);
     }
 
     void OnServerManagerRemoteConnectionState(NetworkConnection connection, RemoteConnectionStateArgs args)
@@ -157,13 +166,15 @@ public class CharacterSpawner : NetworkBehaviour
         }
     }
 
-    void SpawnCharacter(NetworkConnection clientConnection)
+    // Try spawning a character for `clientConnection` if we don't have one yet.
+    // This function calls into `SpawnCharacterUnchecked()` after doing some checks, which in turn actually spawns the character.
+    void TrySpawnCharacter(NetworkConnection clientConnection)
     {
         if (!base.IsServerInitialized)
         {
             // If we are not the server, spawning the character shouldn't be possible.
             // Since we bind this function only on the server, this shouldn't happen. But just to make sure...
-            Debug.Log("\"SpawnCharacter\" was called on non-server.");
+            Debug.Log("\"TrySpawnCharacter\" was called on non-server.");
             return;
         }
 
@@ -173,6 +184,19 @@ public class CharacterSpawner : NetworkBehaviour
             return;
         }
         _spawned.Add(clientConnection);
+        SpawnCharacterUnchecked(clientConnection);
+    }
+
+    // Spawns a character for `clientConnection`, unchecked, untracked.
+    // This function doesn't check if we have a character for the client, nor keep track that we indeed spawned one for them.
+    // External calls to this function may be made to respawn characters: it's the caller's responsibility to make sure we don't have two characters for the same client.
+    // Should be only called on the server.
+    public void SpawnCharacterUnchecked(NetworkConnection clientConnection)
+    {
+        if (!base.IsServerInitialized)
+        {
+            return;
+        }
         GameObject character = Instantiate(_characterPrefab, SelectSpawnPosition(clientConnection), Quaternion.identity);
         base.Spawn(character, clientConnection, gameObject.scene);
     }
