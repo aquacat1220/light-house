@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: <AssetPathHash>k__BackingField
-      value: 13818779747147471511
+      value: 18280339955342668384
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[1]'
@@ -362,8 +362,10 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 0}
-  _itemPrimaryAction: {fileID: -5478432744384483544, guid: 1ae1c31adc91d9b0f8683fa6411ab6d6, type: 3}
-  _itemSecondaryAction: {fileID: 0}
+  _itemPrimaryActionRef: {fileID: 0}
+  _itemSecondaryActionRef: {fileID: 0}
+  LeftItemAnchor: {fileID: 0}
+  RightItemAnchor: {fileID: 0}
 --- !u!114 &7471076663653112830 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3332276801123502348, guid: d2c828e519c166684af8c10a7975ee06, type: 3}

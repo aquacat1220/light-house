@@ -165,6 +165,7 @@ GameObject:
   - component: {fileID: 7711541920573501010}
   - component: {fileID: 8323674693388983420}
   - component: {fileID: 7641905666977704100}
+  - component: {fileID: 2922723460117174548}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -349,7 +350,7 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 11
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 13366913679285510018
+  <AssetPathHash>k__BackingField: 17575222332657453349
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
@@ -372,6 +373,26 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
+--- !u!114 &2922723460117174548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063688963136659396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 430964e81326b43e6aa2d2ad69118b6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 7641905666977704100}
+  _networkObjectCache: {fileID: 0}
+  MaxHealth: 100
+  InitialHealth: 100
+  OnHealthZero:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4071394626114723564
 GameObject:
   m_ObjectHideFlags: 0
