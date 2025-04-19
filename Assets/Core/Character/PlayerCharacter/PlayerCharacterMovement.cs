@@ -57,9 +57,11 @@ public class PlayerCharacterMovement : NetworkBehaviour
     Rigidbody2D _rigidBody;
 
     // Reference to InputAction for character movement.
-    InputAction _moveAction;
+    [SerializeField]
+    InputActionReference _moveActionRef;
     // Reference to InputAction for character rotation.
-    InputAction _lookAction;
+    [SerializeField]
+    InputActionReference _lookActionRef;
 
     // The most recent movement input from the client controlling this character.
     Vector2 _recentMoveInput;
@@ -83,16 +85,14 @@ public class PlayerCharacterMovement : NetworkBehaviour
         PredictionRigidbody2D = new PredictionRigidbody2D();
         PredictionRigidbody2D.Initialize(_rigidBody);
 
-        _moveAction = InputSystem.actions.FindAction("Move");
-        if (_moveAction == null)
+        if (_moveActionRef == null)
         {
-            Debug.Log("`Move` action wasn't found.");
+            Debug.Log("`_moveActionRef` wasn't set.");
             throw new Exception();
         }
-        _lookAction = InputSystem.actions.FindAction("Look");
-        if (_lookAction == null)
+        if (_lookActionRef == null)
         {
-            Debug.Log("`Look` action wasn't found.");
+            Debug.Log("`_lookActionRef` wasn't set.");
             throw new Exception();
         }
     }
@@ -148,9 +148,9 @@ public class PlayerCharacterMovement : NetworkBehaviour
     {
         if (!_isSubscribedToInputActions)
         {
-            _moveAction.performed += OnMoveAction;
-            _moveAction.canceled += OnCancel;
-            _lookAction.performed += OnLookAction;
+            _moveActionRef.action.performed += OnMoveAction;
+            _moveActionRef.action.canceled += OnCancel;
+            _lookActionRef.action.performed += OnLookAction;
             _isSubscribedToInputActions = true;
         }
     }
@@ -159,9 +159,9 @@ public class PlayerCharacterMovement : NetworkBehaviour
     {
         if (_isSubscribedToInputActions)
         {
-            _moveAction.performed -= OnMoveAction;
-            _moveAction.canceled -= OnCancel;
-            _lookAction.performed -= OnLookAction;
+            _moveActionRef.action.performed -= OnMoveAction;
+            _moveActionRef.action.canceled -= OnCancel;
+            _lookActionRef.action.performed -= OnLookAction;
             _isSubscribedToInputActions = false;
         }
     }

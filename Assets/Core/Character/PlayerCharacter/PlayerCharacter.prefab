@@ -212,6 +212,8 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 2566409721090996822}
   _maxSpeed: 3
   _rigidBody: {fileID: 4184858578783768206}
+  _moveActionRef: {fileID: -1680190386980627800, guid: 1ae1c31adc91d9b0f8683fa6411ab6d6, type: 3}
+  _lookActionRef: {fileID: 6438934595901173143, guid: 1ae1c31adc91d9b0f8683fa6411ab6d6, type: 3}
 --- !u!114 &7544029604669326017
 MonoBehaviour:
   m_ObjectHideFlags: 0
