@@ -336,7 +336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkObserver: {fileID: 0}
   _enablePrediction: 1
-  _predictionType: 0
+  _predictionType: 2
   _graphicalObject: {fileID: 0}
   _detachGraphicalObject: 0
   _enableStateForwarding: 1
@@ -390,9 +390,6 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 0}
   MaxHealth: 100
   InitialHealth: 100
-  OnHealthZero:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &4071394626114723564
 GameObject:
   m_ObjectHideFlags: 0
