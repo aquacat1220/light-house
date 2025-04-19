@@ -11,7 +11,7 @@ public class HealthSystem : NetworkBehaviour
     [SerializeField]
     float InitialHealth = 100.0f;
 
-    public event Action OnHealthZero;
+    public event Action HealthZero;
 
     readonly SyncVar<float> _health = new();
 
@@ -42,7 +42,7 @@ public class HealthSystem : NetworkBehaviour
         // Checking for `asServer` should be enough, but just in case...
         if (next == 0f && asServer && base.IsServerInitialized)
         {
-            OnHealthZero.Invoke();
+            HealthZero.Invoke();
         }
     }
 }

@@ -36,10 +36,10 @@ public class PlayerCharacterItemSystem : ItemSystem
     // Is the component subscribed to input actions?
     bool _isSubscribedToInputActions = false;
 
-    public event Action OnLeftItemPrimary;
-    public event Action OnLeftItemSecondary;
-    public event Action OnRightItemPrimary;
-    public event Action OnRightItemSecondary;
+    public event Action LeftItemPrimary;
+    public event Action LeftItemSecondary;
+    public event Action RightItemPrimary;
+    public event Action RightItemSecondary;
 
     // The current active hand.
     Hand _activeHand = Hand.Right;
@@ -118,10 +118,10 @@ public class PlayerCharacterItemSystem : ItemSystem
         switch (_activeHand)
         {
             case Hand.Left:
-                OnLeftItemPrimary?.Invoke();
+                LeftItemPrimary?.Invoke();
                 break;
             case Hand.Right:
-                OnRightItemPrimary?.Invoke();
+                RightItemPrimary?.Invoke();
                 break;
         }
     }
@@ -132,10 +132,10 @@ public class PlayerCharacterItemSystem : ItemSystem
         switch (_activeHand)
         {
             case Hand.Left:
-                OnLeftItemSecondary?.Invoke();
+                LeftItemSecondary?.Invoke();
                 break;
             case Hand.Right:
-                OnRightItemSecondary?.Invoke();
+                RightItemSecondary?.Invoke();
                 break;
         }
     }

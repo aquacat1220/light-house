@@ -37,7 +37,7 @@ public class PlayerCharacterDeath : NetworkBehaviour
             Debug.Log("`_healthSystem` wasn't set.");
             throw new Exception();
         }
-        _healthSystem.OnHealthZero += OnHealthZero;
+        _healthSystem.HealthZero += OnHealthZero;
         StartCoroutine(KillSelf());
     }
 
