@@ -202,10 +202,27 @@ public class PlayerCharacterMovement : NetworkBehaviour
         if (!state.ContainsCreated())
         {
             // `data` isn't created by the owner; it is a default object provided by FishNet.
-            // Return early so rotation doesn't have to snap.
-            // This means we don't do any input prediction: we assume the owning client wouldn't be pressing any inputs when we can't see them.
-            return;
+
+
+            // {
+            //     // Return early so rotation doesn't have to snap.
+            //     // Rigidbody has inertia: it will keep its velocities from previous ticks.
+            //     // Thus, even without explicit input prediction, this early return implicitly predicts that
+            //     // *unobserved inputs* will be the same as the *last observed input*. (See devlog of 2025-04-19 12:13:32 for detail.)
+            //     // While this may be desirable in certain cases, this results in a *sudden jolt* when inputs change,
+            //     // since we are effectively extrapolating into the future.
+            //     return;
+            // }
+
+            {
+                // Zero out the rigidbody velocity to stop extrapolation.
+                PredictionRigidbody2D.Velocity(Vector2.zero);
+                // But leave the rotation as it is, since it has nothing to do with inertia.
+                PredictionRigidbody2D.Simulate();
+                return;
+            }
         }
+        // `data` is created by the owner.
         Vector2 moveDirection = data.MoveInput.normalized;
         PredictionRigidbody2D.Velocity(moveDirection * _maxSpeed);
 
