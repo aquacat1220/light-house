@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using FishNet.Object;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerCharacterDeath : NetworkBehaviour
@@ -27,6 +28,17 @@ public class PlayerCharacterDeath : NetworkBehaviour
         {
             _time_to_despawn = _time_to_respawn;
         }
+        StartCoroutine(KillSelf());
+    }
+
+    IEnumerator KillSelf()
+    {
+        var health = GetComponent<HealthSystem>();
+        while (true)
+        {
+            health.ApplyDamage(0.1f);
+            yield return null;
+        }
     }
 
     public void OnDeath()
@@ -49,6 +61,7 @@ public class PlayerCharacterDeath : NetworkBehaviour
     // Called only on the server to spawn a new character, and despawn this one.
     IEnumerator AfterDeath()
     {
+        Debug.Log("Starting afterdeath sequence.");
         // Wait for few seconds...
         yield return new WaitForSeconds(_time_to_respawn);
         // ... and spawn the new character.

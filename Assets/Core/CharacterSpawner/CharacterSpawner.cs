@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using FishNet.Connection;
+using FishNet.Managing.Timing;
 using FishNet.Object;
 using FishNet.Transporting;
 using UnityEngine;
@@ -18,10 +19,12 @@ public class CharacterSpawner : NetworkBehaviour
     [SerializeField]
     Transform[] _spawnPositions;
 
-    bool _isSubscribedToAuthEvent = false;
+    bool _isSubscribedToClientConnected = false;
     bool _isSubscribedToConnEvent = false;
 
-    HashSet<NetworkConnection> _spawned = new HashSet<NetworkConnection>();
+    // Dictionaty mapping connected clients to a bool representing if they have a character spawned for them.
+    Dictionary<NetworkConnection, bool> _clients = new();
+    event Action<NetworkConnection> _onClientConnected;
 
     uint _nextSpawnPositionIndex = 0;
 
@@ -46,19 +49,26 @@ public class CharacterSpawner : NetworkBehaviour
         Singleton = this;
     }
 
+    public override void OnStartClient()
+    {
+        // Notify the server that this client has finished loading the scene and connected.
+        ConnectClient();
+    }
+
     // Spawn characters on the server side for all connected-and-authenticated clients.
     public override void OnStartServer()
     {
-        // First subscribe to the auth event to make sure no clients are lost.
-        SubscribeToAuthEvent();
+        // First subscribe to `_onClientConnected` to make sure no clients are lost.
+        SubscribeToClientConnected();
         // And to the connection state change event to handle disconenctions.
         SubscribeToConnEvent();
 
-        // Then loop over all connected-and-authenticated clients to spawn characters for them.
-        foreach (var keyvalue in base.ServerManager.Clients)
+        // Then loop over all connected clients to spawn them characters.
+        foreach (var keyvalue in _clients)
         {
-            var clientConnection = keyvalue.Value;
-            if (clientConnection.IsAuthenticated)
+            var clientConnection = keyvalue.Key;
+            var hasCharacter = keyvalue.Value;
+            if (!hasCharacter)
             {
                 TrySpawnCharacter(clientConnection);
             }
@@ -68,10 +78,10 @@ public class CharacterSpawner : NetworkBehaviour
     // Unsubscribe from events after object deinitializes.
     public override void OnStopServer()
     {
-        // Unsubscribe from events, and clear the internal hashset.
-        UnsubscribeFromAuthEvent();
+        // Unsubscribe from events, and clear the internal dict.
+        UnsubscribeFromClientConnected();
         UnsubscribeFromConnEvent();
-        _spawned.Clear();
+        _clients.Clear();
     }
 
     void OnEnable()
@@ -82,19 +92,20 @@ public class CharacterSpawner : NetworkBehaviour
             return;
         }
 
-        // We ARE the server. Proceed to spawn characters for all connected-and-authenticated clients that might have changed while we were disabled.
+        // We ARE the server. Proceed to spawn characters for all connected clients that might have arrived while we were disabled.
 
-        // First subscribe to the event, to make sure no clients are lost.
-        SubscribeToAuthEvent();
-        // And to the connection state change event to handle disconenctions.
+        // First subscribe to `_onClientConnected` to make sure no clients are lost.
+        SubscribeToClientConnected();
+        // And to the connection state change event to handle disconnections.
         // We should already be subscribed, since we don't subscribe on disable, but just to be sure.
         SubscribeToConnEvent();
 
-        // Then loop over all connected-and-authenticated clients to spawn characters for them.
-        foreach (var keyvalue in base.ServerManager.Clients)
+        // Then loop over all connected clients to spawn them characters.
+        foreach (var keyvalue in _clients)
         {
-            var clientConnection = keyvalue.Value;
-            if (clientConnection.IsAuthenticated)
+            var clientConnection = keyvalue.Key;
+            var hasCharacter = keyvalue.Value;
+            if (!hasCharacter)
             {
                 TrySpawnCharacter(clientConnection);
             }
@@ -103,24 +114,26 @@ public class CharacterSpawner : NetworkBehaviour
 
     void OnDisable()
     {
-        UnsubscribeFromAuthEvent();
+        // Ignore newly connecting clients, but still keep track of them in the dictionary.
+        // They will be assigned a character as soon as the spawner is re-enabled.
+        UnsubscribeFromClientConnected();
     }
 
-    void SubscribeToAuthEvent()
+    void SubscribeToClientConnected()
     {
-        if (!_isSubscribedToAuthEvent)
+        if (!_isSubscribedToClientConnected)
         {
-            base.ServerManager.OnAuthenticationResult += OnServerManagerAuthenticationResult;
-            _isSubscribedToAuthEvent = true;
+            _onClientConnected += TrySpawnCharacter;
+            _isSubscribedToClientConnected = true;
         }
     }
 
-    void UnsubscribeFromAuthEvent()
+    void UnsubscribeFromClientConnected()
     {
-        if (_isSubscribedToAuthEvent)
+        if (_isSubscribedToClientConnected)
         {
-            base.ServerManager.OnAuthenticationResult -= OnServerManagerAuthenticationResult;
-            _isSubscribedToAuthEvent = false;
+            _onClientConnected -= TrySpawnCharacter;
+            _isSubscribedToClientConnected = false;
         }
     }
 
@@ -142,17 +155,16 @@ public class CharacterSpawner : NetworkBehaviour
         }
     }
 
-    void OnServerManagerAuthenticationResult(NetworkConnection clientConnection, bool authenticationPassed)
+    [ServerRpc(RequireOwnership = false)]
+    void ConnectClient(NetworkConnection connectedClient = null)
     {
-        if (!authenticationPassed)
+        if (_clients.ContainsKey(connectedClient))
         {
-            // Authentication failed.
-            // According to `ServerManager` implementation, this event wouldn't even be called if authentication fails.
-            // But just in case implementations change...!
-            return;
+            Debug.Log("`CharacterSpawner` recognizes a client that is supposed to be connecting for the first time.");
+            throw new Exception();
         }
-
-        TrySpawnCharacter(clientConnection);
+        _clients.Add(connectedClient, false);
+        _onClientConnected?.Invoke(connectedClient);
     }
 
     void OnServerManagerRemoteConnectionState(NetworkConnection connection, RemoteConnectionStateArgs args)
@@ -160,9 +172,9 @@ public class CharacterSpawner : NetworkBehaviour
         if (args.ConnectionState == RemoteConnectionState.Stopped)
         {
             // Connection has been stopped.
-            // Remove the conenction from the spawned set.
-            _spawned.Remove(connection);
-            // We don't care if the connection wasn't in the set, because `Remove()` will just return false if so.
+            // Remove the conenction from `_clients`.
+            _clients.Remove(connection);
+            // We don't care if the connection wasn't in the dict, because `Remove()` will just return false if so.
         }
     }
 
@@ -178,12 +190,16 @@ public class CharacterSpawner : NetworkBehaviour
             return;
         }
 
-        if (_spawned.Contains(clientConnection))
+        if (!_clients.ContainsKey(clientConnection))
+        {
+            Debug.Log("`TrySpawnCharacter` was called with a client that doesn't seem to be connected yet.");
+            throw new Exception();
+        }
+        if (_clients[clientConnection])
         {
             // This client already has a character spawned by this instance.
             return;
         }
-        _spawned.Add(clientConnection);
         SpawnCharacterUnchecked(clientConnection);
     }
 
@@ -199,6 +215,7 @@ public class CharacterSpawner : NetworkBehaviour
         }
         GameObject character = Instantiate(_characterPrefab, SelectSpawnPosition(clientConnection), Quaternion.identity);
         base.Spawn(character, clientConnection, gameObject.scene);
+        _clients[clientConnection] = true;
     }
 
     Vector3 SelectSpawnPosition(NetworkConnection clientConnection)
