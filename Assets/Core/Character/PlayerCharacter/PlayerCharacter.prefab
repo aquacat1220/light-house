@@ -285,13 +285,25 @@ MonoBehaviour:
   _componentIndexCache: 5
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
-  _components_to_disable:
+  _healthSystem: {fileID: 6998489626671369190}
+  _componentsToDisable:
   - {fileID: 3324938354885705573}
   - {fileID: 7058987481657596826}
-  _sprite_renderer: {fileID: 2101235380917101776}
-  _color_on_death: {r: 1, g: 0, b: 0, a: 1}
-  _time_to_respawn: 3
-  _time_to_despawn: 15
+  _spriteRenderer: {fileID: 2101235380917101776}
+  _colorOnDeath: {r: 1, g: 0, b: 0, a: 1}
+  _timeToRespawn: 3
+  _timeToDespawn: 30
+--- !u!114 &6998489626671369190 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2922723460117174548, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+  m_PrefabInstance: {fileID: 5300799141838639858}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5139385379916303670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 430964e81326b43e6aa2d2ad69118b6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &7842166520691229748 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2685482773648496326, guid: d2c828e519c166684af8c10a7975ee06, type: 3}

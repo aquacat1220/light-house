@@ -137,7 +137,11 @@ public class PlayerCharacterMovement : NetworkBehaviour
     {
         // We don't check for ownership here, since calling `UnsubscribeFromAction()` when we are not subscribed shouldn't cause any problems.
         UnsubscribeFromAction();
-        UnsubscribeFromTimeManager();
+        // And call `ResetInputs()` to make sure past inputs don't stay in affect during disabled periods.
+        ResetInputs();
+
+        // Unsubscribing from time manager will disrupt client side prediction, resulting in desynced positions.
+        // UnsubscribeFromTimeManager();
     }
 
     void SubscribeToAction()
@@ -269,5 +273,11 @@ public class PlayerCharacterMovement : NetworkBehaviour
         Vector3 viewDirection = worldPosition - transform.position;
         float rotation = Mathf.Atan2(viewDirection.y, viewDirection.x) * Mathf.Rad2Deg - 90;
         _recentDesiredRotation = rotation;
+    }
+
+    // Reset recent movement input to zero.
+    void ResetInputs()
+    {
+        _recentMoveInput = Vector2.zero;
     }
 }
