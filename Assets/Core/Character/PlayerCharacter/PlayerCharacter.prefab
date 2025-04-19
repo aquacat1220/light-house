@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2922723460117174548, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: OnHealthZero.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnDeath
+      value: OnHealthZero
       objectReference: {fileID: 0}
     - target: {fileID: 2922723460117174548, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: OnHealthZero.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -82,11 +82,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: <PrefabId>k__BackingField
-      value: 12
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: NetworkBehaviours.Array.size
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: <AssetPathHash>k__BackingField
@@ -97,9 +97,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3324938354885705573}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: 'NetworkBehaviours.Array.data[3]'
+      propertyPath: 'NetworkBehaviours.Array.data[2]'
       value: 
       objectReference: {fileID: 7544029604669326017}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8756711534012270892}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[4]'
+      value: 
+      objectReference: {fileID: 7058987481657596826}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[5]'
+      value: 
+      objectReference: {fileID: -3249859740518625943}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: SerializedTransformProperties.Scale.x
       value: 1
@@ -212,7 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71aa291e9cc890685a96c793a859b225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 3
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
 --- !u!114 &8756711534012270892
@@ -227,9 +239,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c209507eaf93dad96b11ab765bc6016e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 2566409721090996822}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 2566409721090996822}
   _owner_material: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   _nonowner_material: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   _sprite_renderers:
@@ -251,9 +263,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0a0790a406da3c1195c32a40d037a15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 2566409721090996822}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 2566409721090996822}
   _itemPrimaryActionRef: {fileID: -5478432744384483544, guid: 1ae1c31adc91d9b0f8683fa6411ab6d6, type: 3}
   _itemSecondaryActionRef: {fileID: -6364423960806095547, guid: 1ae1c31adc91d9b0f8683fa6411ab6d6, type: 3}
   LeftItemAnchor: {fileID: 7842166520691229748}
@@ -270,9 +282,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abd475d33261974079ddf83faab57fdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 5
   _addedNetworkObject: {fileID: 2566409721090996822}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 2566409721090996822}
   _components_to_disable:
   - {fileID: 3324938354885705573}
   - {fileID: 7058987481657596826}

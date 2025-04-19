@@ -7,27 +7,37 @@ using UnityEngine;
 public class PlayerCharacterDeath : NetworkBehaviour
 {
     [SerializeField]
-    MonoBehaviour[] _components_to_disable;
+    HealthSystem _healthSystem;
+
+    // Array fo components to disable on death.
+    [SerializeField]
+    MonoBehaviour[] _componentsToDisable;
 
     // Reference to sprite renderer, to change color on death.
     [SerializeField]
-    SpriteRenderer _sprite_renderer;
+    SpriteRenderer _spriteRenderer;
 
     [SerializeField]
-    Color _color_on_death = Color.red;
+    Color _colorOnDeath = Color.red;
 
     [SerializeField]
-    float _time_to_respawn = 3.0f;
+    float _timeToRespawn = 3.0f;
 
     [SerializeField]
-    float _time_to_despawn = 15.0f;
+    float _timeToDespawn = 15.0f;
 
     public void Awake()
     {
-        if (_time_to_despawn < _time_to_respawn)
+        if (_timeToDespawn < _timeToRespawn)
         {
-            _time_to_despawn = _time_to_respawn;
+            _timeToDespawn = _timeToRespawn;
         }
+        if (_healthSystem == null)
+        {
+            Debug.Log("`_healthSystem` wasn't set.");
+            throw new Exception();
+        }
+        _healthSystem.OnHealthZero += OnHealthZero;
         StartCoroutine(KillSelf());
     }
 
@@ -41,17 +51,24 @@ public class PlayerCharacterDeath : NetworkBehaviour
         }
     }
 
-    public void OnDeath()
+    public void OnHealthZero()
+    {
+        Die();
+    }
+
+    [ObserversRpc]
+    void Die()
     {
         // Disable all components that should be disabled. (Usually input-related.)
-        foreach (var component in _components_to_disable)
+        foreach (var component in _componentsToDisable)
         {
             component.enabled = false;
         }
 
         // Then change the color to something that clearly shows death.
-        _sprite_renderer.color = _color_on_death;
+        _spriteRenderer.color = _colorOnDeath;
 
+        // And if we are the server, initiate the after-death sequence, which respawns the character.
         if (base.IsServerInitialized)
         {
             StartCoroutine(AfterDeath());
@@ -63,7 +80,7 @@ public class PlayerCharacterDeath : NetworkBehaviour
     {
         Debug.Log("Starting afterdeath sequence.");
         // Wait for few seconds...
-        yield return new WaitForSeconds(_time_to_respawn);
+        yield return new WaitForSeconds(_timeToRespawn);
         // ... and spawn the new character.
         if (CharacterSpawner.Singleton == null)
         {
@@ -73,7 +90,7 @@ public class PlayerCharacterDeath : NetworkBehaviour
         CharacterSpawner.Singleton.SpawnCharacterUnchecked(base.Owner);
 
         // Then wait for another few seconds...
-        yield return new WaitForSeconds(_time_to_despawn - _time_to_respawn);
+        yield return new WaitForSeconds(_timeToDespawn - _timeToRespawn);
         // ... to despawn this instance!
         base.Despawn();
 

@@ -11,7 +11,7 @@ public class HealthSystem : NetworkBehaviour
     [SerializeField]
     float InitialHealth = 100.0f;
 
-    public UnityEvent OnHealthZero;
+    public event Action OnHealthZero;
 
     readonly SyncVar<float> _health = new();
 
@@ -19,12 +19,6 @@ public class HealthSystem : NetworkBehaviour
     {
         _health.SetInitialValues(InitialHealth);
         _health.OnChange += OnHealthChange;
-
-        if (OnHealthZero.GetPersistentEventCount() == 0)
-        {
-            Debug.Log("No one is listening to `OnHealthZero`.");
-            throw new Exception();
-        }
     }
 
     public void ApplyDamage(float damage)
