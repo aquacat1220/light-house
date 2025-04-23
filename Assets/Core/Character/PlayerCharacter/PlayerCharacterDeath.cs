@@ -38,7 +38,7 @@ public class PlayerCharacterDeath : NetworkBehaviour
             throw new Exception();
         }
         _healthSystem.HealthZero += OnHealthZero;
-        StartCoroutine(KillSelf());
+        // StartCoroutine(KillSelf());
     }
 
     IEnumerator KillSelf()

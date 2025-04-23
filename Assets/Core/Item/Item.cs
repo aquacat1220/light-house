@@ -1,6 +1,7 @@
 using System;
 using FishNet.Object;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 // Base class of all items.
 // Items can *register* and *unregister* from an item system, which will control the interaction.
@@ -10,6 +11,8 @@ public class Item : NetworkBehaviour
     public Func<ItemRegisterContext, bool> RegisterImpl;
     public Action UnregisterImpl;
 
+    // The currently registered itemsystem.
+    ItemSystem _itemSystem;
 
     // We do this check in `Start()`, because the handlers are expected to be set by the implementors in `Awake()`.
     public void Start()
@@ -30,19 +33,42 @@ public class Item : NetworkBehaviour
     // Registering might fail, and return `false`.
     public bool Register(ItemRegisterContext registerContext)
     {
-        if (registerContext is PlayerCharacterItemRegisterContext)
+        // If registering to a `PlayerCharacterItemSystem`, it is likely that ownership will matter.
+        // Thus give ownership to `PlayerCharacterItemSystem`'s owner before calling on `RegisterImpl`.
+        // Though nonexistent yet, other item systems might need this ownership transfer too.
+        if (registerContext is PlayerCharacterItemRegisterContext playerCharacterItemRegisterContext)
         {
-            return RegisterImpl.Invoke(registerContext);
+            if (base.IsServerInitialized)
+                base.GiveOwnership(playerCharacterItemRegisterContext.ItemSystem.Owner);
+            if (RegisterImpl.Invoke(registerContext))
+            {
+                _itemSystem = playerCharacterItemRegisterContext.ItemSystem;
+                return true;
+            }
+            if (base.IsServerInitialized)
+                base.RemoveOwnership();
+            return false;
         }
-        else
-        {
-            Debug.Log("Unknown variant of `ItemRegisterContext` was encountered during item registration.");
-            throw new Exception();
-        }
+
+        // Unrecognized `ItemSystem` variants are ignored.
+        return false;
     }
 
     public void Unregister()
     {
-        UnregisterImpl.Invoke();
+        Assert.IsNotNull(_itemSystem);
+
+        if (_itemSystem is PlayerCharacterItemSystem playerCharacterItemSystem)
+        {
+            _itemSystem = null;
+            UnregisterImpl.Invoke();
+            if (base.IsServerInitialized)
+                base.RemoveOwnership();
+
+            return;
+        }
+
+        Debug.Log("`Item` encountered unknown `ItemSystem` variant during `Unregister()`, which shouldn't have been `Register()`ed in the first place.");
+        throw new Exception();
     }
 }

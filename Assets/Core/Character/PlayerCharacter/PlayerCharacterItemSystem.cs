@@ -1,6 +1,8 @@
 using System;
+using FishNet.Object;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 
 public enum Hand
@@ -13,11 +15,12 @@ public class PlayerCharacterItemRegisterContext : ItemRegisterContext
 {
     public PlayerCharacterItemSystem ItemSystem;
     // The hand to equip the item.
-    public Hand hand;
+    public Hand Hand;
 
-    public PlayerCharacterItemRegisterContext(PlayerCharacterItemSystem itemSystem)
+    public PlayerCharacterItemRegisterContext(PlayerCharacterItemSystem itemSystem, Hand hand)
     {
         ItemSystem = itemSystem;
+        Hand = hand;
     }
 }
 
@@ -45,7 +48,9 @@ public class PlayerCharacterItemSystem : ItemSystem
     Hand _activeHand = Hand.Right;
 
     // Items equipped to each hands.
+    [SerializeField]
     Item _leftItem = null;
+    [SerializeField]
     Item _rightItem = null;
 
     public void Awake()
@@ -62,8 +67,28 @@ public class PlayerCharacterItemSystem : ItemSystem
         }
     }
 
+
+    public override void OnStartServer()
+    {
+        // `RegisterInit()` should be called only after `Item`s have been fully initialized.
+        // With initialization ordering, we can guarantee that they are initializing first.
+        // So calling `RegisterInit()` only after we have initialized is enough.
+        if (!base.IsClientStarted || base.IsClientInitialized)
+        {
+            RegisterInit();
+        }
+    }
+
     public override void OnStartClient()
     {
+        // `RegisterInit()` should be called only after `Item`s have been fully initialized.
+        // With initialization ordering, we can guarantee that they are initializing first.
+        // So calling `RegisterInit()` only after we have initialized is enough.
+        if (!base.IsServerStarted || base.IsServerInitialized)
+        {
+            RegisterInit();
+        }
+
         if (base.IsOwner)
         {
             // We are the owner of this character. Subscribe events to the input actions.
@@ -140,42 +165,46 @@ public class PlayerCharacterItemSystem : ItemSystem
         }
     }
 
-    // Depending on the `item`'s behavior, registering can fail.
-    public bool RegisterItem(Item item, Hand hand)
+    // Makes sure initial values of `_leftItem` and `_rightItem` are registered.
+    // `Item.Register()` requires all network-related stuff to be initialized.
+    // Calls to this function should check carefully.
+    void RegisterInit()
     {
-        if (hand == Hand.Left)
+        if (_leftItem != null)
         {
-            if (_leftItem != null)
+            if (!_leftItem.Register(new PlayerCharacterItemRegisterContext(this, Hand.Left)))
             {
-                UnregisterItem(hand);
+                _leftItem = null;
             }
-            if (!item.Register(new PlayerCharacterItemRegisterContext(this)))
-                return false;
-            _leftItem = item;
-            return true;
         }
-        else
+        if (_rightItem != null)
         {
-            if (_rightItem != null)
+            if (!_rightItem.Register(new PlayerCharacterItemRegisterContext(this, Hand.Right)))
             {
-                UnregisterItem(hand);
+                _rightItem = null;
             }
-            if (!item.Register(new PlayerCharacterItemRegisterContext(this)))
-                return false;
-            _rightItem = item;
-            return true;
         }
     }
 
-    // Unlike `RegisterItem()`, unregistering cannot, and should not fail.
-    public void UnregisterItem(Hand hand)
+    public void TryRegisterItem(Item item, Hand hand)
     {
+        // If we are not the server, ignore the call.
+        if (!base.IsServerInitialized)
+            return;
+
+        // If `item` is `null`, ignore.
+        // Unregistering should be done with `UnregisterItem()`.
+        if (item == null)
+            return;
+
         if (hand == Hand.Left)
         {
             if (_leftItem != null)
             {
                 UnregisterItem(hand);
             }
+            Assert.IsNull(_leftItem);
+            TryRegisterItemObserver(item, hand);
         }
         else
         {
@@ -183,6 +212,62 @@ public class PlayerCharacterItemSystem : ItemSystem
             {
                 UnregisterItem(hand);
             }
+            Assert.IsNull(_rightItem);
+            TryRegisterItemObserver(item, hand);
+        }
+    }
+
+    public void UnregisterItem(Hand hand)
+    {
+        // If we are not the server, ignore the call.
+        if (!base.IsServerInitialized)
+            return;
+
+        if (hand == Hand.Left && _leftItem == null)
+            return;
+        if (hand == Hand.Right && _rightItem == null)
+            return;
+
+        UnregisterItemObserver(hand);
+    }
+
+    [ObserversRpc(RunLocally = true)]
+    void TryRegisterItemObserver(Item item, Hand hand)
+    {
+        Assert.IsNotNull(item);
+        if (hand == Hand.Left)
+        {
+            Assert.IsNull(_leftItem);
+            if (item.Register(new PlayerCharacterItemRegisterContext(this, Hand.Left)))
+            {
+                _leftItem = item;
+            }
+        }
+        else
+        {
+            Assert.IsNull(_rightItem);
+            if (item.Register(new PlayerCharacterItemRegisterContext(this, Hand.Right)))
+            {
+                _rightItem = item;
+            }
+        }
+    }
+
+
+    [ObserversRpc(RunLocally = true)]
+    void UnregisterItemObserver(Hand hand)
+    {
+        if (hand == Hand.Left)
+        {
+            Assert.IsNotNull(_leftItem);
+            _leftItem.Unregister();
+            _leftItem = null;
+        }
+        else
+        {
+            Assert.IsNotNull(_rightItem);
+            _rightItem.Unregister();
+            _rightItem = null;
         }
     }
 }

@@ -114,7 +114,7 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 65535
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 1112323785157820964
+  <AssetPathHash>k__BackingField: 15089325080912631182
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
@@ -151,5 +151,5 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 5775611516591345574}
   _networkObjectCache: {fileID: 0}
-  Light2D: {fileID: 7444399322330694834}
   BulletImpactDuration: 1
+  Light2D: {fileID: 7444399322330694834}
