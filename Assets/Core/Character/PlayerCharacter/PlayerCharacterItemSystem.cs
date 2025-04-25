@@ -199,7 +199,7 @@ public class PlayerCharacterItemSystem : ItemSystem
     }
 
     // Attempt to register `item` to `hand`, and sync it to all other clients.
-    // If hand is already occupied, unregisteres the registered item.
+    // If hand is already occupied, unregisters the registered item.
     [Server]
     public void TryRegisterItem(Item item, Hand hand)
     {
@@ -235,7 +235,14 @@ public class PlayerCharacterItemSystem : ItemSystem
     }
 
     // Attempt to register `item` to `hand` on observers.
-    // `TryRregisterItem()` does hand-empty-checking, but it's still OK to call it with non-empty hands.
+    // If `item == null`, unregisters any item on `hand` instead.
+    // We do this instead of having a separate RPC because
+    // only the last register/unregister call (which ever comes last)
+    // matters to newly joining observers, and `BufferLast = true`
+    // will ensure that.
+    // And as a side effect, register->unregister will count as a no-op to
+    // new observers, since `TryRegisterItemLocal()` is a no-op for
+    // empty hand unregistration.
     [ObserversRpc(RunLocally = true, BufferLast = true)]
     void TryRegisterItemObserver(Item item, Hand hand)
     {
@@ -243,15 +250,32 @@ public class PlayerCharacterItemSystem : ItemSystem
     }
 
     // Attempts to register `item` in `hand` locally.
+    // If `item == null`, unregisters any item on `hand` instead.
+    // Registering to a non-empty hand is forbidden (and shouldn't really happen).
+    // Unregistering a empty hand is OK (and might happen on newly joining observers).
     // This function doesn't sync anything: without consideration, `this` will remain desynced until the next valid call.
-    // `TryRregisterItem()` does hand-empty-checking, but it's still OK to call it with non-empty hands.
     void TryRegisterItemLocal(Item item, Hand hand)
     {
+        // `item == null` case. Attempt to unregister.
         if (item == null)
         {
-            Debug.Log("`TryRegisterItemLocal()` was called with a `item == null`, which is really strange.");
+            if (hand == Hand.Left)
+            {
+                if (_leftItem == null)
+                    return;
+                _leftItem.Unregister();
+                _leftItem = null;
+            }
+            else
+            {
+                if (_rightItem == null)
+                    return;
+                _rightItem.Unregister();
+                _rightItem = null;
+            }
             return;
         }
+        // `item != null` case. Attempt to register.
         if (hand == Hand.Left)
         {
             Assert.IsNull(_leftItem);
@@ -280,7 +304,8 @@ public class PlayerCharacterItemSystem : ItemSystem
             if (_leftItem != null)
             {
                 var oldLeft = _leftItem;
-                UnregisterItemObserver(hand);
+                // Call with `item == null` to unregister `hand`.
+                TryRegisterItemObserver(null, hand);
                 oldLeft.RemoveOwnership();
             }
             return;
@@ -291,42 +316,11 @@ public class PlayerCharacterItemSystem : ItemSystem
             if (_rightItem != null)
             {
                 var oldRight = _rightItem;
-                UnregisterItemObserver(hand);
+                // Call with `item == null` to unregister `hand`.
+                TryRegisterItemObserver(null, hand);
                 oldRight.RemoveOwnership();
             }
             return;
-        }
-    }
-
-    // Attempt to unregister any items in `hand` on observers.
-    // `UnregisterItem()` does hand-not-empty-checking, but it's still OK to call it with empty hands.
-    // Since `BufferLast = true`, on newly joining observers, this might be called without a registered item,
-    // when the previous `TryRegisterItemObserver()` call was overwritten by a more recent one.
-    // Thus, it is *essential* that this function is OK to call with empty hands.
-    [ObserversRpc(RunLocally = true, BufferLast = true)]
-    void UnregisterItemObserver(Hand hand)
-    {
-        UnregisterItemLocal(hand);
-    }
-
-    // Attempt to unregister any items in `hand` locally.
-    // This function doesn't sync anything: without consideration, `this` will remain desynced until the next valid call.
-    // `UnregisterItem()` does hand-not-empty-checking, but it's still OK to call it with empty hands.
-    void UnregisterItemLocal(Hand hand)
-    {
-        if (hand == Hand.Left)
-        {
-            if (_leftItem == null)
-                return;
-            _leftItem.Unregister();
-            _leftItem = null;
-        }
-        else
-        {
-            if (_rightItem == null)
-                return;
-            _rightItem.Unregister();
-            _rightItem = null;
         }
     }
 }
