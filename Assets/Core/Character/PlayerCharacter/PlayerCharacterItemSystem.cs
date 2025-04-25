@@ -162,8 +162,8 @@ public class PlayerCharacterItemSystem : ItemSystem
     {
         if (_isSubscribedToInputActions)
         {
-            _itemPrimaryActionRef.action.performed += OnItemPrimary;
-            _itemSecondaryActionRef.action.performed += OnItemSecondary;
+            _itemPrimaryActionRef.action.performed -= OnItemPrimary;
+            _itemSecondaryActionRef.action.performed -= OnItemSecondary;
             _isSubscribedToInputActions = false;
         }
     }
