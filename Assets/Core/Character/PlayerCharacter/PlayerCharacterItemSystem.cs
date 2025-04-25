@@ -121,6 +121,13 @@ public class PlayerCharacterItemSystem : ItemSystem
         }
     }
 
+    public override void OnStopServer()
+    {
+        // Unregister all items.
+        UnregisterItem(Hand.Left);
+        UnregisterItem(Hand.Right);
+    }
+
     public override void OnStopClient()
     {
         UnsubscribeFromAction();
@@ -140,9 +147,6 @@ public class PlayerCharacterItemSystem : ItemSystem
     {
         // We don't check for ownership here, since calling `UnsubscribeFromAction()` when we are not subscribed shouldn't cause any problems.
         UnsubscribeFromAction();
-        // And unregister all items.
-        UnregisterItem(Hand.Left);
-        UnregisterItem(Hand.Right);
     }
 
     void SubscribeToAction()
