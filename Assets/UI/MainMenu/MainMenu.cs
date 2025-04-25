@@ -1,12 +1,9 @@
 using System;
-using System.Collections;
 using FishNet;
-using FishNet.Connection;
 using FishNet.Managing.Scened;
 using FishNet.Transporting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class MainMenu : MonoBehaviour

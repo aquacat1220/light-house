@@ -2,7 +2,6 @@ using System;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class HealthSystem : NetworkBehaviour
 {

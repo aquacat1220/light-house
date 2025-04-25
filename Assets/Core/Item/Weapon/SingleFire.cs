@@ -1,9 +1,6 @@
 using System;
-using FishNet.Connection;
 using FishNet.Object;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.InputSystem;
 
 public class SingleFire : NetworkBehaviour
 {

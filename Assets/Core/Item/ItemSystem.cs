@@ -1,5 +1,4 @@
 using FishNet.Object;
-using UnityEngine;
 
 // Child classes of `ItemSystem` should define their own `ItemRegisterContext` variant too.
 // See `./Assets/Characters/PlayerCharacter/PlayerCharacterItemSystem.cs` for example.
