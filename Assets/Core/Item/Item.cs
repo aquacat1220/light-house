@@ -29,11 +29,6 @@ public class Item : NetworkBehaviour
         }
     }
 
-    public override void OnStartClient()
-    {
-        Debug.Log("Item client start.");
-    }
-
     // This function shouldn't be called directly: the `ItemSystem`'s matching function should be called instead.
     // Registering might fail, and return `false`.
     // This function is not synced, and should be called on all instances (including the server) to ensure synchronization.

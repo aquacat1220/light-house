@@ -73,28 +73,51 @@ public class PlayerCharacterItemSystem : ItemSystem
 
     public override void OnStartServer()
     {
-        // If initial items are indeed `Item`s, spawn them and register to them.
+        // If initial items are indeed `Item`s, spawn them here so they will be initialized.
         if (_initLeftItem != null && _initLeftItem.GetComponent<Item>() != null)
         {
-            var initLeftItem = Instantiate(_initLeftItem);
-            base.Spawn(initLeftItem);
-            TryRegisterItem(initLeftItem.GetComponent<Item>(), Hand.Left);
+            _initLeftItem = Instantiate(_initLeftItem);
+            base.Spawn(_initLeftItem);
+
         }
         if (_initRightItem != null && _initRightItem.GetComponent<Item>() != null)
         {
-            var initRightItem = Instantiate(_initRightItem);
-            base.Spawn(initRightItem);
-            TryRegisterItem(initRightItem.GetComponent<Item>(), Hand.Right);
+            _initRightItem = Instantiate(_initRightItem);
+            base.Spawn(_initRightItem);
         }
+        // If we are a dedicated server, register to items here.
+        if (base.IsServerOnlyStarted)
+            RegisterInit();
     }
 
     public override void OnStartClient()
     {
-        Debug.Log("Itemsystem client start.");
+        // If we are a host, init here.
+        if (base.IsServerStarted)
+            RegisterInit();
         if (base.IsOwner)
         {
             // We are the owner of this character. Subscribe events to the input actions.
             SubscribeToAction();
+        }
+    }
+
+    // `RegisterInit()` calls a `RunLocally = true` observer RPC.
+    // This can get problematic if we are calling it on a host before client init,
+    // since it will immediately run locally.
+    [Server]
+    void RegisterInit()
+    {
+        // If initial items are indeed `Item`s, spawn them and register to them.
+        if (_initLeftItem != null && _initLeftItem.GetComponent<Item>() != null)
+        {
+            TryRegisterItem(_initLeftItem.GetComponent<Item>(), Hand.Left);
+            _initLeftItem = null;
+        }
+        if (_initRightItem != null && _initRightItem.GetComponent<Item>() != null)
+        {
+            TryRegisterItem(_initRightItem.GetComponent<Item>(), Hand.Right);
+            _initRightItem = null;
         }
     }
 
