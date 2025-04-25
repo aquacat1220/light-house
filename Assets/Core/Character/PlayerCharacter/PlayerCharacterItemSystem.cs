@@ -32,6 +32,12 @@ public class PlayerCharacterItemSystem : ItemSystem
     [SerializeField]
     InputActionReference _itemSecondaryActionRef;
 
+    // Initial items to equip to each hand.
+    [SerializeField]
+    GameObject _initLeftItem = null;
+    [SerializeField]
+    GameObject _initRightItem = null;
+
     // References to anchors to attach the items.
     public Transform LeftItemAnchor;
     public Transform RightItemAnchor;
@@ -48,9 +54,7 @@ public class PlayerCharacterItemSystem : ItemSystem
     Hand _activeHand = Hand.Right;
 
     // Items equipped to each hands.
-    [SerializeField]
     Item _leftItem = null;
-    [SerializeField]
     Item _rightItem = null;
 
     public void Awake()
@@ -67,28 +71,26 @@ public class PlayerCharacterItemSystem : ItemSystem
         }
     }
 
-
     public override void OnStartServer()
     {
-        // `RegisterInit()` should be called only after `Item`s have been fully initialized.
-        // With initialization ordering, we can guarantee that they are initializing first.
-        // So calling `RegisterInit()` only after we have initialized is enough.
-        if (!base.IsClientStarted || base.IsClientInitialized)
+        // If initial items are indeed `Item`s, spawn them and register to them.
+        if (_initLeftItem != null && _initLeftItem.GetComponent<Item>() != null)
         {
-            RegisterInit();
+            var initLeftItem = Instantiate(_initLeftItem);
+            base.Spawn(initLeftItem);
+            TryRegisterItem(initLeftItem.GetComponent<Item>(), Hand.Left);
+        }
+        if (_initRightItem != null && _initRightItem.GetComponent<Item>() != null)
+        {
+            var initRightItem = Instantiate(_initRightItem);
+            base.Spawn(initRightItem);
+            TryRegisterItem(initRightItem.GetComponent<Item>(), Hand.Right);
         }
     }
 
     public override void OnStartClient()
     {
-        // `RegisterInit()` should be called only after `Item`s have been fully initialized.
-        // With initialization ordering, we can guarantee that they are initializing first.
-        // So calling `RegisterInit()` only after we have initialized is enough.
-        if (!base.IsServerStarted || base.IsServerInitialized)
-        {
-            RegisterInit();
-        }
-
+        Debug.Log("Itemsystem client start.");
         if (base.IsOwner)
         {
             // We are the owner of this character. Subscribe events to the input actions.
@@ -115,6 +117,9 @@ public class PlayerCharacterItemSystem : ItemSystem
     {
         // We don't check for ownership here, since calling `UnsubscribeFromAction()` when we are not subscribed shouldn't cause any problems.
         UnsubscribeFromAction();
+        // And unregister all items.
+        UnregisterItem(Hand.Left);
+        UnregisterItem(Hand.Right);
     }
 
     void SubscribeToAction()
@@ -138,6 +143,7 @@ public class PlayerCharacterItemSystem : ItemSystem
     }
 
     // Propagates item-inputs down the correct item, based on the active hand.
+    [Client(RequireOwnership = true)]
     void OnItemPrimary(InputAction.CallbackContext context)
     {
         switch (_activeHand)
@@ -152,6 +158,7 @@ public class PlayerCharacterItemSystem : ItemSystem
     }
 
     // Propagates item-inputs down the correct item, based on the active hand.
+    [Client(RequireOwnership = true)]
     void OnItemSecondary(InputAction.CallbackContext context)
     {
         switch (_activeHand)
@@ -165,27 +172,9 @@ public class PlayerCharacterItemSystem : ItemSystem
         }
     }
 
-    // Makes sure initial values of `_leftItem` and `_rightItem` are registered.
-    // `Item.Register()` requires all network-related stuff to be initialized.
-    // Calls to this function should check carefully.
-    void RegisterInit()
-    {
-        if (_leftItem != null)
-        {
-            if (!_leftItem.Register(new PlayerCharacterItemRegisterContext(this, Hand.Left)))
-            {
-                _leftItem = null;
-            }
-        }
-        if (_rightItem != null)
-        {
-            if (!_rightItem.Register(new PlayerCharacterItemRegisterContext(this, Hand.Right)))
-            {
-                _rightItem = null;
-            }
-        }
-    }
-
+    // Attempt to register `item` to `hand`, and sync it to all other clients.
+    // If hand is already occupied, unregisteres the registered item.
+    [Server]
     public void TryRegisterItem(Item item, Hand hand)
     {
         // If we are not the server, ignore the call.
@@ -199,73 +188,117 @@ public class PlayerCharacterItemSystem : ItemSystem
 
         if (hand == Hand.Left)
         {
-            if (_leftItem != null)
-            {
-                UnregisterItem(hand);
-            }
+            UnregisterItem(hand);
             Assert.IsNull(_leftItem);
+            // Give ownership first, so that the owner will receive ownership before attempting register.
+            item.GiveOwnership(base.Owner);
             TryRegisterItemObserver(item, hand);
+            if (_leftItem == null)
+                item.RemoveOwnership();
         }
         else
         {
-            if (_rightItem != null)
-            {
-                UnregisterItem(hand);
-            }
+            UnregisterItem(hand);
             Assert.IsNull(_rightItem);
+            // Give ownership first, so that the owner will receive ownership before attempting register.
+            item.GiveOwnership(base.Owner);
             TryRegisterItemObserver(item, hand);
+            if (_rightItem == null)
+                item.RemoveOwnership();
         }
     }
 
+    // Attempt to register `item` to `hand` on observers.
+    // `TryRregisterItem()` does hand-empty-checking, but it's still OK to call it with non-empty hands.
+    [ObserversRpc(RunLocally = true, BufferLast = true)]
+    void TryRegisterItemObserver(Item item, Hand hand)
+    {
+        TryRegisterItemLocal(item, hand);
+    }
+
+    // Attempts to register `item` in `hand` locally.
+    // This function doesn't sync anything: without consideration, `this` will remain desynced until the next valid call.
+    // `TryRregisterItem()` does hand-empty-checking, but it's still OK to call it with non-empty hands.
+    void TryRegisterItemLocal(Item item, Hand hand)
+    {
+        if (item == null)
+        {
+            Debug.Log("`TryRegisterItemLocal()` was called with a `item == null`, which is really strange.");
+            return;
+        }
+        if (hand == Hand.Left)
+        {
+            Assert.IsNull(_leftItem);
+            if (item.Register(new PlayerCharacterItemRegisterContext(this, Hand.Left)))
+                _leftItem = item;
+        }
+        else
+        {
+            Assert.IsNull(_rightItem);
+            if (item.Register(new PlayerCharacterItemRegisterContext(this, Hand.Right)))
+                _rightItem = item;
+        }
+    }
+
+    // Attempt to unregister any items in `hand`, and sync it to all other clients.
+    // If hand is already empty, doesn't send RPCs to the clients. (We assume all clients are already properly synced.)
+    [Server]
     public void UnregisterItem(Hand hand)
     {
         // If we are not the server, ignore the call.
         if (!base.IsServerInitialized)
             return;
 
-        if (hand == Hand.Left && _leftItem == null)
-            return;
-        if (hand == Hand.Right && _rightItem == null)
-            return;
-
-        UnregisterItemObserver(hand);
-    }
-
-    [ObserversRpc(RunLocally = true)]
-    void TryRegisterItemObserver(Item item, Hand hand)
-    {
-        Assert.IsNotNull(item);
         if (hand == Hand.Left)
         {
-            Assert.IsNull(_leftItem);
-            if (item.Register(new PlayerCharacterItemRegisterContext(this, Hand.Left)))
+            if (_leftItem != null)
             {
-                _leftItem = item;
+                var oldLeft = _leftItem;
+                UnregisterItemObserver(hand);
+                oldLeft.RemoveOwnership();
             }
+            return;
         }
-        else
+
+        if (hand == Hand.Right)
         {
-            Assert.IsNull(_rightItem);
-            if (item.Register(new PlayerCharacterItemRegisterContext(this, Hand.Right)))
+            if (_rightItem != null)
             {
-                _rightItem = item;
+                var oldRight = _rightItem;
+                UnregisterItemObserver(hand);
+                oldRight.RemoveOwnership();
             }
+            return;
         }
     }
 
-
-    [ObserversRpc(RunLocally = true)]
+    // Attempt to unregister any items in `hand` on observers.
+    // `UnregisterItem()` does hand-not-empty-checking, but it's still OK to call it with empty hands.
+    // Since `BufferLast = true`, on newly joining observers, this might be called without a registered item,
+    // when the previous `TryRegisterItemObserver()` call was overwritten by a more recent one.
+    // Thus, it is *essential* that this function is OK to call with empty hands.
+    [ObserversRpc(RunLocally = true, BufferLast = true)]
     void UnregisterItemObserver(Hand hand)
     {
+        UnregisterItemLocal(hand);
+    }
+
+    // Attempt to unregister any items in `hand` locally.
+    // This function doesn't sync anything: without consideration, `this` will remain desynced until the next valid call.
+    // `UnregisterItem()` does hand-not-empty-checking, but it's still OK to call it with empty hands.
+    void UnregisterItemLocal(Hand hand)
+    {
         if (hand == Hand.Left)
         {
-            Assert.IsNotNull(_leftItem);
+            if (_leftItem == null)
+                return;
             _leftItem.Unregister();
             _leftItem = null;
         }
         else
         {
-            Assert.IsNotNull(_rightItem);
+            if (_rightItem == null)
+                return;
             _rightItem.Unregister();
             _rightItem = null;
         }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using FishNet.Object;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -37,8 +38,20 @@ public class Pistol : NetworkBehaviour
             Debug.Log("`_muzzleFlash` wasn't set.");
             throw new Exception();
         }
+        StartCoroutine(ReduceMuzzleFlash());
     }
 
+    IEnumerator ReduceMuzzleFlash()
+    {
+        while (true)
+        {
+            _muzzleFlash.intensity -= 0.1f;
+            yield return null;
+        }
+    }
+
+    // This function is not synced, and should be called on all observers.
+    // Item systems should take care of that.
     bool Register(ItemRegisterContext registerContext)
     {
         if (registerContext is PlayerCharacterItemRegisterContext playerCharacterItemRegisterContext)
@@ -51,6 +64,8 @@ public class Pistol : NetworkBehaviour
             }
             else
             {
+                transform.position = Vector3.zero;
+                transform.rotation = Quaternion.identity;
                 transform.SetParent(itemSystem.RightItemAnchor, false);
             }
             if (base.IsServerInitialized)
@@ -62,10 +77,12 @@ public class Pistol : NetworkBehaviour
                 if (hand == Hand.Left)
                 {
                     itemSystem.LeftItemPrimary += OnPrimary;
+                    itemSystem.LeftItemSecondary += OnSecondary;
                 }
                 else
                 {
                     itemSystem.RightItemPrimary += OnPrimary;
+                    itemSystem.RightItemSecondary += OnSecondary;
                 }
             }
             _itemSystem = itemSystem;
@@ -76,6 +93,8 @@ public class Pistol : NetworkBehaviour
         return false;
     }
 
+    // This function is not synced, and should be called on all observers.
+    // Item systems should take care of that.
     void Unregister()
     {
         Assert.IsNotNull(_itemSystem);
@@ -91,10 +110,12 @@ public class Pistol : NetworkBehaviour
                 if (_hand == Hand.Left)
                 {
                     itemSystem.LeftItemPrimary -= OnPrimary;
+                    itemSystem.LeftItemSecondary -= OnSecondary;
                 }
                 else
                 {
                     itemSystem.RightItemPrimary -= OnPrimary;
+                    itemSystem.RightItemSecondary -= OnSecondary;
                 }
             }
             _itemSystem = null;
@@ -105,15 +126,39 @@ public class Pistol : NetworkBehaviour
         throw new Exception();
     }
 
+    [Client(RequireOwnership = true)]
     void OnPrimary()
     {
         _singleFire.TryFireClient();
     }
 
+    [Client(RequireOwnership = true)]
+    void OnSecondary()
+    {
+        UnregisterServer();
+    }
+
+    [ServerRpc]
+    void UnregisterServer()
+    {
+        if (_itemSystem is PlayerCharacterItemSystem itemSystem)
+        {
+            itemSystem.UnregisterItem(_hand);
+        }
+    }
+
+    [Server]
     void Fire()
     {
         // Due to `SingleFire` implementations, this function gets called only on the server.
         // It's our responsibility to sync the firing logic back to clients and observers.
+        FireObserver();
+    }
+
+    [ObserversRpc(RunLocally = true)]
+    void FireObserver()
+    {
+        _muzzleFlash.intensity = 1.0f;
         Debug.Log("Fired");
     }
 

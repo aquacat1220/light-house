@@ -3,6 +3,7 @@ using System.Collections;
 using FishNet.Object;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerCharacterDeath : NetworkBehaviour
 {
@@ -26,6 +27,9 @@ public class PlayerCharacterDeath : NetworkBehaviour
     [SerializeField]
     float _timeToDespawn = 15.0f;
 
+    [SerializeField]
+    InputActionReference _deathAction;
+
     public void Awake()
     {
         if (_timeToDespawn < _timeToRespawn)
@@ -39,16 +43,21 @@ public class PlayerCharacterDeath : NetworkBehaviour
         }
         _healthSystem.HealthZero += OnHealthZero;
         // StartCoroutine(KillSelf());
+
     }
 
-    IEnumerator KillSelf()
+    public override void OnStartClient()
     {
-        var health = GetComponent<HealthSystem>();
-        while (true)
+        if (_deathAction != null && base.IsOwner)
         {
-            health.ApplyDamage(0.1f);
-            yield return null;
+            _deathAction.action.performed += (_) => KillSelf();
         }
+    }
+
+    [ServerRpc]
+    void KillSelf()
+    {
+        _healthSystem.ApplyDamage(100000f);
     }
 
     public void OnHealthZero()

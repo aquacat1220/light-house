@@ -85,7 +85,7 @@ MonoBehaviour:
   _isNetworked: 1
   _isSpawnable: 1
   _isGlobal: 0
-  _initializeOrder: 0
+  _initializeOrder: -1
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
 --- !u!114 &8527589251339426411
@@ -153,7 +153,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 2566409721090996822, guid: a05b8bdaad09aaae8838bc5654bcd0a3, type: 3}
   _networkObjectCache: {fileID: 2566409721090996822, guid: a05b8bdaad09aaae8838bc5654bcd0a3, type: 3}
   _owner_material: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
-  _nonowner_material: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  _nonowner_material: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   _sprite_renderers:
   - {fileID: 6218279845526275641}
   - {fileID: 5680626956205033746}
@@ -214,7 +214,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -301,7 +301,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -389,7 +389,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

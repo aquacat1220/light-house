@@ -21,16 +21,18 @@ public class HealthSystem : NetworkBehaviour
         _health.OnChange += OnHealthChange;
     }
 
+    [Server]
     public void ApplyDamage(float damage)
     {
-        if (!base.IsServerStarted)
+        if (!base.IsServerInitialized)
             return;
         _health.Value = Mathf.Clamp(_health.Value - damage, 0, MaxHealth);
     }
 
+    [Server]
     public void ApplyRepair(float repair)
     {
-        if (!base.IsServerStarted)
+        if (!base.IsServerInitialized)
             return;
         _health.Value = Mathf.Clamp(_health.Value + repair, 0, MaxHealth);
     }

@@ -26,6 +26,7 @@ public class SingleFire : NetworkBehaviour
     }
 
     // Registers the `fire` delegate to be triggered on firing.
+    [Server]
     public void Register(Action fire)
     {
         if (!base.IsServerInitialized)
@@ -39,12 +40,14 @@ public class SingleFire : NetworkBehaviour
         _fire = fire;
     }
 
+    [Server]
     public void Unregister()
     {
         _fire = null;
         _remainingDelay = 0f;
     }
 
+    [Client(RequireOwnership = true)]
     public void TryFireClient()
     {
         if (!base.IsOwner)

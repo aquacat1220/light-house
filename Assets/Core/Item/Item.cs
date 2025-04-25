@@ -29,24 +29,23 @@ public class Item : NetworkBehaviour
         }
     }
 
+    public override void OnStartClient()
+    {
+        Debug.Log("Item client start.");
+    }
+
     // This function shouldn't be called directly: the `ItemSystem`'s matching function should be called instead.
     // Registering might fail, and return `false`.
+    // This function is not synced, and should be called on all instances (including the server) to ensure synchronization.
     public bool Register(ItemRegisterContext registerContext)
     {
-        // If registering to a `PlayerCharacterItemSystem`, it is likely that ownership will matter.
-        // Thus give ownership to `PlayerCharacterItemSystem`'s owner before calling on `RegisterImpl`.
-        // Though nonexistent yet, other item systems might need this ownership transfer too.
         if (registerContext is PlayerCharacterItemRegisterContext playerCharacterItemRegisterContext)
         {
-            if (base.IsServerInitialized)
-                base.GiveOwnership(playerCharacterItemRegisterContext.ItemSystem.Owner);
             if (RegisterImpl.Invoke(registerContext))
             {
                 _itemSystem = playerCharacterItemRegisterContext.ItemSystem;
                 return true;
             }
-            if (base.IsServerInitialized)
-                base.RemoveOwnership();
             return false;
         }
 
@@ -62,9 +61,6 @@ public class Item : NetworkBehaviour
         {
             _itemSystem = null;
             UnregisterImpl.Invoke();
-            if (base.IsServerInitialized)
-                base.RemoveOwnership();
-
             return;
         }
 
