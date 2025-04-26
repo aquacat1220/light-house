@@ -302,6 +302,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
   _healthSystem: {fileID: 6998489626671369190}
+  _itemSystem: {fileID: 7058987481657596826}
   _componentsToDisable:
   - {fileID: 3324938354885705573}
   - {fileID: 7058987481657596826}

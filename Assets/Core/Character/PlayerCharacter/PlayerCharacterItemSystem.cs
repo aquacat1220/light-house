@@ -120,12 +120,12 @@ public class PlayerCharacterItemSystem : ItemSystem
         }
     }
 
-    public override void OnStopServer()
-    {
-        // Unregister all items.
-        UnregisterItem(Hand.Left);
-        UnregisterItem(Hand.Right);
-    }
+    // public override void OnStopServer()
+    // {
+    //     // Unregister all items.
+    //     UnregisterItem(Hand.Left);
+    //     UnregisterItem(Hand.Right);
+    // }
 
     public override void OnStopClient()
     {

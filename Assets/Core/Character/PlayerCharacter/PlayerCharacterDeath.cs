@@ -9,6 +9,9 @@ public class PlayerCharacterDeath : NetworkBehaviour
     [SerializeField]
     HealthSystem _healthSystem;
 
+    [SerializeField]
+    PlayerCharacterItemSystem _itemSystem;
+
     // Array fo components to disable on death.
     [SerializeField]
     MonoBehaviour[] _componentsToDisable;
@@ -40,6 +43,11 @@ public class PlayerCharacterDeath : NetworkBehaviour
             Debug.Log("`_healthSystem` wasn't set.");
             throw new Exception();
         }
+        if (_itemSystem == null)
+        {
+            Debug.Log("`_itemSystem` wasn't set.");
+            throw new Exception();
+        }
         _healthSystem.HealthZero += OnHealthZero;
         // StartCoroutine(KillSelf());
 
@@ -64,7 +72,7 @@ public class PlayerCharacterDeath : NetworkBehaviour
         Die();
     }
 
-    [ObserversRpc]
+    [ObserversRpc(RunLocally = true)]
     public void Die()
     {
         // Disable all components that should be disabled. (Usually input-related.)
@@ -79,6 +87,8 @@ public class PlayerCharacterDeath : NetworkBehaviour
         // And if we are the server, initiate the after-death sequence, which respawns the character.
         if (base.IsServerInitialized)
         {
+            _itemSystem.UnregisterItem(Hand.Left);
+            _itemSystem.UnregisterItem(Hand.Right);
             StartCoroutine(AfterDeath());
         }
     }
