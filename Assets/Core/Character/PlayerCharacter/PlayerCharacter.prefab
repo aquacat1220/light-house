@@ -85,6 +85,10 @@ PrefabInstance:
       value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: _preventDespawnOnDisconnect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: NetworkBehaviours.Array.size
       value: 7
       objectReference: {fileID: 0}
@@ -126,7 +130,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: InitializedNestedNetworkObjects.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8779856770378147711, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: GlobalObjectIdHash
@@ -304,7 +308,7 @@ MonoBehaviour:
   _spriteRenderer: {fileID: 2101235380917101776}
   _colorOnDeath: {r: 1, g: 0, b: 0, a: 1}
   _timeToRespawn: 3
-  _timeToDespawn: 30
+  _timeToDespawn: 10
   _deathAction: {fileID: 1877407374027400678, guid: 1ae1c31adc91d9b0f8683fa6411ab6d6, type: 3}
 --- !u!114 &6998489626671369190 stripped
 MonoBehaviour:

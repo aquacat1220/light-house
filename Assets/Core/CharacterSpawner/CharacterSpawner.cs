@@ -21,8 +21,10 @@ public class CharacterSpawner : NetworkBehaviour
     bool _isSubscribedToClientConnected = false;
     bool _isSubscribedToConnEvent = false;
 
-    // Dictionaty mapping connected clients to a bool representing if they have a character spawned for them.
-    Dictionary<NetworkConnection, bool> _clients = new();
+    // Dictionary mapping connected clients to a `(wasSpawned, spawnedCharacter)` tuple.
+    // `wasSpawned` is `true` if this class has ever spawned a character for the connection.
+    // `spawnedCharacter` holds a reference to the latest spawned character, which can be `null` if it was somehow destroyed.
+    Dictionary<NetworkConnection, (bool, GameObject)> _connectedClients = new();
     event Action<NetworkConnection> _onClientConnected;
 
     uint _nextSpawnPositionIndex = 0;
@@ -61,17 +63,8 @@ public class CharacterSpawner : NetworkBehaviour
         SubscribeToClientConnected();
         // And to the connection state change event to handle disconenctions.
         SubscribeToConnEvent();
-
-        // Then loop over all connected clients to spawn them characters.
-        foreach (var keyvalue in _clients)
-        {
-            var clientConnection = keyvalue.Key;
-            var hasCharacter = keyvalue.Value;
-            if (!hasCharacter)
-            {
-                TrySpawnCharacter(clientConnection);
-            }
-        }
+        // Then spawn characters for missed clients.
+        SpawnMissing();
     }
 
     // Unsubscribe from events after object deinitializes.
@@ -80,7 +73,7 @@ public class CharacterSpawner : NetworkBehaviour
         // Unsubscribe from events, and clear the internal dict.
         UnsubscribeFromClientConnected();
         UnsubscribeFromConnEvent();
-        _clients.Clear();
+        _connectedClients.Clear();
     }
 
     void OnEnable()
@@ -98,15 +91,20 @@ public class CharacterSpawner : NetworkBehaviour
         // And to the connection state change event to handle disconnections.
         // We should already be subscribed, since we don't subscribe on disable, but just to be sure.
         SubscribeToConnEvent();
+        // Then spawn characters for missed clients.
+        SpawnMissing();
+    }
 
-        // Then loop over all connected clients to spawn them characters.
-        foreach (var keyvalue in _clients)
+    void SpawnMissing()
+    {
+        // Loop over all connected clients to spawn characters for missed clients.
+        foreach (var keyvalue in _connectedClients)
         {
             var clientConnection = keyvalue.Key;
-            var hasCharacter = keyvalue.Value;
-            if (!hasCharacter)
+            var (wasSpawned, _) = keyvalue.Value;
+            if (!wasSpawned)
             {
-                TrySpawnCharacter(clientConnection);
+                SpawnFirstCharacter(clientConnection);
             }
         }
     }
@@ -122,7 +120,7 @@ public class CharacterSpawner : NetworkBehaviour
     {
         if (!_isSubscribedToClientConnected)
         {
-            _onClientConnected += TrySpawnCharacter;
+            _onClientConnected += SpawnFirstCharacter;
             _isSubscribedToClientConnected = true;
         }
     }
@@ -131,7 +129,7 @@ public class CharacterSpawner : NetworkBehaviour
     {
         if (_isSubscribedToClientConnected)
         {
-            _onClientConnected -= TrySpawnCharacter;
+            _onClientConnected -= SpawnFirstCharacter;
             _isSubscribedToClientConnected = false;
         }
     }
@@ -157,12 +155,12 @@ public class CharacterSpawner : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     void ConnectClient(NetworkConnection connectedClient = null)
     {
-        if (_clients.ContainsKey(connectedClient))
+        if (_connectedClients.ContainsKey(connectedClient))
         {
             Debug.Log("`CharacterSpawner` recognizes a client that is supposed to be connecting for the first time.");
             throw new Exception();
         }
-        _clients.Add(connectedClient, false);
+        _connectedClients.Add(connectedClient, (false, null));
         _onClientConnected?.Invoke(connectedClient);
     }
 
@@ -171,50 +169,59 @@ public class CharacterSpawner : NetworkBehaviour
         if (args.ConnectionState == RemoteConnectionState.Stopped)
         {
             // Connection has been stopped.
-            // Remove the conenction from `_clients`.
-            _clients.Remove(connection);
-            // We don't care if the connection wasn't in the dict, because `Remove()` will just return false if so.
+            // Kill the character of that client, and remove the conenction from `_clients`.
+            if (_connectedClients.ContainsKey(connection))
+            {
+                var (_, character) = _connectedClients[connection];
+                character.GetComponent<PlayerCharacterDeath>()?.Die();
+                _connectedClients.Remove(connection);
+            }
         }
     }
 
-    // Try spawning a character for `clientConnection` if we don't have one yet.
+    // Spawn the first ever character for `clientConnection`, and track it.
+    // If we ever spawned a character for it, skip.
     // This function calls into `SpawnCharacterUnchecked()` after doing some checks, which in turn actually spawns the character.
-    void TrySpawnCharacter(NetworkConnection clientConnection)
+    [Server]
+    void SpawnFirstCharacter(NetworkConnection clientConnection)
     {
         if (!base.IsServerInitialized)
         {
             // If we are not the server, spawning the character shouldn't be possible.
             // Since we bind this function only on the server, this shouldn't happen. But just to make sure...
-            Debug.Log("`TrySpawnCharacter` was called on non-server.");
             return;
         }
 
-        if (!_clients.ContainsKey(clientConnection))
+        if (!_connectedClients.ContainsKey(clientConnection))
         {
-            Debug.Log("`TrySpawnCharacter` was called with a client that doesn't seem to be connected yet.");
+            Debug.Log("`SpawnFirstCharacter()` was called with a client that doesn't seem to be connected yet.");
             throw new Exception();
         }
-        if (_clients[clientConnection])
+        if (_connectedClients[clientConnection].Item1)
         {
-            // This client already has a character spawned by this instance.
+            // This is not the first time we are trying to spawn a character for this client.
             return;
         }
-        SpawnCharacterUnchecked(clientConnection);
+        SpawnCharacter(clientConnection);
     }
 
-    // Spawns a character for `clientConnection`, unchecked, untracked.
-    // This function doesn't check if we have a character for the client, nor keep track that we indeed spawned one for them.
-    // External calls to this function may be made to respawn characters: it's the caller's responsibility to make sure we don't have two characters for the same client.
-    // Should be only called on the server.
-    public void SpawnCharacterUnchecked(NetworkConnection clientConnection)
+    // Spawns a character for a connection, and tracks it.
+    // This might not be the first spawning attempt; we will still spawn a character and untrack the old one.
+    [Server]
+    public void SpawnCharacter(NetworkConnection clientConnection)
     {
         if (!base.IsServerInitialized)
-        {
             return;
+
+        if (!_connectedClients.ContainsKey(clientConnection))
+        {
+            Debug.Log("`SpawnCharacter()` was called with a client that doesn't seem to be connected yet.");
+            throw new Exception();
         }
+
         GameObject character = Instantiate(_characterPrefab, SelectSpawnPosition(clientConnection), Quaternion.identity);
         base.Spawn(character, clientConnection, gameObject.scene);
-        _clients[clientConnection] = true;
+        _connectedClients[clientConnection] = (true, character);
     }
 
     Vector3 SelectSpawnPosition(NetworkConnection clientConnection)

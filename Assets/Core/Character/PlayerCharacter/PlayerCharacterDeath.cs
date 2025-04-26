@@ -56,7 +56,7 @@ public class PlayerCharacterDeath : NetworkBehaviour
     [ServerRpc]
     void KillSelf()
     {
-        _healthSystem.ApplyDamage(100000f);
+        Die();
     }
 
     public void OnHealthZero()
@@ -65,7 +65,7 @@ public class PlayerCharacterDeath : NetworkBehaviour
     }
 
     [ObserversRpc]
-    void Die()
+    public void Die()
     {
         // Disable all components that should be disabled. (Usually input-related.)
         foreach (var component in _componentsToDisable)
@@ -95,7 +95,12 @@ public class PlayerCharacterDeath : NetworkBehaviour
             Debug.Log("`CharacterSpawner.Singleton` was null, implying we do not have a character spawner in this scene.");
             throw new Exception();
         }
-        CharacterSpawner.Singleton.SpawnCharacterUnchecked(base.Owner);
+        if (base.Owner.IsActive)
+        {
+            // The owner is still here!
+            // Respawn a character for them.
+            CharacterSpawner.Singleton.SpawnCharacter(base.Owner);
+        }
 
         // Then wait for another few seconds...
         yield return new WaitForSeconds(_timeToDespawn - _timeToRespawn);

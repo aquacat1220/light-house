@@ -64,20 +64,24 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 65535
+  <PrefabId>k__BackingField: 0
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 2243870966217712390
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    Scale: {x: 0, y: 0, z: 0}
-    IsValid: 0
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Scale: {x: 1, y: 1, z: 1}
+    IsValid: 1
   <IsNested>k__BackingField: 0
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours: []
+  NetworkBehaviours:
+  - {fileID: 8527589251339426411}
+  - {fileID: 9014869720238086350}
+  - {fileID: 7233348986480869644}
+  - {fileID: 8115713744422826728}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -86,7 +90,7 @@ MonoBehaviour:
   _isSpawnable: 1
   _isGlobal: 0
   _initializeOrder: -1
-  _preventDespawnOnDisconnect: 0
+  _preventDespawnOnDisconnect: 1
   _defaultDespawnType: 0
 --- !u!114 &8527589251339426411
 MonoBehaviour:
@@ -100,9 +104,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217e52093fce17da3ad435e2056b70f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 654499795761544664}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 654499795761544664}
 --- !u!114 &9014869720238086350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,9 +119,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36d15125aefe4378ea0578cdfd074dc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: 654499795761544664}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 654499795761544664}
   _firingDelay: 1
 --- !u!114 &7233348986480869644
 MonoBehaviour:
@@ -131,9 +135,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f239fce7f132c77f96886313b946e35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 654499795761544664}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 654499795761544664}
   _item: {fileID: 8527589251339426411}
   _singleFire: {fileID: 9014869720238086350}
   _muzzleFlash: {fileID: 8523223676239323984}
@@ -151,7 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _componentIndexCache: 3
   _addedNetworkObject: {fileID: 2566409721090996822, guid: a05b8bdaad09aaae8838bc5654bcd0a3, type: 3}
-  _networkObjectCache: {fileID: 2566409721090996822, guid: a05b8bdaad09aaae8838bc5654bcd0a3, type: 3}
+  _networkObjectCache: {fileID: 654499795761544664}
   _owner_material: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   _nonowner_material: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   _sprite_renderers:
