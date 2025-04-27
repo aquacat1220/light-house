@@ -58,7 +58,7 @@ public class PlayerCharacterItemSystem : ItemSystem
     Item _leftItem = null;
     Item _rightItem = null;
 
-    public void Awake()
+    void Awake()
     {
         if (_itemPrimaryActionRef == null)
         {

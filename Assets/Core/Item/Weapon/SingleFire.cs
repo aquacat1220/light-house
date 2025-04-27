@@ -12,7 +12,7 @@ public class SingleFire : NetworkBehaviour
 
     float _remainingDelay = 0f;
 
-    public void Update()
+    void Update()
     {
         // If `Fire` is null, this means either we are not the server, or no one registered.
         // Since timer countdown is only necessary on the server for registered components, we can return early.

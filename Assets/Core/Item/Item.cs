@@ -15,7 +15,7 @@ public class Item : NetworkBehaviour
     ItemSystem _itemSystem;
 
     // We do this check in `Start()`, because the handlers are expected to be set by the implementors in `Awake()`.
-    public void Start()
+    void Start()
     {
         if (RegisterImpl == null)
         {

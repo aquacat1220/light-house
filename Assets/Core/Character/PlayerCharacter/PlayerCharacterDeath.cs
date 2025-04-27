@@ -34,7 +34,7 @@ public class PlayerCharacterDeath : NetworkBehaviour
 
     bool _isSubscribedToInputAction = false;
 
-    public void Awake()
+    void Awake()
     {
         if (_timeToDespawn < _timeToRespawn)
         {

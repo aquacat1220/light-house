@@ -23,7 +23,7 @@ public class Pistol : NetworkBehaviour
     ItemSystem _itemSystem;
     Hand _hand;
 
-    public void Awake()
+    void Awake()
     {
         if (_item == null)
         {

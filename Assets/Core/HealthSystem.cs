@@ -22,7 +22,7 @@ public class HealthSystem : NetworkBehaviour
 
     readonly SyncVar<float> _health = new();
 
-    public void Awake()
+    void Awake()
     {
         _health.SetInitialValues(InitialHealth);
         _health.OnChange += OnHealthChange;
