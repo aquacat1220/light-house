@@ -13,6 +13,12 @@ public class Pistol : NetworkBehaviour
     SingleFire _singleFire;
     [SerializeField]
     Light2D _muzzleFlash;
+    [SerializeField]
+    Transform _muzzleTransform;
+    [SerializeField]
+    float _damage;
+    [SerializeField]
+    GameObject _bulletTrace;
 
     ItemSystem _itemSystem;
     Hand _hand;
@@ -39,13 +45,24 @@ public class Pistol : NetworkBehaviour
             throw new Exception();
         }
         StartCoroutine(ReduceMuzzleFlash());
+
+        if (_muzzleTransform == null)
+        {
+            Debug.Log("`_muzzleTransform` wasn't set.");
+            throw new Exception();
+        }
+        if (_bulletTrace == null)
+        {
+            Debug.Log("`_bulletTrace` wasn't set.");
+            throw new Exception();
+        }
     }
 
     IEnumerator ReduceMuzzleFlash()
     {
         while (true)
         {
-            _muzzleFlash.intensity -= 0.1f;
+            _muzzleFlash.intensity -= Mathf.Max(_muzzleFlash.intensity - 1f * Time.deltaTime, 0);
             yield return null;
         }
     }
@@ -150,6 +167,15 @@ public class Pistol : NetworkBehaviour
     [Server]
     void Fire()
     {
+        RaycastHit2D hit = Physics2D.Raycast(_muzzleTransform.position, _muzzleTransform.up);
+        if (hit)
+        {
+            HealthSystem healthSystem = hit.rigidbody?.GetComponent<HealthSystem>();
+            if (healthSystem != null)
+            {
+                healthSystem.ApplyDamage(_damage);
+            }
+        }
         // Due to `SingleFire` implementations, this function gets called only on the server.
         // It's our responsibility to sync the firing logic back to clients and observers.
         FireObserver();
@@ -158,6 +184,12 @@ public class Pistol : NetworkBehaviour
     [ObserversRpc(RunLocally = true)]
     void FireObserver()
     {
+        RaycastHit2D hit = Physics2D.Raycast(_muzzleTransform.position, _muzzleTransform.up);
+        if (hit)
+        {
+            var bulletTrace = Instantiate(_bulletTrace, _muzzleTransform.position, _muzzleTransform.rotation);
+            bulletTrace.GetComponent<BulletTrace>()?.SetEndPosition(hit.point);
+        }
         _muzzleFlash.intensity = 1.0f;
         Debug.Log("Fired");
     }
