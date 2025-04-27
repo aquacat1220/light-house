@@ -48,7 +48,7 @@ public class PlayerCharacterDeath : NetworkBehaviour
             Debug.Log("`_itemSystem` wasn't set.");
             throw new Exception();
         }
-        _healthSystem.HealthZero += OnHealthZero;
+        _healthSystem.HealthChange += OnHealthChange;
         // StartCoroutine(KillSelf());
 
     }
@@ -67,9 +67,14 @@ public class PlayerCharacterDeath : NetworkBehaviour
         Die();
     }
 
-    public void OnHealthZero()
+    void OnHealthChange(float prev, float next, bool asServer)
     {
-        Die();
+        if (next == 0f && asServer && base.IsServerInitialized)
+        {
+            // We are the server, and health is zero.
+            // Kill the character.
+            Die();
+        }
     }
 
     [ObserversRpc(RunLocally = true)]

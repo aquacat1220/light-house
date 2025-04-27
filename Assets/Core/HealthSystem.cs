@@ -10,7 +10,15 @@ public class HealthSystem : NetworkBehaviour
     [SerializeField]
     float InitialHealth = 100.0f;
 
-    public event Action HealthZero;
+    public event Action<float, float, bool> HealthChange;
+
+    public float Health
+    {
+        get
+        {
+            return _health.Value;
+        }
+    }
 
     readonly SyncVar<float> _health = new();
 
@@ -38,12 +46,6 @@ public class HealthSystem : NetworkBehaviour
 
     void OnHealthChange(float prev, float next, bool asServer)
     {
-        // Checking `base.IsServerInitialized` isn't enough, because 
-        // on client host scenarios, the callback will be invoked twice, once on client and once on server.
-        // Checking for `asServer` should be enough, but just in case...
-        if (next == 0f && asServer && base.IsServerInitialized)
-        {
-            HealthZero.Invoke();
-        }
+        HealthChange?.Invoke(prev, next, asServer);
     }
 }
