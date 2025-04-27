@@ -279,6 +279,7 @@ MonoBehaviour:
   _componentsToDisable:
   - {fileID: 3324938354885705573}
   - {fileID: 7058987481657596826}
+  - {fileID: -3249859740518625943}
   _spriteRenderer: {fileID: 2101235380917101776}
   _colorOnDeath: {r: 1, g: 0, b: 0, a: 1}
   _timeToRespawn: 3

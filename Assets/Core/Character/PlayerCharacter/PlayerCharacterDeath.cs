@@ -32,6 +32,8 @@ public class PlayerCharacterDeath : NetworkBehaviour
     [SerializeField]
     InputActionReference _deathAction;
 
+    bool _isSubscribedToInputAction = false;
+
     public void Awake()
     {
         if (_timeToDespawn < _timeToRespawn)
@@ -51,14 +53,61 @@ public class PlayerCharacterDeath : NetworkBehaviour
         _healthSystem.HealthChange += OnHealthChange;
         // StartCoroutine(KillSelf());
 
+        if (_deathAction == null)
+        {
+            Debug.Log("`_deathAction` wasn't set.");
+            throw new Exception();
+        }
     }
 
     public override void OnStartClient()
     {
-        if (_deathAction != null && base.IsOwner)
+        if (base.IsOwner)
         {
-            _deathAction.action.performed += (_) => KillSelf();
+            SubscribeToAction();
         }
+    }
+
+    public override void OnStopClient()
+    {
+        UnsubscribeFromAction();
+    }
+
+    void OnEnable()
+    {
+        if (base.IsOwner)
+        {
+            SubscribeToAction();
+        }
+    }
+
+    void OnDisable()
+    {
+        UnsubscribeFromAction();
+    }
+
+    void SubscribeToAction()
+    {
+        if (!_isSubscribedToInputAction)
+        {
+            _deathAction.action.performed += OnDeathAction;
+            _isSubscribedToInputAction = true;
+        }
+    }
+
+    void UnsubscribeFromAction()
+    {
+        if (_isSubscribedToInputAction)
+        {
+            _deathAction.action.performed -= OnDeathAction;
+            _isSubscribedToInputAction = false;
+        }
+    }
+
+    [Client(RequireOwnership = true)]
+    void OnDeathAction(InputAction.CallbackContext _)
+    {
+        KillSelf();
     }
 
     [ServerRpc]
