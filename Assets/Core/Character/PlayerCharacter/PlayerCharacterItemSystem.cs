@@ -38,8 +38,10 @@ public class PlayerCharacterItemSystem : ItemSystem
     GameObject _initRightItem = null;
 
     // References to anchors to attach the items.
-    public Transform LeftItemAnchor;
-    public Transform RightItemAnchor;
+    [field: SerializeField]
+    public Transform LeftItemAnchor { get; private set; }
+    [field: SerializeField]
+    public Transform RightItemAnchor { get; private set; }
 
     // Is the component subscribed to input actions?
     bool _isSubscribedToInputActions = false;

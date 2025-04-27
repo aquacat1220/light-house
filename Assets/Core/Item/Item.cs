@@ -8,8 +8,8 @@ using UnityEngine.Assertions;
 public class Item : NetworkBehaviour
 {
 
-    public Func<ItemRegisterContext, bool> RegisterImpl;
-    public Action UnregisterImpl;
+    public Func<ItemRegisterContext, bool> RegisterImpl { private get; set; }
+    public Action UnregisterImpl { private get; set; }
 
     // The currently registered itemsystem.
     ItemSystem _itemSystem;
