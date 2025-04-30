@@ -256,7 +256,7 @@ MonoBehaviour:
   _itemPrimaryActionRef: {fileID: -5478432744384483544, guid: 1ae1c31adc91d9b0f8683fa6411ab6d6, type: 3}
   _itemSecondaryActionRef: {fileID: -6364423960806095547, guid: 1ae1c31adc91d9b0f8683fa6411ab6d6, type: 3}
   _initLeftItem: {fileID: 0}
-  _initRightItem: {fileID: 1456809218363140749, guid: 47be1fb1f894fc3f9895f8ffa6fbb4b6, type: 3}
+  _initRightItem: {fileID: 948197007501555658, guid: 622bbe81359b5b0f5a863586b1669e48, type: 3}
   <LeftItemAnchor>k__BackingField: {fileID: 3864649624005245443}
   <RightItemAnchor>k__BackingField: {fileID: 8119588425305905567}
 --- !u!114 &-3249859740518625943

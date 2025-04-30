@@ -6,16 +6,18 @@ using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 
-public class Pistol : NetworkBehaviour
+public class AR : NetworkBehaviour
 {
     [SerializeField]
     Item _item;
     [SerializeField]
-    SingleFire _singleFire;
+    AutoFire _autoFire;
     [SerializeField]
     Light2D _muzzleFlash;
     [SerializeField]
     Transform _muzzleTransform;
+    [SerializeField]
+    Light2D _flashlight;
     [SerializeField]
     float _damage;
     [SerializeField]
@@ -34,7 +36,7 @@ public class Pistol : NetworkBehaviour
         _item.RegisterImpl = Register;
         _item.UnregisterImpl = Unregister;
 
-        if (_singleFire == null)
+        if (_autoFire == null)
         {
             Debug.Log("`_singleFire` wasn't set.");
             throw new Exception();
@@ -52,6 +54,13 @@ public class Pistol : NetworkBehaviour
             Debug.Log("`_muzzleTransform` wasn't set.");
             throw new Exception();
         }
+
+        if (_flashlight == null)
+        {
+            Debug.Log("`_flashlight` wasn't set.");
+            throw new Exception();
+        }
+
         if (_bulletTrace == null)
         {
             Debug.Log("`_bulletTrace` wasn't set.");
@@ -76,7 +85,7 @@ public class Pistol : NetworkBehaviour
         {
             var itemSystem = playerCharacterItemRegisterContext.ItemSystem;
             var hand = playerCharacterItemRegisterContext.Hand;
-            // Reset transform to zero, so the pistol will be located right at the anchor.
+            // Reset transform to zero, so the AR will be located right at the anchor.
             transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             transform.localScale = Vector3.one;
             if (hand == Hand.Left)
@@ -89,7 +98,7 @@ public class Pistol : NetworkBehaviour
             }
             if (base.IsServerInitialized)
             {
-                _singleFire.Register(Fire);
+                _autoFire.Register(Fire);
             }
             if (base.IsOwner)
             {
@@ -122,7 +131,7 @@ public class Pistol : NetworkBehaviour
             if (base.IsServerInitialized)
             {
                 SetUnregisterTransform(transform.parent.position, transform.parent.eulerAngles.z);
-                _singleFire.Unregister();
+                _autoFire.Unregister();
             }
             transform.SetParent(null, false);
             if (base.IsOwner)
@@ -158,20 +167,23 @@ public class Pistol : NetworkBehaviour
     [Client(RequireOwnership = true)]
     void OnPrimary(InputAction.CallbackContext context)
     {
-        // The callback gets called even when the action wasn't `performed`, but `started` or `canceled`.
-        // Only fire the pistol when `perfomed`.
-        if (!context.performed)
+        Debug.Log("DFDF AR primary.");
+        if (context.performed)
+        {
+            _autoFire.StartFireClient();
             return;
-        _singleFire.TryFireClient();
+        }
+        if (context.canceled)
+        {
+            _autoFire.StopFireClient();
+            return;
+        }
+
     }
 
     [Client(RequireOwnership = true)]
     void OnSecondary(InputAction.CallbackContext context)
     {
-        // The callback gets called even when the action wasn't `performed`, but `started` or `canceled`.
-        // Only fire the pistol when `perfomed`.
-        if (!context.performed)
-            return;
         UnregisterServer();
     }
 

@@ -46,10 +46,10 @@ public class PlayerCharacterItemSystem : ItemSystem
     // Is the component subscribed to input actions?
     bool _isSubscribedToInputActions = false;
 
-    public event Action LeftItemPrimary;
-    public event Action LeftItemSecondary;
-    public event Action RightItemPrimary;
-    public event Action RightItemSecondary;
+    public event Action<InputAction.CallbackContext> LeftItemPrimary;
+    public event Action<InputAction.CallbackContext> LeftItemSecondary;
+    public event Action<InputAction.CallbackContext> RightItemPrimary;
+    public event Action<InputAction.CallbackContext> RightItemSecondary;
 
     // The current active hand.
     Hand _activeHand = Hand.Right;
@@ -154,8 +154,12 @@ public class PlayerCharacterItemSystem : ItemSystem
     {
         if (!_isSubscribedToInputActions)
         {
+            _itemPrimaryActionRef.action.started += OnItemPrimary;
             _itemPrimaryActionRef.action.performed += OnItemPrimary;
+            _itemPrimaryActionRef.action.canceled += OnItemPrimary;
+            _itemSecondaryActionRef.action.started += OnItemSecondary;
             _itemSecondaryActionRef.action.performed += OnItemSecondary;
+            _itemSecondaryActionRef.action.canceled += OnItemSecondary;
             _isSubscribedToInputActions = true;
         }
     }
@@ -164,8 +168,12 @@ public class PlayerCharacterItemSystem : ItemSystem
     {
         if (_isSubscribedToInputActions)
         {
+            _itemPrimaryActionRef.action.started -= OnItemPrimary;
             _itemPrimaryActionRef.action.performed -= OnItemPrimary;
+            _itemPrimaryActionRef.action.canceled -= OnItemPrimary;
+            _itemSecondaryActionRef.action.started -= OnItemSecondary;
             _itemSecondaryActionRef.action.performed -= OnItemSecondary;
+            _itemSecondaryActionRef.action.canceled -= OnItemSecondary;
             _isSubscribedToInputActions = false;
         }
     }
@@ -177,10 +185,10 @@ public class PlayerCharacterItemSystem : ItemSystem
         switch (_activeHand)
         {
             case Hand.Left:
-                LeftItemPrimary?.Invoke();
+                LeftItemPrimary?.Invoke(context);
                 break;
             case Hand.Right:
-                RightItemPrimary?.Invoke();
+                RightItemPrimary?.Invoke(context);
                 break;
         }
     }
@@ -192,10 +200,10 @@ public class PlayerCharacterItemSystem : ItemSystem
         switch (_activeHand)
         {
             case Hand.Left:
-                LeftItemSecondary?.Invoke();
+                LeftItemSecondary?.Invoke(context);
                 break;
             case Hand.Right:
-                RightItemSecondary?.Invoke();
+                RightItemSecondary?.Invoke(context);
                 break;
         }
     }
