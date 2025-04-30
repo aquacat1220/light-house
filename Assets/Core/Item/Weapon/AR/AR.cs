@@ -23,6 +23,10 @@ public class AR : NetworkBehaviour
     [SerializeField]
     GameObject _bulletTrace;
 
+    float _muzzleFlashPerFire = 0.6f;
+    float _muzzleFlashMax = 3.0f;
+    float _muzzleFlashDecay = 2.0f;
+
     ItemSystem _itemSystem;
     Hand _hand;
 
@@ -72,7 +76,7 @@ public class AR : NetworkBehaviour
     {
         while (true)
         {
-            _muzzleFlash.intensity = Mathf.Max(_muzzleFlash.intensity - 1f * Time.deltaTime, 0);
+            _muzzleFlash.intensity = Mathf.Max(_muzzleFlash.intensity - _muzzleFlashDecay * Time.deltaTime, 0);
             yield return null;
         }
     }
@@ -222,7 +226,7 @@ public class AR : NetworkBehaviour
             var bulletTrace = Instantiate(_bulletTrace, _muzzleTransform.position, _muzzleTransform.rotation);
             bulletTrace.GetComponent<BulletTrace>()?.SetEndPosition(hit.point);
         }
-        _muzzleFlash.intensity = 1.0f;
+        _muzzleFlash.intensity = Mathf.Min(_muzzleFlash.intensity + _muzzleFlashPerFire, _muzzleFlashMax);
         Debug.Log("Fired");
     }
 
