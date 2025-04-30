@@ -62,7 +62,7 @@ public class Pistol : NetworkBehaviour
     {
         while (true)
         {
-            _muzzleFlash.intensity -= Mathf.Max(_muzzleFlash.intensity - 1f * Time.deltaTime, 0);
+            _muzzleFlash.intensity = Mathf.Max(_muzzleFlash.intensity - 1f * Time.deltaTime, 0);
             yield return null;
         }
     }
