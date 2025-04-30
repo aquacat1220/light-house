@@ -46,6 +46,8 @@ public class HealthSystem : NetworkBehaviour
 
     void OnHealthChange(float prev, float next, bool asServer)
     {
+        if (!this.enabled)
+            return;
         HealthChange?.Invoke(prev, next, asServer);
     }
 }

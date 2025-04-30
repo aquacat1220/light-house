@@ -90,7 +90,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: NetworkBehaviours.Array.size
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: <AssetPathHash>k__BackingField
@@ -279,6 +279,7 @@ MonoBehaviour:
   _componentsToDisable:
   - {fileID: 3324938354885705573}
   - {fileID: 7058987481657596826}
+  - {fileID: 6998489626671369190}
   - {fileID: -3249859740518625943}
   _spriteRenderer: {fileID: 2101235380917101776}
   _colorOnDeath: {r: 1, g: 0, b: 0, a: 1}
