@@ -188,6 +188,7 @@ GameObject:
   - component: {fileID: -2602073663491271416}
   - component: {fileID: 338949222725359829}
   - component: {fileID: 7360309243201395256}
+  - component: {fileID: 4547007209208306797}
   m_Layer: 0
   m_Name: AR
   m_TagString: Untagged
@@ -385,6 +386,22 @@ MonoBehaviour:
   - {fileID: 8756685324305974319}
   - {fileID: 1379678560699947194}
   - {fileID: 7304994629543981017}
+--- !u!114 &4547007209208306797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948197007501555658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a943a9135d698d80fe13d092a4615, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 3458800118198264783}
+  _networkObjectCache: {fileID: 0}
+  _despawnDelay: 10
 --- !u!1 &1099217064113485788
 GameObject:
   m_ObjectHideFlags: 0

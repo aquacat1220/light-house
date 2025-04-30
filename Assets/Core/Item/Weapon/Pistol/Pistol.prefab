@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 9014869720238086350}
   - component: {fileID: 7233348986480869644}
   - component: {fileID: 8115713744422826728}
+  - component: {fileID: 3852882342583388494}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -165,6 +166,22 @@ MonoBehaviour:
   - {fileID: 6218279845526275641}
   - {fileID: 5680626956205033746}
   - {fileID: 5897656989388656837}
+--- !u!114 &3852882342583388494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456809218363140749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a943a9135d698d80fe13d092a4615, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 654499795761544664}
+  _networkObjectCache: {fileID: 0}
+  _despawnDelay: 10
 --- !u!1 &2055212392356153703
 GameObject:
   m_ObjectHideFlags: 0
