@@ -358,7 +358,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 3458800118198264783}
   _networkObjectCache: {fileID: 3458800118198264783}
   _owner_material: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
-  _nonowner_material: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  _nonowner_material: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   _sprite_renderers:
   - {fileID: 7551235460326504766}
   - {fileID: 480767010171638910}

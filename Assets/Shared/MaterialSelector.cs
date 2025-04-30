@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using FishNet.Connection;
 using FishNet.Object;
 using UnityEngine;
 
@@ -39,9 +40,7 @@ public class MaterialSelector : NetworkBehaviour
     }
 
     // Set the material based on ownership.
-    // We do this in `OnStartClient()` but not on server because visibility and rendering only matters for the clients.
-    // And hosts will run both `OnStartClient()` and `OnStartServer()`.
-    public override void OnStartClient()
+    public override void OnOwnershipClient(NetworkConnection prevOwner)
     {
         if (base.IsOwner)
         {
