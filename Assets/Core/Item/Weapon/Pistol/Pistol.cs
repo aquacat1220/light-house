@@ -75,14 +75,15 @@ public class Pistol : NetworkBehaviour
         {
             var itemSystem = playerCharacterItemRegisterContext.ItemSystem;
             var hand = playerCharacterItemRegisterContext.Hand;
+            // Reset transform to zero, so the pistol will be located right at the anchor.
+            transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            transform.localScale = Vector3.one;
             if (hand == Hand.Left)
             {
                 transform.SetParent(itemSystem.LeftItemAnchor, false);
             }
             else
             {
-                transform.position = Vector3.zero;
-                transform.rotation = Quaternion.identity;
                 transform.SetParent(itemSystem.RightItemAnchor, false);
             }
             if (base.IsServerInitialized)
@@ -117,11 +118,12 @@ public class Pistol : NetworkBehaviour
         Assert.IsNotNull(_itemSystem);
         if (_itemSystem is PlayerCharacterItemSystem itemSystem)
         {
-            transform.SetParent(null, true);
             if (base.IsServerInitialized)
             {
+                SetUnregisterTransform(transform.parent.position, transform.parent.eulerAngles.z);
                 _singleFire.Unregister();
             }
+            transform.SetParent(null, false);
             if (base.IsOwner)
             {
                 if (_hand == Hand.Left)
@@ -141,6 +143,15 @@ public class Pistol : NetworkBehaviour
 
         Debug.Log("`Pistol` encountered unknown `ItemSystem` variant during `Unregister()`, which shouldn't have been `Register()`ed in the first place.");
         throw new Exception();
+    }
+
+    // Set's the final transform of the unregistered pistol.
+    // `scale` is omitted, since we never change it anyway.
+    [ObserversRpc(RunLocally = true, BufferLast = true)]
+    void SetUnregisterTransform(Vector2 position, float rotation)
+    {
+        transform.localPosition = position;
+        transform.localEulerAngles = new Vector3(0f, 0f, rotation);
     }
 
     [Client(RequireOwnership = true)]
