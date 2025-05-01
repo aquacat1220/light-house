@@ -9,10 +9,34 @@ using UnityEngine.UIElements;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField]
-    UIDocument _uIDocument;
+    UIDocument _uiDocument;
 
     [SerializeField]
-    bool _startVisible = false;
+    bool _startVisible = true;
+
+    bool _isVisible = true;
+    public bool IsVisible
+    {
+        get
+        {
+            return _isVisible;
+        }
+        set
+        {
+            if (value && !_isVisible)
+            {
+                InputManager.Singleton.InputMode = InputMode.UI;
+                _uiDocument.rootVisualElement.RemoveFromClassList("display-none");
+                _isVisible = value;
+            }
+            else if (!value && _isVisible)
+            {
+                InputManager.Singleton.InputMode = InputMode.Player;
+                _uiDocument.rootVisualElement.AddToClassList("display-none");
+                _isVisible = value;
+            }
+        }
+    }
 
     TextField _addressInput;
     TextField _portInput;
@@ -23,71 +47,67 @@ public class MainMenu : MonoBehaviour
     // Is the component subscribed to button clicked?
     bool _isSubscribedToButtons = false;
 
-    // Reference to InputAction for UI toggle.
-    InputAction _cancelAction;
+    // Is the component subscribed to `InputManager.Singleton.ShowUIAction`?
+    bool _isSubscribedToShowUI = false;
 
-    // Is the component subscribed to the action?
+    // Is the component listening for unhandled `Cancel` events?
     bool _isSubscribedToCancel = false;
-
-    // Is the menu currently visible? Synced with the actual USS selector.
-    bool _isMenuVisible = true;
 
     void Awake()
     {
-        if (_uIDocument == null)
+        if (_uiDocument == null)
         {
             Debug.Log("`uIDocument` wasn't set.");
             throw new Exception();
         }
-
-        if (_startVisible)
+        // Ensure UI visibility matches `_isVisible`'s initial value.
+        // This is the LAST PART where we directly touch `_isVisible` without using the property `IsVisible`.
+        if (_isVisible)
         {
-            ShowMainMenu();
+            InputManager.Singleton.InputMode = InputMode.UI;
+            _uiDocument.rootVisualElement.RemoveFromClassList("display-none");
         }
         else
         {
-            HideMainMenu();
+            InputManager.Singleton.InputMode = InputMode.Player;
+            _uiDocument.rootVisualElement.AddToClassList("display-none");
         }
 
-        _addressInput = _uIDocument.rootVisualElement.Q<TextField>("AddressInput");
+        // Then make it follow the `_startVisible` value.
+        IsVisible = _startVisible;
+
+        _addressInput = _uiDocument.rootVisualElement.Q<TextField>("AddressInput");
         if (_addressInput == null)
         {
             Debug.Log("TextField with name `AddressInput` wasn't found.");
             throw new Exception();
         }
 
-        _portInput = _uIDocument.rootVisualElement.Q<TextField>("PortInput");
+        _portInput = _uiDocument.rootVisualElement.Q<TextField>("PortInput");
         if (_portInput == null)
         {
             Debug.Log("TextField with name `PortInput` wasn't found.");
             throw new Exception();
         }
 
-        _hostButton = _uIDocument.rootVisualElement.Q<Button>("HostButton");
+        _hostButton = _uiDocument.rootVisualElement.Q<Button>("HostButton");
         if (_hostButton == null)
         {
             Debug.Log("Button with name `HostButton` wasn't found.");
             throw new Exception();
         }
 
-        _joinButton = _uIDocument.rootVisualElement.Q<Button>("JoinButton");
+        _joinButton = _uiDocument.rootVisualElement.Q<Button>("JoinButton");
         if (_joinButton == null)
         {
             Debug.Log("Button with name `JoinButton` wasn't found.");
             throw new Exception();
         }
 
-        _soloButton = _uIDocument.rootVisualElement.Q<Button>("SoloButton");
+        _soloButton = _uiDocument.rootVisualElement.Q<Button>("SoloButton");
         if (_soloButton == null)
         {
             Debug.Log("Button with name `SoloButton` wasn't found.");
-            throw new Exception();
-        }
-
-        _cancelAction = InputSystem.actions.FindAction("Cancel");
-        if (_cancelAction == null)
-        {
-            Debug.Log("`Cancel` action wasn't found.");
             throw new Exception();
         }
     }
@@ -102,9 +122,16 @@ public class MainMenu : MonoBehaviour
             _isSubscribedToButtons = true;
         }
 
+        if (!_isSubscribedToShowUI)
+        {
+            InputManager.Singleton.ShowUIAction += OnShowUI;
+            _isSubscribedToShowUI = true;
+        }
+
         if (!_isSubscribedToCancel)
         {
-            _cancelAction.performed += OnCancel;
+            InputManager.Singleton.UICancelAction += OnCancel;
+            _uiDocument.rootVisualElement.RegisterCallback<NavigationCancelEvent>(OnUnhandledCancel);
             _isSubscribedToCancel = true;
         }
     }
@@ -119,9 +146,17 @@ public class MainMenu : MonoBehaviour
             _isSubscribedToButtons = false;
         }
 
+        if (_isSubscribedToShowUI)
+        {
+            InputManager.Singleton.ShowUIAction -= OnShowUI;
+            _isSubscribedToShowUI = false;
+        }
+
         if (_isSubscribedToCancel)
         {
-            _cancelAction.performed -= OnCancel;
+            InputManager.Singleton.UICancelAction -= OnCancel;
+            // `?` is there to suppress an exception on game end.
+            _uiDocument.rootVisualElement?.UnregisterCallback<NavigationCancelEvent>(OnUnhandledCancel);
             _isSubscribedToCancel = false;
         }
     }
@@ -214,33 +249,33 @@ public class MainMenu : MonoBehaviour
         InstanceFinder.ServerManager.OnServerConnectionState += loadSceneOnServerStart;
     }
 
+    void OnShowUI(InputAction.CallbackContext context)
+    {
+        // Return early if the action wasn't `performed`.
+        if (!context.performed)
+            return;
+        // `IsVisible` checks if the assigned value is different from the old value, and operates only if so.
+        // So assigning without checking old value won't cause any redundant calls.
+        IsVisible = true;
+    }
+
     void OnCancel(InputAction.CallbackContext context)
     {
-        if (_isMenuVisible)
-        {
-            HideMainMenu();
-        }
-        else
-        {
-            ShowMainMenu();
-        }
+        // Return early if the action wasn't `performed`.
+        if (!context.performed)
+            return;
+        // If we have a focused element, the `OnUnhandledCancel()`
+        // should be responsible for checking if any UI elements have consumed the event,
+        // and hide the UI if so.
+        if (_uiDocument.rootVisualElement.focusController.focusedElement != null)
+            return;
+        // Else, we should exit the UI.
+        IsVisible = false;
     }
 
-    void HideMainMenu()
+    void OnUnhandledCancel(NavigationCancelEvent evt)
     {
-        if (_isMenuVisible)
-        {
-            _uIDocument.rootVisualElement.AddToClassList("display-none");
-            _isMenuVisible = false;
-        }
-    }
-
-    void ShowMainMenu()
-    {
-        if (!_isMenuVisible)
-        {
-            _uIDocument.rootVisualElement.RemoveFromClassList("display-none");
-            _isMenuVisible = true;
-        }
+        IsVisible = false;
+        evt.StopPropagation();
     }
 }
