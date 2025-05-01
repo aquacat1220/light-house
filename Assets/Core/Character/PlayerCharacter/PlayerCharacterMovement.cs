@@ -56,13 +56,6 @@ public class PlayerCharacterMovement : NetworkBehaviour
     [SerializeField]
     Rigidbody2D _rigidBody;
 
-    // Reference to InputAction for character movement.
-    [SerializeField]
-    InputActionReference _moveActionRef;
-    // Reference to InputAction for character rotation.
-    [SerializeField]
-    InputActionReference _lookActionRef;
-
     // The most recent movement input from the client controlling this character.
     Vector2 _recentMoveInput;
     // The most recent desired rotation for this character.
@@ -84,17 +77,6 @@ public class PlayerCharacterMovement : NetworkBehaviour
         }
         PredictionRigidbody2D = new PredictionRigidbody2D();
         PredictionRigidbody2D.Initialize(_rigidBody);
-
-        if (_moveActionRef == null)
-        {
-            Debug.Log("`_moveActionRef` wasn't set.");
-            throw new Exception();
-        }
-        if (_lookActionRef == null)
-        {
-            Debug.Log("`_lookActionRef` wasn't set.");
-            throw new Exception();
-        }
     }
 
     public override void OnStartNetwork()
@@ -148,9 +130,14 @@ public class PlayerCharacterMovement : NetworkBehaviour
     {
         if (!_isSubscribedToInputActions)
         {
-            _moveActionRef.action.performed += OnMoveAction;
-            _moveActionRef.action.canceled += OnCancel;
-            _lookActionRef.action.performed += OnLookAction;
+            var inputManager = InputManager.Singleton;
+            if (inputManager == null)
+            {
+                Debug.Log("`InputManager.Singleton` is null, suggesting an `InputManager` wasn't present in the scene.");
+                throw new Exception();
+            }
+            inputManager.MoveAction += OnMoveAction;
+            inputManager.LookAction += OnLookAction;
             _isSubscribedToInputActions = true;
         }
     }
@@ -159,9 +146,14 @@ public class PlayerCharacterMovement : NetworkBehaviour
     {
         if (_isSubscribedToInputActions)
         {
-            _moveActionRef.action.performed -= OnMoveAction;
-            _moveActionRef.action.canceled -= OnCancel;
-            _lookActionRef.action.performed -= OnLookAction;
+            var inputManager = InputManager.Singleton;
+            if (inputManager == null)
+            {
+                Debug.Log("`InputManager.Singleton` is null, suggesting an `InputManager` wasn't present in the scene.");
+                throw new Exception();
+            }
+            inputManager.MoveAction -= OnMoveAction;
+            inputManager.LookAction -= OnLookAction;
             _isSubscribedToInputActions = false;
         }
     }
@@ -257,24 +249,17 @@ public class PlayerCharacterMovement : NetworkBehaviour
         Reconcile(data);
     }
 
-    // Bound to `moveAction.performed`.
-    // Sends the keyboard input to the server.
+    // Bound to `InputManager.Singleton.MoveAction`.
+    // Sets `_recentMoveInput` to reflect the input.
     void OnMoveAction(InputAction.CallbackContext context)
     {
+        // Any call to this handler will contain the latest value of the input, regardless of action phase.
         Vector2 moveInput = context.ReadValue<Vector2>();
         _recentMoveInput = moveInput;
     }
 
-    // Bound to `moveAction.canceled`.
-    // Sends the keyboard input to the server.
-    // This is required since `moveAction.performed` won't be triggered when the action value is set to zero.
-    void OnCancel(InputAction.CallbackContext context)
-    {
-        Vector2 moveInput = context.ReadValue<Vector2>();
-        _recentMoveInput = moveInput;
-    }
-
-    // Bound to `lookAction.performed`. Sends the desired rotation to the server.
+    // Bound to `InputManager.Singleton.LookAction`.
+    // Sets `_recentAngularVelocity` to reflect the input.
     void OnLookAction(InputAction.CallbackContext context)
     {
         Vector2 mousePosition = context.ReadValue<Vector2>();

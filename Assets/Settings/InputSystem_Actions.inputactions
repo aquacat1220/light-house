@@ -42,15 +42,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ToggleLight",
-                    "type": "Button",
-                    "id": "4446c936-ff45-47c2-8a65-40cb138c884c",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "ToggleUI",
                     "type": "Button",
                     "id": "83fbc5c5-3dab-460b-9246-51aeab541599",
@@ -177,17 +168,6 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Primary",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "07607b46-c840-4a4d-b642-a8a57b8eba7c",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "ToggleLight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

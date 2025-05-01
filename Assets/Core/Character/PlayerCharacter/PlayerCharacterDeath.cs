@@ -29,10 +29,8 @@ public class PlayerCharacterDeath : NetworkBehaviour
     [SerializeField]
     float _timeToDespawn = 15.0f;
 
-    [SerializeField]
-    InputActionReference _deathAction;
-
     bool _isSubscribedToInputAction = false;
+    bool _isDead = false;
 
     void Awake()
     {
@@ -52,12 +50,6 @@ public class PlayerCharacterDeath : NetworkBehaviour
         }
         _healthSystem.HealthChange += OnHealthChange;
         // StartCoroutine(KillSelf());
-
-        if (_deathAction == null)
-        {
-            Debug.Log("`_deathAction` wasn't set.");
-            throw new Exception();
-        }
     }
 
     public override void OnStartClient()
@@ -90,7 +82,13 @@ public class PlayerCharacterDeath : NetworkBehaviour
     {
         if (!_isSubscribedToInputAction)
         {
-            _deathAction.action.performed += OnDeathAction;
+            var inputManager = InputManager.Singleton;
+            if (inputManager == null)
+            {
+                Debug.Log("`InputManager.Singleton` is null, suggesting an `InputManager` wasn't present in the scene.");
+                throw new Exception();
+            }
+            inputManager.DieAction += OnDieAction;
             _isSubscribedToInputAction = true;
         }
     }
@@ -99,14 +97,23 @@ public class PlayerCharacterDeath : NetworkBehaviour
     {
         if (_isSubscribedToInputAction)
         {
-            _deathAction.action.performed -= OnDeathAction;
+            var inputManager = InputManager.Singleton;
+            if (inputManager == null)
+            {
+                Debug.Log("`InputManager.Singleton` is null, suggesting an `InputManager` wasn't present in the scene.");
+                throw new Exception();
+            }
+            inputManager.DieAction -= OnDieAction;
             _isSubscribedToInputAction = false;
         }
     }
 
     [Client(RequireOwnership = true)]
-    void OnDeathAction(InputAction.CallbackContext _)
+    void OnDieAction(InputAction.CallbackContext context)
     {
+        // Return early if the action wasn't performed.
+        if (!context.performed)
+            return;
         KillSelf();
     }
 
@@ -126,8 +133,17 @@ public class PlayerCharacterDeath : NetworkBehaviour
         }
     }
 
-    [ObserversRpc(RunLocally = true)]
+    [Server]
     public void Die()
+    {
+        if (_isDead)
+            return;
+        _isDead = true;
+        DieObserver();
+    }
+
+    [ObserversRpc(RunLocally = true)]
+    void DieObserver()
     {
         // Disable all components that should be disabled. (Usually input-related.)
         foreach (var component in _componentsToDisable)

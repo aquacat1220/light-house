@@ -25,12 +25,6 @@ public class PlayerCharacterItemRegisterContext : ItemRegisterContext
 
 public class PlayerCharacterItemSystem : ItemSystem
 {
-    // References to item-related actions.
-    [SerializeField]
-    InputActionReference _itemPrimaryActionRef;
-    [SerializeField]
-    InputActionReference _itemSecondaryActionRef;
-
     // Initial items to equip to each hand.
     [SerializeField]
     GameObject _initLeftItem = null;
@@ -57,20 +51,6 @@ public class PlayerCharacterItemSystem : ItemSystem
     // Items equipped to each hands.
     Item _leftItem = null;
     Item _rightItem = null;
-
-    void Awake()
-    {
-        if (_itemPrimaryActionRef == null)
-        {
-            Debug.Log("`_itemPrimaryActionRef` wasn't set.");
-            throw new Exception();
-        }
-        if (_itemSecondaryActionRef == null)
-        {
-            Debug.Log("`_itemSecondaryActionRef` wasn't set.");
-            throw new Exception();
-        }
-    }
 
     public override void OnStartServer()
     {
@@ -154,12 +134,14 @@ public class PlayerCharacterItemSystem : ItemSystem
     {
         if (!_isSubscribedToInputActions)
         {
-            _itemPrimaryActionRef.action.started += OnItemPrimary;
-            _itemPrimaryActionRef.action.performed += OnItemPrimary;
-            _itemPrimaryActionRef.action.canceled += OnItemPrimary;
-            _itemSecondaryActionRef.action.started += OnItemSecondary;
-            _itemSecondaryActionRef.action.performed += OnItemSecondary;
-            _itemSecondaryActionRef.action.canceled += OnItemSecondary;
+            var inputManager = InputManager.Singleton;
+            if (inputManager == null)
+            {
+                Debug.Log("`InputManager.Singleton` is null, suggesting an `InputManager` wasn't present in the scene.");
+                throw new Exception();
+            }
+            inputManager.PrimaryAction += OnItemPrimary;
+            inputManager.SecondaryAction += OnItemSecondary;
             _isSubscribedToInputActions = true;
         }
     }
@@ -168,12 +150,14 @@ public class PlayerCharacterItemSystem : ItemSystem
     {
         if (_isSubscribedToInputActions)
         {
-            _itemPrimaryActionRef.action.started -= OnItemPrimary;
-            _itemPrimaryActionRef.action.performed -= OnItemPrimary;
-            _itemPrimaryActionRef.action.canceled -= OnItemPrimary;
-            _itemSecondaryActionRef.action.started -= OnItemSecondary;
-            _itemSecondaryActionRef.action.performed -= OnItemSecondary;
-            _itemSecondaryActionRef.action.canceled -= OnItemSecondary;
+            var inputManager = InputManager.Singleton;
+            if (inputManager == null)
+            {
+                Debug.Log("`InputManager.Singleton` is null, suggesting an `InputManager` wasn't present in the scene.");
+                throw new Exception();
+            }
+            inputManager.PrimaryAction -= OnItemPrimary;
+            inputManager.SecondaryAction -= OnItemSecondary;
             _isSubscribedToInputActions = false;
         }
     }
