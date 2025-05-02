@@ -370,7 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05f3dd1586fc7b62a71848faffa965b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _uIDocument: {fileID: 1444957840}
+  _uiDocument: {fileID: 1444957840}
   _startVisible: 0
 --- !u!114 &1444957840
 MonoBehaviour:

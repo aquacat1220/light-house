@@ -9,16 +9,16 @@ public class PlayerCharacterMovement : NetworkBehaviour
 {
     public struct ReplicateData : IReplicateData
     {
-        public ReplicateData(Vector2 moveInput, float desiredRotation)
+        public ReplicateData(Vector2 moveInput, float angularVelocity)
         {
             MoveInput = moveInput;
-            DesiredRotation = desiredRotation;
+            AngularVelocity = angularVelocity;
             _tick = 0;
         }
 
         public Vector2 MoveInput;
 
-        public float DesiredRotation;
+        public float AngularVelocity;
 
         private uint _tick;
 
@@ -58,8 +58,8 @@ public class PlayerCharacterMovement : NetworkBehaviour
 
     // The most recent movement input from the client controlling this character.
     Vector2 _recentMoveInput;
-    // The most recent desired rotation for this character.
-    float _recentDesiredRotation;
+    // The most recent desired angular velocity for this character.
+    float _recentAngularVelocity;
 
     // Is the component subscribed to timemanager callbacks?
     bool _isSubscribedToTimeManager = false;
@@ -215,12 +215,12 @@ public class PlayerCharacterMovement : NetworkBehaviour
             }
         }
         // `data` is created by the owner.
-        Vector2 moveDirection = data.MoveInput.normalized;
-        PredictionRigidbody2D.Velocity(moveDirection * _maxSpeed);
-
-        PredictionRigidbody2D.Rotation(data.DesiredRotation);
-        // float rotationAmount = data.DesiredRotation - _rigidBody.rotation;
-        // PredictionRigidbody2D.AngularVelocity(rotationAmount / (float)base.TimeManager.TickDelta);
+        Debug.Log($"{data.AngularVelocity}");
+        Vector2 localMoveDirection = data.MoveInput;
+        Vector2 worldMoveDirection = transform.TransformDirection(localMoveDirection).normalized;
+        PredictionRigidbody2D.Velocity(worldMoveDirection * _maxSpeed);
+        // Since rigidbody has rotation frozen, we should directly set the rotation, instead of setting angular velocity.
+        PredictionRigidbody2D.Rotation(_rigidBody.rotation + data.AngularVelocity * (float)TimeManager.TickDelta);
         PredictionRigidbody2D.Simulate();
     }
 
@@ -232,7 +232,7 @@ public class PlayerCharacterMovement : NetworkBehaviour
             return default;
         }
 
-        ReplicateData data = new ReplicateData(_recentMoveInput, _recentDesiredRotation);
+        ReplicateData data = new ReplicateData(_recentMoveInput, _recentAngularVelocity);
         return data;
     }
 
@@ -262,24 +262,16 @@ public class PlayerCharacterMovement : NetworkBehaviour
     // Sets `_recentAngularVelocity` to reflect the input.
     void OnLookAction(InputAction.CallbackContext context)
     {
-        Vector2 mousePosition = context.ReadValue<Vector2>();
-        Camera mainCam = Camera.main; // Since this function is called only on the owning client, we surely have a main camera.
-        if (mainCam == null)
-        {
-            // This shouldn't happen, but check just to make sure.
-            Debug.Log("`Look` action was triggered, but no main cameras were found.");
-            return;
-        }
-        Vector3 screenPosition = new Vector3(mousePosition.x, mousePosition.y, -mainCam.transform.position.z);
-        Vector3 worldPosition = mainCam.ScreenToWorldPoint(screenPosition);
-        Vector3 viewDirection = worldPosition - transform.position;
-        float rotation = Mathf.Atan2(viewDirection.y, viewDirection.x) * Mathf.Rad2Deg - 90;
-        _recentDesiredRotation = rotation;
+        Vector2 mouseDelta = context.ReadValue<Vector2>();
+        Debug.Log($"OnLookAction: {mouseDelta}");
+        float mouseDeltaX = mouseDelta.x;
+        _recentAngularVelocity = -mouseDeltaX * 20f;
     }
 
     // Reset recent movement input to zero.
     void ResetInputs()
     {
         _recentMoveInput = Vector2.zero;
+        _recentAngularVelocity = 0f;
     }
 }

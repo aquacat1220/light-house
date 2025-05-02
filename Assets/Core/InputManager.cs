@@ -49,6 +49,7 @@ public class InputManager : MonoBehaviour
                 if (_inputMode == InputMode.None)
                     return;
                 _inputActionAsset.Disable();
+                Cursor.lockState = CursorLockMode.None;
                 _inputMode = value;
             }
             else if (value == InputMode.Player)
@@ -57,6 +58,7 @@ public class InputManager : MonoBehaviour
                     return;
                 _inputActionAsset.Disable();
                 _playerMap.Enable();
+                Cursor.lockState = CursorLockMode.Locked;
                 _inputMode = value;
             }
             else if (value == InputMode.UI)
@@ -64,6 +66,7 @@ public class InputManager : MonoBehaviour
                 if (_inputMode == InputMode.UI)
                     return;
                 _inputActionAsset.Disable();
+                Cursor.lockState = CursorLockMode.None;
                 _uiMap.Enable();
                 _inputMode = value;
             }
