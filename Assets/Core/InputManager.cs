@@ -12,6 +12,8 @@ public enum InputMode
 
 // This component listens to `PlayerInput.onActionTriggered`,
 // and dispatches different events based on which input action was triggered.
+// Since other components might need the `InputManager.Singleton` in as early as `Awake()`,
+// this script is set to have an execution order of -1 (smaller the earlier).
 public class InputManager : MonoBehaviour
 {
     public static InputManager Singleton { get; private set; }

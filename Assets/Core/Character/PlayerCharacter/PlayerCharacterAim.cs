@@ -1,8 +1,9 @@
 using System;
+using FishNet.Object;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerCharacterAim : MonoBehaviour
+public class PlayerCharacterAim : NetworkBehaviour
 {
     [SerializeField]
     Transform _aimPointTransform;
@@ -86,6 +87,28 @@ public class PlayerCharacterAim : MonoBehaviour
 
     void OnEnable()
     {
+        if (base.IsOwner)
+            SubscribeToAction();
+    }
+
+    void OnDisable()
+    {
+        UnsubscribeFromAction();
+    }
+
+    public override void OnStartClient()
+    {
+        if (base.IsOwner)
+            SubscribeToAction();
+    }
+
+    public override void OnStopClient()
+    {
+        UnsubscribeFromAction();
+    }
+
+    void SubscribeToAction()
+    {
         if (!_isSubscribedToLook)
         {
             InputManager.Singleton.LookAction += OnLook;
@@ -93,7 +116,7 @@ public class PlayerCharacterAim : MonoBehaviour
         }
     }
 
-    void OnDisable()
+    void UnsubscribeFromAction()
     {
         if (_isSubscribedToLook)
         {

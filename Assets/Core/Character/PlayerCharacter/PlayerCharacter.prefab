@@ -209,7 +209,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: NetworkBehaviours.Array.size
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: <AssetPathHash>k__BackingField
@@ -235,6 +235,10 @@ PrefabInstance:
       propertyPath: 'NetworkBehaviours.Array.data[5]'
       value: 
       objectReference: {fileID: -3249859740518625943}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[6]'
+      value: 
+      objectReference: {fileID: 4443254757174337321}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: SerializedTransformProperties.Scale.x
       value: 1
@@ -424,6 +428,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d459224f2b2e46c81b024ac461460151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 6
+  _addedNetworkObject: {fileID: 2566409721090996822}
+  _networkObjectCache: {fileID: 2566409721090996822}
   _aimPointTransform: {fileID: 3646620668229013261}
   _initialMinAimDistance: 1
   _initialMaxAimDistance: 10
