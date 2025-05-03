@@ -296,7 +296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: NetworkBehaviours.Array.size
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: <AssetPathHash>k__BackingField
@@ -326,6 +326,10 @@ PrefabInstance:
       propertyPath: 'NetworkBehaviours.Array.data[6]'
       value: 
       objectReference: {fileID: 4443254757174337321}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[7]'
+      value: 
+      objectReference: {fileID: 6290294256753253600}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: SerializedTransformProperties.Scale.x
       value: 1
@@ -372,6 +376,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4443254757174337321}
+    - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6290294256753253600}
   m_SourcePrefab: {fileID: 100100000, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
 --- !u!4 &1599423349212434369 stripped
 Transform:
@@ -502,6 +509,7 @@ MonoBehaviour:
   - {fileID: 6998489626671369190}
   - {fileID: -3249859740518625943}
   - {fileID: 4443254757174337321}
+  - {fileID: 6290294256753253600}
   _spriteRenderer: {fileID: 2101235380917101776}
   _colorOnDeath: {r: 1, g: 0, b: 0, a: 1}
   _timeToRespawn: 3
@@ -525,6 +533,23 @@ MonoBehaviour:
   _initialMinAimDistance: 1
   _initialMaxAimDistance: 10
   _initialAimDistance: 2
+--- !u!114 &6290294256753253600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5139385379916303670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d49b2f94a0a84eac88a3a97d5f15f68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 7
+  _addedNetworkObject: {fileID: 2566409721090996822}
+  _networkObjectCache: {fileID: 2566409721090996822}
+  _baseSight: 8
+  _sightMask: {fileID: 8539940473080572647}
 --- !u!114 &6998489626671369190 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2922723460117174548, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
