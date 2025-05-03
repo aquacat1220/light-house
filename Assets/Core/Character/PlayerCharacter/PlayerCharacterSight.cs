@@ -82,6 +82,6 @@ public class PlayerCharacterSight : NetworkBehaviour
     public void UnregisterLight(Light2D light)
     {
         if (_lights.Remove(light))
-            CurrMaxRange = _lights.Max(light => light.pointLightOuterRadius);
+            CurrMaxRange = _lights.Count() > 0 ? _lights.Max(light => light.pointLightOuterRadius) : 0f;
     }
 }
