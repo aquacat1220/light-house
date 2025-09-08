@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 71f8b7671daa1512980f8787237392e8
+guid: afc241e869d97a44f8339510586dce73
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -13,6 +13,6 @@ AssetOrigin:
   serializedVersion: 1
   productId: 207815
   packageName: 'FishNet: Networking Evolved'
-  packageVersion: 4.6.5R
+  packageVersion: 4.6.12R
   assetPath: Assets/FishNet/Runtime/Managing/Debugging/PacketIdHistory.cs
-  uploadId: 745580
+  uploadId: 773595
