@@ -116,7 +116,7 @@ public class AR : NetworkBehaviour
                     itemSystem.RightItemPrimary += OnPrimary;
                     itemSystem.RightItemSecondary += OnSecondary;
                 }
-                itemSystem.GetComponent<PlayerCharacterSight>()?.RegisterLight(_flashlight);
+                itemSystem.GetComponent<Vision>()?.RegisterLight(_flashlight);
             }
             _itemSystem = itemSystem;
             _hand = hand;
@@ -151,7 +151,7 @@ public class AR : NetworkBehaviour
                     itemSystem.RightItemPrimary -= OnPrimary;
                     itemSystem.RightItemSecondary -= OnSecondary;
                 }
-                itemSystem.GetComponent<PlayerCharacterSight>()?.UnregisterLight(_flashlight);
+                itemSystem.GetComponent<Vision>()?.UnregisterLight(_flashlight);
             }
             _itemSystem = null;
             return;

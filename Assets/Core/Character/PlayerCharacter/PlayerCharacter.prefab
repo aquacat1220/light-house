@@ -326,7 +326,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: WasActiveDuringEdit
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: <PrefabId>k__BackingField
@@ -593,8 +593,8 @@ MonoBehaviour:
   _componentIndexCache: 7
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
-  _baseSight: 3
-  _sightMask: {fileID: 8539940473080572647}
+  _baseVision: 2
+  _visibleMask: {fileID: 8539940473080572647}
 --- !u!114 &286916112871301450
 MonoBehaviour:
   m_ObjectHideFlags: 0

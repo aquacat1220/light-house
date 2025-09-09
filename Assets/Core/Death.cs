@@ -2,9 +2,8 @@ using System;
 using System.Collections;
 using FishNet.Object;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class PlayerCharacterDeath : NetworkBehaviour
+public class Death : NetworkBehaviour
 {
     [SerializeField]
     HealthSystem _healthSystem;

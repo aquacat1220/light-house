@@ -173,7 +173,7 @@ public class CharacterSpawner : NetworkBehaviour
             if (_connectedClients.ContainsKey(connection))
             {
                 var (_, character) = _connectedClients[connection];
-                character.GetComponent<PlayerCharacterDeath>()?.Die();
+                character.GetComponent<Death>()?.Die();
                 _connectedClients.Remove(connection);
             }
         }
