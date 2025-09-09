@@ -1,19 +1,17 @@
 using System;
 using FishNet.Object;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerCharacterAim : NetworkBehaviour
 {
-    [SerializeField]
-    Transform _aimPointTransform;
+    public Transform AimPointTransform;
 
     [SerializeField]
-    float _initialMinAimDistance = 0f;
+    float _initialMinAimDistance = 5f;
     [SerializeField]
     float _initialMaxAimDistance = 30f;
     [SerializeField]
-    float _initialAimDistance = 0f;
+    float _initialAimDistance = 5f;
 
     float _minAimDistance = 0f;
     public float MinAimDistance
@@ -55,7 +53,7 @@ public class PlayerCharacterAim : NetworkBehaviour
         set
         {
             _aimDistance = Mathf.Clamp(value, _minAimDistance, _maxAimDistance);
-            _aimPointTransform.localPosition = new Vector3(0f, _aimDistance, 0f);
+            AimPointTransform.localPosition = new Vector3(0f, _aimDistance, 0f);
         }
     }
 
@@ -63,7 +61,7 @@ public class PlayerCharacterAim : NetworkBehaviour
 
     void Awake()
     {
-        if (_aimPointTransform == null)
+        if (AimPointTransform == null)
         {
             Debug.Log("`_aimPointTransform` wasn't set.");
             throw new Exception();
@@ -74,10 +72,10 @@ public class PlayerCharacterAim : NetworkBehaviour
         // The property getter/setters guarantee that if the initial state is consistent, it will remain so.
 
         // Ensure we start consistently.
-        _maxAimDistance = Mathf.Max(_minAimDistance, _maxAimDistance);
-        _aimDistance = Mathf.Clamp(_aimDistance, _minAimDistance, _maxAimDistance);
-        _aimPointTransform.SetLocalPositionAndRotation(new Vector3(0f, _aimDistance, 0f), Quaternion.identity);
-        _aimPointTransform.localScale = Vector3.one;
+        // _maxAimDistance = Mathf.Max(_minAimDistance, _maxAimDistance);
+        // _aimDistance = Mathf.Clamp(_aimDistance, _minAimDistance, _maxAimDistance);
+        // _aimPointTransform.SetLocalPositionAndRotation(new Vector3(0f, _aimDistance, 0f), Quaternion.identity);
+        // _aimPointTransform.localScale = Vector3.one;
 
         // And apply the initial values.
         MinAimDistance = _initialMinAimDistance;

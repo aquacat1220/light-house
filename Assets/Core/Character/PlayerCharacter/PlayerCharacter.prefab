@@ -326,7 +326,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: WasActiveDuringEdit
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: <PrefabId>k__BackingField
@@ -574,7 +574,7 @@ MonoBehaviour:
   _componentIndexCache: 6
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
-  _aimPointTransform: {fileID: 3646620668229013261}
+  AimPointTransform: {fileID: 3646620668229013261}
   _initialMinAimDistance: 1
   _initialMaxAimDistance: 10
   _initialAimDistance: 2
