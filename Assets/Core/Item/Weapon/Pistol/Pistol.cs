@@ -211,7 +211,6 @@ public class Pistol : NetworkBehaviour
             bulletTrace.GetComponent<BulletTrace>()?.SetEndPosition(hit.point);
         }
         _muzzleFlash.intensity = Mathf.Min(_muzzleFlash.intensity + _muzzleFlashPerFire, _muzzleFlashMax);
-        Debug.Log("Fired");
     }
 
 }

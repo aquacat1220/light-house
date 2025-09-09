@@ -176,8 +176,6 @@ public class PredictedMovement : NetworkBehaviour
     [Replicate]
     private void Replicate(ReplicateData data, ReplicateState state = ReplicateState.Invalid, Channel channel = Channel.Unreliable)
     {
-        if (!base.IsOwner)
-            Debug.Log($"True Tick before: {TimeManager.LocalTick}, Tick: {data.GetTick()}, Created: {state.ContainsCreated()}, Replay: {state.ContainsReplayed()}, Ticked: {state.ContainsTicked()}, Current rb rotation: {_rigidBody.rotation}, Current tf rotation: {transform.rotation.eulerAngles.z}");
         if (!state.ContainsCreated())
         {
             // `data` isn't created by the owner; it is a default object provided by FishNet.
@@ -198,9 +196,6 @@ public class PredictedMovement : NetworkBehaviour
                 _predictionRigidbody2D.Velocity(Vector2.zero);
                 // But leave the rotation as it is, since it has nothing to do with inertia.
                 _predictionRigidbody2D.Simulate();
-                if (!base.IsOwner)
-                    Debug.Log($"True Tick after: {TimeManager.LocalTick}, Tick: {data.GetTick()}, Created: {state.ContainsCreated()}, Replay: {state.ContainsReplayed()}, Ticked: {state.ContainsTicked()}, Current rb rotation: {_rigidBody.rotation}, Current tf rotation: {transform.rotation.eulerAngles.z}, {transform.rotation}");
-
                 return;
             }
         }
@@ -211,8 +206,6 @@ public class PredictedMovement : NetworkBehaviour
         // Since rigidbody has rotation frozen, we should directly set the rotation, instead of setting angular velocity.
         _predictionRigidbody2D.Rotation(_rigidBody.rotation + data.AngularVelocity * (float)TimeManager.TickDelta);
         _predictionRigidbody2D.Simulate();
-        if (!base.IsOwner)
-            Debug.Log($"True Tick after: {TimeManager.LocalTick}, Tick: {data.GetTick()}, Created: {state.ContainsCreated()}, Replay: {state.ContainsReplayed()}, Ticked: {state.ContainsTicked()}, Current rb rotation: {_rigidBody.rotation}, Current tf rotation: {transform.rotation.eulerAngles.z}, {transform.rotation}");
     }
 
     private ReplicateData CreateReplicate()
@@ -231,18 +224,12 @@ public class PredictedMovement : NetworkBehaviour
     [Reconcile]
     private void Reconcile(ReconcileData data, Channel channel = Channel.Unreliable)
     {
-        if (!base.IsOwner)
-            Debug.Log($"Reconciling before: {data.GetTick()}, Current rb rotation: {_rigidBody.rotation}, Current tf rotation: {transform.rotation.eulerAngles.z}, {transform.rotation}");
         _predictionRigidbody2D.Reconcile(data.PredictionRigidbody2D);
-        if (!base.IsOwner)
-            Debug.Log($"Reconciling after: {data.GetTick()}, Current rb rotation: {_rigidBody.rotation}, Current tf rotation: {transform.rotation.eulerAngles.z}, {transform.rotation}");
     }
 
 
     public override void CreateReconcile()
     {
-        if (base.IsOwner)
-            Debug.Log($"LKS True Tick: {TimeManager.LocalTick}, Current rb rotation: {_rigidBody.rotation}, Current tf rotation: {transform.rotation.eulerAngles.z}, {transform.rotation}");
         ReconcileData data = new ReconcileData(_predictionRigidbody2D);
         Reconcile(data);
     }

@@ -157,7 +157,7 @@ public class AR : NetworkBehaviour
             return;
         }
 
-        Debug.Log("`Pistol` encountered unknown `ItemSystem` variant during `Unregister()`, which shouldn't have been `Register()`ed in the first place.");
+        Debug.Log("`AR` encountered unknown `ItemSystem` variant during `Unregister()`, which shouldn't have been `Register()`ed in the first place.");
         throw new Exception();
     }
 
@@ -173,7 +173,6 @@ public class AR : NetworkBehaviour
     [Client(RequireOwnership = true)]
     void OnPrimary(bool wasPerformed)
     {
-        Debug.Log("DFDF AR primary.");
         if (wasPerformed)
         {
             _autoFire.StartFireClient();
@@ -231,7 +230,6 @@ public class AR : NetworkBehaviour
             bulletTrace.GetComponent<BulletTrace>()?.SetEndPosition(hit.point);
         }
         _muzzleFlash.intensity = Mathf.Min(_muzzleFlash.intensity + _muzzleFlashPerFire, _muzzleFlashMax);
-        Debug.Log("Fired");
     }
 
 }
