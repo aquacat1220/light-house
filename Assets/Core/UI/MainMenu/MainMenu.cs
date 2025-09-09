@@ -124,13 +124,13 @@ public class MainMenu : MonoBehaviour
 
         if (!_isSubscribedToShowUI)
         {
-            InputManager.Singleton.ShowUIAction += OnShowUI;
+            InputManager.Singleton.InputActions.Player.ShowUI.performed += OnShowUI;
             _isSubscribedToShowUI = true;
         }
 
         if (!_isSubscribedToCancel)
         {
-            InputManager.Singleton.UICancelAction += OnCancel;
+            InputManager.Singleton.InputActions.UI.Cancel.performed += OnCancel;
             _uiDocument.rootVisualElement.RegisterCallback<NavigationCancelEvent>(OnUnhandledCancel);
             _isSubscribedToCancel = true;
         }
@@ -148,13 +148,13 @@ public class MainMenu : MonoBehaviour
 
         if (_isSubscribedToShowUI)
         {
-            InputManager.Singleton.ShowUIAction -= OnShowUI;
+            InputManager.Singleton.InputActions.Player.ShowUI.performed -= OnShowUI;
             _isSubscribedToShowUI = false;
         }
 
         if (_isSubscribedToCancel)
         {
-            InputManager.Singleton.UICancelAction -= OnCancel;
+            InputManager.Singleton.InputActions.UI.Cancel.performed -= OnCancel;
             // `?` is there to suppress an exception on game end.
             _uiDocument.rootVisualElement?.UnregisterCallback<NavigationCancelEvent>(OnUnhandledCancel);
             _isSubscribedToCancel = false;

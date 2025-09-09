@@ -171,15 +171,15 @@ public class AR : NetworkBehaviour
     }
 
     [Client(RequireOwnership = true)]
-    void OnPrimary(InputAction.CallbackContext context)
+    void OnPrimary(bool wasPerformed)
     {
         Debug.Log("DFDF AR primary.");
-        if (context.performed)
+        if (wasPerformed)
         {
             _autoFire.StartFireClient();
             return;
         }
-        if (context.canceled)
+        if (!wasPerformed)
         {
             _autoFire.StopFireClient();
             return;
@@ -188,8 +188,10 @@ public class AR : NetworkBehaviour
     }
 
     [Client(RequireOwnership = true)]
-    void OnSecondary(InputAction.CallbackContext context)
+    void OnSecondary(bool wasPerformed)
     {
+        if (!wasPerformed)
+            return;
         UnregisterServer();
     }
 

@@ -29,7 +29,7 @@ public class PlayerCharacterDeath : NetworkBehaviour
     [SerializeField]
     float _timeToDespawn = 15.0f;
 
-    bool _isSubscribedToInputAction = false;
+    bool _isInputBlocked = true;
     bool _isDead = false;
 
     void Awake()
@@ -56,69 +56,55 @@ public class PlayerCharacterDeath : NetworkBehaviour
     {
         if (base.IsOwner)
         {
-            SubscribeToAction();
+            AllowInputs();
         }
     }
 
     public override void OnStopClient()
     {
-        UnsubscribeFromAction();
+        BlockInputs();
     }
 
     void OnEnable()
     {
         if (base.IsOwner)
         {
-            SubscribeToAction();
+            AllowInputs();
         }
     }
 
     void OnDisable()
     {
-        UnsubscribeFromAction();
+        BlockInputs();
     }
 
-    void SubscribeToAction()
+    void AllowInputs()
     {
-        if (!_isSubscribedToInputAction)
+        if (_isInputBlocked)
         {
-            var inputManager = InputManager.Singleton;
-            if (inputManager == null)
-            {
-                Debug.Log("`InputManager.Singleton` is null, suggesting an `InputManager` wasn't present in the scene.");
-                throw new Exception();
-            }
-            inputManager.DieAction += OnDieAction;
-            _isSubscribedToInputAction = true;
+            _isInputBlocked = false;
         }
     }
 
-    void UnsubscribeFromAction()
+    void BlockInputs()
     {
-        if (_isSubscribedToInputAction)
+        if (!_isInputBlocked)
         {
-            var inputManager = InputManager.Singleton;
-            if (inputManager == null)
-            {
-                Debug.Log("`InputManager.Singleton` is null, suggesting an `InputManager` wasn't present in the scene.");
-                throw new Exception();
-            }
-            inputManager.DieAction -= OnDieAction;
-            _isSubscribedToInputAction = false;
+            _isInputBlocked = true;
         }
     }
 
+    // Called to notify die input.
     [Client(RequireOwnership = true)]
-    void OnDieAction(InputAction.CallbackContext context)
+    public void OnDie()
     {
-        // Return early if the action wasn't performed.
-        if (!context.performed)
-            return;
-        KillSelf();
+        // If input is blocked, ignore it.
+        if (_isInputBlocked) { return; }
+        RequestDeath();
     }
 
     [ServerRpc]
-    void KillSelf()
+    void RequestDeath()
     {
         Die();
     }
@@ -136,15 +122,16 @@ public class PlayerCharacterDeath : NetworkBehaviour
     [Server]
     public void Die()
     {
-        if (_isDead)
-            return;
-        _isDead = true;
-        DieObserver();
+        NotifyDeath();
     }
 
     [ObserversRpc(RunLocally = true)]
-    void DieObserver()
+    void NotifyDeath()
     {
+        if (_isDead)
+            return;
+        _isDead = true;
+
         // Disable all components that should be disabled. (Usually input-related.)
         foreach (var component in _componentsToDisable)
         {

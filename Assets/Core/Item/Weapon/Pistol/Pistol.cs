@@ -160,21 +160,17 @@ public class Pistol : NetworkBehaviour
     }
 
     [Client(RequireOwnership = true)]
-    void OnPrimary(InputAction.CallbackContext context)
+    void OnPrimary(bool wasPerformed)
     {
-        // The callback gets called even when the action wasn't `performed`, but `started` or `canceled`.
-        // Only fire the pistol when `perfomed`.
-        if (!context.performed)
+        if (!wasPerformed)
             return;
         _singleFire.TryFireClient();
     }
 
     [Client(RequireOwnership = true)]
-    void OnSecondary(InputAction.CallbackContext context)
+    void OnSecondary(bool wasPerformed)
     {
-        // The callback gets called even when the action wasn't `performed`, but `started` or `canceled`.
-        // Only fire the pistol when `perfomed`.
-        if (!context.performed)
+        if (!wasPerformed)
             return;
         UnregisterServer();
     }

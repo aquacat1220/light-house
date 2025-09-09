@@ -59,7 +59,7 @@ public class PlayerCharacterAim : NetworkBehaviour
         }
     }
 
-    bool _isSubscribedToLook = false;
+    bool _isInputBlocked = true;
 
     void Awake()
     {
@@ -88,46 +88,48 @@ public class PlayerCharacterAim : NetworkBehaviour
     void OnEnable()
     {
         if (base.IsOwner)
-            SubscribeToAction();
+            AllowInputs();
     }
 
     void OnDisable()
     {
-        UnsubscribeFromAction();
+        BlockInputs();
     }
 
     public override void OnStartClient()
     {
         if (base.IsOwner)
-            SubscribeToAction();
+            AllowInputs();
     }
 
     public override void OnStopClient()
     {
-        UnsubscribeFromAction();
+        BlockInputs();
     }
 
-    void SubscribeToAction()
+    void AllowInputs()
     {
-        if (!_isSubscribedToLook)
+        if (_isInputBlocked)
         {
-            InputManager.Singleton.LookAction += OnLook;
-            _isSubscribedToLook = true;
+            _isInputBlocked = false;
         }
     }
 
-    void UnsubscribeFromAction()
+    void BlockInputs()
     {
-        if (_isSubscribedToLook)
+        if (!_isInputBlocked)
         {
-            InputManager.Singleton.LookAction -= OnLook;
-            _isSubscribedToLook = false;
+            _isInputBlocked = true;
         }
     }
 
-    void OnLook(InputAction.CallbackContext context)
+    // Called to notify look input change.
+    [Client(RequireOwnership = true)]
+    public void OnLook(Vector2 lookInput)
     {
-        float deltaY = context.ReadValue<Vector2>().y;
+        // If input is blocked, ignore it.
+        if (_isInputBlocked) { return; }
+        float deltaY = lookInput.y;
         AimDistance += deltaY * 0.01f;
     }
 }

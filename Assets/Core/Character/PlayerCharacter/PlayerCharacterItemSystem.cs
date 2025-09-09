@@ -37,13 +37,12 @@ public class PlayerCharacterItemSystem : ItemSystem
     [field: SerializeField]
     public Transform RightItemAnchor { get; private set; }
 
-    // Is the component subscribed to input actions?
-    bool _isSubscribedToInputActions = false;
+    bool _isInputBlocked = true;
 
-    public event Action<InputAction.CallbackContext> LeftItemPrimary;
-    public event Action<InputAction.CallbackContext> LeftItemSecondary;
-    public event Action<InputAction.CallbackContext> RightItemPrimary;
-    public event Action<InputAction.CallbackContext> RightItemSecondary;
+    public event Action<bool> LeftItemPrimary;
+    public event Action<bool> LeftItemSecondary;
+    public event Action<bool> RightItemPrimary;
+    public event Action<bool> RightItemSecondary;
 
     // The current active hand.
     Hand _activeHand = Hand.Right;
@@ -78,8 +77,8 @@ public class PlayerCharacterItemSystem : ItemSystem
             RegisterInit();
         if (base.IsOwner)
         {
-            // We are the owner of this character. Subscribe events to the input actions.
-            SubscribeToAction();
+            // We are the owner of this character. Allow inputs to propagate.
+            AllowInputs();
         }
     }
 
@@ -111,83 +110,71 @@ public class PlayerCharacterItemSystem : ItemSystem
 
     public override void OnStopClient()
     {
-        UnsubscribeFromAction();
+        BlockInputs();
     }
 
     void OnEnable()
     {
         if (base.IsOwner)
         {
-            // We are the owner of this character. Subscribe events to the input actions.
-            // We need this functionality because we unsubscribe on disable.
-            SubscribeToAction();
+            // We are the owner of this character. Allow inputs to propagate.
+            // We need this functionality because we block on disable.
+            AllowInputs();
         }
     }
 
     void OnDisable()
     {
-        // We don't check for ownership here, since calling `UnsubscribeFromAction()` when we are not subscribed shouldn't cause any problems.
-        UnsubscribeFromAction();
+        // We don't check for ownership here, since calling `BlockInputs()` when we are already blocking shouldn't cause any problems.
+        BlockInputs();
     }
 
-    void SubscribeToAction()
+    void AllowInputs()
     {
-        if (!_isSubscribedToInputActions)
+        if (_isInputBlocked)
         {
-            var inputManager = InputManager.Singleton;
-            if (inputManager == null)
-            {
-                Debug.Log("`InputManager.Singleton` is null, suggesting an `InputManager` wasn't present in the scene.");
-                throw new Exception();
-            }
-            inputManager.PrimaryAction += OnItemPrimary;
-            inputManager.SecondaryAction += OnItemSecondary;
-            _isSubscribedToInputActions = true;
+            _isInputBlocked = false;
         }
     }
 
-    void UnsubscribeFromAction()
+    void BlockInputs()
     {
-        if (_isSubscribedToInputActions)
+        if (!_isInputBlocked)
         {
-            var inputManager = InputManager.Singleton;
-            if (inputManager == null)
-            {
-                Debug.Log("`InputManager.Singleton` is null, suggesting an `InputManager` wasn't present in the scene.");
-                throw new Exception();
-            }
-            inputManager.PrimaryAction -= OnItemPrimary;
-            inputManager.SecondaryAction -= OnItemSecondary;
-            _isSubscribedToInputActions = false;
+            _isInputBlocked = true;
         }
     }
 
     // Propagates item-inputs down the correct item, based on the active hand.
     [Client(RequireOwnership = true)]
-    void OnItemPrimary(InputAction.CallbackContext context)
+    public void OnPrimary(bool wasPerformed)
     {
+        // If input is blocked, ignore it.
+        if (_isInputBlocked) { return; }
         switch (_activeHand)
         {
             case Hand.Left:
-                LeftItemPrimary?.Invoke(context);
+                LeftItemPrimary?.Invoke(wasPerformed);
                 break;
             case Hand.Right:
-                RightItemPrimary?.Invoke(context);
+                RightItemPrimary?.Invoke(wasPerformed);
                 break;
         }
     }
 
     // Propagates item-inputs down the correct item, based on the active hand.
     [Client(RequireOwnership = true)]
-    void OnItemSecondary(InputAction.CallbackContext context)
+    public void OnSecondary(bool wasPerformed)
     {
+        // If input is blocked, ignore it.
+        if (_isInputBlocked) { return; }
         switch (_activeHand)
         {
             case Hand.Left:
-                LeftItemSecondary?.Invoke(context);
+                LeftItemSecondary?.Invoke(wasPerformed);
                 break;
             case Hand.Right:
-                RightItemSecondary?.Invoke(context);
+                RightItemSecondary?.Invoke(wasPerformed);
                 break;
         }
     }

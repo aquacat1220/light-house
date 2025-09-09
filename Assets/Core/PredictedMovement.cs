@@ -1,11 +1,12 @@
 using System;
+using FishNet.Managing.Timing;
 using FishNet.Object;
 using FishNet.Object.Prediction;
 using FishNet.Transporting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerCharacterMovement : NetworkBehaviour
+public class PredictedMovement : NetworkBehaviour
 {
     public struct ReplicateData : IReplicateData
     {
@@ -46,7 +47,7 @@ public class PlayerCharacterMovement : NetworkBehaviour
         public void SetTick(uint value) => _tick = value;
     }
 
-    public PredictionRigidbody2D PredictionRigidbody2D;
+    PredictionRigidbody2D _predictionRigidbody2D;
 
     // Maximum movement speed of this character.
     [SerializeField]
@@ -59,13 +60,13 @@ public class PlayerCharacterMovement : NetworkBehaviour
     // The most recent movement input from the client controlling this character.
     Vector2 _recentMoveInput;
     // The most recent desired angular velocity for this character.
-    float _recentAngularVelocity;
+    float _accumulatedMouseDeltaX;
 
     // Is the component subscribed to timemanager callbacks?
     bool _isSubscribedToTimeManager = false;
 
     // Is the component subscribed to input actions?
-    bool _isSubscribedToInputActions = false;
+    bool _isInputBlocked = true;
 
 
     void Awake()
@@ -75,8 +76,8 @@ public class PlayerCharacterMovement : NetworkBehaviour
             Debug.Log("`rigidBody` wasn't set.");
             throw new Exception();
         }
-        PredictionRigidbody2D = new PredictionRigidbody2D();
-        PredictionRigidbody2D.Initialize(_rigidBody);
+        _predictionRigidbody2D = new PredictionRigidbody2D();
+        _predictionRigidbody2D.Initialize(_rigidBody);
     }
 
     public override void OnStartNetwork()
@@ -94,31 +95,31 @@ public class PlayerCharacterMovement : NetworkBehaviour
         if (base.IsOwner)
         {
             // We are the owning client of this character. Subscribe movement functions to the action.
-            SubscribeToAction();
+            AllowInputs();
         }
     }
 
     public override void OnStopClient()
     {
         // We don't check for ownership here, since calling `UnsubscribeFromAction()` when we are not subscribed shouldn't cause any problems.
-        UnsubscribeFromAction();
+        BlockInputs();
     }
 
     void OnEnable()
     {
         if (base.IsOwner)
         {
-            // We are the owning client of this character. Subscribe movement functions to the action.
+            // We are the owning client of this character. Allow inputs to control the character.
             // We need this functionality because we unsubscribe on disable.
-            SubscribeToAction();
+            AllowInputs();
             SubscribeToTimeManager();
         }
     }
 
     void OnDisable()
     {
-        // We don't check for ownership here, since calling `UnsubscribeFromAction()` when we are not subscribed shouldn't cause any problems.
-        UnsubscribeFromAction();
+        // We don't check for ownership here, since calling `BlockInputs()` when we are not subscribed shouldn't cause any problems.
+        BlockInputs();
         // And call `ResetInputs()` to make sure past inputs don't stay in affect during disabled periods.
         ResetInputs();
 
@@ -126,35 +127,19 @@ public class PlayerCharacterMovement : NetworkBehaviour
         // UnsubscribeFromTimeManager();
     }
 
-    void SubscribeToAction()
+    void AllowInputs()
     {
-        if (!_isSubscribedToInputActions)
+        if (_isInputBlocked)
         {
-            var inputManager = InputManager.Singleton;
-            if (inputManager == null)
-            {
-                Debug.Log("`InputManager.Singleton` is null, suggesting an `InputManager` wasn't present in the scene.");
-                throw new Exception();
-            }
-            inputManager.MoveAction += OnMoveAction;
-            inputManager.LookAction += OnLookAction;
-            _isSubscribedToInputActions = true;
+            _isInputBlocked = false;
         }
     }
 
-    void UnsubscribeFromAction()
+    void BlockInputs()
     {
-        if (_isSubscribedToInputActions)
+        if (!_isInputBlocked)
         {
-            var inputManager = InputManager.Singleton;
-            if (inputManager == null)
-            {
-                Debug.Log("`InputManager.Singleton` is null, suggesting an `InputManager` wasn't present in the scene.");
-                throw new Exception();
-            }
-            inputManager.MoveAction -= OnMoveAction;
-            inputManager.LookAction -= OnLookAction;
-            _isSubscribedToInputActions = false;
+            _isInputBlocked = true;
         }
     }
 
@@ -191,6 +176,8 @@ public class PlayerCharacterMovement : NetworkBehaviour
     [Replicate]
     private void Replicate(ReplicateData data, ReplicateState state = ReplicateState.Invalid, Channel channel = Channel.Unreliable)
     {
+        if (!base.IsOwner)
+            Debug.Log($"True Tick before: {TimeManager.LocalTick}, Tick: {data.GetTick()}, Created: {state.ContainsCreated()}, Replay: {state.ContainsReplayed()}, Ticked: {state.ContainsTicked()}, Current rb rotation: {_rigidBody.rotation}, Current tf rotation: {transform.rotation.eulerAngles.z}");
         if (!state.ContainsCreated())
         {
             // `data` isn't created by the owner; it is a default object provided by FishNet.
@@ -208,20 +195,24 @@ public class PlayerCharacterMovement : NetworkBehaviour
 
             {
                 // Zero out the rigidbody velocity to stop extrapolation.
-                PredictionRigidbody2D.Velocity(Vector2.zero);
+                _predictionRigidbody2D.Velocity(Vector2.zero);
                 // But leave the rotation as it is, since it has nothing to do with inertia.
-                PredictionRigidbody2D.Simulate();
+                _predictionRigidbody2D.Simulate();
+                if (!base.IsOwner)
+                    Debug.Log($"True Tick after: {TimeManager.LocalTick}, Tick: {data.GetTick()}, Created: {state.ContainsCreated()}, Replay: {state.ContainsReplayed()}, Ticked: {state.ContainsTicked()}, Current rb rotation: {_rigidBody.rotation}, Current tf rotation: {transform.rotation.eulerAngles.z}, {transform.rotation}");
+
                 return;
             }
         }
         // `data` is created by the owner.
-        Debug.Log($"{data.AngularVelocity}");
         Vector2 localMoveDirection = data.MoveInput;
         Vector2 worldMoveDirection = transform.TransformDirection(localMoveDirection).normalized;
-        PredictionRigidbody2D.Velocity(worldMoveDirection * _maxSpeed);
+        _predictionRigidbody2D.Velocity(worldMoveDirection * _maxSpeed);
         // Since rigidbody has rotation frozen, we should directly set the rotation, instead of setting angular velocity.
-        PredictionRigidbody2D.Rotation(_rigidBody.rotation + data.AngularVelocity * (float)TimeManager.TickDelta);
-        PredictionRigidbody2D.Simulate();
+        _predictionRigidbody2D.Rotation(_rigidBody.rotation + data.AngularVelocity * (float)TimeManager.TickDelta);
+        _predictionRigidbody2D.Simulate();
+        if (!base.IsOwner)
+            Debug.Log($"True Tick after: {TimeManager.LocalTick}, Tick: {data.GetTick()}, Created: {state.ContainsCreated()}, Replay: {state.ContainsReplayed()}, Ticked: {state.ContainsTicked()}, Current rb rotation: {_rigidBody.rotation}, Current tf rotation: {transform.rotation.eulerAngles.z}, {transform.rotation}");
     }
 
     private ReplicateData CreateReplicate()
@@ -232,46 +223,55 @@ public class PlayerCharacterMovement : NetworkBehaviour
             return default;
         }
 
-        ReplicateData data = new ReplicateData(_recentMoveInput, _recentAngularVelocity);
+        ReplicateData data = new ReplicateData(_recentMoveInput, _accumulatedMouseDeltaX * (-5.0f));
+        _accumulatedMouseDeltaX = 0f;
         return data;
     }
 
     [Reconcile]
     private void Reconcile(ReconcileData data, Channel channel = Channel.Unreliable)
     {
-        PredictionRigidbody2D.Reconcile(data.PredictionRigidbody2D);
+        if (!base.IsOwner)
+            Debug.Log($"Reconciling before: {data.GetTick()}, Current rb rotation: {_rigidBody.rotation}, Current tf rotation: {transform.rotation.eulerAngles.z}, {transform.rotation}");
+        _predictionRigidbody2D.Reconcile(data.PredictionRigidbody2D);
+        if (!base.IsOwner)
+            Debug.Log($"Reconciling after: {data.GetTick()}, Current rb rotation: {_rigidBody.rotation}, Current tf rotation: {transform.rotation.eulerAngles.z}, {transform.rotation}");
     }
 
 
     public override void CreateReconcile()
     {
-        ReconcileData data = new ReconcileData(PredictionRigidbody2D);
+        if (base.IsOwner)
+            Debug.Log($"LKS True Tick: {TimeManager.LocalTick}, Current rb rotation: {_rigidBody.rotation}, Current tf rotation: {transform.rotation.eulerAngles.z}, {transform.rotation}");
+        ReconcileData data = new ReconcileData(_predictionRigidbody2D);
         Reconcile(data);
     }
 
-    // Bound to `InputManager.Singleton.MoveAction`.
+    // Called to notify movement input change.
     // Sets `_recentMoveInput` to reflect the input.
-    void OnMoveAction(InputAction.CallbackContext context)
+    [Client(RequireOwnership = true)]
+    public void OnMove(Vector2 moveInput)
     {
-        // Any call to this handler will contain the latest value of the input, regardless of action phase.
-        Vector2 moveInput = context.ReadValue<Vector2>();
+        // If input is blocked, ignore it.
+        if (_isInputBlocked) { return; }
         _recentMoveInput = moveInput;
     }
 
-    // Bound to `InputManager.Singleton.LookAction`.
-    // Sets `_recentAngularVelocity` to reflect the input.
-    void OnLookAction(InputAction.CallbackContext context)
+    // Called to notify look input change.
+    // Sets `_accumulatedMouseDeltaX` to reflect the input.
+    [Client(RequireOwnership = true)]
+    public void OnLook(Vector2 lookInput)
     {
-        Vector2 mouseDelta = context.ReadValue<Vector2>();
-        Debug.Log($"OnLookAction: {mouseDelta}");
-        float mouseDeltaX = mouseDelta.x;
-        _recentAngularVelocity = -mouseDeltaX * 20f;
+        // If input is blocked, ignore it.
+        if (_isInputBlocked) { return; }
+        float mouseDeltaX = lookInput.x;
+        _accumulatedMouseDeltaX += mouseDeltaX;
     }
 
     // Reset recent movement input to zero.
     void ResetInputs()
     {
         _recentMoveInput = Vector2.zero;
-        _recentAngularVelocity = 0f;
+        _accumulatedMouseDeltaX = 0f;
     }
 }

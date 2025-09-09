@@ -73,6 +73,7 @@ namespace FishNet.Object.Prediction
         public static void WritePredictionRigidbody2D(this Writer w, PredictionRigidbody2D pr)
         {
             w.Write(pr.Rigidbody2D.GetState());
+            Debug.Log($"SER Write: {pr.Rigidbody2D.GetState().Rotation}");
             w.WriteList(pr.GetPendingForces());
         }
 
@@ -80,6 +81,7 @@ namespace FishNet.Object.Prediction
         {
             List<PredictionRigidbody2D.EntryData> lst = CollectionCaches<PredictionRigidbody2D.EntryData>.RetrieveList();
             Rigidbody2DState rs = r.Read<Rigidbody2DState>();
+            Debug.Log($"SER Read: {rs.Rotation}");
             r.ReadList(ref lst);
             PredictionRigidbody2D pr = ResettableObjectCaches<PredictionRigidbody2D>.Retrieve();
 
@@ -317,6 +319,7 @@ namespace FishNet.Object.Prediction
                 foreach (EntryData item in pr._pendingForces)
                     _pendingForces.Add(new(item));
             }
+            Debug.Log($"{pr.Rigidbody2DState.Rotation.eulerAngles.z}");
             Rigidbody2D.SetState(pr.Rigidbody2DState);
 
             ResettableObjectCaches<PredictionRigidbody2D>.Store(pr);
