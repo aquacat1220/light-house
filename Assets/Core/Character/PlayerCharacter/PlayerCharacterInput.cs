@@ -35,7 +35,7 @@ public class PlayerCharacterInput : NetworkBehaviour
 
     void OnEnable()
     {
-        if (base.IsOwner)
+        if (base.IsClientInitialized && base.IsOwner)
         {
             // We are the owning client of this character. Inputs should be passed down.
             SubscribeToInputManager();

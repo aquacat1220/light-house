@@ -66,7 +66,7 @@ public class Death : NetworkBehaviour
 
     void OnEnable()
     {
-        if (base.IsOwner)
+        if (base.IsClientInitialized && base.IsOwner)
         {
             AllowInputs();
         }
