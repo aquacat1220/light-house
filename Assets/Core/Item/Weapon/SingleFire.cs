@@ -16,18 +16,6 @@ public class SingleFire : NetworkBehaviour
     TimerHandle _cooldown;
     PlayerCharacterInput _input;
 
-    public override void OnStartClient()
-    {
-        Debug.Log("CDL");
-    }
-
-    public override void OnStartServer()
-    {
-        Debug.Log("SDL");
-    }
-
-
-
     public void OnRegister(ItemSlot itemSlot)
     {
         if (base.IsOwner)
