@@ -5,14 +5,19 @@ using UnityEngine.InputSystem;
 
 public class PlayerCharacterInput : NetworkBehaviour
 {
+    // Triggered when the move input changes. Argument holds the new input value.
     [SerializeField]
     UnityEvent<Vector2> _move;
+    // Triggered when the look input changes. Argument holds the new input value.
     [SerializeField]
     UnityEvent<Vector2> _look;
+    // Triggered when the die action is performed.
     [SerializeField]
     UnityEvent _die;
+    // Triggered when the primary action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
     [SerializeField]
     UnityEvent<bool> _primary;
+    // Triggered when the secondary action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
     [SerializeField]
     UnityEvent<bool> _secondary;
 
