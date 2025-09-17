@@ -5,16 +5,21 @@ using UnityEngine.InputSystem;
 
 public class PlayerCharacterInput : NetworkBehaviour
 {
+    // Triggered when the move input changes. Argument holds the new input value.
     [SerializeField]
-    UnityEvent<Vector2> move;
+    UnityEvent<Vector2> _move;
+    // Triggered when the look input changes. Argument holds the new input value.
     [SerializeField]
-    UnityEvent<Vector2> look;
+    UnityEvent<Vector2> _look;
+    // Triggered when the die action is performed.
     [SerializeField]
-    UnityEvent die;
+    UnityEvent _die;
+    // Triggered when the primary action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
     [SerializeField]
-    UnityEvent<bool> primary;
+    UnityEvent<bool> _primary;
+    // Triggered when the secondary action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
     [SerializeField]
-    UnityEvent<bool> secondary;
+    UnityEvent<bool> _secondary;
 
     bool _isSubscribedToInputManager = false;
 
@@ -35,7 +40,7 @@ public class PlayerCharacterInput : NetworkBehaviour
 
     void OnEnable()
     {
-        if (base.IsOwner)
+        if (base.IsClientInitialized && base.IsOwner)
         {
             // We are the owning client of this character. Inputs should be passed down.
             SubscribeToInputManager();
@@ -84,26 +89,26 @@ public class PlayerCharacterInput : NetworkBehaviour
 
     void OnMove(InputAction.CallbackContext context)
     {
-        move?.Invoke(context.ReadValue<Vector2>());
+        _move?.Invoke(context.ReadValue<Vector2>());
     }
 
     void OnLook(InputAction.CallbackContext context)
     {
-        look?.Invoke(context.ReadValue<Vector2>());
+        _look?.Invoke(context.ReadValue<Vector2>());
     }
 
     void OnDie(InputAction.CallbackContext context)
     {
-        die?.Invoke();
+        _die?.Invoke();
     }
 
     void OnPrimary(InputAction.CallbackContext context)
     {
-        primary?.Invoke(context.performed);
+        _primary?.Invoke(context.performed);
     }
 
     void OnSecondary(InputAction.CallbackContext context)
     {
-        secondary?.Invoke(context.performed);
+        _secondary?.Invoke(context.performed);
     }
 }

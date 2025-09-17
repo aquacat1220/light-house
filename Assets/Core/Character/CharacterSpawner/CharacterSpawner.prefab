@@ -59,20 +59,23 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 65535
+  <PrefabId>k__BackingField: 5
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 8687014910935379599
+  <AssetPathHash>k__BackingField: 4328479422198061895
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    Scale: {x: 0, y: 0, z: 0}
-    IsValid: 0
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Scale: {x: 1, y: 1, z: 1}
+    IsValid: 1
   <IsNested>k__BackingField: 0
+  WasActiveDuringEdit: 0
+  WasActiveDuringEdit_Set1: 1
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours: []
+  NetworkBehaviours:
+  - {fileID: 5605672732705489660}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -83,7 +86,6 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedValusSet: 0
 --- !u!114 &5605672732705489660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,8 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 153c8a19570ed972684d77ee9fe0aabb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 4775411344567516276}
-  _networkObjectCache: {fileID: 0}
-  characterPrefab: {fileID: 5139385379916303670, guid: a05b8bdaad09aaae8838bc5654bcd0a3, type: 3}
-  spawnPositions: []
+  _networkObjectCache: {fileID: 4775411344567516276}
+  _characterPrefab: {fileID: 0}
+  _spawnPositions: []

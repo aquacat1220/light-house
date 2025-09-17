@@ -1,65 +1,82 @@
 using System;
 using FishNet.Object;
 using UnityEngine;
-using UnityEngine.Assertions;
+using UnityEngine.Events;
 
-// Base class of all items.
-// Items can *register* and *unregister* from an item system, which will control the interaction.
 public class Item : NetworkBehaviour
 {
+    [SerializeField]
+    UnityEvent<ItemSlot> _register;
+    [SerializeField]
+    UnityEvent _unregister;
 
-    public Func<ItemRegisterContext, bool> RegisterImpl { private get; set; }
-    public Action UnregisterImpl { private get; set; }
+    // The item slot this item is registered to. Defaults to `null`, which means the item isn't registered to anything.
+    public ItemSlot ItemSlot;
 
-    // The currently registered itemsystem.
-    ItemSystem _itemSystem;
-
-    // We do this check in `Start()`, because the handlers are expected to be set by the implementors in `Awake()`.
-    void Start()
+    [Server]
+    public void Register(ItemSlot itemSlot)
     {
-        if (RegisterImpl == null)
-        {
-            Debug.Log("`RegisterImpl` wasn't set.");
-            throw new Exception();
-        }
-        if (UnregisterImpl == null)
-        {
-            Debug.Log("`UnregisterImpl` wasn't set.");
-            throw new Exception();
-        }
+        RegisterRpc(itemSlot);
     }
 
-    // This function shouldn't be called directly: the `ItemSystem`'s matching function should be called instead.
-    // Registering might fail, and return `false`.
-    // This function is not synced, and should be called on all instances (including the server) to ensure synchronization.
-    public bool Register(ItemRegisterContext registerContext)
-    {
-        if (registerContext is PlayerCharacterItemRegisterContext playerCharacterItemRegisterContext)
-        {
-            if (RegisterImpl.Invoke(registerContext))
-            {
-                _itemSystem = playerCharacterItemRegisterContext.ItemSystem;
-                return true;
-            }
-            return false;
-        }
-
-        // Unrecognized `ItemSystem` variants are ignored.
-        return false;
-    }
-
+    [Server]
     public void Unregister()
     {
-        Assert.IsNotNull(_itemSystem);
+        RegisterRpc(null);
+    }
 
-        if (_itemSystem is PlayerCharacterItemSystem playerCharacterItemSystem)
+    [ObserversRpc(BufferLast = true, RunLocally = true)]
+    void RegisterRpc(ItemSlot itemSlot)
+    {
+        if (itemSlot == ItemSlot)
         {
-            _itemSystem = null;
-            UnregisterImpl.Invoke();
+            // Either of two cases:
+            // 1. We are attempting to register an item slot that is already registered to this item.
+            // 2. We are attempting to unregister everything from this item, which isn't registerd to anything in the first place.
+            // Both are no-ops.
             return;
         }
+        if (itemSlot != null)
+        {
+            // `itemSlot` is not null. We are attempting to register a slot to this item.
 
-        Debug.Log("`Item` encountered unknown `ItemSystem` variant during `Unregister()`, which shouldn't have been `Register()`ed in the first place.");
-        throw new Exception();
+            // First unlink all items and item slots particiapting in this new link formation.
+            ItemSlot?.UnequipInner();
+            UnregisterInner();
+
+            Item oldItem = itemSlot.Item;
+            itemSlot.UnequipInner();
+            oldItem?.UnregisterInner();
+
+            // Then link the item and slot together.
+            itemSlot.EquipInner(this);
+            RegisterInner(itemSlot);
+        }
+        else
+        {
+            ItemSlot?.UnequipInner();
+            UnregisterInner();
+        }
+    }
+
+    public void RegisterInner(ItemSlot itemSlot)
+    {
+        if (ItemSlot == itemSlot)
+            return;
+        if (ItemSlot != null)
+        {
+            Debug.Log("`RegisterInner()` was called while having non-null `ItemSlot`.");
+            throw new Exception();
+        }
+        ItemSlot = itemSlot;
+        _register?.Invoke(itemSlot);
+    }
+
+    public void UnregisterInner()
+    {
+        if (ItemSlot == null)
+            return;
+        ItemSlot = null;
+        _unregister?.Invoke();
     }
 }

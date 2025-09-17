@@ -77,6 +77,8 @@ public class PlayerCharacterAim : NetworkBehaviour
         // _aimPointTransform.SetLocalPositionAndRotation(new Vector3(0f, _aimDistance, 0f), Quaternion.identity);
         // _aimPointTransform.localScale = Vector3.one;
 
+        // Assume we start consistently, as the initial values are hard coded.
+
         // And apply the initial values.
         MinAimDistance = _initialMinAimDistance;
         MaxAimDistance = _initialMaxAimDistance;
@@ -85,7 +87,7 @@ public class PlayerCharacterAim : NetworkBehaviour
 
     void OnEnable()
     {
-        if (base.IsOwner)
+        if (base.IsClientInitialized && base.IsOwner)
             AllowInputs();
     }
 

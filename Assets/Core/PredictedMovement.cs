@@ -103,16 +103,17 @@ public class PredictedMovement : NetworkBehaviour
     {
         // We don't check for ownership here, since calling `UnsubscribeFromAction()` when we are not subscribed shouldn't cause any problems.
         BlockInputs();
+        // And call `ResetInputs()` to make sure past inputs don't stay in affect during disabled periods.
+        ResetInputs();
     }
 
     void OnEnable()
     {
-        if (base.IsOwner)
+        if (base.IsClientInitialized && base.IsOwner)
         {
             // We are the owning client of this character. Allow inputs to control the character.
             // We need this functionality because we unsubscribe on disable.
             AllowInputs();
-            SubscribeToTimeManager();
         }
     }
 
