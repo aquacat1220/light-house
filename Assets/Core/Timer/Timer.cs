@@ -115,7 +115,7 @@ public class Timer : MonoBehaviour
         while (alarm.RemainingCooldown <= 0f && alarm.IsActive && !alarm.MarkedForRemoval)
         {
             alarm.RemainingCooldown += alarm.Cooldown;
-            alarm.Callback();
+            alarm.Callback?.Invoke();
             if (!alarm.IsRecurrent)
             {
                 alarm.IsActive = false;
