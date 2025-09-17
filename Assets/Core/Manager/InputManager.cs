@@ -14,7 +14,7 @@ public enum InputMode
 // this script is set to have an execution order of -1 (smaller the earlier).
 public class InputManager : MonoBehaviour
 {
-    public static InputManager Singleton { get; set; }
+    public static InputManager Singleton { get; private set; }
     public InputActions InputActions { get; private set; }
 
     [SerializeField]
