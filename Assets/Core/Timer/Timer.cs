@@ -50,6 +50,16 @@ public class TimerHandle
         _alarm.IsActive = false;
         _alarm.MarkedForRemoval = true;
     }
+
+    public bool IsActive()
+    {
+        return _alarm.IsActive;
+    }
+
+    public float RemainingCooldown()
+    {
+        return _alarm.RemainingCooldown;
+    }
 }
 
 public class Timer : MonoBehaviour
@@ -129,13 +139,13 @@ public class Timer : MonoBehaviour
         }
     }
 
-    public TimerHandle AddAlarm(float cooldown, Action callback, bool isRecurrent = false, bool destroyAfterTriggered = true)
+    public TimerHandle AddAlarm(float cooldown, Action callback, bool startActive = true, bool isRecurrent = false, bool destroyAfterTriggered = true)
     {
         AlarmInfo alarm = new AlarmInfo(
             cooldown: cooldown,
             remainingCooldown: cooldown,
             isRecurrent: isRecurrent,
-            isActive: true,
+            isActive: startActive,
             destroyAfterTriggered: destroyAfterTriggered,
             markedForRemoval: false,
             callback: callback

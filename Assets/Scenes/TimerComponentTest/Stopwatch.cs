@@ -14,7 +14,7 @@ public class Stopwatch : MonoBehaviour
 
     void Awake()
     {
-        _handle = _timer.AddAlarm(1f, () => Debug.Log($"{Time.time}: {gameObject.name} triggered!"), _isRecurrent, _destroyAfterTriggered);
+        _handle = _timer.AddAlarm(1f, () => Debug.Log($"{Time.time}: {gameObject.name} triggered!"), true, _isRecurrent, _destroyAfterTriggered);
     }
 
     void Update()

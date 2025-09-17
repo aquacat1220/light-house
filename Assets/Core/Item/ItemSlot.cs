@@ -83,4 +83,12 @@ public class ItemSlot : NetworkBehaviour
             return;
         Item = null;
     }
+
+    public T FindComponent<T>()
+    {
+        T fromSlot = GetComponent<T>();
+        if (fromSlot != null)
+            return fromSlot;
+        return transform.parent.GetComponent<T>();
+    }
 }
