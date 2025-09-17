@@ -6,9 +6,9 @@ using UnityEngine.Events;
 public class Item : NetworkBehaviour
 {
     [SerializeField]
-    UnityEvent<ItemSlot> register;
+    UnityEvent<ItemSlot> _register;
     [SerializeField]
-    UnityEvent unregister;
+    UnityEvent _unregister;
 
     // The item slot this item is registered to. Defaults to `null`, which means the item isn't registered to anything.
     public ItemSlot ItemSlot;
@@ -69,7 +69,7 @@ public class Item : NetworkBehaviour
             throw new Exception();
         }
         ItemSlot = itemSlot;
-        register?.Invoke(itemSlot);
+        _register?.Invoke(itemSlot);
     }
 
     public void UnregisterInner()
@@ -77,6 +77,6 @@ public class Item : NetworkBehaviour
         if (ItemSlot == null)
             return;
         ItemSlot = null;
-        unregister?.Invoke();
+        _unregister?.Invoke();
     }
 }

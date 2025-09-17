@@ -6,15 +6,15 @@ using UnityEngine.InputSystem;
 public class PlayerCharacterInput : NetworkBehaviour
 {
     [SerializeField]
-    UnityEvent<Vector2> move;
+    UnityEvent<Vector2> _move;
     [SerializeField]
-    UnityEvent<Vector2> look;
+    UnityEvent<Vector2> _look;
     [SerializeField]
-    UnityEvent die;
+    UnityEvent _die;
     [SerializeField]
-    UnityEvent<bool> primary;
+    UnityEvent<bool> _primary;
     [SerializeField]
-    UnityEvent<bool> secondary;
+    UnityEvent<bool> _secondary;
 
     bool _isSubscribedToInputManager = false;
 
@@ -84,26 +84,26 @@ public class PlayerCharacterInput : NetworkBehaviour
 
     void OnMove(InputAction.CallbackContext context)
     {
-        move?.Invoke(context.ReadValue<Vector2>());
+        _move?.Invoke(context.ReadValue<Vector2>());
     }
 
     void OnLook(InputAction.CallbackContext context)
     {
-        look?.Invoke(context.ReadValue<Vector2>());
+        _look?.Invoke(context.ReadValue<Vector2>());
     }
 
     void OnDie(InputAction.CallbackContext context)
     {
-        die?.Invoke();
+        _die?.Invoke();
     }
 
     void OnPrimary(InputAction.CallbackContext context)
     {
-        primary?.Invoke(context.performed);
+        _primary?.Invoke(context.performed);
     }
 
     void OnSecondary(InputAction.CallbackContext context)
     {
-        secondary?.Invoke(context.performed);
+        _secondary?.Invoke(context.performed);
     }
 }
