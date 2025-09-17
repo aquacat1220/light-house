@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 4118051918886285464}
   - component: {fileID: 9055979276640987138}
   - component: {fileID: 8227509136876258517}
+  - component: {fileID: 1780655100438947970}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -129,6 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stopSocketsOnThread: 1
   _dontRoute: 0
+  _reuseAddress: 0
   _unreliableMtu: 1023
   _ipv4BindAddress: 0.0.0.0
   _enableIpv6: 1
@@ -191,7 +193,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3edc2351ec82a997948ee33988d7f39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inputActionAsset: {fileID: -944628639613478452, guid: 1ae1c31adc91d9b0f8683fa6411ab6d6, type: 3}
   _initialInputMode: 0
 --- !u!114 &9055979276640987138
 MonoBehaviour:
@@ -239,3 +240,17 @@ MonoBehaviour:
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
   m_ScrollDeltaPerTick: 6
+--- !u!114 &1780655100438947970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7496639806610239324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b83ed9481546daa9daf478df7c404fbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TimerManager
+  _initialParent: {fileID: 0}
+  RateMultiplier: 1
