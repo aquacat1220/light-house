@@ -251,7 +251,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _fireCooldown: 1
-  _fireOnlyOnServer: 1
+  _fireOnlyOnServer: 0
 --- !u!114 &5652128343977679989
 MonoBehaviour:
   m_ObjectHideFlags: 0
