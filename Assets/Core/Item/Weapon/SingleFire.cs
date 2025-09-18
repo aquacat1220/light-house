@@ -18,7 +18,6 @@ public class SingleFire : NetworkBehaviour
 
     public void OnRegister(ItemSlot itemSlot)
     {
-        Debug.Log($"SingleFire register. Owner: {base.Owner.ClientId}, Local Client: {base.LocalConnection.ClientId}, Is Owner: {base.IsOwner}, Client Init: {base.IsClientInitialized}, Server Init: {base.IsServerInitialized}");
         if (base.IsOwner)
         {
             _input = itemSlot.FindComponent<PlayerCharacterInput>();

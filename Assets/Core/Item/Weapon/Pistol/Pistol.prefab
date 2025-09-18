@@ -83,9 +83,11 @@ MonoBehaviour:
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
   - {fileID: 8527589251339426411}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 8115713744422826728}
+  - {fileID: 3852882342583388494}
+  - {fileID: 2808605868186219775}
+  - {fileID: 4931446834156412192}
+  - {fileID: 5652128343977679989}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -178,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c209507eaf93dad96b11ab765bc6016e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 3
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: 2566409721090996822, guid: a05b8bdaad09aaae8838bc5654bcd0a3, type: 3}
   _networkObjectCache: {fileID: 654499795761544664}
   _owner_material: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
@@ -199,9 +201,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9a943a9135d698d80fe13d092a4615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 654499795761544664}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 654499795761544664}
   _despawnDelay: 10
 --- !u!114 &2808605868186219775
 MonoBehaviour:
@@ -215,9 +217,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff412e866c9576996b54193a308fcb7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemTransform
-  _componentIndexCache: 255
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 654499795761544664}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 654499795761544664}
 --- !u!114 &4931446834156412192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,9 +232,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36d15125aefe4378ea0578cdfd074dc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SingleFire
-  _componentIndexCache: 255
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 654499795761544664}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 654499795761544664}
   _fire:
     m_PersistentCalls:
       m_Calls:
@@ -262,6 +264,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d852d571aa07eb487a611303c76ec139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Logger
+  _componentIndexCache: 5
+  _addedNetworkObject: {fileID: 654499795761544664}
+  _networkObjectCache: {fileID: 654499795761544664}
 --- !u!1 &2055212392356153703
 GameObject:
   m_ObjectHideFlags: 0
