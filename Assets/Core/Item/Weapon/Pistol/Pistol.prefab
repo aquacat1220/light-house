@@ -11,10 +11,11 @@ GameObject:
   - component: {fileID: 8717210185455962439}
   - component: {fileID: 654499795761544664}
   - component: {fileID: 8527589251339426411}
-  - component: {fileID: 9014869720238086350}
-  - component: {fileID: 7233348986480869644}
   - component: {fileID: 8115713744422826728}
   - component: {fileID: 3852882342583388494}
+  - component: {fileID: 2808605868186219775}
+  - component: {fileID: 4931446834156412192}
+  - component: {fileID: 5652128343977679989}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -75,13 +76,15 @@ MonoBehaviour:
     Scale: {x: 1, y: 1, z: 1}
     IsValid: 1
   <IsNested>k__BackingField: 0
+  WasActiveDuringEdit: 0
+  WasActiveDuringEdit_Set1: 1
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
   - {fileID: 8527589251339426411}
-  - {fileID: 9014869720238086350}
-  - {fileID: 7233348986480869644}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 8115713744422826728}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
@@ -90,7 +93,7 @@ MonoBehaviour:
   _isNetworked: 1
   _isSpawnable: 1
   _isGlobal: 0
-  _initializeOrder: -1
+  _initializeOrder: 0
   _preventDespawnOnDisconnect: 1
   _defaultDespawnType: 0
 --- !u!114 &8527589251339426411
@@ -108,43 +111,61 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 654499795761544664}
   _networkObjectCache: {fileID: 654499795761544664}
---- !u!114 &9014869720238086350
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1456809218363140749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36d15125aefe4378ea0578cdfd074dc6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 1
-  _addedNetworkObject: {fileID: 654499795761544664}
-  _networkObjectCache: {fileID: 654499795761544664}
-  _firingDelay: 0.125
---- !u!114 &7233348986480869644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1456809218363140749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f239fce7f132c77f96886313b946e35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 2
-  _addedNetworkObject: {fileID: 654499795761544664}
-  _networkObjectCache: {fileID: 654499795761544664}
-  _item: {fileID: 8527589251339426411}
-  _singleFire: {fileID: 9014869720238086350}
-  _muzzleFlash: {fileID: 19660485046558141}
-  _muzzleTransform: {fileID: 2322089025785453786}
-  _damage: 30
-  _bulletTrace: {fileID: 512427646441429864, guid: 7ca7511d0b7d92741a728d8df098e941, type: 3}
+  _register:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2808605868186219775}
+        m_TargetAssemblyTypeName: ItemTransform, Assembly-CSharp
+        m_MethodName: OnRegister
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4931446834156412192}
+        m_TargetAssemblyTypeName: SingleFire, Assembly-CSharp
+        m_MethodName: OnRegister
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _unregister:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2808605868186219775}
+        m_TargetAssemblyTypeName: ItemTransform, Assembly-CSharp
+        m_MethodName: OnUnregister
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4931446834156412192}
+        m_TargetAssemblyTypeName: SingleFire, Assembly-CSharp
+        m_MethodName: OnUnregister
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  ItemSlot: {fileID: 0}
 --- !u!114 &8115713744422826728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +203,65 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 654499795761544664}
   _networkObjectCache: {fileID: 0}
   _despawnDelay: 10
+--- !u!114 &2808605868186219775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456809218363140749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff412e866c9576996b54193a308fcb7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemTransform
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 654499795761544664}
+  _networkObjectCache: {fileID: 0}
+--- !u!114 &4931446834156412192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456809218363140749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36d15125aefe4378ea0578cdfd074dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SingleFire
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 654499795761544664}
+  _networkObjectCache: {fileID: 0}
+  _fire:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5652128343977679989}
+        m_TargetAssemblyTypeName: Logger, Assembly-CSharp
+        m_MethodName: Log
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Pistol fire!
+          m_BoolArgument: 0
+        m_CallState: 2
+  _fireCooldown: 1
+  _fireOnlyOnServer: 1
+--- !u!114 &5652128343977679989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456809218363140749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d852d571aa07eb487a611303c76ec139, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Logger
 --- !u!1 &2055212392356153703
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,6 +315,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -256,6 +338,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
@@ -374,6 +457,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -395,6 +480,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
@@ -462,6 +548,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -483,6 +571,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
