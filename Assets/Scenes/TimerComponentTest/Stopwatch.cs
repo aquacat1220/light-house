@@ -6,33 +6,44 @@ public class Stopwatch : MonoBehaviour
     [SerializeField]
     Timer _timer;
     [SerializeField]
-    bool _isRecurrent;
-    [SerializeField]
-    bool _destroyAfterTriggered;
+    bool _autoEverything = false;
 
     TimerHandle _handle;
 
     void Awake()
     {
-        _handle = _timer.AddAlarm(1f, () => Debug.Log($"{Time.time}: {gameObject.name} triggered!"), true, _isRecurrent, _destroyAfterTriggered);
+        _handle = _timer.AddAlarm(
+                cooldown: 1f,
+                callback: () => Debug.Log($"{Time.time}: {gameObject.name} triggered!"),
+                startImmediately: _autoEverything,
+                armImmediately: _autoEverything,
+                autoRestart: _autoEverything,
+                autoRearm: _autoEverything,
+                initialCooldown: 0f,
+                destroyAfterTriggered: false
+            );
     }
-
     void Update()
     {
-        if (Keyboard.current.aKey.wasPressedThisFrame)
+        if (Keyboard.current.qKey.wasPressedThisFrame)
         {
-            _handle.Activate();
-            Debug.Log($"{Time.time}: {gameObject.name} activated!");
+            _handle.Start();
+            Debug.Log($"{Time.time}: {gameObject.name} started!");
         }
-        if (Keyboard.current.dKey.wasPressedThisFrame)
+        if (Keyboard.current.wKey.wasPressedThisFrame)
         {
-            _handle.Deactivate();
-            Debug.Log($"{Time.time}: {gameObject.name} deactivated!");
+            _handle.Stop();
+            Debug.Log($"{Time.time}: {gameObject.name} stopped!");
+        }
+        if (Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            _handle.Arm();
+            Debug.Log($"{Time.time}: {gameObject.name} armed!");
         }
         if (Keyboard.current.rKey.wasPressedThisFrame)
         {
-            _handle.Remove();
-            Debug.Log($"{Time.time}: {gameObject.name} removed!");
+            _handle.Disarm();
+            Debug.Log($"{Time.time}: {gameObject.name} disarmed!");
         }
     }
 }

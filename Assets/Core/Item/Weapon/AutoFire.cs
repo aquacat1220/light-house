@@ -3,13 +3,13 @@ using FishNet.Object;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SingleFire : NetworkBehaviour
+public class AutoFire : NetworkBehaviour
 {
     [SerializeField]
     UnityEvent _fire;
 
     [SerializeField]
-    float _fireCooldown = 1.0f;
+    float _fireCooldown = 0.5f;
     [SerializeField]
     bool _fireOnlyOnServer = false;
 
@@ -24,16 +24,19 @@ public class SingleFire : NetworkBehaviour
             _input.Primary.AddListener(OnPrimary);
         }
         if (base.IsServerInitialized)
+        {
+            // Add a recurrent alarm that is always started, but needs manual arming everytime, starting now.
             _cooldown = TimerManager.Singleton.AddAlarm(
                 cooldown: _fireCooldown,
-                callback: null,
+                callback: Fire,
                 startImmediately: true,
                 armImmediately: false,
                 autoRestart: true,
-                autoRearm: false,
+                autoRearm: true,
                 initialCooldown: 0f,
                 destroyAfterTriggered: false
             );
+        }
     }
 
     public void OnUnregister()
@@ -54,18 +57,22 @@ public class SingleFire : NetworkBehaviour
     [Client(RequireOwnership = true)]
     void OnPrimary(bool isPerformed)
     {
-        if (!isPerformed)
-            return;
-        TryFire();
+        if (isPerformed)
+            StartFire();
+        else
+            StopFire();
     }
 
     [ServerRpc(RequireOwnership = true)]
-    void TryFire()
+    void StartFire()
     {
-        if (_cooldown.RemainingCooldown() > 0f)
-            return;
         _cooldown.Arm();
-        Fire();
+    }
+
+    [ServerRpc(RequireOwnership = true)]
+    void StopFire()
+    {
+        _cooldown.Disarm();
     }
 
     [Server]

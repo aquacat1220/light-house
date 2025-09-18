@@ -5,7 +5,7 @@ public class Logger : NetworkBehaviour
 {
     public void Log(string str)
     {
-        Debug.Log(str);
+        Debug.Log($"{Time.time}: {str}");
     }
 
     public override void OnStartNetwork()
