@@ -13,7 +13,15 @@ public class ItemSlot : NetworkBehaviour
         // If this slot is occupied, or the item we are trying to equip is null, or the item we are trying to equip is already equipped by another slot, return false and abort.
         if (Item != null || item == null || item.ItemSlot != null)
             return false;
+        // Give ownership of item before any RPC calls, so clients will expect correct ownerships on their callbacks.
+        item.GiveOwnership(base.Owner);
+        // A `RunLocally = true` RPC seemingly does the same thing, but comes with a small issue.
+        // On hosts, this causes the RPC to execute before the items have time to client-init.
+        // It is reasonable for items to assume their callbacks will be triggered only after all network stuff is inited.
+        // See 2025-09-18 11:22:40 for in depth info.
         EquipRpc(item);
+        if (base.IsServerOnlyStarted)
+            EquipLocal(item);
         item.Register(this);
         return true;
     }
@@ -25,12 +33,21 @@ public class ItemSlot : NetworkBehaviour
             return false;
         Item oldItem = Item;
         EquipRpc(null);
+        if (base.IsServerOnlyStarted)
+            EquipLocal(null);
         oldItem.Unregister();
+        // Remove ownership after RPC calls, so clients will still have ownership on their callbacks.
+        oldItem.RemoveOwnership();
         return true;
     }
 
-    [ObserversRpc(BufferLast = true, RunLocally = true)]
+    [ObserversRpc(BufferLast = true)]
     void EquipRpc(Item item)
+    {
+        EquipLocal(item);
+    }
+
+    void EquipLocal(Item item)
     {
         if (item == Item)
         {
@@ -82,5 +99,13 @@ public class ItemSlot : NetworkBehaviour
         if (Item == null)
             return;
         Item = null;
+    }
+
+    public T FindComponent<T>()
+    {
+        T fromSlot = GetComponent<T>();
+        if (fromSlot != null)
+            return fromSlot;
+        return transform.parent.GetComponent<T>();
     }
 }

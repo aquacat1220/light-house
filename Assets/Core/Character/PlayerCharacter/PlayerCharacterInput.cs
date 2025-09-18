@@ -6,20 +6,15 @@ using UnityEngine.InputSystem;
 public class PlayerCharacterInput : NetworkBehaviour
 {
     // Triggered when the move input changes. Argument holds the new input value.
-    [SerializeField]
-    UnityEvent<Vector2> _move;
+    public UnityEvent<Vector2> Move;
     // Triggered when the look input changes. Argument holds the new input value.
-    [SerializeField]
-    UnityEvent<Vector2> _look;
+    public UnityEvent<Vector2> Look;
     // Triggered when the die action is performed.
-    [SerializeField]
-    UnityEvent _die;
+    public UnityEvent Die;
     // Triggered when the primary action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
-    [SerializeField]
-    UnityEvent<bool> _primary;
+    public UnityEvent<bool> Primary;
     // Triggered when the secondary action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
-    [SerializeField]
-    UnityEvent<bool> _secondary;
+    public UnityEvent<bool> Secondary;
 
     bool _isSubscribedToInputManager = false;
 
@@ -89,26 +84,26 @@ public class PlayerCharacterInput : NetworkBehaviour
 
     void OnMove(InputAction.CallbackContext context)
     {
-        _move?.Invoke(context.ReadValue<Vector2>());
+        Move?.Invoke(context.ReadValue<Vector2>());
     }
 
     void OnLook(InputAction.CallbackContext context)
     {
-        _look?.Invoke(context.ReadValue<Vector2>());
+        Look?.Invoke(context.ReadValue<Vector2>());
     }
 
     void OnDie(InputAction.CallbackContext context)
     {
-        _die?.Invoke();
+        Die?.Invoke();
     }
 
     void OnPrimary(InputAction.CallbackContext context)
     {
-        _primary?.Invoke(context.performed);
+        Primary?.Invoke(context.performed);
     }
 
     void OnSecondary(InputAction.CallbackContext context)
     {
-        _secondary?.Invoke(context.performed);
+        Secondary?.Invoke(context.performed);
     }
 }

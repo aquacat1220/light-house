@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75bfcca88a07a7a7e885f9deee46ec2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Timer
-  _initialParent: {fileID: 1594778332}
+  _initialParent: {fileID: 1594778333}
   RateMultiplier: 1
 --- !u!4 &1262170436
 Transform:
@@ -179,8 +179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Stopwatch
   _timer: {fileID: 1262170435}
-  _isRecurrent: 0
-  _destroyAfterTriggered: 0
+  _autoEverything: 0
 --- !u!1001 &1594778330
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -236,30 +235,19 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7496639806610239324, guid: 8d965df2f9bb8e4f0b547fde1f5a9cd1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1594778332}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d965df2f9bb8e4f0b547fde1f5a9cd1, type: 3}
---- !u!1 &1594778331 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7496639806610239324, guid: 8d965df2f9bb8e4f0b547fde1f5a9cd1, type: 3}
+--- !u!114 &1594778333 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1780655100438947970, guid: 8d965df2f9bb8e4f0b547fde1f5a9cd1, type: 3}
   m_PrefabInstance: {fileID: 1594778330}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1594778332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1594778331}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b83ed9481546daa9daf478df7c404fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimerManager
-  _initialParent: {fileID: 0}
-  RateMultiplier: 1
 --- !u!1 &1845734381
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,7 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75bfcca88a07a7a7e885f9deee46ec2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Timer
-  _initialParent: {fileID: 1594778332}
+  _initialParent: {fileID: 1594778333}
   RateMultiplier: 0.5
 --- !u!4 &1845734383
 Transform:
@@ -320,8 +308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Stopwatch
   _timer: {fileID: 1845734382}
-  _isRecurrent: 1
-  _destroyAfterTriggered: 0
+  _autoEverything: 1
 --- !u!1 &1865491891
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,8 +369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Stopwatch
   _timer: {fileID: 1865491892}
-  _isRecurrent: 1
-  _destroyAfterTriggered: 0
+  _autoEverything: 1
 --- !u!1 &1957368808
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,7 +400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75bfcca88a07a7a7e885f9deee46ec2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Timer
-  _initialParent: {fileID: 1594778332}
+  _initialParent: {fileID: 1594778333}
   RateMultiplier: 2
 --- !u!4 &1957368810
 Transform:
@@ -444,8 +430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Stopwatch
   _timer: {fileID: 1957368809}
-  _isRecurrent: 1
-  _destroyAfterTriggered: 0
+  _autoEverything: 1
 --- !u!1 &1984604672
 GameObject:
   m_ObjectHideFlags: 0

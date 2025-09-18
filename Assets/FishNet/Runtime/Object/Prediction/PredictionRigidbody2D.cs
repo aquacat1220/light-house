@@ -317,7 +317,6 @@ namespace FishNet.Object.Prediction
                 foreach (EntryData item in pr._pendingForces)
                     _pendingForces.Add(new(item));
             }
-            Debug.Log($"{pr.Rigidbody2DState.Rotation.eulerAngles.z}");
             Rigidbody2D.SetState(pr.Rigidbody2DState);
 
             ResettableObjectCaches<PredictionRigidbody2D>.Store(pr);

@@ -491,21 +491,9 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 1234947311}
   _networkObjectCache: {fileID: 0}
-  register:
+  _register:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1926956153}
-        m_TargetAssemblyTypeName: ItemRemakeTest, Assembly-CSharp
-        m_MethodName: OnYRegister
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1234947313}
         m_TargetAssemblyTypeName: ItemTransform, Assembly-CSharp
         m_MethodName: OnRegister
@@ -518,21 +506,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  unregister:
+  _unregister:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1926956153}
-        m_TargetAssemblyTypeName: ItemRemakeTest, Assembly-CSharp
-        m_MethodName: OnYUnregister
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1234947313}
         m_TargetAssemblyTypeName: ItemTransform, Assembly-CSharp
         m_MethodName: OnUnregister
@@ -721,21 +697,9 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 1428189429}
   _networkObjectCache: {fileID: 0}
-  register:
+  _register:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1926956153}
-        m_TargetAssemblyTypeName: ItemRemakeTest, Assembly-CSharp
-        m_MethodName: OnZRegister
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1428189431}
         m_TargetAssemblyTypeName: ItemTransform, Assembly-CSharp
         m_MethodName: OnRegister
@@ -748,21 +712,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  unregister:
+  _unregister:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1926956153}
-        m_TargetAssemblyTypeName: ItemRemakeTest, Assembly-CSharp
-        m_MethodName: OnZUnregister
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1428189431}
         m_TargetAssemblyTypeName: ItemTransform, Assembly-CSharp
         m_MethodName: OnUnregister
@@ -951,21 +903,9 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 1507270163}
   _networkObjectCache: {fileID: 0}
-  register:
+  _register:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1926956153}
-        m_TargetAssemblyTypeName: ItemRemakeTest, Assembly-CSharp
-        m_MethodName: OnXRegister
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1507270165}
         m_TargetAssemblyTypeName: ItemTransform, Assembly-CSharp
         m_MethodName: OnRegister
@@ -978,21 +918,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  unregister:
+  _unregister:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1926956153}
-        m_TargetAssemblyTypeName: ItemRemakeTest, Assembly-CSharp
-        m_MethodName: OnXUnregister
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1507270165}
         m_TargetAssemblyTypeName: ItemTransform, Assembly-CSharp
         m_MethodName: OnUnregister

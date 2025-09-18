@@ -17,16 +17,25 @@ public class Item : NetworkBehaviour
     public void Register(ItemSlot itemSlot)
     {
         RegisterRpc(itemSlot);
+        if (base.IsServerOnlyStarted)
+            RegisterLocal(itemSlot);
     }
 
     [Server]
     public void Unregister()
     {
         RegisterRpc(null);
+        if (base.IsServerOnlyStarted)
+            RegisterLocal(null);
     }
 
-    [ObserversRpc(BufferLast = true, RunLocally = true)]
+    [ObserversRpc(BufferLast = true)]
     void RegisterRpc(ItemSlot itemSlot)
+    {
+        RegisterLocal(itemSlot);
+    }
+
+    void RegisterLocal(ItemSlot itemSlot)
     {
         if (itemSlot == ItemSlot)
         {
