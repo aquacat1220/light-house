@@ -74,7 +74,7 @@ public class TimerHandle
 // Call `TimerHandle.Stop()`, the timer stops counting down.
 // When the timer reaches zero, it stops there until the bomb is armed with `TimerHandle.Arm()`.
 // If the bomb is armed, it "goes off" by triggering the callback.
-// The bomb will automatically reset its timer, but won't restart or rearm, unless `autoRestart` and `autoRearm` is set.
+// *After* the bomb goes off, the bomb will automatically reset its timer, but won't restart or rearm, unless `autoRestart` and `autoRearm` is set.
 public class Timer : MonoBehaviour
 {
     [SerializeField]
