@@ -58,8 +58,8 @@ public class AutoFire : NetworkBehaviour
         {
             // Emulate a client canceling primary input by disarming the alarm.
             // We do this to stop the weapon firing after being reequipped.
-            _cooldown.Disarm();
-            _cooldown.Callback(null);
+            StopFire();
+            // _cooldown.Callback(null);
         }
     }
 
