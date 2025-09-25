@@ -16,12 +16,14 @@ public class AutoFire : NetworkBehaviour
     Alarm _cooldown;
     PlayerCharacterInput _input;
 
+    bool _canFire = true;
+
     public void OnRegister(ItemSlot itemSlot)
     {
         if (base.IsOwner)
         {
             _input = itemSlot.FindComponent<PlayerCharacterInput>();
-            _input.Primary.AddListener(OnPrimary);
+            _input.Primary.AddListener(OnFire);
         }
         if (base.IsServerInitialized)
         {
@@ -39,7 +41,8 @@ public class AutoFire : NetworkBehaviour
                 );
             else
             {
-                _cooldown.Callback(Fire);
+                // We already have a cooldown alarm.
+                // _cooldown.Callback(Fire);
             }
         }
     }
@@ -48,7 +51,7 @@ public class AutoFire : NetworkBehaviour
     {
         if (_input != null)
         {
-            _input.Primary.RemoveListener(OnPrimary);
+            _input.Primary.RemoveListener(OnFire);
             _input = null;
         }
         if (_cooldown != null)
@@ -62,21 +65,44 @@ public class AutoFire : NetworkBehaviour
 
     // Responds to the primary action.
     [Client(RequireOwnership = true)]
-    void OnPrimary(bool isPerformed)
+    public void OnFire(bool isPerformed)
     {
+        TryFire(isPerformed);
+    }
+
+    public void PreventFire()
+    {
+        // Stop the current fire action.
+        StopFire();
+        // And ignore any future fire actions.
+        _canFire = false;
+    }
+
+    public void AllowFire()
+    {
+        // Allow future fire actions to trigger `Fire()`.
+        _canFire = true;
+        // But we don't bring back the old input state.
+    }
+
+    [ServerRpc(RequireOwnership = true)]
+    void TryFire(bool isPerformed)
+    {
+        if (!_canFire)
+            return;
         if (isPerformed)
             StartFire();
         else
             StopFire();
     }
 
-    [ServerRpc(RequireOwnership = true)]
+    [Server]
     void StartFire()
     {
         _cooldown.Arm();
     }
 
-    [ServerRpc(RequireOwnership = true)]
+    [Server]
     void StopFire()
     {
         _cooldown.Disarm();
