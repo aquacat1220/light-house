@@ -13,7 +13,7 @@ public class AutoFire : NetworkBehaviour
     [SerializeField]
     bool _fireOnlyOnServer = false;
 
-    TimerHandle _cooldown;
+    Alarm _cooldown;
     PlayerCharacterInput _input;
 
     public void OnRegister(ItemSlot itemSlot)
@@ -25,17 +25,22 @@ public class AutoFire : NetworkBehaviour
         }
         if (base.IsServerInitialized)
         {
-            // Add a recurrent alarm that is always started, but needs manual arming everytime, starting now.
-            _cooldown = TimerManager.Singleton.AddAlarm(
-                cooldown: _fireCooldown,
-                callback: Fire,
-                startImmediately: true,
-                armImmediately: false,
-                autoRestart: true,
-                autoRearm: true,
-                initialCooldown: 0f,
-                destroyAfterTriggered: false
-            );
+            if (_cooldown == null)
+                // Add a recurrent alarm that is always started, but needs manual arming everytime, starting now.
+                _cooldown = TimerManager.Singleton.AddAlarm(
+                    cooldown: _fireCooldown,
+                    callback: Fire,
+                    startImmediately: true,
+                    armImmediately: false,
+                    autoRestart: true,
+                    autoRearm: true,
+                    initialCooldown: 0f,
+                    destroyAfterTriggered: false
+                );
+            else
+            {
+                _cooldown.Callback(Fire);
+            }
         }
     }
 
@@ -48,8 +53,10 @@ public class AutoFire : NetworkBehaviour
         }
         if (_cooldown != null)
         {
-            _cooldown.Remove();
-            _cooldown = null;
+            // Emulate a client canceling primary input by disarming the alarm.
+            // We do this to stop the weapon firing after being reequipped.
+            _cooldown.Disarm();
+            _cooldown.Callback(null);
         }
     }
 

@@ -13,7 +13,7 @@ public class SingleFire : NetworkBehaviour
     [SerializeField]
     bool _fireOnlyOnServer = false;
 
-    TimerHandle _cooldown;
+    Alarm _cooldown;
     PlayerCharacterInput _input;
 
     public void OnRegister(ItemSlot itemSlot)
@@ -24,16 +24,24 @@ public class SingleFire : NetworkBehaviour
             _input.Primary.AddListener(OnPrimary);
         }
         if (base.IsServerInitialized)
-            _cooldown = TimerManager.Singleton.AddAlarm(
-                cooldown: _fireCooldown,
-                callback: Fire,
-                startImmediately: true,
-                armImmediately: false,
-                autoRestart: true,
-                autoRearm: false,
-                initialCooldown: 0f,
-                destroyAfterTriggered: false
-            );
+        {
+            if (_cooldown == null)
+                _cooldown = TimerManager.Singleton.AddAlarm(
+                    cooldown: _fireCooldown,
+                    callback: Fire,
+                    startImmediately: true,
+                    armImmediately: false,
+                    autoRestart: true,
+                    autoRearm: false,
+                    initialCooldown: 0f,
+                    destroyAfterTriggered: false
+                );
+            else
+            {
+                // We already have a cooldown alarm.
+                _cooldown.Callback(Fire);
+            }
+        }
     }
 
     public void OnUnregister()
@@ -45,8 +53,9 @@ public class SingleFire : NetworkBehaviour
         }
         if (_cooldown != null)
         {
-            _cooldown.Remove();
-            _cooldown = null;
+            // Emulate a client canceling primary input by disarming the alarm.
+            _cooldown.Disarm();
+            _cooldown.Callback(null);
         }
     }
 
