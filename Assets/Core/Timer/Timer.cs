@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class AlarmInfo
@@ -28,33 +29,41 @@ public class AlarmInfo
     }
 }
 
-public class TimerHandle
+public class Alarm
 {
     AlarmInfo _alarm;
 
-    public TimerHandle(AlarmInfo alarm)
+    public Alarm(AlarmInfo alarm)
     {
         _alarm = alarm;
     }
 
-    public void Start()
+    public bool Start()
     {
+        var oldStarted = _alarm.IsStarted;
         _alarm.IsStarted = true;
+        return oldStarted;
     }
 
-    public void Stop()
+    public bool Stop()
     {
+        var oldStarted = _alarm.IsStarted;
         _alarm.IsStarted = false;
+        return oldStarted;
     }
 
-    public void Arm()
+    public bool Arm()
     {
+        var oldArmed = _alarm.IsArmed;
         _alarm.IsArmed = true;
+        return oldArmed;
     }
 
-    public void Disarm()
+    public bool Disarm()
     {
+        var oldArmed = _alarm.IsArmed;
         _alarm.IsArmed = false;
+        return oldArmed;
     }
 
     public void Remove()
@@ -62,10 +71,33 @@ public class TimerHandle
         _alarm.MarkedForRemoval = true;
     }
 
-    public float RemainingCooldown()
+    public Action Callback(Action newCallback)
     {
-        return _alarm.RemainingCooldown;
+        Action oldCallback = _alarm.Callback;
+        _alarm.Callback = newCallback;
+        return oldCallback;
     }
+
+    // public bool AutoRestart(bool autoRestart)
+    // {
+    //     var oldAutoRestart = _alarm.AutoRestart;
+    //     _alarm.AutoRestart = autoRestart;
+    //     return oldAutoRestart;
+    // }
+
+    // public bool AutoRearm(bool autoRearm)
+    // {
+    //     var oldAutoRearm = _alarm.AutoRearm;
+    //     _alarm.AutoRearm = autoRearm;
+    //     return oldAutoRearm;
+    // }
+
+    // public bool DestroyAfterTriggered(bool destroyAfterTriggered)
+    // {
+    //     var oldDestroyAfterTriggered = _alarm.DestroyAfterTriggered;
+    //     _alarm.DestroyAfterTriggered = destroyAfterTriggered;
+    //     return oldDestroyAfterTriggered;
+    // }
 }
 
 // Think of the `Timer` component as a time bomb.
@@ -170,7 +202,7 @@ public class Timer : MonoBehaviour
 
     // By default, adds an alarm that is started and armed, will auto rearm, but won't auto restart.
     // Basically an one-time alarm that needs a restart after being triggered.
-    public TimerHandle AddAlarm(float cooldown, Action callback, bool startImmediately = true, bool armImmediately = true, bool autoRestart = true, bool autoRearm = true, float initialCooldown = -1, bool destroyAfterTriggered = false)
+    public Alarm AddAlarm(float cooldown, Action callback, bool startImmediately = true, bool armImmediately = true, bool autoRestart = true, bool autoRearm = true, float initialCooldown = -1, bool destroyAfterTriggered = false)
     {
         if (cooldown <= 0f)
         {
@@ -197,6 +229,6 @@ public class Timer : MonoBehaviour
 
         _alarms.Add(alarm);
 
-        return new TimerHandle(alarm);
+        return new Alarm(alarm);
     }
 }

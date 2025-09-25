@@ -8,7 +8,7 @@ public class Stopwatch : MonoBehaviour
     [SerializeField]
     bool _autoEverything = false;
 
-    TimerHandle _handle;
+    Alarm _handle;
 
     void Awake()
     {
