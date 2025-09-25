@@ -78,26 +78,26 @@ public class Alarm
         return oldCallback;
     }
 
-    public bool AutoRestart(bool autoRestart)
-    {
-        var oldAutoRestart = _alarm.AutoRestart;
-        _alarm.AutoRestart = autoRestart;
-        return oldAutoRestart;
-    }
+    // public bool AutoRestart(bool autoRestart)
+    // {
+    //     var oldAutoRestart = _alarm.AutoRestart;
+    //     _alarm.AutoRestart = autoRestart;
+    //     return oldAutoRestart;
+    // }
 
-    public bool AutoRearm(bool autoRearm)
-    {
-        var oldAutoRearm = _alarm.AutoRearm;
-        _alarm.AutoRearm = autoRearm;
-        return oldAutoRearm;
-    }
+    // public bool AutoRearm(bool autoRearm)
+    // {
+    //     var oldAutoRearm = _alarm.AutoRearm;
+    //     _alarm.AutoRearm = autoRearm;
+    //     return oldAutoRearm;
+    // }
 
-    public bool DestroyAfterTriggered(bool destroyAfterTriggered)
-    {
-        var oldDestroyAfterTriggered = _alarm.DestroyAfterTriggered;
-        _alarm.DestroyAfterTriggered = destroyAfterTriggered;
-        return oldDestroyAfterTriggered;
-    }
+    // public bool DestroyAfterTriggered(bool destroyAfterTriggered)
+    // {
+    //     var oldDestroyAfterTriggered = _alarm.DestroyAfterTriggered;
+    //     _alarm.DestroyAfterTriggered = destroyAfterTriggered;
+    //     return oldDestroyAfterTriggered;
+    // }
 }
 
 // Think of the `Timer` component as a time bomb.
