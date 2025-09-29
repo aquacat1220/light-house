@@ -24,11 +24,13 @@ public class ItemTransform : NetworkBehaviour
 
     public void OnRegister(ItemSlot itemSlot)
     {
+        Debug.Log($"{base.Owner}");
         AttachToTransform(itemSlot.transform);
     }
 
     public void OnUnregister()
     {
+        Debug.Log($"{base.Owner}");
         DetachFromTransform();
     }
 

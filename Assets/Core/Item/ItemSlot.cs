@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemSlot : NetworkBehaviour
 {
     // The item this slot is equipping. Defaults to `null`, which means the slot is unoccupied.
-    public Item Item;
+    public Item Item { get; private set; }
 
     [Server]
     public bool Equip(Item item)
@@ -99,13 +99,5 @@ public class ItemSlot : NetworkBehaviour
         if (Item == null)
             return;
         Item = null;
-    }
-
-    public T FindComponent<T>()
-    {
-        T fromSlot = GetComponent<T>();
-        if (fromSlot != null)
-            return fromSlot;
-        return transform.parent.GetComponent<T>();
     }
 }

@@ -7,6 +7,8 @@ public class ItemPickup : NetworkBehaviour
     [SerializeField]
     GameObject _item;
 
+    GameObject _spawnedItem;
+
     void Awake()
     {
         if (_item == null)
@@ -22,22 +24,18 @@ public class ItemPickup : NetworkBehaviour
             // Spawning and equipping items are only possible on the server.
             return;
         GameObject collider = collision.gameObject;
-        if (collider.GetComponent<PlayerCharacterInput>() == null)
-            // The collider isn't the player character.
-            return;
-
-        for (var i = 0; i < collider.transform.childCount; i++)
+        var _inventory = collider.GetComponent<PlayerCharacterInventory>();
+        if (_inventory != null)
         {
-            Transform child = collider.transform.GetChild(i);
-            ItemSlot itemSlot = child.GetComponent<ItemSlot>();
-            if (itemSlot == null)
-                continue;
-            if (itemSlot.Item != null)
-                continue;
-            GameObject item = Instantiate(_item, transform.position, transform.rotation);
-            Spawn(item, base.Owner, gameObject.scene);
-            itemSlot.Equip(item.GetComponent<Item>());
-            break;
+            // The collider is the player character. Add the item to the inventory.
+            if (_spawnedItem == null)
+            {
+                _spawnedItem = Instantiate(_item, transform.position, transform.rotation);
+                Spawn(_spawnedItem, base.Owner, gameObject.scene);
+            }
+            if (_inventory.AddItem(_spawnedItem.GetComponent<Item>()))
+                // `PlayerCharacterInventory.AddItem()` will return true only if the item was successfully equipped in the inventory.
+                _spawnedItem = null;
         }
     }
 }

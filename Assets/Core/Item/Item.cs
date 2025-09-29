@@ -11,7 +11,7 @@ public class Item : NetworkBehaviour
     UnityEvent _unregister;
 
     // The item slot this item is registered to. Defaults to `null`, which means the item isn't registered to anything.
-    public ItemSlot ItemSlot;
+    public ItemSlot ItemSlot { get; private set; }
 
     [Server]
     public void Register(ItemSlot itemSlot)
@@ -85,7 +85,7 @@ public class Item : NetworkBehaviour
     {
         if (ItemSlot == null)
             return;
-        ItemSlot = null;
         _unregister?.Invoke();
+        ItemSlot = null;
     }
 }

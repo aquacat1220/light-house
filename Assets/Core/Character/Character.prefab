@@ -253,7 +253,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8949152631726614769}
   m_Layer: 0
-  m_Name: LeftItemAnchor
+  m_Name: SubItemAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -284,7 +284,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4124921343106321261}
   m_Layer: 0
-  m_Name: RightItemAnchor
+  m_Name: MainItemAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

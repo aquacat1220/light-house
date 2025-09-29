@@ -1,16 +1,34 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ItemSlotInput : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public UnityEvent<bool> Primary;
+    public UnityEvent<bool> Secondary;
+
+    bool _blockInputs = true;
+
+    void OnEnable()
     {
-        
+        _blockInputs = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnDisable()
     {
-        
+        _blockInputs = true;
+    }
+
+    public void OnPrimary(bool isPerformed)
+    {
+        if (_blockInputs)
+            return;
+        Primary?.Invoke(isPerformed);
+    }
+
+    public void OnSecondary(bool isPerformed)
+    {
+        if (_blockInputs)
+            return;
+        Secondary?.Invoke(isPerformed);
     }
 }
