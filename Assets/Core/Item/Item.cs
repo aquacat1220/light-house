@@ -25,7 +25,7 @@ public class Item : NetworkBehaviour
     public void Unregister()
     {
         RegisterRpc(null);
-        if (base.IsServerOnlyStarted)
+        if (base.IsServerStarted)
             RegisterLocal(null);
     }
 
@@ -50,12 +50,12 @@ public class Item : NetworkBehaviour
             // `itemSlot` is not null. We are attempting to register a slot to this item.
 
             // First unlink all items and item slots particiapting in this new link formation.
-            ItemSlot?.UnequipInner();
+            ItemSlot oldItemSlot = ItemSlot;
             UnregisterInner();
+            oldItemSlot?.UnequipInner();
 
-            Item oldItem = itemSlot.Item;
+            itemSlot.Item.UnregisterInner();
             itemSlot.UnequipInner();
-            oldItem?.UnregisterInner();
 
             // Then link the item and slot together.
             itemSlot.EquipInner(this);
@@ -63,8 +63,9 @@ public class Item : NetworkBehaviour
         }
         else
         {
-            ItemSlot?.UnequipInner();
+            ItemSlot oldItemSlot = ItemSlot;
             UnregisterInner();
+            oldItemSlot?.UnequipInner();
         }
     }
 

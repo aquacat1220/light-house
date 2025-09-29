@@ -72,14 +72,12 @@ public class AutoFire : NetworkBehaviour
     [Server]
     void StartFire()
     {
-        Debug.Log("Starting fire");
         _cooldown.Arm();
     }
 
     [Server]
     void StopFire()
     {
-        Debug.Log("Stopping Fire");
         _cooldown.Disarm();
     }
 

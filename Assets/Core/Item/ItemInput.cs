@@ -52,7 +52,6 @@ public class ItemInput : MonoBehaviour
 
     void OnPrimary(bool isPerformed)
     {
-        Debug.Log($"{isPerformed}");
         if (_blockInputs)
             return;
         _primary?.Invoke(isPerformed);
