@@ -54,7 +54,7 @@ public class Item : NetworkBehaviour
             UnregisterInner();
             oldItemSlot?.UnequipInner();
 
-            itemSlot.Item.UnregisterInner();
+            itemSlot.Item?.UnregisterInner();
             itemSlot.UnequipInner();
 
             // Then link the item and slot together.
