@@ -8,59 +8,59 @@ public class ItemInput : MonoBehaviour
     [SerializeField]
     UnityEvent<bool> _secondary;
 
-    bool _blockInputs = true;
-    ItemSlotInput _itemSlotInput;
+    InputState<bool> _primaryState = new();
+    InputState<bool> _secondaryState = new();
+
+    void Awake()
+    {
+        _primaryState.Change += OnPrimary;
+        _secondaryState.Change += OnSecondary;
+    }
+
+    void OnDestroy()
+    {
+        _primaryState.Change -= OnPrimary;
+        _secondaryState.Change -= OnSecondary;
+    }
 
     void OnEnable()
     {
-        _blockInputs = false;
+        _primaryState.Enable();
+        _secondaryState.Enable();
     }
 
     void OnDisable()
     {
-        _blockInputs = true;
+        _primaryState.Disable();
+        _secondaryState.Disable();
     }
 
     public void OnRegister(ItemSlot itemSlot)
     {
-        _itemSlotInput = itemSlot.GetComponent<ItemSlotInput>();
-        if (_itemSlotInput == null)
+        var itemSlotInput = itemSlot.GetComponent<ItemSlotInput>();
+        if (itemSlotInput == null)
         {
             Debug.Log("`itemSlot` doesn't have an `ItemSlotInput` component during registering. Is this normal?");
             return;
         }
 
-        _itemSlotInput.Primary.AddListener(OnPrimary);
-        _itemSlotInput.Secondary.AddListener(OnSecondary);
+        _primaryState.Parent = itemSlotInput.PrimaryState;
+        _secondaryState.Parent = itemSlotInput.SecondaryState;
     }
 
     public void OnUnregister()
     {
-        if (_itemSlotInput == null)
-        {
-            Debug.Log("`_itemSlotInput` is null during unregistering. Is this normal?");
-            return;
-        }
-
-        _itemSlotInput.Primary.RemoveListener(OnPrimary);
-        _itemSlotInput.Secondary.RemoveListener(OnSecondary);
-
-        // Just in case inputs were currently "performed", make sure they are canceled.
-        OnPrimary(false);
-        OnSecondary(false);
+        _primaryState.Parent = null;
+        _secondaryState.Parent = null;
     }
 
-    void OnPrimary(bool isPerformed)
+    void OnPrimary(bool newState)
     {
-        if (_blockInputs)
-            return;
-        _primary?.Invoke(isPerformed);
+        _primary?.Invoke(newState);
     }
 
-    void OnSecondary(bool isPerformed)
+    void OnSecondary(bool newState)
     {
-        if (_blockInputs)
-            return;
-        _secondary?.Invoke(isPerformed);
+        _secondary?.Invoke(newState);
     }
 }

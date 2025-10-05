@@ -460,7 +460,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1482892143563862072}
         m_TargetAssemblyTypeName: AutoFire, Assembly-CSharp
-        m_MethodName: OnFire
+        m_MethodName: OnToggleFire
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

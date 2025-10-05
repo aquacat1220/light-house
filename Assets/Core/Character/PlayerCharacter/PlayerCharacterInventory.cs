@@ -1,6 +1,7 @@
 using System;
 using FishNet.Object;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class PlayerCharacterInventory : NetworkBehaviour
 {
@@ -11,14 +12,18 @@ public class PlayerCharacterInventory : NetworkBehaviour
     [SerializeField]
     Transform _subItemAnchor;
 
-
     Transform[] _itemSlotAnchors = new Transform[4];
     ItemSlotInput[] _itemSlotInputs = new ItemSlotInput[4];
 
     int _mainHand = 0;
     int _subHand = 1;
 
-    public void Awake()
+    InputState<bool> _primaryState = new();
+    InputState<bool> _secondaryState = new();
+
+    bool _blockInputs = true;
+
+    void Awake()
     {
         if (_itemSlots == null || _itemSlots.Length != 4)
         {
@@ -74,6 +79,24 @@ public class PlayerCharacterInventory : NetworkBehaviour
         // For correctness, ensure the main/sub hand itemslots start equipped on the main/sub anchors!
         _itemSlots[_mainHand].transform.SetParent(_mainItemAnchor, worldPositionStays: false);
         _itemSlots[_subHand].transform.SetParent(_subItemAnchor, worldPositionStays: false);
+
+        // Trickle input down to main hand item.
+        _itemSlotInputs[_mainHand].PrimaryState.Parent = _primaryState;
+        _itemSlotInputs[_mainHand].SecondaryState.Parent = _secondaryState;
+    }
+
+    void OnEnable()
+    {
+        _primaryState.Enable();
+        _secondaryState.Enable();
+        _blockInputs = false;
+    }
+
+    void OnDisable()
+    {
+        _primaryState.Disable();
+        _secondaryState.Disable();
+        _blockInputs = true;
     }
 
     [Server]
@@ -88,91 +111,113 @@ public class PlayerCharacterInventory : NetworkBehaviour
         return false;
     }
 
-    [Client(RequireOwnership = true)]
-    public void OnPrimary(bool isPerformed)
+    [ServerRpc(RequireOwnership = true)]
+    public void OnPrimary(bool newState)
     {
-        _itemSlotInputs[_mainHand].OnPrimary(isPerformed);
+        // We don't check `_blockInputs` here because `InputState`s have their own `Enable()` `Disable()` logic.
+        Assert.IsTrue(
+            _primaryState.RootChangeState(newState)
+        );
     }
 
-    [Client(RequireOwnership = true)]
-    public void OnSecondary(bool isPerformed)
+    [ServerRpc(RequireOwnership = true)]
+    public void OnSecondary(bool newState)
     {
-        _itemSlotInputs[_mainHand].OnSecondary(isPerformed);
+        Assert.IsTrue(
+            _secondaryState.RootChangeState(newState)
+        );
     }
 
-    [Client(RequireOwnership = true)]
-    public void OnSelectItem1(bool isPerformed)
+    [ServerRpc(RequireOwnership = true)]
+    public void OnSelectItem1(bool newState)
     {
-        if (!isPerformed)
+        if (_blockInputs)
+            return;
+        if (!newState)
             return;
         ChangeMainHand(0);
     }
 
-    [Client(RequireOwnership = true)]
-    public void OnDropItem1(bool isPerformed)
+    [ServerRpc(RequireOwnership = true)]
+    public void OnDropItem1(bool newState)
     {
-        if (!isPerformed)
+        if (_blockInputs)
+            return;
+        if (!newState)
             return;
         DropItem(0);
     }
 
-    [Client(RequireOwnership = true)]
-    public void OnSelectItem2(bool isPerformed)
+    [ServerRpc(RequireOwnership = true)]
+    public void OnSelectItem2(bool newState)
     {
-        if (!isPerformed)
+        if (_blockInputs)
+            return;
+        if (!newState)
             return;
         ChangeMainHand(1);
     }
 
-    [Client(RequireOwnership = true)]
-    public void OnDropItem2(bool isPerformed)
+    [ServerRpc(RequireOwnership = true)]
+    public void OnDropItem2(bool newState)
     {
-        if (!isPerformed)
+        if (_blockInputs)
+            return;
+        if (!newState)
             return;
         DropItem(1);
     }
 
-    [Client(RequireOwnership = true)]
-    public void OnSelectItem3(bool isPerformed)
+    [ServerRpc(RequireOwnership = true)]
+    public void OnSelectItem3(bool newState)
     {
-        if (!isPerformed)
+        if (_blockInputs)
+            return;
+        if (!newState)
             return;
         ChangeMainHand(2);
     }
 
-    [Client(RequireOwnership = true)]
-    public void OnDropItem3(bool isPerformed)
+    [ServerRpc(RequireOwnership = true)]
+    public void OnDropItem3(bool newState)
     {
-        if (!isPerformed)
+        if (_blockInputs)
+            return;
+        if (!newState)
             return;
         DropItem(2);
     }
 
-    [Client(RequireOwnership = true)]
-    public void OnSelectItem4(bool isPerformed)
+    [ServerRpc(RequireOwnership = true)]
+    public void OnSelectItem4(bool newState)
     {
-        if (!isPerformed)
+        if (_blockInputs)
+            return;
+        if (!newState)
             return;
         ChangeMainHand(3);
     }
 
-    [Client(RequireOwnership = true)]
-    public void OnDropItem4(bool isPerformed)
+    [ServerRpc(RequireOwnership = true)]
+    public void OnDropItem4(bool newState)
     {
-        if (!isPerformed)
+        if (_blockInputs)
+            return;
+        if (!newState)
             return;
         DropItem(3);
     }
 
-    [ServerRpc(RequireOwnership = true)]
+    [Server]
     void ChangeMainHand(int newMainHand)
     {
         if (newMainHand == _mainHand)
             return;
+
         ChangeMainHandRpc(newMainHand, _mainHand);
     }
 
-    [ServerRpc(RequireOwnership = true)]
+    [Server]
     void DropItem(int hand)
     {
         _itemSlots[hand].Unequip();
@@ -187,13 +232,14 @@ public class PlayerCharacterInventory : NetworkBehaviour
             Debug.Log("`newMainHand == newSubHand`, which shouldn't be possible with correct server-side checks.");
             throw new Exception();
         }
+        // Before we swap items, we should stop our inputs from trickling down to the old main hand.
+        // This will also send an input cancel signal down the chain.
+        _itemSlotInputs[_mainHand].PrimaryState.Parent = null;
+        _itemSlotInputs[_mainHand].SecondaryState.Parent = null;
+
         // First reposition the old main/subhand item slots back to where they belong.
         _itemSlots[_mainHand].transform.SetParent(_itemSlotAnchors[_mainHand], worldPositionStays: false);
         _itemSlots[_subHand].transform.SetParent(_itemSlotAnchors[_subHand], worldPositionStays: false);
-
-        // And ensure inputs are canceled for the old main hand.
-        _itemSlotInputs[_mainHand].OnPrimary(false);
-        _itemSlotInputs[_mainHand].OnSecondary(false);
 
         _mainHand = newMainHand;
         _subHand = newSubHand;
@@ -201,5 +247,10 @@ public class PlayerCharacterInventory : NetworkBehaviour
         // Then position the new main/subhand item slots!
         _itemSlots[_mainHand].transform.SetParent(_mainItemAnchor, worldPositionStays: false);
         _itemSlots[_subHand].transform.SetParent(_subItemAnchor, worldPositionStays: false);
+
+        // After we swap items, make sure the new main hand item receives inputs.
+        // This will also sync the current input state with the item.
+        _itemSlotInputs[_mainHand].PrimaryState.Parent = _primaryState;
+        _itemSlotInputs[_mainHand].SecondaryState.Parent = _secondaryState;
     }
 }

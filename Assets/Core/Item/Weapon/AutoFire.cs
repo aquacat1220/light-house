@@ -36,13 +36,6 @@ public class AutoFire : NetworkBehaviour
         _cooldown.Remove();
     }
 
-    // Responds to the primary action.
-    [Client(RequireOwnership = true)]
-    public void OnFire(bool isPerformed)
-    {
-        TryFire(isPerformed);
-    }
-
     public void PreventFire()
     {
         // Stop the current fire action.
@@ -58,12 +51,12 @@ public class AutoFire : NetworkBehaviour
         // But we don't bring back the old input state.
     }
 
-    [ServerRpc(RequireOwnership = true)]
-    void TryFire(bool isPerformed)
+    [Server]
+    public void OnToggleFire(bool newState)
     {
         if (!_canFire)
             return;
-        if (isPerformed)
+        if (newState)
             StartFire();
         else
             StopFire();
