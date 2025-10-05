@@ -36,13 +36,6 @@ public class SingleFire : NetworkBehaviour
         _cooldown.Remove();
     }
 
-    // Responds to the primary action.
-    [Client(RequireOwnership = true)]
-    public void OnFire(bool isPerformed)
-    {
-        TryFire(isPerformed);
-    }
-
     public void PreventFire()
     {
         // Stop the current fire action.
@@ -58,8 +51,8 @@ public class SingleFire : NetworkBehaviour
         // But we don't bring back the old input state.
     }
 
-    [ServerRpc(RequireOwnership = true)]
-    void TryFire(bool isPerformed)
+    [Server]
+    public void OnFire(bool isPerformed)
     {
         if (!_canFire)
             return;
