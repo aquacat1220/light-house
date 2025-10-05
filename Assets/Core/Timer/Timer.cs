@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class AlarmInfo
 {
+    public Timer Timer;
     public float Cooldown;
     public float RemainingCooldown;
     public bool IsStarted;
@@ -31,10 +31,12 @@ public class AlarmInfo
 
 public class Alarm
 {
+    Timer _timer;
     AlarmInfo _alarm;
 
-    public Alarm(AlarmInfo alarm)
+    public Alarm(Timer timer, AlarmInfo alarm)
     {
+        _timer = timer;
         _alarm = alarm;
     }
 
@@ -42,6 +44,7 @@ public class Alarm
     {
         var oldStarted = _alarm.IsStarted;
         _alarm.IsStarted = true;
+        _timer.RefreshAlarm(_alarm);
         return oldStarted;
     }
 
@@ -49,13 +52,28 @@ public class Alarm
     {
         var oldStarted = _alarm.IsStarted;
         _alarm.IsStarted = false;
+        _timer.RefreshAlarm(_alarm);
         return oldStarted;
+    }
+
+    public float Reset()
+    {
+        return Reset(_alarm.Cooldown);
+    }
+
+    public float Reset(float newRemainingCooldown)
+    {
+        var oldRemainingCooldown = _alarm.RemainingCooldown;
+        _alarm.RemainingCooldown = newRemainingCooldown;
+        _timer.RefreshAlarm(_alarm);
+        return oldRemainingCooldown;
     }
 
     public bool Arm()
     {
         var oldArmed = _alarm.IsArmed;
         _alarm.IsArmed = true;
+        _timer.RefreshAlarm(_alarm);
         return oldArmed;
     }
 
@@ -63,6 +81,7 @@ public class Alarm
     {
         var oldArmed = _alarm.IsArmed;
         _alarm.IsArmed = false;
+        _timer.RefreshAlarm(_alarm);
         return oldArmed;
     }
 
@@ -75,6 +94,7 @@ public class Alarm
     {
         Action oldCallback = _alarm.Callback;
         _alarm.Callback = newCallback;
+        _timer.RefreshAlarm(_alarm);
         return oldCallback;
     }
 
@@ -164,39 +184,42 @@ public class Timer : MonoBehaviour
 
     void TickAlarm(AlarmInfo alarm, float deltaTime)
     {
-        if (alarm.MarkedForRemoval || !alarm.IsStarted)
-            return;
-        alarm.RemainingCooldown -= deltaTime;
-        while (!alarm.MarkedForRemoval && alarm.IsStarted && alarm.RemainingCooldown < 0f)
+        // If the alarm is started, reduce its remaining cooldown.
+        if (alarm.IsStarted)
+            alarm.RemainingCooldown -= deltaTime;
+
+        // Alarms with cooldown shorter than the game tickrate may trigger more than once per tick.
+        // Thus we put the triggering cycle in a loop.
+        while (!alarm.MarkedForRemoval && alarm.RemainingCooldown <= 0f)
         {
             if (!alarm.IsArmed)
-                // This alarm isn't armed. Bring it back to zero.
-                alarm.RemainingCooldown = 0f;
-            else
             {
-                float underflow = alarm.RemainingCooldown;
-                // Reset the alarm's remaining cooldown to `alarm.Cooldown`, so the callback will always see `alarm.RemainingCooldown == alarm.Cooldown` when triggered.
-                alarm.RemainingCooldown = alarm.Cooldown;
-                // Similarly, ensure that the callback will always see `alarm.IsStarted == false && alarm.IsArmed == false` when triggered.
-                // This is because the alarms are conceptually "one-time", and will optionally "restart/rearm" after being triggered.
-                alarm.IsStarted = false;
-                alarm.IsArmed = false;
-                alarm.Callback?.Invoke();
-                // The callback can freely change `IsStarted`, `IsArmed`, `AutoRestart`, `AutoRearm`, and other values. Be careful.
-
-                if (alarm.AutoRestart)
-                    alarm.IsStarted = true;
-
-                if (alarm.IsStarted)
-                    // Add the underflow to the remaining cooldown, as the alarm must've kept ticking after triggering.
-                    alarm.RemainingCooldown += underflow;
-
-                if (alarm.AutoRearm)
-                    alarm.IsArmed = true;
-
-                if (alarm.DestroyAfterTriggered)
-                    alarm.MarkedForRemoval = true;
+                // This alarm isn't armed. Set its cooldown to 0, and break the loop.
+                alarm.RemainingCooldown = 0f;
+                break;
             }
+            float underflow = alarm.RemainingCooldown;
+            // Reset the alarm's remaining cooldown to `alarm.Cooldown`, so the callback will always see `alarm.RemainingCooldown == alarm.Cooldown` when triggered.
+            alarm.RemainingCooldown = alarm.Cooldown;
+            // Similarly, ensure that the callback will always see `alarm.IsStarted == false && alarm.IsArmed == false` when triggered.
+            // This is because the alarms are conceptually "one-time", and will optionally "restart/rearm" after being triggered.
+            alarm.IsStarted = false;
+            alarm.IsArmed = false;
+            alarm.Callback?.Invoke();
+            // The callback can freely change `IsStarted`, `IsArmed`, `AutoRestart`, `AutoRearm`, and other values. Be careful.
+
+            if (alarm.AutoRestart)
+                alarm.IsStarted = true;
+
+            if (alarm.IsStarted)
+                // Add the underflow to the remaining cooldown, as the alarm must've kept ticking after triggering.
+                alarm.RemainingCooldown += underflow;
+
+            if (alarm.AutoRearm)
+                alarm.IsArmed = true;
+
+            if (alarm.DestroyAfterTriggered)
+                alarm.MarkedForRemoval = true;
         }
     }
 
@@ -228,7 +251,14 @@ public class Timer : MonoBehaviour
         );
 
         _alarms.Add(alarm);
+        RefreshAlarm(alarm);
 
-        return new Alarm(alarm);
+        return new Alarm(this, alarm);
+    }
+
+    // Used to refresh an alarm after its info changes, so that the alarm doesn't have to wait another tick to be triggered.
+    public void RefreshAlarm(AlarmInfo alarm)
+    {
+        TickAlarm(alarm, 0f);
     }
 }
