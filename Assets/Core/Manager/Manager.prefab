@@ -152,7 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dropExcessiveReplicates: 1
   _maximumServerReplicates: 15
-  _createLocalStates: 1
+  _createLocalStates: 0
   _stateInterpolation: 2
   _stateOrder: 1
 --- !u!114 &818531611206326658

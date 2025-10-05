@@ -11,7 +11,7 @@ public class Item : NetworkBehaviour
     UnityEvent _unregister;
 
     // The item slot this item is registered to. Defaults to `null`, which means the item isn't registered to anything.
-    public ItemSlot ItemSlot;
+    public ItemSlot ItemSlot { get; private set; }
 
     [Server]
     public void Register(ItemSlot itemSlot)
@@ -25,7 +25,7 @@ public class Item : NetworkBehaviour
     public void Unregister()
     {
         RegisterRpc(null);
-        if (base.IsServerOnlyStarted)
+        if (base.IsServerStarted)
             RegisterLocal(null);
     }
 
@@ -50,12 +50,12 @@ public class Item : NetworkBehaviour
             // `itemSlot` is not null. We are attempting to register a slot to this item.
 
             // First unlink all items and item slots particiapting in this new link formation.
-            ItemSlot?.UnequipInner();
+            ItemSlot oldItemSlot = ItemSlot;
             UnregisterInner();
+            oldItemSlot?.UnequipInner();
 
-            Item oldItem = itemSlot.Item;
+            itemSlot.Item?.UnregisterInner();
             itemSlot.UnequipInner();
-            oldItem?.UnregisterInner();
 
             // Then link the item and slot together.
             itemSlot.EquipInner(this);
@@ -63,8 +63,9 @@ public class Item : NetworkBehaviour
         }
         else
         {
-            ItemSlot?.UnequipInner();
+            ItemSlot oldItemSlot = ItemSlot;
             UnregisterInner();
+            oldItemSlot?.UnequipInner();
         }
     }
 
@@ -85,7 +86,7 @@ public class Item : NetworkBehaviour
     {
         if (ItemSlot == null)
             return;
-        ItemSlot = null;
         _unregister?.Invoke();
+        ItemSlot = null;
     }
 }

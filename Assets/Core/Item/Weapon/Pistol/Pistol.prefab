@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 8115713744422826728}
   - component: {fileID: 3852882342583388494}
   - component: {fileID: 2808605868186219775}
-  - component: {fileID: 4931446834156412192}
+  - component: {fileID: 1293435258788689873}
+  - component: {fileID: 2449552035759954158}
   - component: {fileID: 5652128343977679989}
   m_Layer: 0
   m_Name: Pistol
@@ -86,7 +87,7 @@ MonoBehaviour:
   - {fileID: 8115713744422826728}
   - {fileID: 3852882342583388494}
   - {fileID: 2808605868186219775}
-  - {fileID: 4931446834156412192}
+  - {fileID: 2449552035759954158}
   - {fileID: 5652128343977679989}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
@@ -128,8 +129,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4931446834156412192}
-        m_TargetAssemblyTypeName: SingleFire, Assembly-CSharp
+      - m_Target: {fileID: 1293435258788689873}
+        m_TargetAssemblyTypeName: ItemInput, Assembly-CSharp
         m_MethodName: OnRegister
         m_Mode: 0
         m_Arguments:
@@ -155,8 +156,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4931446834156412192}
-        m_TargetAssemblyTypeName: SingleFire, Assembly-CSharp
+      - m_Target: {fileID: 1293435258788689873}
+        m_TargetAssemblyTypeName: ItemInput, Assembly-CSharp
         m_MethodName: OnUnregister
         m_Mode: 1
         m_Arguments:
@@ -167,7 +168,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  ItemSlot: {fileID: 0}
 --- !u!114 &8115713744422826728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,7 +220,37 @@ MonoBehaviour:
   _componentIndexCache: 3
   _addedNetworkObject: {fileID: 654499795761544664}
   _networkObjectCache: {fileID: 654499795761544664}
---- !u!114 &4931446834156412192
+--- !u!114 &1293435258788689873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456809218363140749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d70d2f7c475822ec848483b6330894d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemInput
+  _primary:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2449552035759954158}
+        m_TargetAssemblyTypeName: SingleFire, Assembly-CSharp
+        m_MethodName: OnFire
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: On pistol primary!
+          m_BoolArgument: 0
+        m_CallState: 2
+  _secondary:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &2449552035759954158
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -247,7 +277,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Pistol fire!
+          m_StringArgument: Pistol fired. Pew!
           m_BoolArgument: 0
         m_CallState: 2
   _fireCooldown: 1

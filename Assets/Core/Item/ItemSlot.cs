@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemSlot : NetworkBehaviour
 {
     // The item this slot is equipping. Defaults to `null`, which means the slot is unoccupied.
-    public Item Item;
+    public Item Item { get; private set; }
 
     [Server]
     public bool Equip(Item item)
@@ -32,8 +32,11 @@ public class ItemSlot : NetworkBehaviour
         if (Item == null)
             return false;
         Item oldItem = Item;
+        // Here we use `base.IsServerStarted` instead of `base.IsServerOnlyStarted` because we need the logic to
+        // run before the ownership removal on hosts too.
+        // See 2025-09-29 17:06:28 for details.
         EquipRpc(null);
-        if (base.IsServerOnlyStarted)
+        if (base.IsServerStarted)
             EquipLocal(null);
         oldItem.Unregister();
         // Remove ownership after RPC calls, so clients will still have ownership on their callbacks.
@@ -62,23 +65,26 @@ public class ItemSlot : NetworkBehaviour
             // `item` is not null. We are attempting to equip an item to this slot.
 
             // First unlink all items and item slots participating in this new link formation.
-            Item oldItem = Item;
+            // `Item.UnregisterInner()` must always come before the matching `ItemSlot.UnequipInner()`
+            // to ensure `Item.ItemSlot` is set to the last itemslot during unregister callback.
+            Item?.UnregisterInner();
             UnequipInner();
-            oldItem?.UnregisterInner();
 
-            item.ItemSlot?.UnequipInner();
+            ItemSlot oldItemSlot = item.ItemSlot;
             item.UnregisterInner();
+            oldItemSlot?.UnequipInner();
 
             // Then link the item and slot together.
+            // `Item.RegisterInner()` must always come after the matching `ItemSlot.EquipInner()`
+            // to ensure `Item.ItemSlot` is set to the latest itemslot during register callback.
             EquipInner(item);
             item.RegisterInner(this);
         }
         else
         {
             // `item` is null. We are attempting to unequip any item (if it exists) from this slot.
-            Item oldItem = Item;
+            Item?.UnregisterInner();
             UnequipInner();
-            oldItem?.UnregisterInner();
         }
     }
 
@@ -99,13 +105,5 @@ public class ItemSlot : NetworkBehaviour
         if (Item == null)
             return;
         Item = null;
-    }
-
-    public T FindComponent<T>()
-    {
-        T fromSlot = GetComponent<T>();
-        if (fromSlot != null)
-            return fromSlot;
-        return transform.parent.GetComponent<T>();
     }
 }

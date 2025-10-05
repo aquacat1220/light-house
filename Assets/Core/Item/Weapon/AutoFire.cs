@@ -14,60 +14,26 @@ public class AutoFire : NetworkBehaviour
     bool _fireOnlyOnServer = false;
 
     Alarm _cooldown;
-    PlayerCharacterInput _input;
 
     bool _canFire = true;
 
-    public void OnRegister(ItemSlot itemSlot)
+    public override void OnStartServer()
     {
-        if (base.IsOwner)
-        {
-            _input = itemSlot.FindComponent<PlayerCharacterInput>();
-            _input.Primary.AddListener(OnFire);
-        }
-        if (base.IsServerInitialized)
-        {
-            if (_cooldown == null)
-                // Add a recurrent alarm that is always started, but needs manual arming everytime, starting now.
-                _cooldown = TimerManager.Singleton.AddAlarm(
-                    cooldown: _fireCooldown,
-                    callback: Fire,
-                    startImmediately: true,
-                    armImmediately: false,
-                    autoRestart: true,
-                    autoRearm: true,
-                    initialCooldown: 0f,
-                    destroyAfterTriggered: false
-                );
-            else
-            {
-                // We already have a cooldown alarm.
-                // _cooldown.Callback(Fire);
-            }
-        }
+        _cooldown = TimerManager.Singleton.AddAlarm(
+            cooldown: _fireCooldown,
+            callback: Fire,
+            startImmediately: true,
+            armImmediately: false,
+            autoRestart: true,
+            autoRearm: true,
+            initialCooldown: 0f,
+            destroyAfterTriggered: false
+        );
     }
 
-    public void OnUnregister()
+    public override void OnStopServer()
     {
-        if (_input != null)
-        {
-            _input.Primary.RemoveListener(OnFire);
-            _input = null;
-        }
-        if (_cooldown != null)
-        {
-            // Emulate a client canceling primary input by disarming the alarm.
-            // We do this to stop the weapon firing after being reequipped.
-            StopFire();
-            // _cooldown.Callback(null);
-        }
-    }
-
-    // Responds to the primary action.
-    [Client(RequireOwnership = true)]
-    public void OnFire(bool isPerformed)
-    {
-        TryFire(isPerformed);
+        _cooldown.Remove();
     }
 
     public void PreventFire()
@@ -85,12 +51,12 @@ public class AutoFire : NetworkBehaviour
         // But we don't bring back the old input state.
     }
 
-    [ServerRpc(RequireOwnership = true)]
-    void TryFire(bool isPerformed)
+    [Server]
+    public void OnToggleFire(bool newState)
     {
         if (!_canFire)
             return;
-        if (isPerformed)
+        if (newState)
             StartFire();
         else
             StopFire();

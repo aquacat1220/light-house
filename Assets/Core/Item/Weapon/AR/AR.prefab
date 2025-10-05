@@ -194,6 +194,7 @@ GameObject:
   - component: {fileID: 7360309243201395256}
   - component: {fileID: 4547007209208306797}
   - component: {fileID: 3260175829585409224}
+  - component: {fileID: 5501519788436619483}
   - component: {fileID: 1482892143563862072}
   - component: {fileID: 2266115379006954044}
   m_Layer: 0
@@ -269,7 +270,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 15
+  <PrefabId>k__BackingField: 16
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 17933663804676379522
   <SceneId>k__BackingField: 0
@@ -286,9 +287,11 @@ MonoBehaviour:
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
   - {fileID: 2378385313446590670}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 7360309243201395256}
+  - {fileID: 4547007209208306797}
+  - {fileID: 3260175829585409224}
+  - {fileID: 1482892143563862072}
+  - {fileID: 2266115379006954044}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -296,8 +299,8 @@ MonoBehaviour:
   _isNetworked: 1
   _isSpawnable: 1
   _isGlobal: 0
-  _initializeOrder: -1
-  _preventDespawnOnDisconnect: 0
+  _initializeOrder: 0
+  _preventDespawnOnDisconnect: 1
   _defaultDespawnType: 0
 --- !u!114 &2378385313446590670
 MonoBehaviour:
@@ -329,8 +332,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1482892143563862072}
-        m_TargetAssemblyTypeName: AutoFire, Assembly-CSharp
+      - m_Target: {fileID: 5501519788436619483}
+        m_TargetAssemblyTypeName: ItemInput, Assembly-CSharp
         m_MethodName: OnRegister
         m_Mode: 0
         m_Arguments:
@@ -356,8 +359,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1482892143563862072}
-        m_TargetAssemblyTypeName: AutoFire, Assembly-CSharp
+      - m_Target: {fileID: 5501519788436619483}
+        m_TargetAssemblyTypeName: ItemInput, Assembly-CSharp
         m_MethodName: OnUnregister
         m_Mode: 1
         m_Arguments:
@@ -368,7 +371,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  ItemSlot: {fileID: 0}
 --- !u!114 &7360309243201395256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,7 +383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c209507eaf93dad96b11ab765bc6016e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 3
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: 3458800118198264783}
   _networkObjectCache: {fileID: 3458800118198264783}
   _owner_material: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
@@ -424,9 +426,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9a943a9135d698d80fe13d092a4615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 3458800118198264783}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 3458800118198264783}
   _despawnDelay: 10
 --- !u!114 &3260175829585409224
 MonoBehaviour:
@@ -440,9 +442,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff412e866c9576996b54193a308fcb7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemTransform
-  _componentIndexCache: 255
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 3458800118198264783}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 3458800118198264783}
+--- !u!114 &5501519788436619483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948197007501555658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d70d2f7c475822ec848483b6330894d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemInput
+  _primary:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1482892143563862072}
+        m_TargetAssemblyTypeName: AutoFire, Assembly-CSharp
+        m_MethodName: OnToggleFire
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _secondary:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1482892143563862072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,9 +487,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46381159768adf9418459ac9dc2bb8eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AutoFire
-  _componentIndexCache: 255
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 3458800118198264783}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 3458800118198264783}
   _fire:
     m_PersistentCalls:
       m_Calls:
@@ -470,7 +502,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: AR fire!
+          m_StringArgument: AR fire! Bang!
           m_BoolArgument: 0
         m_CallState: 2
   _fireCooldown: 0.5
@@ -487,9 +519,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d852d571aa07eb487a611303c76ec139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Logger
-  _componentIndexCache: 255
+  _componentIndexCache: 5
   _addedNetworkObject: {fileID: 3458800118198264783}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 3458800118198264783}
 --- !u!1 &1099217064113485788
 GameObject:
   m_ObjectHideFlags: 0
@@ -1137,8 +1169,8 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
+  m_Intensity: 0.3
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: 43cd770900000000
