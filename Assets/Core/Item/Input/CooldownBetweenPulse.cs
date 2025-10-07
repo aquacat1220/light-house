@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 // Stops pulses from traveling down when the cooldown isn't done.
 // The cooldown starts when a pulse ends.
-public class PulseCooldown : MonoBehaviour
+public class CooldownBetweenPulse : MonoBehaviour
 {
     [SerializeField]
     float _cooldown = 1f;

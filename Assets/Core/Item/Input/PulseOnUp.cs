@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class RepeatUpDown : MonoBehaviour
+public class PulseOnUp : MonoBehaviour
 {
     [SerializeField]
-    float _repeatDelay = 0.25f;
+    float _pulseLength = 0.25f;
 
     [SerializeField]
     UnityEvent _pulseUp;
@@ -15,28 +15,30 @@ public class RepeatUpDown : MonoBehaviour
 
     Alarm _alarm;
 
+    bool _pulseState = false;
+
     void Awake()
     {
         _alarm = TimerManager.Singleton.AddAlarm(
-            cooldown: _repeatDelay,
-            callback: PulseUpDown,
-            startImmediately: true,
-            armImmediately: false,
-            autoRestart: true,
+            cooldown: _pulseLength,
+            callback: PulseDown,
+            startImmediately: false,
+            armImmediately: true,
+            autoRestart: false,
             autoRearm: true,
-            initialCooldown: 0f,
+            initialCooldown: _pulseLength,
             destroyAfterTriggered: false
         );
     }
 
     public void OnPulseUp()
     {
-        _alarm.Arm();
+        PulseUp();
+        _alarm.Start();
     }
 
     public void OnPulseDown()
     {
-        _alarm.Disarm();
     }
 
     public void OnPulseChange(bool isUp)
@@ -47,11 +49,21 @@ public class RepeatUpDown : MonoBehaviour
             OnPulseDown();
     }
 
-    void PulseUpDown()
+    void PulseUp()
     {
+        if (_pulseState)
+            return;
+        _pulseState = true;
         _pulseUp?.Invoke();
-        _pulseChange?.Invoke(true);
+        _pulseChange?.Invoke(_pulseState);
+    }
+
+    void PulseDown()
+    {
+        if (!_pulseState)
+            return;
+        _pulseState = false;
         _pulseDown?.Invoke();
-        _pulseChange?.Invoke(false);
+        _pulseChange?.Invoke(_pulseState);
     }
 }
