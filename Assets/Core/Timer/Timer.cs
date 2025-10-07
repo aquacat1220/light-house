@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
-public class AlarmInfo
+public class AlarmInfo : AlarmInfoBase
 {
     public float Cooldown;
     public float RemainingCooldown;
@@ -29,126 +28,21 @@ public class AlarmInfo
     }
 }
 
-public class Alarm
-{
-    AlarmInfo _alarm;
-
-    public Alarm(AlarmInfo alarm)
-    {
-        _alarm = alarm;
-    }
-
-    public bool Start()
-    {
-        var oldStarted = _alarm.IsStarted;
-        _alarm.IsStarted = true;
-        return oldStarted;
-    }
-
-    public bool Stop()
-    {
-        var oldStarted = _alarm.IsStarted;
-        _alarm.IsStarted = false;
-        return oldStarted;
-    }
-
-    public bool Arm()
-    {
-        var oldArmed = _alarm.IsArmed;
-        _alarm.IsArmed = true;
-        return oldArmed;
-    }
-
-    public bool Disarm()
-    {
-        var oldArmed = _alarm.IsArmed;
-        _alarm.IsArmed = false;
-        return oldArmed;
-    }
-
-    public void Remove()
-    {
-        _alarm.MarkedForRemoval = true;
-    }
-
-    public Action Callback(Action newCallback)
-    {
-        Action oldCallback = _alarm.Callback;
-        _alarm.Callback = newCallback;
-        return oldCallback;
-    }
-
-    // public bool AutoRestart(bool autoRestart)
-    // {
-    //     var oldAutoRestart = _alarm.AutoRestart;
-    //     _alarm.AutoRestart = autoRestart;
-    //     return oldAutoRestart;
-    // }
-
-    // public bool AutoRearm(bool autoRearm)
-    // {
-    //     var oldAutoRearm = _alarm.AutoRearm;
-    //     _alarm.AutoRearm = autoRearm;
-    //     return oldAutoRearm;
-    // }
-
-    // public bool DestroyAfterTriggered(bool destroyAfterTriggered)
-    // {
-    //     var oldDestroyAfterTriggered = _alarm.DestroyAfterTriggered;
-    //     _alarm.DestroyAfterTriggered = destroyAfterTriggered;
-    //     return oldDestroyAfterTriggered;
-    // }
-}
 
 // Think of the `Timer` component as a time bomb.
 // We add new bombs with the `AddAlarm()` method.
-// Call `TimerHandle.Start()`, the timer starts counting down.
-// Call `TimerHandle.Stop()`, the timer stops counting down.
-// When the timer reaches zero, it stops there until the bomb is armed with `TimerHandle.Arm()`.
-// If the bomb is armed, it "goes off" by triggering the callback.
-// *After* the bomb goes off, the bomb will automatically reset its timer, but won't restart or rearm, unless `autoRestart` and `autoRearm` is set.
-public class Timer : MonoBehaviour
+// Call `Alarm.Start()`, the timer starts counting down.
+// Call `Alarm.Stop()`, the timer stops counting down.
+// When the timer reaches zero, it stops there until the bomb is armed with `Alarm.Arm()`.
+// If the bomb is armed, it "goes off".
+// The timer will restart/rearm/remove the bomb according to its settings, then trigger the callback.
+// The callback then can decide to override the automatic behavior.
+public class Timer : TimerBase
 {
-    [SerializeField]
-    Timer _initialParent;
-
-    Timer _parent;
-    public Timer Parent
-    {
-        get
-        {
-            return _parent;
-        }
-        set
-        {
-            if (_parent == value)
-                // If `parent == value`, the function is a no-op.
-                return;
-            if (_parent != null)
-            {
-                // If `parent != value` and `parent != null`, we will need to break this link anyways.
-                _parent._children.Remove(this);
-                _parent = null;
-            }
-            if (value != null)
-            {
-                value._children.Add(this);
-                _parent = value;
-            }
-        }
-    }
-
-    List<Timer> _children = new List<Timer>();
     List<AlarmInfo> _alarms = new List<AlarmInfo>();
 
-    public float RateMultiplier = 1f;
 
-    void Awake()
-    {
-        Parent = _initialParent;
-    }
-
-    protected void Tick(float deltaTime)
+    protected override void Tick(float deltaTime)
     {
         float multDeltaTime = deltaTime * RateMultiplier;
         foreach (var alarm in _alarms)
@@ -156,53 +50,132 @@ public class Timer : MonoBehaviour
             TickAlarm(alarm, multDeltaTime);
         }
         _alarms.RemoveAll((alarm) => alarm.MarkedForRemoval);
-        foreach (var child in _children)
-        {
-            child.Tick(multDeltaTime);
-        }
+        base.Tick(deltaTime);
     }
 
     void TickAlarm(AlarmInfo alarm, float deltaTime)
     {
-        if (alarm.MarkedForRemoval || !alarm.IsStarted)
-            return;
-        alarm.RemainingCooldown -= deltaTime;
-        while (!alarm.MarkedForRemoval && alarm.IsStarted && alarm.RemainingCooldown < 0f)
+        // If the alarm is started, reduce its remaining cooldown.
+        if (alarm.IsStarted)
+            alarm.RemainingCooldown -= deltaTime;
+
+        // Alarms with cooldown shorter than the game tickrate may trigger more than once per tick.
+        // Thus we put the triggering cycle in a loop.
+        while (!alarm.MarkedForRemoval && alarm.RemainingCooldown <= 0f)
         {
             if (!alarm.IsArmed)
-                // This alarm isn't armed. Bring it back to zero.
+            {
+                // This alarm isn't armed. Set its cooldown to 0, and break the loop.
                 alarm.RemainingCooldown = 0f;
+                break;
+            }
+            float underflow = alarm.RemainingCooldown;
+            // Reset the alarm's remaining cooldown to `alarm.Cooldown`, so the callback will always see `alarm.RemainingCooldown == alarm.Cooldown` when triggered.
+            alarm.RemainingCooldown = alarm.Cooldown;
+
+            if (alarm.DestroyAfterTriggered)
+                alarm.MarkedForRemoval = true;
             else
             {
-                float underflow = alarm.RemainingCooldown;
-                // Reset the alarm's remaining cooldown to `alarm.Cooldown`, so the callback will always see `alarm.RemainingCooldown == alarm.Cooldown` when triggered.
-                alarm.RemainingCooldown = alarm.Cooldown;
-                // Similarly, ensure that the callback will always see `alarm.IsStarted == false && alarm.IsArmed == false` when triggered.
-                // This is because the alarms are conceptually "one-time", and will optionally "restart/rearm" after being triggered.
-                alarm.IsStarted = false;
-                alarm.IsArmed = false;
-                alarm.Callback?.Invoke();
-                // The callback can freely change `IsStarted`, `IsArmed`, `AutoRestart`, `AutoRearm`, and other values. Be careful.
-
-                if (alarm.AutoRestart)
-                    alarm.IsStarted = true;
-
-                if (alarm.IsStarted)
-                    // Add the underflow to the remaining cooldown, as the alarm must've kept ticking after triggering.
-                    alarm.RemainingCooldown += underflow;
-
-                if (alarm.AutoRearm)
-                    alarm.IsArmed = true;
-
-                if (alarm.DestroyAfterTriggered)
-                    alarm.MarkedForRemoval = true;
+                alarm.IsStarted = alarm.AutoRestart;
+                alarm.IsArmed = alarm.AutoRearm;
             }
+            alarm.Callback?.Invoke();
+
+            if (alarm.IsStarted)
+                // Add the underflow to the remaining cooldown, as the alarm must've kept ticking after triggering.
+                alarm.RemainingCooldown += underflow;
         }
+    }
+
+    public override bool StartAlarm(AlarmInfoBase alarmBase)
+    {
+        AlarmInfo alarm = alarmBase as AlarmInfo;
+        if (alarm == null)
+            throw new Exception();
+        if (_alarms.Find(x => alarm == x) == null)
+            throw new Exception();
+        if (alarm.MarkedForRemoval)
+            return false;
+        alarm.IsStarted = true;
+        return true;
+    }
+
+    public override bool StopAlarm(AlarmInfoBase alarmBase)
+    {
+        AlarmInfo alarm = alarmBase as AlarmInfo;
+        if (alarm == null)
+            throw new Exception();
+        if (_alarms.Find(x => alarm == x) == null)
+            throw new Exception();
+        if (alarm.MarkedForRemoval)
+            return false;
+        alarm.IsStarted = false;
+        return true;
+    }
+
+    public override bool ResetAlarm(AlarmInfoBase alarmBase, float newCooldown)
+    {
+        AlarmInfo alarm = alarmBase as AlarmInfo;
+        if (alarm == null)
+            throw new Exception();
+        if (_alarms.Find(x => alarm == x) == null)
+            throw new Exception();
+        if (alarm.MarkedForRemoval)
+            return false;
+        alarm.RemainingCooldown = newCooldown;
+        return true;
+    }
+
+    public override void RemoveAlarm(AlarmInfoBase alarmBase)
+    {
+        AlarmInfo alarm = alarmBase as AlarmInfo;
+        if (alarm == null)
+            throw new Exception();
+        if (_alarms.Find(x => alarm == x) == null)
+            throw new Exception();
+        alarm.MarkedForRemoval = true;
+        return;
+    }
+
+    public override bool ArmAlarm(AlarmInfoBase alarmBase)
+    {
+        AlarmInfo alarm = alarmBase as AlarmInfo;
+        if (alarm == null)
+            throw new Exception();
+        if (_alarms.Find(x => alarm == x) == null)
+            throw new Exception();
+        if (alarm.MarkedForRemoval)
+            return false;
+        alarm.IsArmed = true;
+        return true;
+    }
+
+    public override bool DisarmAlarm(AlarmInfoBase alarmBase)
+    {
+        AlarmInfo alarm = alarmBase as AlarmInfo;
+        if (alarm == null)
+            throw new Exception();
+        if (_alarms.Find(x => alarm == x) == null)
+            throw new Exception();
+        if (alarm.MarkedForRemoval)
+            return false;
+        alarm.IsArmed = false;
+        return true;
     }
 
     // By default, adds an alarm that is started and armed, will auto rearm, but won't auto restart.
     // Basically an one-time alarm that needs a restart after being triggered.
-    public Alarm AddAlarm(float cooldown, Action callback, bool startImmediately = true, bool armImmediately = true, bool autoRestart = true, bool autoRearm = true, float initialCooldown = -1, bool destroyAfterTriggered = false)
+    public override Alarm AddAlarm(
+        float cooldown,
+        Action callback,
+        bool startImmediately = true,
+        bool armImmediately = true,
+        bool autoRestart = true,
+        bool autoRearm = true,
+        float initialCooldown = 0f,
+        bool destroyAfterTriggered = false
+    )
     {
         if (cooldown <= 0f)
         {
@@ -210,14 +183,10 @@ public class Timer : MonoBehaviour
             throw new Exception();
         }
 
-        float remainingCooldown = cooldown;
-        if (initialCooldown >= 0f)
-            remainingCooldown = initialCooldown;
-
 
         AlarmInfo alarm = new AlarmInfo(
             cooldown: cooldown,
-            remainingCooldown: remainingCooldown,
+            remainingCooldown: initialCooldown,
             isStarted: startImmediately,
             isArmed: armImmediately,
             autoRearm: autoRearm,
@@ -229,6 +198,6 @@ public class Timer : MonoBehaviour
 
         _alarms.Add(alarm);
 
-        return new Alarm(alarm);
+        return new Alarm(this, alarm);
     }
 }

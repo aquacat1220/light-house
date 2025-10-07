@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class TimerManager : Timer
+public class TimerManager : SubtickTimer
 {
     public static TimerManager Singleton { get; private set; }
 
