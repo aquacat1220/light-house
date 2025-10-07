@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PulseRepeat : MonoBehaviour
+public class RepeatUpDown : MonoBehaviour
 {
     [SerializeField]
     float _cooldown = 0.25f;

@@ -24,20 +24,27 @@ public class PulseInputTest : MonoBehaviour
             pulseMarker.transform.position = Camera.main.transform.position - Vector3.up * 2f + Vector3.forward * 10f;
     }
 
+    void Awake()
+    {
+        InputManager.Singleton.InputActions.Player.Primary.performed += OnClick;
+        InputManager.Singleton.InputActions.Player.Primary.canceled += OnRelease;
+    }
+
+    void OnClick(InputAction.CallbackContext ctx)
+    {
+        mouseState = true;
+        _mousePress?.Invoke();
+    }
+
+    void OnRelease(InputAction.CallbackContext ctx)
+    {
+        mouseState = false;
+        _mouseRelease?.Invoke();
+    }
+
     void Update()
     {
         Camera.main.transform.Translate(Vector3.right * Time.deltaTime);
-
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            _mousePress?.Invoke();
-            mouseState = true;
-        }
-        else if (Mouse.current.leftButton.wasReleasedThisFrame)
-        {
-            _mouseRelease?.Invoke();
-            mouseState = false;
-        }
 
         var mouseMarker = Instantiate(_marker);
         if (mouseState)
