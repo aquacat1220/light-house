@@ -129,8 +129,9 @@ GameObject:
   m_Component:
   - component: {fileID: 69427190}
   - component: {fileID: 69427189}
-  - component: {fileID: 69427193}
   - component: {fileID: 69427192}
+  - component: {fileID: 69427194}
+  - component: {fileID: 69427193}
   m_Layer: 0
   m_Name: PulseInputTest
   m_TagString: Untagged
@@ -165,8 +166,8 @@ MonoBehaviour:
           m_StringArgument: Mouse pressed.
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 69427193}
-        m_TargetAssemblyTypeName: PulseOnUp, Assembly-CSharp
+      - m_Target: {fileID: 69427194}
+        m_TargetAssemblyTypeName: RepeatUpDown, Assembly-CSharp
         m_MethodName: OnPulseUp
         m_Mode: 1
         m_Arguments:
@@ -192,8 +193,8 @@ MonoBehaviour:
           m_StringArgument: Mouse released.
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 69427193}
-        m_TargetAssemblyTypeName: PulseOnUp, Assembly-CSharp
+      - m_Target: {fileID: 69427194}
+        m_TargetAssemblyTypeName: RepeatUpDown, Assembly-CSharp
         m_MethodName: OnPulseDown
         m_Mode: 1
         m_Arguments:
@@ -244,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5954ff1a1efeed33eb773d5bbb642e4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PulseOnUp
-  _pulseLength: 0.25
+  _pulseLength: 0.2
   _pulseUp:
     m_PersistentCalls:
       m_Calls:
@@ -257,7 +258,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Pulse up.
+          m_StringArgument: Child up.
           m_BoolArgument: 0
         m_CallState: 2
   _pulseDown:
@@ -272,7 +273,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Pulse down.
+          m_StringArgument: Child down.
           m_BoolArgument: 0
         m_CallState: 2
   _pulseChange:
@@ -280,6 +281,64 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 69427189}
         m_TargetAssemblyTypeName: PulseInputTest, Assembly-CSharp
+        m_MethodName: OnPulseChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &69427194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69427187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8abb44d6955eb3cb596a470c40e7ecdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RepeatUpDown
+  _repeatDelay: 0.7
+  _pulseUp:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 69427192}
+        m_TargetAssemblyTypeName: Logger, Assembly-CSharp
+        m_MethodName: Log
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Parent up.
+          m_BoolArgument: 0
+        m_CallState: 2
+  _pulseDown:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 69427192}
+        m_TargetAssemblyTypeName: Logger, Assembly-CSharp
+        m_MethodName: Log
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Parent down.
+          m_BoolArgument: 0
+        m_CallState: 2
+  _pulseChange:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 69427193}
+        m_TargetAssemblyTypeName: PulseOnUp, Assembly-CSharp
         m_MethodName: OnPulseChange
         m_Mode: 0
         m_Arguments:
