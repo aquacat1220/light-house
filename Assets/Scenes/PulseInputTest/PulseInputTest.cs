@@ -17,6 +17,11 @@ public class PulseInputTest : MonoBehaviour
     public void OnPulseChange(bool isUp)
     {
         pulseState = isUp;
+        var pulseMarker = Instantiate(_marker);
+        if (pulseState)
+            pulseMarker.transform.position = Camera.main.transform.position - Vector3.up * 1f + Vector3.forward * 10f;
+        else
+            pulseMarker.transform.position = Camera.main.transform.position - Vector3.up * 2f + Vector3.forward * 10f;
     }
 
     void Update()
