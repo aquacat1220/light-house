@@ -15,7 +15,8 @@ GameObject:
   - component: {fileID: 3852882342583388494}
   - component: {fileID: 2808605868186219775}
   - component: {fileID: 1293435258788689873}
-  - component: {fileID: 2449552035759954158}
+  - component: {fileID: 9031336295888835297}
+  - component: {fileID: 9022703664124312177}
   - component: {fileID: 5652128343977679989}
   m_Layer: 0
   m_Name: Pistol
@@ -87,8 +88,8 @@ MonoBehaviour:
   - {fileID: 8115713744422826728}
   - {fileID: 3852882342583388494}
   - {fileID: 2808605868186219775}
-  - {fileID: 2449552035759954158}
-  - {fileID: 5652128343977679989}
+  - {fileID: 0}
+  - {fileID: 0}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -235,9 +236,9 @@ MonoBehaviour:
   _primary:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2449552035759954158}
-        m_TargetAssemblyTypeName: SingleFire, Assembly-CSharp
-        m_MethodName: OnFire
+      - m_Target: {fileID: 9031336295888835297}
+        m_TargetAssemblyTypeName: CooldownBetweenPulse, Assembly-CSharp
+        m_MethodName: OnPulseChange
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -250,7 +251,7 @@ MonoBehaviour:
   _secondary:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2449552035759954158
+--- !u!114 &9031336295888835297
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -259,13 +260,49 @@ MonoBehaviour:
   m_GameObject: {fileID: 1456809218363140749}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36d15125aefe4378ea0578cdfd074dc6, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f21e98adf177949bac31e493f22c3c1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SingleFire
-  _componentIndexCache: 4
+  m_EditorClassIdentifier: Assembly-CSharp::CooldownBetweenPulse
+  _cooldown: 1
+  _pulseUp:
+    m_PersistentCalls:
+      m_Calls: []
+  _pulseDown:
+    m_PersistentCalls:
+      m_Calls: []
+  _pulseChange:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9022703664124312177}
+        m_TargetAssemblyTypeName: SyncPulse, Assembly-CSharp
+        m_MethodName: OnPulseChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &9022703664124312177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456809218363140749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8170ef594a8e9b455b3d11eff0d93098, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SyncPulse
+  _componentIndexCache: 255
   _addedNetworkObject: {fileID: 654499795761544664}
-  _networkObjectCache: {fileID: 654499795761544664}
-  _fire:
+  _networkObjectCache: {fileID: 0}
+  _syncToServer: 1
+  _syncToObservers: 1
+  _pulseUp:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5652128343977679989}
@@ -277,11 +314,15 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Pistol fired. Pew!
+          m_StringArgument: Pistol fired.
           m_BoolArgument: 0
         m_CallState: 2
-  _fireCooldown: 1
-  _fireOnlyOnServer: 0
+  _pulseDown:
+    m_PersistentCalls:
+      m_Calls: []
+  _pulseChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5652128343977679989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,9 +335,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d852d571aa07eb487a611303c76ec139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Logger
-  _componentIndexCache: 5
-  _addedNetworkObject: {fileID: 654499795761544664}
-  _networkObjectCache: {fileID: 654499795761544664}
 --- !u!1 &2055212392356153703
 GameObject:
   m_ObjectHideFlags: 0

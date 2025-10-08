@@ -182,12 +182,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a73ae8065cec7dc0b746ebef58200e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSlotInput
-  Primary:
-    m_PersistentCalls:
-      m_Calls: []
-  Secondary:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1854462782529126222
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,12 +242,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a73ae8065cec7dc0b746ebef58200e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSlotInput
-  Primary:
-    m_PersistentCalls:
-      m_Calls: []
-  Secondary:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &3149329687944057124
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,12 +398,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a73ae8065cec7dc0b746ebef58200e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSlotInput
-  Primary:
-    m_PersistentCalls:
-      m_Calls: []
-  Secondary:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &6424217464224846819
 GameObject:
   m_ObjectHideFlags: 0
@@ -508,12 +490,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a73ae8065cec7dc0b746ebef58200e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSlotInput
-  Primary:
-    m_PersistentCalls:
-      m_Calls: []
-  Secondary:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8709400850298079651
 GameObject:
   m_ObjectHideFlags: 0

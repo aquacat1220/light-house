@@ -749,6 +749,7 @@ GameObject:
   - component: {fileID: 2035547526}
   - component: {fileID: 2035547525}
   - component: {fileID: 2035547528}
+  - component: {fileID: 2035547529}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -823,13 +824,13 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 2035547525}
   _networkObjectCache: {fileID: 0}
-  _syncToServer: 0
+  _syncToServer: 1
   _syncToObservers: 1
   _pulseUp:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614053724}
-        m_TargetAssemblyTypeName: Logger, Assembly-CSharp
+      - m_Target: {fileID: 2035547529}
+        m_TargetAssemblyTypeName: NetworkLogger, Assembly-CSharp
         m_MethodName: Log
         m_Mode: 5
         m_Arguments:
@@ -837,14 +838,14 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Synced pulse up.
+          m_StringArgument: Pulse up.
           m_BoolArgument: 0
         m_CallState: 2
   _pulseDown:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614053724}
-        m_TargetAssemblyTypeName: Logger, Assembly-CSharp
+      - m_Target: {fileID: 2035547529}
+        m_TargetAssemblyTypeName: NetworkLogger, Assembly-CSharp
         m_MethodName: Log
         m_Mode: 5
         m_Arguments:
@@ -852,7 +853,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Synced pulse down.
+          m_StringArgument: Pulse down.
           m_BoolArgument: 0
         m_CallState: 2
   _pulseChange:
@@ -897,6 +898,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cc09ff71774ccbae9e3d2023bc71fd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NonObserverHostTest
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2035547525}
+  _networkObjectCache: {fileID: 0}
+--- !u!114 &2035547529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035547524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8ae9951abab8add3a9c987c45852a65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NetworkLogger
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 2035547525}
   _networkObjectCache: {fileID: 0}

@@ -32,10 +32,10 @@ MonoBehaviour:
       type: {class: LinuxPlatformSettings, ns: UnityEditor.LinuxStandalone, asm: UnityEditor.LinuxStandalone.Extensions}
       data:
         m_Development: 1
-        m_ConnectProfiler: 1
+        m_ConnectProfiler: 0
         m_BuildWithDeepProfilingSupport: 1
         m_AllowDebugging: 1
-        m_WaitForManagedDebugger: 1
+        m_WaitForManagedDebugger: 0
         m_ManagedDebuggerFixedPort: 0
         m_ExplicitNullChecks: 0
         m_ExplicitDivideByZeroChecks: 0

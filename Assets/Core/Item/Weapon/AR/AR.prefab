@@ -195,8 +195,9 @@ GameObject:
   - component: {fileID: 4547007209208306797}
   - component: {fileID: 3260175829585409224}
   - component: {fileID: 5501519788436619483}
-  - component: {fileID: 1482892143563862072}
-  - component: {fileID: 2266115379006954044}
+  - component: {fileID: 5584875701468269750}
+  - component: {fileID: 8742299085601362800}
+  - component: {fileID: 4227528743761521286}
   m_Layer: 0
   m_Name: AR
   m_TagString: Untagged
@@ -290,8 +291,7 @@ MonoBehaviour:
   - {fileID: 7360309243201395256}
   - {fileID: 4547007209208306797}
   - {fileID: 3260175829585409224}
-  - {fileID: 1482892143563862072}
-  - {fileID: 2266115379006954044}
+  - {fileID: 8742299085601362800}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -460,9 +460,9 @@ MonoBehaviour:
   _primary:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1482892143563862072}
-        m_TargetAssemblyTypeName: AutoFire, Assembly-CSharp
-        m_MethodName: OnToggleFire
+      - m_Target: {fileID: 5584875701468269750}
+        m_TargetAssemblyTypeName: RepeatUpDown, Assembly-CSharp
+        m_MethodName: OnPulseChange
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -475,7 +475,7 @@ MonoBehaviour:
   _secondary:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1482892143563862072
+--- !u!114 &5584875701468269750
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -484,16 +484,52 @@ MonoBehaviour:
   m_GameObject: {fileID: 948197007501555658}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46381159768adf9418459ac9dc2bb8eb, type: 3}
+  m_Script: {fileID: 11500000, guid: 8abb44d6955eb3cb596a470c40e7ecdc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AutoFire
+  m_EditorClassIdentifier: Assembly-CSharp::RepeatUpDown
+  _repeatDelay: 0.25
+  _pulseUp:
+    m_PersistentCalls:
+      m_Calls: []
+  _pulseDown:
+    m_PersistentCalls:
+      m_Calls: []
+  _pulseChange:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8742299085601362800}
+        m_TargetAssemblyTypeName: SyncPulse, Assembly-CSharp
+        m_MethodName: OnPulseChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8742299085601362800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948197007501555658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8170ef594a8e9b455b3d11eff0d93098, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SyncPulse
   _componentIndexCache: 4
   _addedNetworkObject: {fileID: 3458800118198264783}
   _networkObjectCache: {fileID: 3458800118198264783}
-  _fire:
+  _syncToServer: 1
+  _syncToObservers: 1
+  _pulseUp:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2266115379006954044}
+      - m_Target: {fileID: 4227528743761521286}
         m_TargetAssemblyTypeName: Logger, Assembly-CSharp
         m_MethodName: Log
         m_Mode: 5
@@ -502,12 +538,16 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: AR fire! Bang!
+          m_StringArgument: AR fired.
           m_BoolArgument: 0
         m_CallState: 2
-  _fireCooldown: 0.5
-  _fireOnlyOnServer: 0
---- !u!114 &2266115379006954044
+  _pulseDown:
+    m_PersistentCalls:
+      m_Calls: []
+  _pulseChange:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &4227528743761521286
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -519,9 +559,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d852d571aa07eb487a611303c76ec139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Logger
-  _componentIndexCache: 5
-  _addedNetworkObject: {fileID: 3458800118198264783}
-  _networkObjectCache: {fileID: 3458800118198264783}
 --- !u!1 &1099217064113485788
 GameObject:
   m_ObjectHideFlags: 0
