@@ -115,17 +115,15 @@ public class PlayerCharacterInventory : NetworkBehaviour
     public void OnPrimary(bool newState)
     {
         // We don't check `_blockInputs` here because `InputState`s have their own `Enable()` `Disable()` logic.
-        Assert.IsTrue(
-            _primaryState.RootChangeState(newState)
-        );
+        var rootChangeResult = _primaryState.RootChangeState(newState);
+        Assert.IsTrue(rootChangeResult);
     }
 
     [ServerRpc(RequireOwnership = true)]
     public void OnSecondary(bool newState)
     {
-        Assert.IsTrue(
-            _secondaryState.RootChangeState(newState)
-        );
+        var rootChangeResult = _secondaryState.RootChangeState(newState);
+        Assert.IsTrue(rootChangeResult);
     }
 
     [ServerRpc(RequireOwnership = true)]
