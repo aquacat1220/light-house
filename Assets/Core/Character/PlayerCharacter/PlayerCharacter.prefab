@@ -721,10 +721,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7544029604669326017}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: 'NetworkBehaviours.Array.data[3]'
-      value: 
-      objectReference: {fileID: 8756711534012270892}
-    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[4]'
       value: 
       objectReference: {fileID: 0}
@@ -788,9 +784,6 @@ PrefabInstance:
       addedObject: {fileID: 7544029604669326017}
     - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8756711534012270892}
-    - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      insertIndex: -1
       addedObject: {fileID: -3249859740518625943}
     - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       insertIndex: -1
@@ -808,11 +801,6 @@ PrefabInstance:
 --- !u!4 &1599423349212434369 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6891197595918081331, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-  m_PrefabInstance: {fileID: 5300799141838639858}
-  m_PrefabAsset: {fileID: 0}
---- !u!212 &2101235380917101776 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 6104962232846071330, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
   m_PrefabInstance: {fileID: 5300799141838639858}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &2566409721090996822 stripped
@@ -873,25 +861,6 @@ MonoBehaviour:
   _componentIndexCache: 2
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
---- !u!114 &8756711534012270892
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5139385379916303670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c209507eaf93dad96b11ab765bc6016e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MaterialSelector
-  _componentIndexCache: 255
-  _addedNetworkObject: {fileID: 2566409721090996822}
-  _networkObjectCache: {fileID: 0}
-  _owner_material: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
-  _nonowner_material: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  _sprite_renderers:
-  - {fileID: 2101235380917101776}
 --- !u!114 &-3249859740518625943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -914,7 +883,7 @@ MonoBehaviour:
   - {fileID: -3249859740518625943}
   - {fileID: 4443254757174337321}
   - {fileID: 6290294256753253600}
-  _spriteRenderer: {fileID: 2101235380917101776}
+  _spriteRenderer: {fileID: 0}
   _colorOnDeath: {r: 1, g: 0, b: 0, a: 1}
   _timeToRespawn: 3
   _timeToDespawn: 10

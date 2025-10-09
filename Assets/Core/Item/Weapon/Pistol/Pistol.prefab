@@ -16,8 +16,8 @@ GameObject:
   - component: {fileID: 2808605868186219775}
   - component: {fileID: 1293435258788689873}
   - component: {fileID: 9031336295888835297}
-  - component: {fileID: 9022703664124312177}
   - component: {fileID: 5652128343977679989}
+  - component: {fileID: 90463249658588415}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -88,7 +88,6 @@ MonoBehaviour:
   - {fileID: 8115713744422826728}
   - {fileID: 3852882342583388494}
   - {fileID: 2808605868186219775}
-  - {fileID: 0}
   - {fileID: 0}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
@@ -266,55 +265,17 @@ MonoBehaviour:
   _cooldown: 1
   _pulseUp:
     m_PersistentCalls:
-      m_Calls: []
-  _pulseDown:
-    m_PersistentCalls:
-      m_Calls: []
-  _pulseChange:
-    m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9022703664124312177}
-        m_TargetAssemblyTypeName: SyncPulse, Assembly-CSharp
-        m_MethodName: OnPulseChange
-        m_Mode: 0
+      - m_Target: {fileID: 90463249658588415}
+        m_TargetAssemblyTypeName: ProjectileSpawner, Assembly-CSharp
+        m_MethodName: SpawnProjectile
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &9022703664124312177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1456809218363140749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8170ef594a8e9b455b3d11eff0d93098, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SyncPulse
-  _componentIndexCache: 255
-  _addedNetworkObject: {fileID: 654499795761544664}
-  _networkObjectCache: {fileID: 0}
-  _syncToServer: 1
-  _syncToObservers: 1
-  _pulseUp:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5652128343977679989}
-        m_TargetAssemblyTypeName: Logger, Assembly-CSharp
-        m_MethodName: Log
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Pistol fired.
           m_BoolArgument: 0
         m_CallState: 2
   _pulseDown:
@@ -335,6 +296,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d852d571aa07eb487a611303c76ec139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Logger
+--- !u!114 &90463249658588415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456809218363140749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4427f71bceefd42a68e8bf0d27dcb149, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectileSpawner
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 654499795761544664}
+  _networkObjectCache: {fileID: 0}
+  _projectile: {fileID: 2787902506105217941, guid: d1e23beb3b32891edb5c59def39e1429, type: 3}
+  _spawnPoint: {fileID: 2322089025785453786}
 --- !u!1 &2055212392356153703
 GameObject:
   m_ObjectHideFlags: 0
