@@ -3,13 +3,9 @@ using FishNet.Object;
 using UnityEngine;
 using UnityEngine.Events;
 
+// Runs on the server, syncing server-side input pulses to observers and the server.
 public class SyncPulse : NetworkBehaviour
 {
-    [SerializeField]
-    bool _syncToServer = true;
-    [SerializeField]
-    bool _syncToObservers = true;
-
     [SerializeField]
     UnityEvent _pulseUp;
     [SerializeField]
@@ -28,31 +24,12 @@ public class SyncPulse : NetworkBehaviour
 
     public void OnPulseUp()
     {
-        if (_syncToServer && !_syncToObservers)
-            PulseChangeLocal(true);
-        else if (!_syncToServer && _syncToObservers)
-            PulseChange(true);
-        else if (_syncToServer && _syncToObservers)
-        {
-            // Hosts can double as a server and an observer.
-            // If we do `PulseChangeLocal(); PulseChange();`, observing hosts will trigger the callback twice.
-            // Call `PulseChangeLocal()` to trigger on server, then `PulseChangeExcludeServer()` to trigger on observers, excluding the observing host.
-            PulseChangeLocal(true);
-            PulseChangeExcludeServer(true);
-        }
+        PulseChange(true);
     }
 
     public void OnPulseDown()
     {
-        if (_syncToServer && !_syncToObservers)
-            PulseChangeLocal(false);
-        else if (!_syncToServer && _syncToObservers)
-            PulseChange(false);
-        else if (_syncToServer && _syncToObservers)
-        {
-            PulseChangeLocal(false);
-            PulseChangeExcludeServer(false);
-        }
+        PulseChange(false);
     }
 
     public void OnPulseChange(bool isUp)
@@ -63,14 +40,8 @@ public class SyncPulse : NetworkBehaviour
             OnPulseDown();
     }
 
-    [ObserversRpc(BufferLast = true)]
+    [ObserversRpc(BufferLast = true, RunLocally = true)]
     void PulseChange(bool isUp)
-    {
-        PulseChangeLocal(isUp);
-    }
-
-    [ObserversRpc(ExcludeServer = true, BufferLast = true)]
-    void PulseChangeExcludeServer(bool isUp)
     {
         PulseChangeLocal(isUp);
     }

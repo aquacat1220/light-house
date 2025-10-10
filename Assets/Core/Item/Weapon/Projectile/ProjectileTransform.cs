@@ -62,7 +62,7 @@ public class ProjectileTransform : NetworkBehaviour
         float deltaTime = (float)TimeManager.TickDelta;
         if (_timeToCatchUp != 0f)
         {
-            float catchUp = _timeToCatchUp * 0.03f;
+            float catchUp = _timeToCatchUp * 0.01f;
             _timeToCatchUp -= catchUp;
 
             if (Math.Abs(_timeToCatchUp) <= deltaTime / 2f)
@@ -85,6 +85,7 @@ public class ProjectileTransform : NetworkBehaviour
         // This function will be called on the server during spawning.
         // And it will also be called on the spawning client if it is being predicted-spawned.
         // We want to send our `_instantiatedTick` only if we are the server.
+        writer.WriteUInt32(0);
 
         if (connection.IsValid)
         {
@@ -101,8 +102,9 @@ public class ProjectileTransform : NetworkBehaviour
         // This function will be called on all clients when spawned.
         // And it will also be called on the server if it is being predicted-spawned.
         // We want to read the server's `_instantiatedTick` only if we are on clients.
+        reader.ReadUInt32();
 
-        if (!connection.IsValid)
+        if (connection == null || !connection.IsValid)
         {
             Debug.Log("ProjectileTransform ReadPayload read.");
             // We are on clients. Read the server's `_instantiatedTick`.
