@@ -43,7 +43,6 @@ public class ProjectileSpawner : NetworkBehaviour
             // Spawn is only possible on server.
             if (!base.IsServerInitialized)
                 return;
-            Debug.Log("Non-predicted spawning.");
             Spawn(
                 Instantiate(_projectile, _spawnPoint.position, _spawnPoint.rotation),
                 base.Owner,
@@ -57,7 +56,6 @@ public class ProjectileSpawner : NetworkBehaviour
         // Skip spawning if we are not the owner.
         if (!base.IsOwner)
             return;
-        Debug.Log("Predicted spawning.");
         Spawn(
             Instantiate(_projectile, _spawnPoint.position, _spawnPoint.rotation),
             base.Owner,

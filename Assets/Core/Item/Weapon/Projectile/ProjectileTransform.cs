@@ -47,16 +47,6 @@ public class ProjectileTransform : NetworkBehaviour
         TimeManager.OnTick -= OnTick;
     }
 
-    public override void OnStartServer()
-    {
-        Debug.Log("ProjectileTransform OnStartServer.");
-    }
-
-    public override void OnStartClient()
-    {
-        Debug.Log("ProjectileTransform OnStartClient.");
-    }
-
     void OnTick()
     {
         float deltaTime = (float)TimeManager.TickDelta;
@@ -72,7 +62,6 @@ public class ProjectileTransform : NetworkBehaviour
             }
 
             deltaTime += catchUp;
-            Debug.Log($"Caught up {catchUp * 1000} milliseconds.");
             catchUp = 0f;
         }
         Vector2 delta = transform.up * _speed * deltaTime;
@@ -81,15 +70,11 @@ public class ProjectileTransform : NetworkBehaviour
 
     public override void WritePayload(NetworkConnection connection, Writer writer)
     {
-        Debug.Log("ProjectileTransform WritePayload.");
         // This function will be called on the server during spawning.
         // And it will also be called on the spawning client if it is being predicted-spawned.
         // We want to send our `_instantiatedTick` only if we are the server.
-        writer.WriteUInt32(0);
-
         if (connection.IsValid)
         {
-            Debug.Log("ProjectileTransform WritePayload written.");
             // We are on the server.
             writer.WriteUInt32(_instantiatedTick.Tick);
             writer.WriteDouble(_instantiatedTick.PercentAsDouble);
@@ -98,15 +83,12 @@ public class ProjectileTransform : NetworkBehaviour
 
     public override void ReadPayload(NetworkConnection connection, Reader reader)
     {
-        Debug.Log("ProjectileTransform ReadPayload.");
         // This function will be called on all clients when spawned.
         // And it will also be called on the server if it is being predicted-spawned.
         // We want to read the server's `_instantiatedTick` only if we are on clients.
-        reader.ReadUInt32();
 
         if (connection == null || !connection.IsValid)
         {
-            Debug.Log("ProjectileTransform ReadPayload read.");
             // We are on clients. Read the server's `_instantiatedTick`.
             var tick = reader.ReadUInt32();
             var percent = reader.ReadDouble();
