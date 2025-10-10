@@ -1,4 +1,5 @@
 using System;
+using FishNet.Component.Ownership;
 using FishNet.Object;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class ProjectileSpawner : NetworkBehaviour
     GameObject _projectile;
     [SerializeField]
     Transform _spawnPoint;
+
+    bool _usePredictedSpawn = false;
 
     void Awake()
     {
@@ -22,6 +25,9 @@ public class ProjectileSpawner : NetworkBehaviour
             Debug.Log("We do not support local projectiles.");
             throw new Exception();
         }
+        if (_projectile.GetComponent<PredictedSpawn>()?.GetAllowSpawning() is true)
+            _usePredictedSpawn = true;
+
         if (_spawnPoint == null)
         {
             Debug.Log("`_spawnPoint` wasn't set.");
@@ -31,7 +37,24 @@ public class ProjectileSpawner : NetworkBehaviour
 
     public void SpawnProjectile()
     {
-        GameObject projectile = Instantiate(_projectile, _spawnPoint.position, _spawnPoint.rotation);
-        Spawn(projectile, base.Owner, gameObject.scene);
+        if (!_usePredictedSpawn)
+        {
+            // We are not using predictive spawning.
+            // Spawn is only possible on server.
+            if (!base.IsServerInitialized)
+                return;
+            Spawn(
+                Instantiate(_projectile, _spawnPoint.position, _spawnPoint.rotation),
+                base.Owner,
+                gameObject.scene
+            );
+            return;
+        }
+        // We are using predictive spawning.
+        Spawn(
+            Instantiate(_projectile, _spawnPoint.position, _spawnPoint.rotation),
+            base.Owner,
+            gameObject.scene
+        );
     }
 }

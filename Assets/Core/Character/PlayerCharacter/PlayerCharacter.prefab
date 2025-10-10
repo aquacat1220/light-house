@@ -633,10 +633,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2922723460117174548, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: OnHealthZero.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: -3249859740518625943}
-    - target: {fileID: 2922723460117174548, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: OnHealthZero.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -725,10 +721,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: 'NetworkBehaviours.Array.data[5]'
-      value: 
-      objectReference: {fileID: -3249859740518625943}
-    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[6]'
       value: 
       objectReference: {fileID: 4443254757174337321}
@@ -782,9 +774,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7544029604669326017}
-    - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: -3249859740518625943}
     - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4443254757174337321}
@@ -861,32 +850,6 @@ MonoBehaviour:
   _componentIndexCache: 2
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
---- !u!114 &-3249859740518625943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5139385379916303670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abd475d33261974079ddf83faab57fdf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 5
-  _addedNetworkObject: {fileID: 2566409721090996822}
-  _networkObjectCache: {fileID: 2566409721090996822}
-  _healthSystem: {fileID: 6998489626671369190}
-  _componentsToDisable:
-  - {fileID: 3324938354885705573}
-  - {fileID: 6998489626671369190}
-  - {fileID: -3249859740518625943}
-  - {fileID: 4443254757174337321}
-  - {fileID: 6290294256753253600}
-  _spriteRenderer: {fileID: 0}
-  _colorOnDeath: {r: 1, g: 0, b: 0, a: 1}
-  _timeToRespawn: 3
-  _timeToDespawn: 10
 --- !u!114 &4443254757174337321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -983,7 +946,7 @@ MonoBehaviour:
   Die:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -3249859740518625943}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Death, Assembly-CSharp
         m_MethodName: Die
         m_Mode: 1
@@ -1167,17 +1130,6 @@ MonoBehaviour:
   - {fileID: 1837316924962321096}
   _mainItemAnchor: {fileID: 8119588425305905567}
   _subItemAnchor: {fileID: 3864649624005245443}
---- !u!114 &6998489626671369190 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2922723460117174548, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-  m_PrefabInstance: {fileID: 5300799141838639858}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5139385379916303670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 430964e81326b43e6aa2d2ad69118b6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &8119588425305905567 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4124921343106321261, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
