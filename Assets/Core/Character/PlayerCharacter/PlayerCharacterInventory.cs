@@ -111,17 +111,54 @@ public class PlayerCharacterInventory : NetworkBehaviour
         return false;
     }
 
-    [ServerRpc(RequireOwnership = true)]
+    [Client(RequireOwnership = true)]
     public void OnPrimary(bool newState)
+    {
+        // Let the input pulse flow down the chain on the client.
+        OnPrimaryLocal(newState);
+
+        // If we are the server too (= host), don't do this twice.
+        if (base.IsServerInitialized)
+            return;
+        // If we are not the host, make a RPC call to sync the pulse to the server.
+        OnPrimaryRpc(newState);
+    }
+
+    [ServerRpc(RequireOwnership = true)]
+    void OnPrimaryRpc(bool newState)
+    {
+        OnPrimaryLocal(newState);
+    }
+
+    void OnPrimaryLocal(bool newState)
     {
         // We don't check `_blockInputs` here because `InputState`s have their own `Enable()` `Disable()` logic.
         var rootChangeResult = _primaryState.RootChangeState(newState);
         Assert.IsTrue(rootChangeResult);
     }
 
-    [ServerRpc(RequireOwnership = true)]
+    [Client(RequireOwnership = true)]
     public void OnSecondary(bool newState)
     {
+        // Let the input pulse flow down the chain on the client.
+        OnSecondaryLocal(newState);
+
+        // If we are the server too (= host), don't do this twice.
+        if (base.IsServerInitialized)
+            return;
+        // If we are not the host, make a RPC call to sync the pulse to the server.
+        OnSecondaryRpc(newState);
+    }
+
+    [ServerRpc(RequireOwnership = true)]
+    void OnSecondaryRpc(bool newState)
+    {
+        OnSecondaryLocal(newState);
+    }
+
+    void OnSecondaryLocal(bool newState)
+    {
+        // We don't check `_blockInputs` here because `InputState`s have their own `Enable()` `Disable()` logic.
         var rootChangeResult = _secondaryState.RootChangeState(newState);
         Assert.IsTrue(rootChangeResult);
     }
