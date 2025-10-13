@@ -11,19 +11,6 @@ public class SpawnTest : NetworkBehaviour
     [SerializeField]
     GameObject _spawnTestDummy;
 
-    void Awake()
-    {
-        if (InstanceFinder.ServerManager.StartConnection(7902))
-            Debug.Log("Success! Started as server!");
-        else
-            Debug.Log("Failure...");
-
-        if (InstanceFinder.ClientManager.StartConnection("127.0.0.1", 7902))
-            Debug.Log("Success! Started as client!");
-        else
-            Debug.Log("Failure...");
-    }
-
     void Update()
     {
         if (Keyboard.current.rKey.wasPressedThisFrame)

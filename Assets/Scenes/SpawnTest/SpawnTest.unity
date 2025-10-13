@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 493018794}
   - component: {fileID: 493018792}
   - component: {fileID: 493018791}
+  - component: {fileID: 493018795}
   m_Layer: 0
   m_Name: SpawnTest
   m_TagString: Untagged
@@ -220,6 +221,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &493018795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 493018790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71fd7f855ec523429999fc4e14a1928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Observing.NetworkObserver
+  _overrideType: 3
+  _updateHostVisibility: 1
+  _observerConditions:
+  - {fileID: 11400000, guid: 75f6c99b571e42734a9e9059d5b68a3a, type: 2}
 --- !u!1001 &854741219
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -287,7 +304,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7496639806610239324, guid: 8d965df2f9bb8e4f0b547fde1f5a9cd1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1187303966}
   m_SourcePrefab: {fileID: 100100000, guid: 8d965df2f9bb8e4f0b547fde1f5a9cd1, type: 3}
 --- !u!1 &865714464
 GameObject:
@@ -381,6 +401,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1187303953 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7496639806610239324, guid: 8d965df2f9bb8e4f0b547fde1f5a9cd1, type: 3}
+  m_PrefabInstance: {fileID: 854741219}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1187303966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187303953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f8f62f7d86edd453b48b29b2c5f1d40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CrudeNetworkStarter
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
