@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class NetworkLogger : NetworkBehaviour
 {
+    void OnEnable()
+    {
+        Debug.Log($"[Time: {Time.time} | Owner: {base.Owner} | ServerInit: {base.IsServerInitialized} | ClientInit: {base.IsClientInitialized}] Enabled.");
+    }
+
+    void OnDisable()
+    {
+        Debug.Log($"[Time: {Time.time} | Owner: {base.Owner} | ServerInit: {base.IsServerInitialized} | ClientInit: {base.IsClientInitialized}] Disabled.");
+    }
+
     public override void OnStartServer()
     {
         Debug.Log($"[Time: {Time.time} | Owner: {base.Owner} | ServerInit: {base.IsServerInitialized} | ClientInit: {base.IsClientInitialized}] Started as server.");
