@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4206d7b6302e0151ac77d73ea64aacb, type: 3}
-  m_Name: SwitchCondition
-  m_EditorClassIdentifier: Assembly-CSharp::SwitchCondition
+  m_Script: {fileID: 11500000, guid: 076670c87a715073fb5c5c064ee48c5f, type: 3}
+  m_Name: AlwaysFalseCondition
+  m_EditorClassIdentifier: Assembly-CSharp::AlwaysFalseCondition
   NetworkObject: {fileID: 0}
-  _addOrder: -100
+  _addOrder: 0
   _isConstant: 0

@@ -11,12 +11,22 @@ public class SpawnTest : NetworkBehaviour
     [SerializeField]
     GameObject _spawnTestDummy;
 
+    GameObject _recentDummy;
+
     void Update()
     {
         if (Keyboard.current.rKey.wasPressedThisFrame)
         {
             var dummy = Instantiate(_spawnTestDummy, new Vector3(3f, 2f, 0f), Quaternion.identity);
             Spawn(dummy, base.Owner, gameObject.scene);
+            _recentDummy = dummy;
+        }
+        if (Keyboard.current.tKey.wasPressedThisFrame)
+        {
+            SwitchCondition.Active = true;
+            Debug.Log("All nobs are now observable to all clients!");
+            _recentDummy.GetComponent<NetworkObject>().Despawn();
+            Debug.Log("Despawned nob.");
         }
         if (!base.IsServerInitialized)
             return;
