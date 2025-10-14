@@ -16,11 +16,15 @@ public class ProjectileSpawner : NetworkBehaviour
 
     [SerializeField]
     static int _waitQueueCapacity = 5;
+    [SerializeField]
+    static float _maxWaitTime = 0.025f;
 
     bool _usePredictedSpawn = false;
 
     Queue<(PreciseTick Tick, ProjectileTransform Projectile)> _waitingProjectiles = new Queue<(PreciseTick Tick, ProjectileTransform Projectile)>(_waitQueueCapacity);
     Queue<(PreciseTick Tick, Vector2 Position, float Rotation)> _waitingTickets = new Queue<(PreciseTick Tick, Vector2 Position, float Rotation)>(_waitQueueCapacity);
+
+    Alarm _clearWaitlistAlarm;
 
     void Awake()
     {
@@ -56,6 +60,75 @@ public class ProjectileSpawner : NetworkBehaviour
         {
             Debug.Log("`_spawnPoint` wasn't set.");
             throw new Exception();
+        }
+    }
+
+    public override void OnStartServer()
+    {
+        _clearWaitlistAlarm = TimerManager.Singleton.AddAlarm(
+            cooldown: _maxWaitTime / 2f,
+            callback: ClearWaitlist,
+            startImmediately: false,
+            initialCooldown: _maxWaitTime / 2f
+        );
+    }
+
+    public override void OnStopServer()
+    {
+        _clearWaitlistAlarm?.Remove();
+    }
+
+    void ClearWaitlist()
+    {
+        while (_waitingProjectiles.Count > 0)
+        {
+            (var projectileTick, var projectile) = _waitingProjectiles.Peek();
+            var waitTime = TimeManager.TicksToTime(TimeManager.GetPreciseTick(TickType.Tick)) - TimeManager.TicksToTime(projectileTick);
+            if (waitTime > _maxWaitTime)
+            {
+                Debug.Log($"{TimeManager.Tick}: Clearing old projectile from projectile waitlist.");
+                (var evictedProjectileTick, var evictedProjectile) = _waitingProjectiles.Dequeue();
+                Debug.Log($"Projectile spawn request (arrived at {evictedProjectileTick}) was denied due to waitlist eviction (wait timeout).");
+                var nob = evictedProjectile.NetworkObject;
+                // An eviction can happen if a ticket never arrived.
+
+                nob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
+                nob.NetworkObserver.GetObserverCondition<OwnerOnlyCondition>().SetIsEnabled(true);
+                nob.Despawn();
+                continue;
+            }
+            break;
+        }
+
+        while (_waitingTickets.Count > 0)
+        {
+            var ticket = _waitingTickets.Peek();
+            var waitTime = TimeManager.TicksToTime(TimeManager.GetPreciseTick(TickType.Tick)) - TimeManager.TicksToTime(ticket.Tick);
+            if (waitTime > _maxWaitTime)
+            {
+                Debug.Log($"{TimeManager.Tick}: Clearing old ticket from ticket waitlist.");
+                var evictedTicket = _waitingTickets.Dequeue();
+                var projectileGameObject = Instantiate(_projectile, evictedTicket.Position, Quaternion.Euler(0f, 0f, evictedTicket.Rotation));
+                var projectile = projectileGameObject.GetComponent<ProjectileTransform>();
+                Spawn(
+                    projectileGameObject,
+                    null,
+                    gameObject.scene
+                );
+                projectile.ResetSpawn(evictedTicket.Tick, evictedTicket.Position, evictedTicket.Rotation);
+
+                // Disable both conditions to make the projectile observable to everyone.
+                var nob = projectile.NetworkObject;
+                nob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
+                nob.NetworkObserver.GetObserverCondition<OwnerOnlyCondition>().SetIsEnabled(false);
+                continue;
+            }
+            break;
+        }
+
+        if (_waitingProjectiles.Count == 0 && _waitingTickets.Count == 0)
+        {
+            _clearWaitlistAlarm.Stop();
         }
     }
 
@@ -181,12 +254,11 @@ public class ProjectileSpawner : NetworkBehaviour
             return;
         }
 
-        Debug.Log($"{TimeManager.Tick}: Added a ticket to waitlist.");
         _waitingTickets.Enqueue(
             (TimeManager.GetPreciseTick(TickType.Tick), position, rotation)
         );
-
-        // TODO: Add a timer to dequeue tickets after a set delay.
+        _clearWaitlistAlarm.Start();
+        Debug.Log($"{TimeManager.Tick}: Added a ticket to waitlist.");
     }
 
     [Server]
@@ -226,7 +298,7 @@ public class ProjectileSpawner : NetworkBehaviour
         {
             Debug.Log($"{TimeManager.Tick}: Projectile waitlist is full, evicting.");
             (var tick, var evictedProjectile) = _waitingProjectiles.Dequeue();
-            Debug.Log($"Projectile spawn request (arrived at {tick}) was denied due to queue eviction.");
+            Debug.Log($"Projectile spawn request (arrived at {tick}) was denied due to waitlist eviction (waitlist full).");
             var nob = evictedProjectile.NetworkObject;
             // An eviction can happen if a ticket never arrived.
 
@@ -242,6 +314,7 @@ public class ProjectileSpawner : NetworkBehaviour
         projectile.enabled = false;
         // TODO: Disable everything except the `NetworkObject` component.
         _waitingProjectiles.Enqueue((TimeManager.GetPreciseTick(TickType.Tick), projectile));
+        _clearWaitlistAlarm.Start();
         Debug.Log($"{TimeManager.Tick}: Added a projectile to waitlist.");
     }
 }

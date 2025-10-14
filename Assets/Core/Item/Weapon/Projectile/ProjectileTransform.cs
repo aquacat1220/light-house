@@ -141,7 +141,7 @@ public class ProjectileTransform : NetworkBehaviour
             float catchUp = _timeToCatchUp * 0.01f;
             _timeToCatchUp -= catchUp;
 
-            if (Math.Abs(_timeToCatchUp) <= deltaTime / 2f)
+            if (Math.Abs(_timeToCatchUp) <= deltaTime / 4f)
             {
                 catchUp += _timeToCatchUp;
                 _timeToCatchUp = 0f;
@@ -156,7 +156,7 @@ public class ProjectileTransform : NetworkBehaviour
             Vector2 catchUp = _distanceToCatchUp * 0.01f;
             _distanceToCatchUp -= catchUp;
 
-            if (catchUp.magnitude <= delta.magnitude / 2f)
+            if (_distanceToCatchUp.magnitude <= delta.magnitude / 4f)
             {
                 catchUp += _distanceToCatchUp;
                 _distanceToCatchUp = Vector2.zero;
