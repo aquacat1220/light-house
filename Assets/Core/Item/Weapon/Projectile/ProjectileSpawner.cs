@@ -211,12 +211,10 @@ public class ProjectileSpawner : NetworkBehaviour
             Debug.Log($"{TimeManager.Tick}: Consuming waiting projectile.");
             // We have a waiting projectile.
             (var projectileTick, var projectile) = _waitingProjectiles.Dequeue();
-            // TODO: Optionally check if the projectile is too old.
             projectile.transform.position = position;
             projectile.transform.rotation = Quaternion.Euler(0f, 0f, rotation);
             projectile.ResetSpawn(tick, position, rotation);
-            projectile.enabled = true;
-            // TODO: Re-enable all components.
+            projectile.SetActive(true);
 
             // Disable the alwaysfalse condition to make the projectile observable to everyone.
             var nob = projectile.NetworkObject;
@@ -281,11 +279,9 @@ public class ProjectileSpawner : NetworkBehaviour
             // We have a waiting ticket.
             var ticket = _waitingTickets.Dequeue();
             Debug.Log($"{TimeManager.Tick}: Ticket looks like - {ticket.Tick}, {ticket.Position}, {ticket.Rotation}.");
-            // TODO: Optionally check if the ticket is too old.
             projectile.transform.position = ticket.Position;
             projectile.transform.rotation = Quaternion.Euler(0f, 0f, ticket.Rotation);
             projectile.ResetSpawn(ticket.Tick, ticket.Position, ticket.Rotation);
-            // TODO: Re-enable all components.
 
             // Disable the alwaysfalse condition to make the projectile observable to everyone.
             var nob = projectile.GetComponent<NetworkObject>();
@@ -311,10 +307,9 @@ public class ProjectileSpawner : NetworkBehaviour
 
         // This line isn't needed, but just to make sure the condition is enabled before adding to the waitlist.
         projectile.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(true);
-        projectile.enabled = false;
-        // TODO: Disable everything except the `NetworkObject` component.
+        projectile.SetActive(false);
         _waitingProjectiles.Enqueue((TimeManager.GetPreciseTick(TickType.Tick), projectile));
         _clearWaitlistAlarm.Start();
-        Debug.Log($"{TimeManager.Tick}: Added a projectile to waitlist.");
+        Debug.Log($"{TimeManager.Tick}: Added a projectile to waitlist.", projectile);
     }
 }

@@ -44,6 +44,7 @@ public class ProjectileTransform : NetworkBehaviour
 
     void OnEnable()
     {
+        Debug.Log("ProjectileTransform OnEnable.");
         if (!_subscribedToTimeManager && base.IsSpawned)
         {
             TimeManager.OnTick += OnTick;
@@ -53,6 +54,7 @@ public class ProjectileTransform : NetworkBehaviour
 
     void OnDisable()
     {
+        Debug.Log("ProjectileTransform OnDisable.");
         if (_subscribedToTimeManager)
         {
             TimeManager.OnTick -= OnTick;
@@ -119,6 +121,19 @@ public class ProjectileTransform : NetworkBehaviour
         Debug.Log($"{TimeManager.Tick}: Spawn initials set to - {_spawnedTick}, {_spawnedPosition}.");
     }
 
+    // Disables this component, and deactivates all child gameobjects.
+    // This is because the `NetworkObject` component shouldn't ever be disabled, but we still need a way to stop the projectile GO from affecting the game.
+    // Components that should be disabled during waitlist should be added to a separate child GO.
+    public void SetActive(bool active)
+    {
+        enabled = active;
+        foreach (Transform childTransform in transform)
+        {
+            var child = childTransform.gameObject;
+            child.SetActive(active);
+        }
+    }
+
     void OnTick()
     {
         if (!_calculatedCatchUp && _spawnedTick.IsValid())
@@ -133,7 +148,7 @@ public class ProjectileTransform : NetworkBehaviour
         }
 
         if (_timeToCatchUp != 0f)
-            Debug.Log($"{TimeManager.Tick}: Time to catch up: {_timeToCatchUp * 1000}ms, distance to catch up: {_distanceToCatchUp}.");
+            Debug.Log($"{TimeManager.Tick}: Time to catch up: {_timeToCatchUp * 1000}ms, distance to catch up: {_distanceToCatchUp}, {base.isActiveAndEnabled}.");
 
         float deltaTime = (float)TimeManager.TickDelta;
         if (_timeToCatchUp != 0f)
