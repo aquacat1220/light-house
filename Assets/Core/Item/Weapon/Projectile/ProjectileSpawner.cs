@@ -48,11 +48,6 @@ public class ProjectileSpawner : NetworkBehaviour
                 Debug.Log("`_projectile` was set to predicted-spawn, but doesn't have the `AlwaysFalseCondition` observer condition. We need it to disable observation!");
                 throw new Exception();
             }
-            if (_projectile.GetComponent<NetworkObserver>().GetObserverCondition<OwnerOnlyCondition>() == null)
-            {
-                Debug.Log("`_projectile` was set to predicted-spawn, but doesn't have the `OwnerOnlyCondition` observer condition. We need it to despawn on spawning client!");
-                throw new Exception();
-            }
             _usePredictedSpawn = true;
         }
 
@@ -92,8 +87,8 @@ public class ProjectileSpawner : NetworkBehaviour
                 var nob = evictedProjectile.NetworkObject;
                 // An eviction can happen if a ticket never arrived.
 
-                nob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
-                nob.NetworkObserver.GetObserverCondition<OwnerOnlyCondition>().SetIsEnabled(true);
+                // Make the spawning client the owner of the projectile, so that it receives the despawn message.
+                nob.GiveOwnership(nob.PredictedSpawner);
                 nob.Despawn();
                 continue;
             }
@@ -117,10 +112,9 @@ public class ProjectileSpawner : NetworkBehaviour
                 );
                 projectile.ResetSpawn(evictedTicket.Tick, evictedTicket.Position, evictedTicket.Rotation);
 
-                // Disable both conditions to make the projectile observable to everyone.
+                // Disable the alwaysfalse condition to make the projectile observable to everyone.
                 var nob = projectile.NetworkObject;
                 nob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
-                nob.NetworkObserver.GetObserverCondition<OwnerOnlyCondition>().SetIsEnabled(false);
                 continue;
             }
             break;
@@ -148,14 +142,14 @@ public class ProjectileSpawner : NetworkBehaviour
                 null,
                 gameObject.scene
             );
+            // Make sure to disable the alwaysfalse condition to ensure the projectile observable to everyone.
             nob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
-            nob.NetworkObserver.GetObserverCondition<OwnerOnlyCondition>().SetIsEnabled(false);
             return;
         }
         // We are using predictive spawning.
         // Spawn is technically possible on the server too, but we'll be spawning on the owning client only.
 
-        // If we are the owning host, predictive spawning doesn't matter at all.
+        // If we are the owning host, we are the authority anyway; just do normal spawning.
         if (base.IsServerInitialized && base.IsOwner)
         {
             var projectileGameObject = Instantiate(_projectile, _spawnPoint.position, _spawnPoint.rotation);
@@ -165,8 +159,8 @@ public class ProjectileSpawner : NetworkBehaviour
                 null,
                 gameObject.scene
             );
+            // Make sure to disable the alwaysfalse condition to ensure the projectile observable to everyone.
             nob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
-            nob.NetworkObserver.GetObserverCondition<OwnerOnlyCondition>().SetIsEnabled(false);
             return;
         }
 
@@ -224,10 +218,9 @@ public class ProjectileSpawner : NetworkBehaviour
             projectile.enabled = true;
             // TODO: Re-enable all components.
 
-            // Disable both conditions to make the projectile observable to everyone.
+            // Disable the alwaysfalse condition to make the projectile observable to everyone.
             var nob = projectile.NetworkObject;
             nob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
-            nob.NetworkObserver.GetObserverCondition<OwnerOnlyCondition>().SetIsEnabled(false);
             return;
         }
 
@@ -247,10 +240,9 @@ public class ProjectileSpawner : NetworkBehaviour
             );
             projectile.ResetSpawn(ticket.Tick, ticket.Position, ticket.Rotation);
 
-            // Disable both conditions to make the projectile observable to everyone.
+            // Disable the alwaysfalse condition to make the projectile observable to everyone.
             var nob = projectile.NetworkObject;
             nob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
-            nob.NetworkObserver.GetObserverCondition<OwnerOnlyCondition>().SetIsEnabled(false);
             return;
         }
 
@@ -271,6 +263,17 @@ public class ProjectileSpawner : NetworkBehaviour
         }
 
         Debug.Log($"{TimeManager.Tick}: Attempting to add a projectile to waitlist.");
+        // First do some basic checking; is the requesting client the owner?
+        if (projectile.NetworkObject.PredictedSpawner != base.Owner)
+        {
+            Debug.Log($"{TimeManager.Tick}: A non-owner attempted to predicted-spawn a projectile. If this is repeated, we might need to kick this client.");
+            // The PSed projectile was not spawned by the owner of this projectile spawner.
+            var nob = projectile.NetworkObject;
+            nob.GiveOwnership(nob.PredictedSpawner);
+            nob.Despawn();
+            return;
+        }
+
         // Check ticket waitlist first before considering adding the projectile to waitlist.
         if (_waitingTickets.Count > 0)
         {
@@ -284,10 +287,9 @@ public class ProjectileSpawner : NetworkBehaviour
             projectile.ResetSpawn(ticket.Tick, ticket.Position, ticket.Rotation);
             // TODO: Re-enable all components.
 
-            // Disable both conditions to make the projectile observable to everyone.
+            // Disable the alwaysfalse condition to make the projectile observable to everyone.
             var nob = projectile.GetComponent<NetworkObject>();
             nob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
-            nob.NetworkObserver.GetObserverCondition<OwnerOnlyCondition>().SetIsEnabled(false);
             return;
         }
 
@@ -302,15 +304,13 @@ public class ProjectileSpawner : NetworkBehaviour
             var nob = evictedProjectile.NetworkObject;
             // An eviction can happen if a ticket never arrived.
 
-            // Disabling `AlwaysFalseCondition` will make the owner the only observer.
-            // We do this to ensure the spawning client receives the despawn call.
-            nob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
-            nob.NetworkObserver.GetObserverCondition<OwnerOnlyCondition>().SetIsEnabled(true);
+            // Make the spawning client the owner of the projectile, so that it receives the despawn message.
+            nob.GiveOwnership(nob.PredictedSpawner);
             nob.Despawn();
         }
 
+        // This line isn't needed, but just to make sure the condition is enabled before adding to the waitlist.
         projectile.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(true);
-        projectile.NetworkObserver.GetObserverCondition<OwnerOnlyCondition>().SetIsEnabled(true);
         projectile.enabled = false;
         // TODO: Disable everything except the `NetworkObject` component.
         _waitingProjectiles.Enqueue((TimeManager.GetPreciseTick(TickType.Tick), projectile));
