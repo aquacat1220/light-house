@@ -44,7 +44,6 @@ public class ProjectileTransform : NetworkBehaviour
 
     void OnEnable()
     {
-        Debug.Log("ProjectileTransform OnEnable.");
         if (!_subscribedToTimeManager && base.IsSpawned)
         {
             TimeManager.OnTick += OnTick;
@@ -54,7 +53,6 @@ public class ProjectileTransform : NetworkBehaviour
 
     void OnDisable()
     {
-        Debug.Log("ProjectileTransform OnDisable.");
         if (_subscribedToTimeManager)
         {
             TimeManager.OnTick -= OnTick;
@@ -64,7 +62,6 @@ public class ProjectileTransform : NetworkBehaviour
 
     public override void OnStartNetwork()
     {
-        Debug.Log("ProjectileTransform OnStartNetwork.");
         if (!_subscribedToTimeManager && base.isActiveAndEnabled)
         {
             TimeManager.OnTick += OnTick;
@@ -74,7 +71,6 @@ public class ProjectileTransform : NetworkBehaviour
 
     public override void OnStopNetwork()
     {
-        Debug.Log("ProjectileTransform OnStopNetwork.");
         if (_subscribedToTimeManager)
         {
             TimeManager.OnTick -= OnTick;
@@ -84,27 +80,11 @@ public class ProjectileTransform : NetworkBehaviour
 
     public override void OnStartServer()
     {
-        Debug.Log("ProjectileTransform OnStartServer.");
         if (!_spawnedTick.IsValid())
         {
             _spawnedTick = TimeManager.GetPreciseTick(TickType.Tick);
             _spawnedPosition = transform.position;
         }
-    }
-
-    public override void OnStopServer()
-    {
-        Debug.Log("ProjectileTransform OnStopServer.");
-    }
-
-    public override void OnStartClient()
-    {
-        Debug.Log("ProjectileTransform OnStartClient.");
-    }
-
-    public override void OnStopClient()
-    {
-        Debug.Log("ProjectileTransform OnStopClient.");
     }
 
     // `SetSpawn()` should only be called on the server, *before we send `_spawnedTick` to clients*.
@@ -118,7 +98,6 @@ public class ProjectileTransform : NetworkBehaviour
         _spawnedTick = spawnedTick;
         _spawnedPosition = spawnedPosition;
         transform.rotation = Quaternion.Euler(0f, 0f, spawnedRotation);
-        Debug.Log($"{TimeManager.Tick}: Spawn initials set to - {_spawnedTick}, {_spawnedPosition}.");
     }
 
     // Disables this component, and deactivates all child gameobjects.
@@ -143,12 +122,7 @@ public class ProjectileTransform : NetworkBehaviour
             _timeToCatchUp = (float)TimeManager.TicksToTime(TimeManager.GetPreciseTick(TickType.Tick)) - (float)TimeManager.TicksToTime(_spawnedTick);
             _distanceToCatchUp = _spawnedPosition - (Vector2)transform.position;
             _calculatedCatchUp = true;
-            Debug.Log($"{TimeManager.Tick}: Calculated catch up. Current precise tick: {TimeManager.GetPreciseTick(TickType.Tick)}, spawned tick: {_spawnedTick}.");
-            Debug.Log($"{TimeManager.Tick}: Time to catch up: {_timeToCatchUp * 1000}ms, distance to catch up: {_distanceToCatchUp}.");
         }
-
-        if (_timeToCatchUp != 0f)
-            Debug.Log($"{TimeManager.Tick}: Time to catch up: {_timeToCatchUp * 1000}ms, distance to catch up: {_distanceToCatchUp}, {base.isActiveAndEnabled}.");
 
         float deltaTime = (float)TimeManager.TickDelta;
         if (_timeToCatchUp != 0f)
@@ -185,7 +159,6 @@ public class ProjectileTransform : NetworkBehaviour
 
     public override void WritePayload(NetworkConnection connection, Writer writer)
     {
-        Debug.Log($"ProjectileTransform WritePayload to {connection}.");
         // This function will be called on the server during spawning.
         // And it will also be called on the spawning client if it is being predicted-spawned.
 
@@ -208,13 +181,11 @@ public class ProjectileTransform : NetworkBehaviour
             writer.WriteDouble(_spawnedTick.PercentAsDouble);
             writer.WriteVector2(_spawnedPosition);
             writer.WriteSingle(transform.rotation.eulerAngles.z);
-            Debug.Log($"{TimeManager.Tick}: Written payload looks like - {_spawnedTick}, {_spawnedPosition}, {transform.rotation.eulerAngles.z}.");
         }
     }
 
     public override void ReadPayload(NetworkConnection connection, Reader reader)
     {
-        Debug.Log("ProjectileTransform ReadPayload.");
         // This function will be called on all clients when spawned.
         // And it will also be called on the server if it is being predicted-spawned.
         // We want to read when and where the projectile was spawned on the server.
@@ -241,7 +212,6 @@ public class ProjectileTransform : NetworkBehaviour
             var spawnedRotation = reader.ReadSingle();
             // Snap rotation to true value.
             transform.rotation = Quaternion.Euler(0f, 0f, spawnedRotation);
-            Debug.Log($"{TimeManager.Tick}: Read payload looks like - {_spawnedTick}, {_spawnedPosition}, {spawnedRotation}.");
         }
     }
 }

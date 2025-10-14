@@ -81,7 +81,7 @@ public class ProjectileSpawner : NetworkBehaviour
             var waitTime = TimeManager.TicksToTime(TimeManager.GetPreciseTick(TickType.Tick)) - TimeManager.TicksToTime(projectileTick);
             if (waitTime > _maxWaitTime)
             {
-                Debug.Log($"{TimeManager.Tick}: Clearing old projectile from projectile waitlist.");
+                Debug.Log($"Clearing old projectile from projectile waitlist.");
                 (var evictedProjectileTick, var evictedProjectile) = _waitingProjectiles.Dequeue();
                 Debug.Log($"Projectile spawn request (arrived at {evictedProjectileTick}) was denied due to waitlist eviction (wait timeout).");
                 var nob = evictedProjectile.NetworkObject;
@@ -101,7 +101,7 @@ public class ProjectileSpawner : NetworkBehaviour
             var waitTime = TimeManager.TicksToTime(TimeManager.GetPreciseTick(TickType.Tick)) - TimeManager.TicksToTime(ticket.Tick);
             if (waitTime > _maxWaitTime)
             {
-                Debug.Log($"{TimeManager.Tick}: Clearing old ticket from ticket waitlist.");
+                Debug.Log($"Clearing old ticket from ticket waitlist.");
                 var evictedTicket = _waitingTickets.Dequeue();
                 var projectileGameObject = Instantiate(_projectile, evictedTicket.Position, Quaternion.Euler(0f, 0f, evictedTicket.Rotation));
                 var projectile = projectileGameObject.GetComponent<ProjectileTransform>();
@@ -198,17 +198,13 @@ public class ProjectileSpawner : NetworkBehaviour
             throw new Exception();
         }
 
-        Debug.Log($"{TimeManager.Tick}: Attempting to add a ticket to waitlist.");
-
         PreciseTick tick = TimeManager.GetPreciseTick(TickType.Tick);
         Vector2 position = _spawnPoint.position;
         float rotation = _spawnPoint.rotation.eulerAngles.z;
-        Debug.Log($"{TimeManager.Tick}: Ticket looks like - {tick}, {position}, {rotation}.");
 
         // Check projectile waitlist first before considering adding the projectile to waitlist.
         if (_waitingProjectiles.Count > 0)
         {
-            Debug.Log($"{TimeManager.Tick}: Consuming waiting projectile.");
             // We have a waiting projectile.
             (var projectileTick, var projectile) = _waitingProjectiles.Dequeue();
             projectile.transform.position = position;
@@ -227,7 +223,7 @@ public class ProjectileSpawner : NetworkBehaviour
         // The evicted ticket will be spawned immediately.
         if (_waitingTickets.Count == _waitQueueCapacity)
         {
-            Debug.Log($"{TimeManager.Tick}: Ticket waitlist is full, evicting.");
+            Debug.Log($"Attempting to add a ticket to an already full waitlist. Evicting the oldest ticket.");
             var ticket = _waitingTickets.Dequeue();
             var projectileGameObject = Instantiate(_projectile, ticket.Position, Quaternion.Euler(0f, 0f, ticket.Rotation));
             var projectile = projectileGameObject.GetComponent<ProjectileTransform>();
@@ -248,7 +244,6 @@ public class ProjectileSpawner : NetworkBehaviour
             (TimeManager.GetPreciseTick(TickType.Tick), position, rotation)
         );
         _clearWaitlistAlarm.Start();
-        Debug.Log($"{TimeManager.Tick}: Added a ticket to waitlist.");
     }
 
     [Server]
@@ -260,7 +255,6 @@ public class ProjectileSpawner : NetworkBehaviour
             throw new Exception();
         }
 
-        Debug.Log($"{TimeManager.Tick}: Attempting to add a projectile to waitlist.");
         // First do some basic checking; is the requesting client the owner?
         if (projectile.NetworkObject.PredictedSpawner != base.Owner)
         {
@@ -275,10 +269,8 @@ public class ProjectileSpawner : NetworkBehaviour
         // Check ticket waitlist first before considering adding the projectile to waitlist.
         if (_waitingTickets.Count > 0)
         {
-            Debug.Log($"{TimeManager.Tick}: Consuming waiting ticket.");
             // We have a waiting ticket.
             var ticket = _waitingTickets.Dequeue();
-            Debug.Log($"{TimeManager.Tick}: Ticket looks like - {ticket.Tick}, {ticket.Position}, {ticket.Rotation}.");
             projectile.transform.position = ticket.Position;
             projectile.transform.rotation = Quaternion.Euler(0f, 0f, ticket.Rotation);
             projectile.ResetSpawn(ticket.Tick, ticket.Position, ticket.Rotation);
@@ -294,7 +286,7 @@ public class ProjectileSpawner : NetworkBehaviour
         // The evicted projectile will be despawned immediately.
         if (_waitingProjectiles.Count == _waitQueueCapacity)
         {
-            Debug.Log($"{TimeManager.Tick}: Projectile waitlist is full, evicting.");
+            Debug.Log($"Attempting to add a projectile to an already full waitlist. Evicting the oldest projectile.");
             (var tick, var evictedProjectile) = _waitingProjectiles.Dequeue();
             Debug.Log($"Projectile spawn request (arrived at {tick}) was denied due to waitlist eviction (waitlist full).");
             var nob = evictedProjectile.NetworkObject;
@@ -310,6 +302,5 @@ public class ProjectileSpawner : NetworkBehaviour
         projectile.SetActive(false);
         _waitingProjectiles.Enqueue((TimeManager.GetPreciseTick(TickType.Tick), projectile));
         _clearWaitlistAlarm.Start();
-        Debug.Log($"{TimeManager.Tick}: Added a projectile to waitlist.", projectile);
     }
 }
