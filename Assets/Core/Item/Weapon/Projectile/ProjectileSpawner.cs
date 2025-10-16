@@ -102,7 +102,7 @@ public class ProjectileSpawner : NetworkBehaviour
     {
         if (base.IsServerInitialized)
         {
-            Debug.Log("`_underPredicted` is an event that shouldn't be triggered on the server. Something is wrong.");
+            Debug.Log("`InvokeUnderPredicted()` can't be called on servers.");
             throw new Exception();
         }
         if (!_usePredictedSpawn)

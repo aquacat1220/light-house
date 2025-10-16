@@ -475,7 +475,19 @@ MonoBehaviour:
         m_CallState: 2
   _secondary:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6129219461553058081}
+        m_TargetAssemblyTypeName: Magazine, Assembly-CSharp
+        m_MethodName: Reload
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5584875701468269750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,7 +506,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6129219461553058081}
         m_TargetAssemblyTypeName: Magazine, Assembly-CSharp
-        m_MethodName: OnFire
+        m_MethodName: TryFire
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -522,6 +534,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b92a4f924e73c3d68ab008e1094f693, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Magazine
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 3458800118198264783}
+  _networkObjectCache: {fileID: 0}
   _fire:
     m_PersistentCalls:
       m_Calls:
@@ -538,6 +553,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _magazineSize: 10
+  _reloadTime: 2.5
 --- !u!114 &64550675818251124
 MonoBehaviour:
   m_ObjectHideFlags: 0
