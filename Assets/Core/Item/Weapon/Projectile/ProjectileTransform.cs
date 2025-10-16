@@ -244,20 +244,22 @@ public class ProjectileTransform : NetworkBehaviour
                 if (NetworkObject.PredictedSpawner != null && NetworkObject.PredictedSpawner.IsLocalClient)
                 {
                     // Case 1: PS projectile was accepted, and we are the PS request client.
-                    ProjectileSpawner.InvokeSpawnAccepted();
+                    // Note that `PredictedSpawner` will be set only on the predicted spawning client and the server.
+                    // Do nothing.
                 }
                 else
                 {
                     // Case 2 & 3
-                    // But if we are the host we don't want to invoke the spawned event, as it should already be invoked as server.
+                    // In both cases, the local client didn't predict a projectile to be spawned, but the server spawned one.
+                    // Except if we are the host; hosts don't need to predict, as we have authority. In that case we don't want to trigger correction events.
                     if (!base.IsServerInitialized)
-                        ProjectileSpawner.InvokeSpawned();
+                        ProjectileSpawner.InvokeUnderPredicted();
                 }
             }
             else
             {
                 // The projectile was originally predicted-spawned, and the server rejected the request. (Case 4)
-                ProjectileSpawner.InvokeSpawnRejected();
+                ProjectileSpawner.InvokeOverPredicted();
             }
         }
     }

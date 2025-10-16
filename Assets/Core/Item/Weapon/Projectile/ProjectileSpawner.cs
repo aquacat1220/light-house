@@ -21,18 +21,13 @@ public class ProjectileSpawner : NetworkBehaviour
     [SerializeField]
     static float _maxWaitTime = 0.025f;
 
-    // Local client requested predicted spawn.
+    // These two events are for correcting incorrect predictions.
+    // This one is for over-prediction; we predicted a spawn, but it didn't happen on the server.
     [SerializeField]
-    UnityEvent _spawnRequested;
-    // Predicted spawn request from local client was accepted.
+    UnityEvent _overPredicted;
+    // This one is for under-prediction; we never expected a spawn, but the server spawned one.
     [SerializeField]
-    UnityEvent _spawnAccepted;
-    // Predicted spawn request from local client was rejected.
-    [SerializeField]
-    UnityEvent _spawnRejected;
-    // Server spawned.
-    [SerializeField]
-    UnityEvent _spawned;
+    UnityEvent _underPredicted;
 
     bool _usePredictedSpawn = false;
 
@@ -87,39 +82,36 @@ public class ProjectileSpawner : NetworkBehaviour
         _clearWaitlistAlarm?.Remove();
     }
 
-    public void InvokeSpawnRequested()
+    public void InvokeOverPredicted()
     {
         if (base.IsServerInitialized)
         {
-            Debug.Log("`_spawnRequested` is an event that shouldn't be triggered on the server. Something is wrong.");
+            Debug.Log("`InvokeOverPredicted()` can't be called on servers.");
             throw new Exception();
         }
-        _spawnRequested?.Invoke();
+        if (!_usePredictedSpawn)
+        {
+            // `InvokeOverPredicted()` can never be called on non-predicting spawners, as it is called only when our prediction is rejected.
+            Debug.Log("`InvokeOverPredicted()` can't be called on non-predicting spawners.");
+            throw new Exception();
+        }
+        _overPredicted?.Invoke();
     }
 
-    public void InvokeSpawnAccepted()
+    public void InvokeUnderPredicted()
     {
         if (base.IsServerInitialized)
         {
-            Debug.Log("`_spawnAccepted` is an event that shouldn't be triggered on the server. Something is wrong.");
+            Debug.Log("`_underPredicted` is an event that shouldn't be triggered on the server. Something is wrong.");
             throw new Exception();
         }
-        _spawnAccepted?.Invoke();
-    }
-
-    public void InvokeSpawnRejected()
-    {
-        if (base.IsServerInitialized)
+        if (!_usePredictedSpawn)
         {
-            Debug.Log("`_spawnRejected` is an event that shouldn't be triggered on the server. Something is wrong.");
-            throw new Exception();
+            // However `InvokeUnderPredicted()` can be called on non-predicting spawners, as it is called when a client received a non-predicted spawn.
+            // `_underPredicted` should only be triggered when we under-predicted, not when we never attempted to predict at all. 
+            return;
         }
-        _spawnRejected?.Invoke();
-    }
-
-    public void InvokeSpawned()
-    {
-        _spawned?.Invoke();
+        _underPredicted?.Invoke();
     }
 
     void ClearWaitlist()
@@ -198,7 +190,6 @@ public class ProjectileSpawner : NetworkBehaviour
             );
             // Make sure to disable the alwaysfalse condition to ensure the projectile observable to everyone.
             nob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
-            InvokeSpawned();
             return;
         }
         // We are using predictive spawning.
@@ -218,7 +209,6 @@ public class ProjectileSpawner : NetworkBehaviour
             );
             // Make sure to disable the alwaysfalse condition to ensure the projectile observable to everyone.
             nob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
-            InvokeSpawned();
             return;
         }
 
@@ -226,7 +216,6 @@ public class ProjectileSpawner : NetworkBehaviour
         if (base.IsServerInitialized)
         {
             AddTicketToWaitlist();
-            InvokeSpawned();
         }
         else
         {
@@ -245,7 +234,6 @@ public class ProjectileSpawner : NetworkBehaviour
                 null,
                 gameObject.scene
             );
-            InvokeSpawnRequested();
         }
     }
 
