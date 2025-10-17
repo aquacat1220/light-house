@@ -13,13 +13,32 @@ using UnityEngine.Events;
 // And `_fire` will be predictively called, so listeners should implement prediction.
 public class Magazine : NetworkBehaviour
 {
+    public int Capacity
+    {
+        get
+        {
+            return (int)_capacity;
+        }
+    }
+
+    public int LeftAmmo
+    {
+        get
+        {
+            int leftAmmo = (int)(_reloadPoint - _shotsFired);
+            return Mathf.Clamp(leftAmmo, 0, (int)_capacity);
+        }
+    }
+
+    public UnityEvent<(int Old, int New)> LeftAmmoChange;
+
     [SerializeField]
     static float _maxWaitTime = 0.025f;
 
     [SerializeField]
     UnityEvent _fire;
     [SerializeField]
-    uint _magazineSize = 10;
+    uint _capacity = 10;
     [SerializeField]
     float _reloadTime = 2.5f;
 
@@ -37,7 +56,7 @@ public class Magazine : NetworkBehaviour
 
     void Awake()
     {
-        _reloadPoint = _magazineSize;
+        _reloadPoint = _capacity;
         // If we are the server, we need a reload timer.
         // And we also need a timer to cancel reloads when client mispredicts.
     }
@@ -86,9 +105,11 @@ public class Magazine : NetworkBehaviour
             return;
         if (_isReloading)
             return;
+        var oldLeftAmmo = LeftAmmo;
         _shotsFired += 1;
+        if (oldLeftAmmo != LeftAmmo)
+            LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
         _fire?.Invoke();
-        Debug.Log($"Ammo left: {_reloadPoint - _shotsFired}.");
     }
 
     public void StartReload()
@@ -113,16 +134,14 @@ public class Magazine : NetworkBehaviour
 
     void StartReloadServer()
     {
-        Debug.Log("StartReloadServer.");
         _isReloading = true;
-        _nextReloadPoint = _shotsFired + _magazineSize;
+        _nextReloadPoint = _shotsFired + _capacity;
         StartReloadObserver(_reloadPoint, _nextReloadPoint.Value);
         _reloadAlarm.Start();
     }
 
     void StartReloadClient()
     {
-        Debug.Log("StartReloadClient.");
         _isReloading = true;
         _stepsIntoFuture += 1;
         _isLastPredictionStart = true;
@@ -134,7 +153,6 @@ public class Magazine : NetworkBehaviour
     [ObserversRpc(ExcludeServer = true)]
     void StartReloadObserver(uint reloadPoint, uint nextReloadPoint)
     {
-        Debug.Log("StartReloadObserver.");
         if (_stepsIntoFuture > 0)
         {
             // We were predicting into the future.
@@ -151,14 +169,20 @@ public class Magazine : NetworkBehaviour
                 if (_isReloading)
                 {
                     // Predicted reloading hasn't finished yet.
+                    var oldLeftAmmo = LeftAmmo;
                     _reloadPoint = reloadPoint;
+                    if (oldLeftAmmo != LeftAmmo)
+                        LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
                     _nextReloadPoint = nextReloadPoint;
                     return;
                 }
                 else
                 {
                     // Predicted reloading has already finished.
+                    var oldLeftAmmo = LeftAmmo;
                     _reloadPoint = nextReloadPoint;
+                    if (oldLeftAmmo != LeftAmmo)
+                        LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
                     return;
                 }
             }
@@ -176,50 +200,62 @@ public class Magazine : NetworkBehaviour
                 {
                     // The mag isn't reloading. We just do non-predicted reloading.
                     _isReloading = true;
+                    var oldLeftAmmo = LeftAmmo;
                     _reloadPoint = reloadPoint;
+                    if (oldLeftAmmo != LeftAmmo)
+                        LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
                     return;
                 }
             }
         }
         _isReloading = true;
+        var oldLeftAmmo1 = LeftAmmo;
         _reloadPoint = reloadPoint;
+        if (oldLeftAmmo1 != LeftAmmo)
+            LeftAmmoChange?.Invoke((oldLeftAmmo1, LeftAmmo));
     }
 
     void EndReloadServer()
     {
-        Debug.Log("EndReloadServer.");
         if (_nextReloadPoint == null)
         {
             Debug.Log("Reloaded ended on server, but `_nextReloadPoint` was null.");
             throw new Exception();
         }
         _isReloading = false;
+        var oldLeftAmmo = LeftAmmo;
         _reloadPoint = _nextReloadPoint.Value;
+        if (oldLeftAmmo != LeftAmmo)
+            LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
         _nextReloadPoint = null;
         EndReloadObserver(_reloadPoint);
     }
 
     void EndReloadClient()
     {
-        Debug.Log("EndReloadClient.");
         _isReloading = false;
         if (_nextReloadPoint is uint nextReloadPoint)
         {
             // A correction from the server was received while the predictive reload timer was ticking.
+            var oldLeftAmmo = LeftAmmo;
             _reloadPoint = nextReloadPoint;
+            if (oldLeftAmmo != LeftAmmo)
+                LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
             _nextReloadPoint = null;
         }
         else
         {
             // No correction was received for the current predicted reload.
-            _reloadPoint = _shotsFired + _magazineSize;
+            var oldLeftAmmo = LeftAmmo;
+            _reloadPoint = _shotsFired + _capacity;
+            if (oldLeftAmmo != LeftAmmo)
+                LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
         }
     }
 
     [ObserversRpc(ExcludeServer = true)]
     void EndReloadObserver(uint reloadPoint)
     {
-        Debug.Log("EndReloadObserver.");
         // This reload-end might be:
         // - In the future (the client never predicted it to happen).
         // - In the present (the latest prediction made by the client was this one).
@@ -233,7 +269,10 @@ public class Magazine : NetworkBehaviour
         // If case future, we can overwrite both values.
         // If case present, the values must already be set.
         _isReloading = false;
+        var oldLeftAmmo = LeftAmmo;
         _reloadPoint = reloadPoint;
+        if (oldLeftAmmo != LeftAmmo)
+            LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
     }
 
     public void CancelReload()
@@ -258,7 +297,6 @@ public class Magazine : NetworkBehaviour
 
     void CancelReloadServer()
     {
-        Debug.Log("CancelReloadServer.");
         _isReloading = false;
         _reloadAlarm.Stop();
         _reloadAlarm.Reset(_reloadTime);
@@ -267,7 +305,6 @@ public class Magazine : NetworkBehaviour
 
     void CancelReloadClient()
     {
-        Debug.Log("CancelReloadClient.");
         _isReloading = false;
         _stepsIntoFuture += 1;
         _isLastPredictionStart = false;
@@ -278,7 +315,6 @@ public class Magazine : NetworkBehaviour
     [ObserversRpc(ExcludeServer = true)]
     void CancelReloadObserver(uint reloadPoint)
     {
-        Debug.Log("CancelReloadObserver.");
         if (_stepsIntoFuture > 0)
         {
             // We were predicting into the future.
@@ -298,14 +334,20 @@ public class Magazine : NetworkBehaviour
                     _isReloading = false;
                     _predictedReloadAlarm.Stop();
                     _predictedReloadAlarm.Reset(_reloadTime);
+                    var oldLeftAmmo = LeftAmmo;
                     _reloadPoint = reloadPoint;
+                    if (oldLeftAmmo != LeftAmmo)
+                        LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
                     _nextReloadPoint = null;
                     return;
                 }
                 else
                 {
                     // The reloading was already finished. Revert it.
+                    var oldLeftAmmo = LeftAmmo;
                     _reloadPoint = reloadPoint;
+                    if (oldLeftAmmo != LeftAmmo)
+                        LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
                     return;
                 }
             }
@@ -322,18 +364,26 @@ public class Magazine : NetworkBehaviour
                 {
                     // The mag isn't reloading, which is normal. Just keep the state up to date.
                     _isReloading = false;
+                    var oldLeftAmmo = LeftAmmo;
                     _reloadPoint = reloadPoint;
+                    if (oldLeftAmmo != LeftAmmo)
+                        LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
                     return;
                 }
             }
         }
         _isReloading = false;
+        var oldLeftAmmo1 = LeftAmmo;
         _reloadPoint = reloadPoint;
+        if (oldLeftAmmo1 != LeftAmmo)
+            LeftAmmoChange?.Invoke((oldLeftAmmo1, LeftAmmo));
     }
 
     public void CorrectAmmo(int correction)
     {
+        var oldLeftAmmo = LeftAmmo;
         _shotsFired = _shotsFired + (uint)correction;
-        Debug.Log($"Corrected ammo. Ammo left: {_reloadPoint - _shotsFired}.");
+        if (oldLeftAmmo != LeftAmmo)
+            LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
     }
 }

@@ -153,7 +153,6 @@ public class ProjectileTransform : NetworkBehaviour
         float deltaTime = (float)TimeManager.TickDelta;
         if (_timeToCatchUp != 0f)
         {
-            Debug.Log($"Time to catch up: {_timeToCatchUp}, Distance to catch up: {_distanceToCatchUp}.");
             float catchUp = _timeToCatchUp * 0.01f;
             _timeToCatchUp -= catchUp;
 
