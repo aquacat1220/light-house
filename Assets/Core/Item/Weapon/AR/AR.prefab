@@ -196,6 +196,8 @@ GameObject:
   - component: {fileID: 3260175829585409224}
   - component: {fileID: 5501519788436619483}
   - component: {fileID: 5584875701468269750}
+  - component: {fileID: 104879570089833803}
+  - component: {fileID: 3109908223172455993}
   - component: {fileID: 6129219461553058081}
   - component: {fileID: 64550675818251124}
   - component: {fileID: 4227528743761521286}
@@ -477,10 +479,31 @@ MonoBehaviour:
   _secondary:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6129219461553058081}
-        m_TargetAssemblyTypeName: Magazine, Assembly-CSharp
-        m_MethodName: StartReload
-        m_Mode: 1
+      - m_Target: {fileID: 104879570089833803}
+        m_TargetAssemblyTypeName: PulseIdentity, Assembly-CSharp
+        m_MethodName: OnPulseChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _action1:
+    m_PersistentCalls:
+      m_Calls: []
+  _action2:
+    m_PersistentCalls:
+      m_Calls: []
+  _reload:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3109908223172455993}
+        m_TargetAssemblyTypeName: PulseIdentity, Assembly-CSharp
+        m_MethodName: OnPulseChange
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -508,6 +531,72 @@ MonoBehaviour:
       - m_Target: {fileID: 6129219461553058081}
         m_TargetAssemblyTypeName: Magazine, Assembly-CSharp
         m_MethodName: TryFire
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _pulseDown:
+    m_PersistentCalls:
+      m_Calls: []
+  _pulseChange:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &104879570089833803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948197007501555658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d09ce6830b0ae4da5c11f9a7ce61c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PulseIdentity
+  _pulseUp:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6129219461553058081}
+        m_TargetAssemblyTypeName: Magazine, Assembly-CSharp
+        m_MethodName: CancelReload
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _pulseDown:
+    m_PersistentCalls:
+      m_Calls: []
+  _pulseChange:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &3109908223172455993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948197007501555658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d09ce6830b0ae4da5c11f9a7ce61c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PulseIdentity
+  _pulseUp:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6129219461553058081}
+        m_TargetAssemblyTypeName: Magazine, Assembly-CSharp
+        m_MethodName: StartReload
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -129,6 +129,33 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""ItemAction1"",
+                    ""type"": ""Button"",
+                    ""id"": ""2a93d629-a63b-42f9-a343-7e3ed1843495"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ItemAction2"",
+                    ""type"": ""Button"",
+                    ""id"": ""caa37ed5-21ba-4f69-9bb3-591ccd820b14"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""34828d44-d612-442f-9bea-d56a4d0f8f31"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""ShowUI"",
                     ""type"": ""Button"",
                     ""id"": ""83fbc5c5-3dab-460b-9246-51aeab541599"",
@@ -459,6 +486,39 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""DropItem4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d078ead7-0036-4c88-ab63-236ac153f360"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""53bc4042-a302-41fb-975c-c2e3c69ca45d"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""ItemAction1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6e7be437-f0eb-4b4b-97a4-848538d8aa69"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""ItemAction2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1050,6 +1110,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Primary = m_Player.FindAction("Primary", throwIfNotFound: true);
         m_Player_Secondary = m_Player.FindAction("Secondary", throwIfNotFound: true);
+        m_Player_ItemAction1 = m_Player.FindAction("ItemAction1", throwIfNotFound: true);
+        m_Player_ItemAction2 = m_Player.FindAction("ItemAction2", throwIfNotFound: true);
+        m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
         m_Player_ShowUI = m_Player.FindAction("ShowUI", throwIfNotFound: true);
         m_Player_Die = m_Player.FindAction("Die", throwIfNotFound: true);
         m_Player_SelectItem1 = m_Player.FindAction("SelectItem1", throwIfNotFound: true);
@@ -1157,6 +1220,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Primary;
     private readonly InputAction m_Player_Secondary;
+    private readonly InputAction m_Player_ItemAction1;
+    private readonly InputAction m_Player_ItemAction2;
+    private readonly InputAction m_Player_Reload;
     private readonly InputAction m_Player_ShowUI;
     private readonly InputAction m_Player_Die;
     private readonly InputAction m_Player_SelectItem1;
@@ -1194,6 +1260,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Secondary".
         /// </summary>
         public InputAction @Secondary => m_Wrapper.m_Player_Secondary;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ItemAction1".
+        /// </summary>
+        public InputAction @ItemAction1 => m_Wrapper.m_Player_ItemAction1;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ItemAction2".
+        /// </summary>
+        public InputAction @ItemAction2 => m_Wrapper.m_Player_ItemAction2;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Reload".
+        /// </summary>
+        public InputAction @Reload => m_Wrapper.m_Player_Reload;
         /// <summary>
         /// Provides access to the underlying input action "Player/ShowUI".
         /// </summary>
@@ -1272,6 +1350,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Secondary.started += instance.OnSecondary;
             @Secondary.performed += instance.OnSecondary;
             @Secondary.canceled += instance.OnSecondary;
+            @ItemAction1.started += instance.OnItemAction1;
+            @ItemAction1.performed += instance.OnItemAction1;
+            @ItemAction1.canceled += instance.OnItemAction1;
+            @ItemAction2.started += instance.OnItemAction2;
+            @ItemAction2.performed += instance.OnItemAction2;
+            @ItemAction2.canceled += instance.OnItemAction2;
+            @Reload.started += instance.OnReload;
+            @Reload.performed += instance.OnReload;
+            @Reload.canceled += instance.OnReload;
             @ShowUI.started += instance.OnShowUI;
             @ShowUI.performed += instance.OnShowUI;
             @ShowUI.canceled += instance.OnShowUI;
@@ -1325,6 +1412,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Secondary.started -= instance.OnSecondary;
             @Secondary.performed -= instance.OnSecondary;
             @Secondary.canceled -= instance.OnSecondary;
+            @ItemAction1.started -= instance.OnItemAction1;
+            @ItemAction1.performed -= instance.OnItemAction1;
+            @ItemAction1.canceled -= instance.OnItemAction1;
+            @ItemAction2.started -= instance.OnItemAction2;
+            @ItemAction2.performed -= instance.OnItemAction2;
+            @ItemAction2.canceled -= instance.OnItemAction2;
+            @Reload.started -= instance.OnReload;
+            @Reload.performed -= instance.OnReload;
+            @Reload.canceled -= instance.OnReload;
             @ShowUI.started -= instance.OnShowUI;
             @ShowUI.performed -= instance.OnShowUI;
             @ShowUI.canceled -= instance.OnShowUI;
@@ -1683,6 +1779,27 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSecondary(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ItemAction1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnItemAction1(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ItemAction2" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnItemAction2(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Reload" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnReload(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "ShowUI" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

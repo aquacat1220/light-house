@@ -43,6 +43,33 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "ItemAction1",
+                    "type": "Button",
+                    "id": "2a93d629-a63b-42f9-a343-7e3ed1843495",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ItemAction2",
+                    "type": "Button",
+                    "id": "caa37ed5-21ba-4f69-9bb3-591ccd820b14",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Reload",
+                    "type": "Button",
+                    "id": "34828d44-d612-442f-9bea-d56a4d0f8f31",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "ShowUI",
                     "type": "Button",
                     "id": "83fbc5c5-3dab-460b-9246-51aeab541599",
@@ -373,6 +400,39 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "DropItem4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d078ead7-0036-4c88-ab63-236ac153f360",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Reload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "53bc4042-a302-41fb-975c-c2e3c69ca45d",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "ItemAction1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6e7be437-f0eb-4b4b-97a4-848538d8aa69",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "ItemAction2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
