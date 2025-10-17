@@ -30,6 +30,11 @@ public class ProjectileTransform : NetworkBehaviour
     float _timeToCatchUp = 0f;
     Vector2 _distanceToCatchUp = Vector2.zero;
 
+    [SerializeField]
+    float _maxCatchUpTime = 1f;
+    [SerializeField]
+    float _maxCatchUpDistance = 1f;
+
     // Catch up time and distance is calculated once at the first `OnTick()` callback.
     bool _calculatedCatchUp = false;
 
@@ -134,9 +139,21 @@ public class ProjectileTransform : NetworkBehaviour
             _calculatedCatchUp = true;
         }
 
+        if (_timeToCatchUp >= _maxCatchUpTime)
+        {
+            _rigidbody.position = _rigidbody.position + (Vector2)(transform.up * _speed * _timeToCatchUp);
+            _timeToCatchUp = 0f;
+        }
+        if (_distanceToCatchUp.magnitude >= _maxCatchUpDistance)
+        {
+            _rigidbody.position = _rigidbody.position + _distanceToCatchUp;
+            _distanceToCatchUp = Vector2.zero;
+        }
+
         float deltaTime = (float)TimeManager.TickDelta;
         if (_timeToCatchUp != 0f)
         {
+            Debug.Log($"Time to catch up: {_timeToCatchUp}, Distance to catch up: {_distanceToCatchUp}.");
             float catchUp = _timeToCatchUp * 0.01f;
             _timeToCatchUp -= catchUp;
 
