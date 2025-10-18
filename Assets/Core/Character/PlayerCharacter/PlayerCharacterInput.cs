@@ -15,6 +15,9 @@ public class PlayerCharacterInput : NetworkBehaviour
     public UnityEvent<bool> Primary;
     // Triggered when the secondary action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
     public UnityEvent<bool> Secondary;
+    public UnityEvent<bool> ItemAction1;
+    public UnityEvent<bool> ItemAction2;
+    public UnityEvent<bool> Reload;
     // Triggered when the select item 1 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
     public UnityEvent<bool> SelectItem1;
     // Triggered when the drop item 1 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
@@ -77,6 +80,12 @@ public class PlayerCharacterInput : NetworkBehaviour
             InputManager.Singleton.InputActions.Player.Primary.canceled += OnPrimary;
             InputManager.Singleton.InputActions.Player.Secondary.performed += OnSecondary;
             InputManager.Singleton.InputActions.Player.Secondary.canceled += OnSecondary;
+            InputManager.Singleton.InputActions.Player.ItemAction1.performed += OnItemAction1;
+            InputManager.Singleton.InputActions.Player.ItemAction1.canceled += OnItemAction1;
+            InputManager.Singleton.InputActions.Player.ItemAction2.performed += OnItemAction2;
+            InputManager.Singleton.InputActions.Player.ItemAction2.canceled += OnItemAction2;
+            InputManager.Singleton.InputActions.Player.Reload.performed += OnReload;
+            InputManager.Singleton.InputActions.Player.Reload.canceled += OnReload;
             InputManager.Singleton.InputActions.Player.SelectItem1.performed += OnSelectItem1;
             InputManager.Singleton.InputActions.Player.SelectItem1.canceled += OnSelectItem1;
             InputManager.Singleton.InputActions.Player.DropItem1.performed += OnDropItem1;
@@ -110,6 +119,12 @@ public class PlayerCharacterInput : NetworkBehaviour
             InputManager.Singleton.InputActions.Player.Primary.canceled -= OnPrimary;
             InputManager.Singleton.InputActions.Player.Secondary.performed -= OnSecondary;
             InputManager.Singleton.InputActions.Player.Secondary.canceled -= OnSecondary;
+            InputManager.Singleton.InputActions.Player.ItemAction1.performed -= OnItemAction1;
+            InputManager.Singleton.InputActions.Player.ItemAction1.canceled -= OnItemAction1;
+            InputManager.Singleton.InputActions.Player.ItemAction2.performed -= OnItemAction2;
+            InputManager.Singleton.InputActions.Player.ItemAction2.canceled -= OnItemAction2;
+            InputManager.Singleton.InputActions.Player.Reload.performed -= OnReload;
+            InputManager.Singleton.InputActions.Player.Reload.canceled -= OnReload;
             InputManager.Singleton.InputActions.Player.SelectItem1.performed -= OnSelectItem1;
             InputManager.Singleton.InputActions.Player.SelectItem1.canceled -= OnSelectItem1;
             InputManager.Singleton.InputActions.Player.DropItem1.performed -= OnDropItem1;
@@ -160,6 +175,30 @@ public class PlayerCharacterInput : NetworkBehaviour
             Secondary?.Invoke(true);
         else if (context.canceled)
             Secondary?.Invoke(false);
+    }
+
+    void OnItemAction1(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            ItemAction1?.Invoke(true);
+        else if (context.canceled)
+            ItemAction1?.Invoke(false);
+    }
+
+    void OnItemAction2(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            ItemAction2?.Invoke(true);
+        else if (context.canceled)
+            ItemAction2?.Invoke(false);
+    }
+
+    void OnReload(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            Reload?.Invoke(true);
+        else if (context.canceled)
+            Reload?.Invoke(false);
     }
 
     void OnSelectItem1(InputAction.CallbackContext context)

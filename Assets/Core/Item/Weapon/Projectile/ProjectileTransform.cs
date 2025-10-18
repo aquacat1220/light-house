@@ -16,6 +16,9 @@ public class ProjectileTransform : NetworkBehaviour
 
     public ProjectileSpawner ProjectileSpawner;
 
+    // If `_isRejected` is true, this projectile was predicted-spawned, we are the predicted spawning client, and the server rejected the request.
+    bool _isRejected = false;
+
     // The tick and position this projectile was spawned on the server. Set in `ReadPayload()` (in clients), `OnStartServer()` (in noPS server), `` (in PS server).
     PreciseTick _spawnedTick = PreciseTick.GetUnsetValue();
     Vector2 _spawnedPosition = Vector2.zero;
@@ -26,6 +29,11 @@ public class ProjectileTransform : NetworkBehaviour
     // This is because the spawning client spawns the projectile before the server does.
     float _timeToCatchUp = 0f;
     Vector2 _distanceToCatchUp = Vector2.zero;
+
+    [SerializeField]
+    float _maxCatchUpTime = 1f;
+    [SerializeField]
+    float _maxCatchUpDistance = 1f;
 
     // Catch up time and distance is calculated once at the first `OnTick()` callback.
     bool _calculatedCatchUp = false;
@@ -87,7 +95,7 @@ public class ProjectileTransform : NetworkBehaviour
         }
     }
 
-    // `SetSpawn()` should only be called on the server, *before we send `_spawnedTick` to clients*.
+    // `SetSpawn()` should only be called on the server, before `WritePayload()`.
     public void ResetSpawn(PreciseTick spawnedTick, Vector2 spawnedPosition, float spawnedRotation)
     {
         if (!base.IsServerStarted)
@@ -98,6 +106,13 @@ public class ProjectileTransform : NetworkBehaviour
         _spawnedTick = spawnedTick;
         _spawnedPosition = spawnedPosition;
         transform.rotation = Quaternion.Euler(0f, 0f, spawnedRotation);
+    }
+
+    // Reject a predicted-spawned projectile.
+    // `RejectProjectile()` should only be called on the server, before `WritePayload()`.
+    public void RejectProjectile()
+    {
+        _isRejected = true;
     }
 
     // Disables this component, and deactivates all child gameobjects.
@@ -122,6 +137,17 @@ public class ProjectileTransform : NetworkBehaviour
             _timeToCatchUp = (float)TimeManager.TicksToTime(TimeManager.GetPreciseTick(TickType.Tick)) - (float)TimeManager.TicksToTime(_spawnedTick);
             _distanceToCatchUp = _spawnedPosition - (Vector2)transform.position;
             _calculatedCatchUp = true;
+        }
+
+        if (_timeToCatchUp >= _maxCatchUpTime)
+        {
+            _rigidbody.position = _rigidbody.position + (Vector2)(transform.up * _speed * _timeToCatchUp);
+            _timeToCatchUp = 0f;
+        }
+        if (_distanceToCatchUp.magnitude >= _maxCatchUpDistance)
+        {
+            _rigidbody.position = _rigidbody.position + _distanceToCatchUp;
+            _distanceToCatchUp = Vector2.zero;
         }
 
         float deltaTime = (float)TimeManager.TickDelta;
@@ -177,10 +203,16 @@ public class ProjectileTransform : NetworkBehaviour
         else
         {
             // We are on the server.
-            writer.WriteUInt32(_spawnedTick.Tick);
-            writer.WriteDouble(_spawnedTick.PercentAsDouble);
-            writer.WriteVector2(_spawnedPosition);
-            writer.WriteSingle(transform.rotation.eulerAngles.z);
+            writer.WriteNetworkBehaviour(ProjectileSpawner);
+            writer.WriteBoolean(_isRejected);
+            if (!_isRejected)
+            {
+                // If the projectile was rejected, it will be despawned anyways. Save bandwidth.
+                writer.WriteUInt32(_spawnedTick.Tick);
+                writer.WriteDouble(_spawnedTick.PercentAsDouble);
+                writer.WriteVector2(_spawnedPosition);
+                writer.WriteSingle(transform.rotation.eulerAngles.z);
+            }
         }
     }
 
@@ -205,13 +237,46 @@ public class ProjectileTransform : NetworkBehaviour
         else
         {
             // We are on clients. Read the server's `_spawnedTick`.
-            var tick = reader.ReadUInt32();
-            var percent = reader.ReadDouble();
-            _spawnedTick = new PreciseTick(tick, percent);
-            _spawnedPosition = reader.ReadVector2();
-            var spawnedRotation = reader.ReadSingle();
-            // Snap rotation to true value.
-            transform.rotation = Quaternion.Euler(0f, 0f, spawnedRotation);
+            ProjectileSpawner = (ProjectileSpawner)reader.ReadNetworkBehaviour();
+            _isRejected = reader.ReadBoolean();
+            if (!_isRejected)
+            {
+                // One of three cases:
+                // - The projectile was originally predicted-spawned, and the server accepted the request.
+                //     - We are the PS request client. (Case 1)
+                //     - We are not the PS request client. (Case 2)
+                // - The projectile was originally spawned by the server. (Case 3)
+
+                // First read the spawn info.
+                var tick = reader.ReadUInt32();
+                var percent = reader.ReadDouble();
+                _spawnedTick = new PreciseTick(tick, percent);
+                _spawnedPosition = reader.ReadVector2();
+                var spawnedRotation = reader.ReadSingle();
+                // Snap rotation to true value.
+                transform.rotation = Quaternion.Euler(0f, 0f, spawnedRotation);
+
+                // Then trigger appropriate events at parent `ProjectileSpawner`.
+                if (NetworkObject.PredictedSpawner != null && NetworkObject.PredictedSpawner.IsLocalClient)
+                {
+                    // Case 1: PS projectile was accepted, and we are the PS request client.
+                    // Note that `PredictedSpawner` will be set only on the predicted spawning client and the server.
+                    // Do nothing.
+                }
+                else
+                {
+                    // Case 2 & 3
+                    // In both cases, the local client didn't predict a projectile to be spawned, but the server spawned one.
+                    // Except if we are the host; hosts don't need to predict, as we have authority. In that case we don't want to trigger correction events.
+                    if (!base.IsServerInitialized)
+                        ProjectileSpawner.InvokeUnderPredicted();
+                }
+            }
+            else
+            {
+                // The projectile was originally predicted-spawned, and the server rejected the request. (Case 4)
+                ProjectileSpawner.InvokeOverPredicted();
+            }
         }
     }
 }

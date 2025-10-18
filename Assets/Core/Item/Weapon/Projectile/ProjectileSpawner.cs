@@ -6,6 +6,8 @@ using FishNet.Managing.Timing;
 using FishNet.Object;
 using FishNet.Observing;
 using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.Events;
 
 public class ProjectileSpawner : NetworkBehaviour
 {
@@ -18,6 +20,14 @@ public class ProjectileSpawner : NetworkBehaviour
     static int _waitQueueCapacity = 5;
     [SerializeField]
     static float _maxWaitTime = 0.025f;
+
+    // These two events are for correcting incorrect predictions.
+    // This one is for over-prediction; we predicted a spawn, but it didn't happen on the server.
+    [SerializeField]
+    UnityEvent _overPredicted;
+    // This one is for under-prediction; we never expected a spawn, but the server spawned one.
+    [SerializeField]
+    UnityEvent _underPredicted;
 
     bool _usePredictedSpawn = false;
 
@@ -33,15 +43,14 @@ public class ProjectileSpawner : NetworkBehaviour
             Debug.Log("`_projectile` wasn't set.");
             throw new Exception();
         }
-        var nob = _projectile.GetComponent<NetworkObject>();
-        if (nob == null)
+        var projectile = _projectile.GetComponent<ProjectileTransform>();
+        if (projectile == null)
         {
-            Debug.Log("`_projectile` is not a networked object. Is this intended?");
-            Debug.Log("We do not support local projectiles.");
+            Debug.Log("`_projectile` does not have the `ProjectileTransform` component.");
             throw new Exception();
         }
 
-        if (nob.PredictedSpawn?.GetAllowSpawning() is true)
+        if (projectile.NetworkObject.PredictedSpawn?.GetAllowSpawning() is true)
         {
             if (_projectile.GetComponent<NetworkObserver>().GetObserverCondition<AlwaysFalseCondition>() == null)
             {
@@ -73,6 +82,38 @@ public class ProjectileSpawner : NetworkBehaviour
         _clearWaitlistAlarm?.Remove();
     }
 
+    public void InvokeOverPredicted()
+    {
+        if (base.IsServerInitialized)
+        {
+            Debug.Log("`InvokeOverPredicted()` can't be called on servers.");
+            throw new Exception();
+        }
+        if (!_usePredictedSpawn)
+        {
+            // `InvokeOverPredicted()` can never be called on non-predicting spawners, as it is called only when our prediction is rejected.
+            Debug.Log("`InvokeOverPredicted()` can't be called on non-predicting spawners.");
+            throw new Exception();
+        }
+        _overPredicted?.Invoke();
+    }
+
+    public void InvokeUnderPredicted()
+    {
+        if (base.IsServerInitialized)
+        {
+            Debug.Log("`InvokeUnderPredicted()` can't be called on servers.");
+            throw new Exception();
+        }
+        if (!_usePredictedSpawn)
+        {
+            // However `InvokeUnderPredicted()` can be called on non-predicting spawners, as it is called when a client received a non-predicted spawn.
+            // `_underPredicted` should only be triggered when we under-predicted, not when we never attempted to predict at all. 
+            return;
+        }
+        _underPredicted?.Invoke();
+    }
+
     void ClearWaitlist()
     {
         while (_waitingProjectiles.Count > 0)
@@ -84,6 +125,8 @@ public class ProjectileSpawner : NetworkBehaviour
                 Debug.Log($"Clearing old projectile from projectile waitlist.");
                 (var evictedProjectileTick, var evictedProjectile) = _waitingProjectiles.Dequeue();
                 Debug.Log($"Projectile spawn request (arrived at {evictedProjectileTick}) was denied due to waitlist eviction (wait timeout).");
+                // Mark the projectile to be "predicted-spawn rejected", so the spawning client can see this projectile was "rejected" instead of being "normally despawned".
+                evictedProjectile.RejectProjectile();
                 var nob = evictedProjectile.NetworkObject;
                 // An eviction can happen if a ticket never arrived.
 
@@ -105,6 +148,7 @@ public class ProjectileSpawner : NetworkBehaviour
                 var evictedTicket = _waitingTickets.Dequeue();
                 var projectileGameObject = Instantiate(_projectile, evictedTicket.Position, Quaternion.Euler(0f, 0f, evictedTicket.Rotation));
                 var projectile = projectileGameObject.GetComponent<ProjectileTransform>();
+                projectile.ProjectileSpawner = this;
                 Spawn(
                     projectileGameObject,
                     null,
@@ -136,7 +180,9 @@ public class ProjectileSpawner : NetworkBehaviour
                 return;
 
             var projectileGameObject = Instantiate(_projectile, _spawnPoint.position, _spawnPoint.rotation);
-            var nob = projectileGameObject.GetComponent<ProjectileTransform>().NetworkObject;
+            var projectile = projectileGameObject.GetComponent<ProjectileTransform>();
+            projectile.ProjectileSpawner = this;
+            var nob = projectile.NetworkObject;
             Spawn(
                 projectileGameObject,
                 null,
@@ -153,7 +199,9 @@ public class ProjectileSpawner : NetworkBehaviour
         if (base.IsServerInitialized && base.IsOwner)
         {
             var projectileGameObject = Instantiate(_projectile, _spawnPoint.position, _spawnPoint.rotation);
-            var nob = projectileGameObject.GetComponent<ProjectileTransform>().NetworkObject;
+            var projectile = projectileGameObject.GetComponent<ProjectileTransform>();
+            projectile.ProjectileSpawner = this;
+            var nob = projectile.NetworkObject;
             Spawn(
                 projectileGameObject,
                 null,
@@ -227,6 +275,7 @@ public class ProjectileSpawner : NetworkBehaviour
             var ticket = _waitingTickets.Dequeue();
             var projectileGameObject = Instantiate(_projectile, ticket.Position, Quaternion.Euler(0f, 0f, ticket.Rotation));
             var projectile = projectileGameObject.GetComponent<ProjectileTransform>();
+            projectile.ProjectileSpawner = this;
             Spawn(
                 projectileGameObject,
                 null,
@@ -289,6 +338,8 @@ public class ProjectileSpawner : NetworkBehaviour
             Debug.Log($"Attempting to add a projectile to an already full waitlist. Evicting the oldest projectile.");
             (var tick, var evictedProjectile) = _waitingProjectiles.Dequeue();
             Debug.Log($"Projectile spawn request (arrived at {tick}) was denied due to waitlist eviction (waitlist full).");
+            // Mark the projectile to be "predicted-spawn rejected", so the spawning client can see this projectile was "rejected" instead of being "normally despawned".
+            evictedProjectile.RejectProjectile();
             var nob = evictedProjectile.NetworkObject;
             // An eviction can happen if a ticket never arrived.
 

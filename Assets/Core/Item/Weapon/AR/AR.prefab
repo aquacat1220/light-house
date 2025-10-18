@@ -196,8 +196,11 @@ GameObject:
   - component: {fileID: 3260175829585409224}
   - component: {fileID: 5501519788436619483}
   - component: {fileID: 5584875701468269750}
-  - component: {fileID: 4227528743761521286}
+  - component: {fileID: 104879570089833803}
+  - component: {fileID: 3109908223172455993}
+  - component: {fileID: 6129219461553058081}
   - component: {fileID: 64550675818251124}
+  - component: {fileID: 4227528743761521286}
   m_Layer: 0
   m_Name: AR
   m_TagString: Untagged
@@ -271,7 +274,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 19
+  <PrefabId>k__BackingField: 18
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 17933663804676379522
   <SceneId>k__BackingField: 0
@@ -291,6 +294,7 @@ MonoBehaviour:
   - {fileID: 7360309243201395256}
   - {fileID: 4547007209208306797}
   - {fileID: 3260175829585409224}
+  - {fileID: 6129219461553058081}
   - {fileID: 64550675818251124}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
@@ -474,7 +478,40 @@ MonoBehaviour:
         m_CallState: 2
   _secondary:
     m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 104879570089833803}
+        m_TargetAssemblyTypeName: PulseIdentity, Assembly-CSharp
+        m_MethodName: OnPulseChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _action1:
+    m_PersistentCalls:
       m_Calls: []
+  _action2:
+    m_PersistentCalls:
+      m_Calls: []
+  _reload:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3109908223172455993}
+        m_TargetAssemblyTypeName: PulseIdentity, Assembly-CSharp
+        m_MethodName: OnPulseChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5584875701468269750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -491,9 +528,9 @@ MonoBehaviour:
   _pulseUp:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 64550675818251124}
-        m_TargetAssemblyTypeName: ProjectileSpawner, Assembly-CSharp
-        m_MethodName: SpawnProjectile
+      - m_Target: {fileID: 6129219461553058081}
+        m_TargetAssemblyTypeName: Magazine, Assembly-CSharp
+        m_MethodName: TryFire
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -509,7 +546,7 @@ MonoBehaviour:
   _pulseChange:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4227528743761521286
+--- !u!114 &104879570089833803
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -518,9 +555,95 @@ MonoBehaviour:
   m_GameObject: {fileID: 948197007501555658}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d852d571aa07eb487a611303c76ec139, type: 3}
+  m_Script: {fileID: 11500000, guid: 90d09ce6830b0ae4da5c11f9a7ce61c2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Logger
+  m_EditorClassIdentifier: Assembly-CSharp::PulseIdentity
+  _pulseUp:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6129219461553058081}
+        m_TargetAssemblyTypeName: Magazine, Assembly-CSharp
+        m_MethodName: CancelReload
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _pulseDown:
+    m_PersistentCalls:
+      m_Calls: []
+  _pulseChange:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &3109908223172455993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948197007501555658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d09ce6830b0ae4da5c11f9a7ce61c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PulseIdentity
+  _pulseUp:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6129219461553058081}
+        m_TargetAssemblyTypeName: Magazine, Assembly-CSharp
+        m_MethodName: StartReload
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _pulseDown:
+    m_PersistentCalls:
+      m_Calls: []
+  _pulseChange:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &6129219461553058081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948197007501555658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b92a4f924e73c3d68ab008e1094f693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Magazine
+  _componentIndexCache: 4
+  _addedNetworkObject: {fileID: 3458800118198264783}
+  _networkObjectCache: {fileID: 3458800118198264783}
+  _fire:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 64550675818251124}
+        m_TargetAssemblyTypeName: ProjectileSpawner, Assembly-CSharp
+        m_MethodName: SpawnProjectile
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _magazineSize: 10
+  _reloadTime: 0.15
 --- !u!114 &64550675818251124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -533,11 +656,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4427f71bceefd42a68e8bf0d27dcb149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileSpawner
-  _componentIndexCache: 4
+  _componentIndexCache: 5
   _addedNetworkObject: {fileID: 3458800118198264783}
   _networkObjectCache: {fileID: 3458800118198264783}
   _projectile: {fileID: 2787902506105217941, guid: d1e23beb3b32891edb5c59def39e1429, type: 3}
   _spawnPoint: {fileID: 505038438785308187}
+  _overPredicted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6129219461553058081}
+        m_TargetAssemblyTypeName: Magazine, Assembly-CSharp
+        m_MethodName: CorrectAmmo
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: -1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _underPredicted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6129219461553058081}
+        m_TargetAssemblyTypeName: Magazine, Assembly-CSharp
+        m_MethodName: CorrectAmmo
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4227528743761521286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948197007501555658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d852d571aa07eb487a611303c76ec139, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Logger
 --- !u!1 &1099217064113485788
 GameObject:
   m_ObjectHideFlags: 0

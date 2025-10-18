@@ -20,6 +20,9 @@ public class PlayerCharacterInventory : NetworkBehaviour
 
     InputState<bool> _primaryState = new();
     InputState<bool> _secondaryState = new();
+    InputState<bool> _action1State = new();
+    InputState<bool> _action2State = new();
+    InputState<bool> _reloadState = new();
 
     bool _blockInputs = true;
 
@@ -83,12 +86,18 @@ public class PlayerCharacterInventory : NetworkBehaviour
         // Trickle input down to main hand item.
         _itemSlotInputs[_mainHand].PrimaryState.Parent = _primaryState;
         _itemSlotInputs[_mainHand].SecondaryState.Parent = _secondaryState;
+        _itemSlotInputs[_mainHand].Action1State.Parent = _action1State;
+        _itemSlotInputs[_mainHand].Action2State.Parent = _action2State;
+        _itemSlotInputs[_mainHand].ReloadState.Parent = _reloadState;
     }
 
     void OnEnable()
     {
         _primaryState.Enable();
         _secondaryState.Enable();
+        _action1State.Enable();
+        _action2State.Enable();
+        _reloadState.Enable();
         _blockInputs = false;
     }
 
@@ -96,6 +105,9 @@ public class PlayerCharacterInventory : NetworkBehaviour
     {
         _primaryState.Disable();
         _secondaryState.Disable();
+        _action1State.Disable();
+        _action2State.Disable();
+        _reloadState.Disable();
         _blockInputs = true;
     }
 
@@ -160,6 +172,84 @@ public class PlayerCharacterInventory : NetworkBehaviour
     {
         // We don't check `_blockInputs` here because `InputState`s have their own `Enable()` `Disable()` logic.
         var rootChangeResult = _secondaryState.RootChangeState(newState);
+        Assert.IsTrue(rootChangeResult);
+    }
+
+    [Client(RequireOwnership = true)]
+    public void OnAction1(bool newState)
+    {
+        // Let the input pulse flow down the chain on the client.
+        OnAction1Local(newState);
+
+        // If we are the server too (= host), don't do this twice.
+        if (base.IsServerInitialized)
+            return;
+        // If we are not the host, make a RPC call to sync the pulse to the server.
+        OnAction1Rpc(newState);
+    }
+
+    [ServerRpc(RequireOwnership = true)]
+    void OnAction1Rpc(bool newState)
+    {
+        OnAction1Local(newState);
+    }
+
+    void OnAction1Local(bool newState)
+    {
+        // We don't check `_blockInputs` here because `InputState`s have their own `Enable()` `Disable()` logic.
+        var rootChangeResult = _action1State.RootChangeState(newState);
+        Assert.IsTrue(rootChangeResult);
+    }
+
+    [Client(RequireOwnership = true)]
+    public void OnAction2(bool newState)
+    {
+        // Let the input pulse flow down the chain on the client.
+        OnAction2Local(newState);
+
+        // If we are the server too (= host), don't do this twice.
+        if (base.IsServerInitialized)
+            return;
+        // If we are not the host, make a RPC call to sync the pulse to the server.
+        OnAction2Rpc(newState);
+    }
+
+    [ServerRpc(RequireOwnership = true)]
+    void OnAction2Rpc(bool newState)
+    {
+        OnAction2Local(newState);
+    }
+
+    void OnAction2Local(bool newState)
+    {
+        // We don't check `_blockInputs` here because `InputState`s have their own `Enable()` `Disable()` logic.
+        var rootChangeResult = _action2State.RootChangeState(newState);
+        Assert.IsTrue(rootChangeResult);
+    }
+
+    [Client(RequireOwnership = true)]
+    public void OnReload(bool newState)
+    {
+        // Let the input pulse flow down the chain on the client.
+        OnReloadLocal(newState);
+
+        // If we are the server too (= host), don't do this twice.
+        if (base.IsServerInitialized)
+            return;
+        // If we are not the host, make a RPC call to sync the pulse to the server.
+        OnReloadRpc(newState);
+    }
+
+    [ServerRpc(RequireOwnership = true)]
+    void OnReloadRpc(bool newState)
+    {
+        OnReloadLocal(newState);
+    }
+
+    void OnReloadLocal(bool newState)
+    {
+        // We don't check `_blockInputs` here because `InputState`s have their own `Enable()` `Disable()` logic.
+        var rootChangeResult = _reloadState.RootChangeState(newState);
         Assert.IsTrue(rootChangeResult);
     }
 
