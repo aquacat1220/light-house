@@ -13,16 +13,15 @@ public class ColliderToMesh : MonoBehaviour
     // Source to bake the mesh.
     [SerializeField]
     Collider2D _collider;
-    // Destination for the mesh.
-    // Note that we OWN `_meshFilter.sharedMesh`.
-    [SerializeField]
-    MeshFilter _meshFilter;
+    // Generated mesh.
+    // In edit mode, `BakeMesh()` will write the generated mesh to an asset.
+    // In playmode, any additional calls to `BakeMesh()` will create a new mesh, instead of modifying the asset.
     [SerializeField]
     Mesh _mesh;
 
     // Bake a mesh from the collider, save it to an asset.
     [Button("Bake Collider to Mesh")]
-    public void BakeCollider()
+    public void BakeMesh()
     {
         // If `_collider` is connected to a rigidbody, `_collider.CreateMesh(false, false)` will return a mesh in rigidbody-local space.
         // We call `_collider.CreateMesh(true, true)` to ensure the created mesh is always in world space regardless of collider type.
@@ -33,15 +32,16 @@ public class ColliderToMesh : MonoBehaviour
             if (!Application.isPlaying)
             {
                 // We are in the editor, edit-mode.
-                if (_meshFilter.sharedMesh != null && AssetDatabase.Contains(_meshFilter.sharedMesh))
+                if (_mesh != null && AssetDatabase.Contains(_mesh))
                 {
-                    // Mesh filter already has a mesh asset. Overwrite it.
-                    dynamicMesh.name = _meshFilter.sharedMesh.name;
-                    _meshFilter.sharedMesh.Clear();
-                    EditorUtility.CopySerialized(dynamicMesh, _meshFilter.sharedMesh);
+                    // `_mesh` is already backed by an asset. Overwrite it.
+                    dynamicMesh.name = _mesh.name;
+                    // `Clear()` is needed to ensure `CopySerialized()` works properly for meshes.
+                    _mesh.Clear();
+                    EditorUtility.CopySerialized(dynamicMesh, _mesh);
                     DestroyImmediate(dynamicMesh);
-                    EditorUtility.SetDirty(_meshFilter.sharedMesh);
-                    AssetDatabase.SaveAssetIfDirty(_meshFilter.sharedMesh);
+                    EditorUtility.SetDirty(_mesh);
+                    AssetDatabase.SaveAssetIfDirty(_mesh);
                 }
                 else
                 {
@@ -49,8 +49,8 @@ public class ColliderToMesh : MonoBehaviour
                     dynamicMesh.hideFlags = HideFlags.None;
                     AssetDatabase.CreateAsset(dynamicMesh, path);
                     AssetDatabase.SaveAssets();
-                    var oldMesh = _meshFilter.sharedMesh;
-                    _meshFilter.sharedMesh = dynamicMesh;
+                    var oldMesh = _mesh;
+                    _mesh = dynamicMesh;
                     if (oldMesh != null)
                         DestroyImmediate(oldMesh);
                 }
@@ -59,17 +59,17 @@ public class ColliderToMesh : MonoBehaviour
             {
                 // We are in the editor, play-mode.
                 // We don't want changes made here to overwrite the mesh asset.
-                if (_meshFilter.sharedMesh != null && AssetDatabase.Contains(_meshFilter.sharedMesh))
+                if (_mesh != null && AssetDatabase.Contains(_mesh))
                 {
-                    // Mesh filter already has a mesh asset.
+                    // `_mesh` is already backed by an asset.
                     // Just forget the reference in hopes that the engine will unload it eventually.
-                    _meshFilter.sharedMesh = dynamicMesh;
+                    _mesh = dynamicMesh;
                 }
                 else
                 {
-                    // Mesh filter doesn't have an asset; it's a runtime object or just null.
-                    var oldMesh = _meshFilter.sharedMesh;
-                    _meshFilter.sharedMesh = dynamicMesh;
+                    // `_mesh` is not backed by an asset; it's a runtime obeject or just null.
+                    var oldMesh = _mesh;
+                    _mesh = dynamicMesh;
                     if (oldMesh != null)
                         DestroyImmediate(oldMesh);
                 }
@@ -79,8 +79,8 @@ public class ColliderToMesh : MonoBehaviour
         {
             // We are in a build.
             // We don't have "assets" or "disks", so just destroy the old mesh, and assign a new one.
-            var oldMesh = _meshFilter.sharedMesh;
-            _meshFilter.sharedMesh = dynamicMesh;
+            var oldMesh = _mesh;
+            _mesh = dynamicMesh;
             if (oldMesh != null)
                 Destroy(oldMesh);
         }
@@ -97,24 +97,24 @@ public class ColliderToMesh : MonoBehaviour
 
     void OnDestroy()
     {
-        if (_meshFilter.sharedMesh == null)
+        if (_mesh == null)
             return;
 
         if (Application.isEditor)
         {
-            if (!AssetDatabase.Contains(_meshFilter.sharedMesh))
+            if (!AssetDatabase.Contains(_mesh))
             {
                 // Destroy mesh in editor only if it is not an asset.
-                var oldMesh = _meshFilter.sharedMesh;
-                _meshFilter.sharedMesh = null;
-                DestroyImmediate(oldMesh);
+                var oldMesh = _mesh;
+                _mesh = null;
+                Destroy(oldMesh);
             }
         }
         else
         {
-            var oldMesh = _meshFilter.sharedMesh;
-            _meshFilter.sharedMesh = null;
-            DestroyImmediate(oldMesh);
+            var oldMesh = _mesh;
+            _mesh = null;
+            Destroy(oldMesh);
         }
     }
 }
