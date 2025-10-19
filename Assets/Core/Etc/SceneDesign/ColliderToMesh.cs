@@ -1,7 +1,5 @@
 using NaughtyAttributes;
 using UnityEngine;
-using System;
-using UnityEditor.VersionControl;
 
 
 #if UNITY_EDITOR
@@ -11,6 +9,7 @@ using UnityEditor;
 public class ColliderToMesh : MonoBehaviour
 {
     // Source to bake the mesh.
+    [Required]
     [SerializeField]
     Collider2D _collider;
     // Generated mesh.
