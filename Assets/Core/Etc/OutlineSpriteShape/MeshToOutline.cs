@@ -32,6 +32,8 @@ public class MeshToOutline : MonoBehaviour
 
     public List<SpriteShapeController> _generatedOutlines = new();
 
+    System.Reflection.MethodInfo _setCornerModeMethod = null;
+
     [Button]
     public void BakeOutline()
     {
@@ -70,22 +72,34 @@ public class MeshToOutline : MonoBehaviour
         {
             var outline = outlines[i];
             var spriteShapeController = _generatedOutlines[i];
-            spriteShapeController.spline.Clear();
+            var spline = spriteShapeController.spline;
+            spline.Clear();
             if (outline[0] == outline[outline.Count - 1])
             {
-                spriteShapeController.spline.isOpenEnded = false;
+                spline.isOpenEnded = false;
                 for (int oidx = 0; oidx < outline.Count - 1; oidx++)
                 {
-                    spriteShapeController.spline.InsertPointAt(oidx, vertices[outline[oidx]]);
-                    spriteShapeController.spline.SetHeight(oidx, height);
+                    spline.InsertPointAt(oidx, vertices[outline[oidx]]);
+                    // Reflection for spline.SetCornerMode(pointIndex, Corner.Stretched);
+                    if (_setCornerModeMethod == null)
+                        _setCornerModeMethod = typeof(Spline).GetMethod("SetCornerMode",
+                            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                    _setCornerModeMethod.Invoke(spline, new object[] { oidx, Corner.Stretched });
+                    spline.SetHeight(oidx, height);
                 }
             }
             else
             {
-                spriteShapeController.spline.isOpenEnded = true;
+                spline.isOpenEnded = true;
                 for (int oidx = 0; oidx < outline.Count; oidx++)
                 {
-                    spriteShapeController.spline.InsertPointAt(oidx, vertices[outline[oidx]]);
+                    spline.InsertPointAt(oidx, vertices[outline[oidx]]);
+                    // Reflection for spline.SetCornerMode(pointIndex, Corner.Stretched);
+                    if (_setCornerModeMethod == null)
+                        _setCornerModeMethod = typeof(Spline).GetMethod("SetCornerMode",
+                            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                    _setCornerModeMethod.Invoke(spline, new object[] { oidx, Corner.Stretched });
+                    spline.SetHeight(oidx, height);
                 }
             }
             spriteShapeController.BakeMesh().Complete();
