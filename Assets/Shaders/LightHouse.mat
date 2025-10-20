@@ -56,7 +56,7 @@ Material:
     m_Floats:
     - _LightInfluence: 1
     m_Colors:
-    - _AllyLight: {r: 0.28235295, g: 0.6039216, b: 0.61960787, a: 1}
+    - _AllyLight: {r: 0.4392157, g: 0.72156864, b: 0.7019608, a: 1}
     - _EnemyLight: {r: 0.92941177, g: 0.41568628, b: 0.3764706, a: 1}
     - _NoLight: {r: 0.21960777, g: 0.21960777, b: 0.21960777, a: 1}
   m_BuildTextureStacks: []
