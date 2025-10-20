@@ -13,8 +13,10 @@ public class MeshToOutline : MonoBehaviour
     [SerializeField]
     GameObject _outlinePrafab;
 
-    [SerializeField]
-    Material _fillMaterial;
+    // Using fill materials will cause issues in meshes with holes.
+    // Temporarily disabling this until I really need it.
+    // [SerializeField]
+    Material _fillMaterial = null;
     [SerializeField]
     Material _outlineMaterial;
     // Outline width in pixels.
