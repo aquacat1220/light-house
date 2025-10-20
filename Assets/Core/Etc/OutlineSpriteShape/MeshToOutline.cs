@@ -17,6 +17,13 @@ public class MeshToOutline : MonoBehaviour
     Material _fillMaterial;
     [SerializeField]
     Material _outlineMaterial;
+    // Outline width in pixels.
+    [SerializeField]
+    float _outlineWidth = 0.1f;
+    [SerializeField]
+    int _spriteSizeInPixels = 32;
+    [SerializeField]
+    int _spritePixelsPerUnit = 512;
 
     [SerializeField]
     Mesh _mesh;
@@ -54,6 +61,9 @@ public class MeshToOutline : MonoBehaviour
 
         Assert.IsTrue(outlines.Count == _generatedOutlines.Count);
 
+        float height = _outlineWidth * _spritePixelsPerUnit / _spriteSizeInPixels;
+        Debug.Log(height);
+
         for (int i = 0; i < outlines.Count; i++)
         {
             var outline = outlines[i];
@@ -65,6 +75,7 @@ public class MeshToOutline : MonoBehaviour
                 for (int oidx = 0; oidx < outline.Count - 1; oidx++)
                 {
                     spriteShapeController.spline.InsertPointAt(oidx, vertices[outline[oidx]]);
+                    spriteShapeController.spline.SetHeight(oidx, height);
                 }
             }
             else
