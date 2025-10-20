@@ -40,6 +40,6 @@ Material:
     m_Floats:
     - _LightInfluence: 0
     m_Colors:
-    - _NoLight: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
+    - _NoLight: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
