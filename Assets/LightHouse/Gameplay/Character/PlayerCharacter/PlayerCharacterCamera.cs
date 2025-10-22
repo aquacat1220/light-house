@@ -6,7 +6,7 @@ public class PlayerCharacterCamera : NetworkBehaviour
 {
     [SerializeField]
     [Min(1f)]
-    float _minimumCameraSize = 4f;
+    float _minimumCameraSize = 6f;
     // Check if we are the owner, and instantiate a follow camera if so.
     public override void OnStartClient()
     {
