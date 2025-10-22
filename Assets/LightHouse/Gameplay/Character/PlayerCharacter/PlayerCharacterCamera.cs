@@ -2,7 +2,7 @@ using System;
 using FishNet.Object;
 using UnityEngine;
 
-public class PlayerCharacterCameraSystem : NetworkBehaviour
+public class PlayerCharacterCamera : NetworkBehaviour
 {
     // Check if we are the owner, and instantiate a follow camera if so.
     public override void OnStartClient()
@@ -22,6 +22,16 @@ public class PlayerCharacterCameraSystem : NetworkBehaviour
             throw new Exception();
         }
         followCamera.Target = transform;
+    }
+
+    public void OnRangeChanged(float newRange)
+    {
+        if (!base.IsOwner)
+        {
+            // We modify the camera range only if we are the owning client.
+            return;
+        }
+        FollowCamera.Singleton.Camera.orthographicSize = newRange;
     }
 
 }

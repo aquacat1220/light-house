@@ -1,4 +1,5 @@
 using System;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class FollowCamera : MonoBehaviour
@@ -9,6 +10,8 @@ public class FollowCamera : MonoBehaviour
     public Transform Target;
     // Whether or not to follow the rotation of the target.
     public bool FollowRotation;
+    [Required]
+    public Camera Camera;
 
     void Awake()
     {
