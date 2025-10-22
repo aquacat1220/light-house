@@ -161,13 +161,13 @@ public class Vision : NetworkBehaviour
             return false;
         if (light.pointLightOuterAngle != 360f)
             return false;
-        if (light.pointLightInnerRadius != 0f)
-            return false;
-        if (light.pointLightOuterRadius != 0f)
-            return false;
+        // if (light.pointLightInnerRadius != 0f)
+        //     return false;
+        // if (light.pointLightOuterRadius != 0f)
+        //     return false;
         if (light.enabled)
             return false;
-        if (light.blendStyleIndex != 1)
+        if (light.blendStyleIndex != 2)
             return false;
         return true;
     }
