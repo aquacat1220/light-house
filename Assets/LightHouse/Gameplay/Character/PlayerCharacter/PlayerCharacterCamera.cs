@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerCharacterCamera : NetworkBehaviour
 {
+    [SerializeField]
+    [Min(1f)]
+    float _minimumCameraSize = 4f;
     // Check if we are the owner, and instantiate a follow camera if so.
     public override void OnStartClient()
     {
@@ -31,7 +34,7 @@ public class PlayerCharacterCamera : NetworkBehaviour
             // We modify the camera range only if we are the owning client.
             return;
         }
-        FollowCamera.Singleton.Camera.orthographicSize = newRange;
+        FollowCamera.Singleton.Camera.orthographicSize = Math.Max(newRange, _minimumCameraSize);
     }
 
 }

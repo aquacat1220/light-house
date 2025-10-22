@@ -361,6 +361,9 @@ public class PlayerCharacterInventory : NetworkBehaviour
         // This will also send an input cancel signal down the chain.
         _itemSlotInputs[_mainHand].PrimaryState.Parent = null;
         _itemSlotInputs[_mainHand].SecondaryState.Parent = null;
+        _itemSlotInputs[_mainHand].Action1State.Parent = null;
+        _itemSlotInputs[_mainHand].Action2State.Parent = null;
+        _itemSlotInputs[_mainHand].ReloadState.Parent = null;
 
         // First reposition the old main/subhand item slots back to where they belong.
         _itemSlots[_mainHand].transform.SetParent(_itemSlotAnchors[_mainHand], worldPositionStays: false);
@@ -377,5 +380,8 @@ public class PlayerCharacterInventory : NetworkBehaviour
         // This will also sync the current input state with the item.
         _itemSlotInputs[_mainHand].PrimaryState.Parent = _primaryState;
         _itemSlotInputs[_mainHand].SecondaryState.Parent = _secondaryState;
+        _itemSlotInputs[_mainHand].Action1State.Parent = _action1State;
+        _itemSlotInputs[_mainHand].Action2State.Parent = _action2State;
+        _itemSlotInputs[_mainHand].ReloadState.Parent = _reloadState;
     }
 }
