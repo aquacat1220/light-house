@@ -40,7 +40,7 @@ public class SubtickAlarmInfo : AlarmInfoBase
 public class SubtickTimer : TimerBase
 {
     float _time = 0f;
-    MinHeap<SubtickAlarmInfo, float> _tick = new MinHeap<SubtickAlarmInfo, float>();
+    Heap<SubtickAlarmInfo, float> _tick = Heap.MinHeap<SubtickAlarmInfo, float>();
     Dictionary<SubtickAlarmInfo, float> _noTick = new Dictionary<SubtickAlarmInfo, float>();
 
     protected override void Tick(float deltaTime)

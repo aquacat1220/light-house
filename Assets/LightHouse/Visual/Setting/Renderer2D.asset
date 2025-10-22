@@ -35,17 +35,17 @@ MonoBehaviour:
   m_HDREmulationScale: 1
   m_LightRenderTextureScale: 1
   m_LightBlendStyles:
-  - name: Multiply
-    maskTextureChannel: 0
-    blendMode: 1
-  - name: Additive
+  - name: Default
     maskTextureChannel: 0
     blendMode: 0
-  - name: Multiply with Mask
-    maskTextureChannel: 1
-    blendMode: 1
-  - name: Additive with Mask
-    maskTextureChannel: 1
+  - name: Vision
+    maskTextureChannel: 0
+    blendMode: 0
+  - name: Unused1
+    maskTextureChannel: 0
+    blendMode: 0
+  - name: Unused2
+    maskTextureChannel: 0
     blendMode: 0
   m_UseDepthStencilBuffer: 1
   m_UseCameraSortingLayersTexture: 0

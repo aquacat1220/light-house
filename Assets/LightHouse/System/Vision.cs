@@ -2,86 +2,168 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FishNet.Object;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
 public class Vision : NetworkBehaviour
 {
-    [SerializeField]
-    float _baseVision = 2f;
-
-    [SerializeField]
-    SpriteMask _visibleMask;
-
-    float _currVision = 0f;
-
-    HashSet<Light2D> _lights = new();
-
-    void Awake()
+    public struct RangeHandle
     {
-        if (_visibleMask == null)
+        public float Range;
+        public float Priority;
+
+        public RangeHandle(float range, float priority)
         {
-            Debug.Log("`_visibleMask` wasn't set.");
-            throw new Exception();
+            Range = range;
+            Priority = priority;
         }
-        RecalculateVision();
     }
 
-    void OnEnable()
+    public struct RangeModifierHandle
     {
-        RecalculateVision();
+        public float Modifier;
+
+        public RangeModifierHandle(float modifier)
+        {
+            Modifier = modifier;
+        }
     }
 
-    void OnDisable()
+    Heap<RangeHandle, float> _ranges = Heap.MaxHeap<RangeHandle, float>();
+    List<RangeModifierHandle> _modifiers = new();
+
+    [Required]
+    [ValidateInput("IsValidLight", "The vision light should be a 360 deg spot light with blend mode \"Vision\".")]
+    [SerializeField]
+    Light2D _visionLight;
+
+    [SerializeField]
+    float _modifier = 2f;
+
+    [SerializeField]
+    float _falloffDistance = 1f;
+
+    public override void OnStartServer()
     {
-        RecalculateVision();
+        AddRangeModifier(_modifier);
     }
 
-    public override void OnStartClient()
+    public float Range
     {
-        RecalculateVision();
+        get
+        {
+            float range = 0f;
+            if (_ranges.Peek() is (var handle, _))
+            {
+                range = handle.Range;
+            }
+            range += _modifiers.Sum((handle) => handle.Modifier);
+            range = Math.Max(range, 0f);
+            _visionLight.pointLightInnerRadius = Math.Max(range - _falloffDistance, 0f);
+            _visionLight.pointLightOuterRadius = range;
+            return range;
+        }
     }
 
-    public override void OnStopClient()
+    [Server]
+    public RangeHandle AddRange(float range, float priority)
     {
-        RecalculateVision();
+        var handle = AddRangeLocal(range, priority);
+        AddRangeLocalRpc(range, priority);
+        return handle;
     }
 
-    [Client(RequireOwnership = true)]
-    public void RegisterLight(Light2D light)
+    [Server]
+    public bool RemoveRange(RangeHandle handle)
     {
+        var success = RemoveRangeLocal(handle);
+        RemoveRangeRpc(handle);
+        return success;
+    }
+
+    [Server]
+    public RangeModifierHandle AddRangeModifier(float modifier)
+    {
+        var handle = AddRangeModifierLocal(modifier);
+        AddRangeModifierRpc(modifier);
+        return handle;
+    }
+
+    [Server]
+    public bool RemoveRangeModifier(RangeModifierHandle handle)
+    {
+        var success = RemoveRangeModifierLocal(handle);
+        RemoveRangeModifierRpc(handle);
+        return success;
+    }
+
+    [ObserversRpc(ExcludeServer = true)]
+    void AddRangeLocalRpc(float range, float priority)
+    {
+        AddRangeLocal(range, priority);
+    }
+
+    [ObserversRpc(ExcludeServer = true)]
+    void RemoveRangeRpc(RangeHandle handle)
+    {
+        RemoveRangeLocal(handle);
+    }
+
+    [ObserversRpc(ExcludeServer = true)]
+    void AddRangeModifierRpc(float modifier)
+    {
+        AddRangeModifierLocal(modifier);
+    }
+
+    [ObserversRpc(ExcludeServer = true)]
+    void RemoveRangeModifierRpc(RangeModifierHandle handle)
+    {
+        RemoveRangeModifierLocal(handle);
+    }
+
+    RangeHandle AddRangeLocal(float range, float priority)
+    {
+        var handle = new RangeHandle(range, priority);
+        _ranges.Push(handle, priority);
+        _ = Range;
+        return handle;
+    }
+
+    bool RemoveRangeLocal(RangeHandle handle)
+    {
+        var success = _ranges.Remove(handle) != null;
+        _ = Range;
+        return success;
+    }
+
+    RangeModifierHandle AddRangeModifierLocal(float modifier)
+    {
+        var handle = new RangeModifierHandle(modifier);
+        _modifiers.Add(handle);
+        _ = Range;
+        return handle;
+    }
+
+    bool RemoveRangeModifierLocal(RangeModifierHandle handle)
+    {
+        var success = _modifiers.Remove(handle);
+        _ = Range;
+        return success;
+    }
+
+    bool IsValidLight(Light2D light)
+    {
+        if (light == null)
+            return true;
         if (light.lightType != Light2D.LightType.Point)
-        {
-            Debug.Log("`Vision` currently allows only point lights.");
-            throw new Exception();
-        }
-        if (_lights.Add(light))
-            RecalculateVision();
-    }
-
-    [Client(RequireOwnership = true)]
-    public void UnregisterLight(Light2D light)
-    {
-        if (_lights.Remove(light))
-            RecalculateVision();
-    }
-
-    void RecalculateVision()
-    {
-        float maxLightRange = 0f;
-        foreach (var light in _lights)
-        {
-            if (light.pointLightOuterRadius > maxLightRange)
-                maxLightRange = light.pointLightOuterRadius;
-        }
-        _currVision = _baseVision + maxLightRange;
-        // Vision can't be negative.
-        _currVision = Mathf.Max(0f, _currVision);
-
-        // Vision should only be activated when the component is enabled, client-inited, and is locally-owned.
-        if (!base.enabled || !base.IsClientInitialized || !base.IsOwner)
-            _visibleMask.transform.localScale = Vector3.zero;
-        else
-            _visibleMask.transform.localScale = _currVision * Vector3.one;
+            return false;
+        if (light.pointLightInnerAngle != 360f)
+            return false;
+        if (light.pointLightOuterAngle != 360f)
+            return false;
+        if (light.blendStyleIndex != 1)
+            return false;
+        return true;
     }
 }

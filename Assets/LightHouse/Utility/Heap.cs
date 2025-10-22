@@ -1,9 +1,50 @@
 using System;
 using System.Collections.Generic;
 
-public class MinHeap<I, P> where P : IComparable<P>
+public static class Heap
+{
+    public static Heap<I, P> MinHeap<I, P>() where P : IComparable<P>
+    {
+        int _compare(P first, P second)
+        {
+            return first.CompareTo(second);
+        }
+        return new Heap<I, P>(_compare);
+    }
+
+    public static Heap<I, P> MinHeap<I, P>(Func<P, P, int> compare)
+    {
+        return new Heap<I, P>(compare);
+    }
+
+    public static Heap<I, P> MaxHeap<I, P>() where P : IComparable<P>
+    {
+        int _compare(P first, P second)
+        {
+            return -first.CompareTo(second);
+        }
+        return new Heap<I, P>(_compare);
+    }
+
+    public static Heap<I, P> MaxHeap<I, P>(Func<P, P, int> compare)
+    {
+        int _compare(P first, P second)
+        {
+            return -compare(first, second);
+        }
+        return new Heap<I, P>(_compare);
+    }
+}
+
+public class Heap<I, P>
 {
     List<(I Item, P Priority)> _nodes = new List<(I Item, P Priority)>();
+    Func<P, P, int> _compare;
+
+    public Heap(Func<P, P, int> compare)
+    {
+        _compare = compare;
+    }
 
     public void Push(I item, P priority)
     {
@@ -14,7 +55,7 @@ public class MinHeap<I, P> where P : IComparable<P>
             if (Parent(idx) is int parentIdx)
             {
                 var parent = _nodes[parentIdx].Priority;
-                if (parent.CompareTo(priority) <= 0)
+                if (_compare(parent, priority) <= 0)
                     break;
                 (_nodes[parentIdx], _nodes[idx]) = (_nodes[idx], _nodes[parentIdx]);
                 idx = parentIdx;
@@ -102,7 +143,7 @@ public class MinHeap<I, P> where P : IComparable<P>
         if (Left(idx) is int leftIdx)
         {
             var left = _nodes[leftIdx].Priority;
-            if (left.CompareTo(minPriority) < 0)
+            if (_compare(left, minPriority) < 0)
             {
                 minPriority = left;
                 minIdx = leftIdx;
@@ -111,7 +152,7 @@ public class MinHeap<I, P> where P : IComparable<P>
         if (Right(idx) is int rightIdx)
         {
             var right = _nodes[rightIdx].Priority;
-            if (right.CompareTo(minPriority) < 0)
+            if (_compare(right, minPriority) < 0)
             {
                 minPriority = right;
                 minIdx = rightIdx;
