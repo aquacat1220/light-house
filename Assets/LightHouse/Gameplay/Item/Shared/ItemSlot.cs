@@ -7,6 +7,9 @@ public class ItemSlot : NetworkBehaviour
     // The item this slot is equipping. Defaults to `null`, which means the slot is unoccupied.
     public Item Item { get; private set; }
 
+    // The user of this item slot.
+    public GameObject User;
+
     [Server]
     public bool Equip(Item item)
     {

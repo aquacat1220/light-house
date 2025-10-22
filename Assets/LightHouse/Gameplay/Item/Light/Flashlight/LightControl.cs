@@ -60,7 +60,7 @@ public class LightControl : MonoBehaviour
     {
         // Controlling vision is only possible on the server.
         if (itemSlot.IsServerInitialized)
-            _vision = itemSlot.transform.parent.gameObject.GetComponent<Vision>();
+            _vision = itemSlot.User.GetComponent<Vision>();
         RefreshVision();
         _alarm = TimerManager.Singleton.AddAlarm(
             cooldown: (float)InstanceFinder.TimeManager.TickDelta,
@@ -72,7 +72,6 @@ public class LightControl : MonoBehaviour
             initialCooldown: 0f,
             destroyAfterTriggered: false
         );
-        Debug.Log(_alarm);
     }
 
     public void OnUnregister()
@@ -142,7 +141,6 @@ public class LightControl : MonoBehaviour
 
     void OnAlarm()
     {
-        Debug.Log("ALARM");
         var rangeChange = 0f;
         if (_isIncreasingRange)
             rangeChange += 1f;
