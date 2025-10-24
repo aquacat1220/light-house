@@ -26,6 +26,9 @@ public class MeshToOutline : MonoBehaviour
     int _spriteSizeInPixels = 32;
     [SerializeField]
     int _spritePixelsPerUnit = 512;
+    // Use when Unity complains about control points too close together.
+    [SerializeField]
+    float _scale = 10f;
 
     [SerializeField]
     Mesh _mesh;
@@ -65,13 +68,13 @@ public class MeshToOutline : MonoBehaviour
 
         Assert.IsTrue(outlines.Count == _generatedOutlines.Count);
 
-        float height = _outlineWidth * _spritePixelsPerUnit / _spriteSizeInPixels;
-        Debug.Log(height);
+        float height = _scale * _outlineWidth * _spritePixelsPerUnit / _spriteSizeInPixels;
 
         for (int i = 0; i < outlines.Count; i++)
         {
             var outline = outlines[i];
             var spriteShapeController = _generatedOutlines[i];
+            spriteShapeController.transform.localScale = spriteShapeController.transform.localScale / _scale;
             var spline = spriteShapeController.spline;
             spline.Clear();
             if (outline[0] == outline[outline.Count - 1])
@@ -79,7 +82,7 @@ public class MeshToOutline : MonoBehaviour
                 spline.isOpenEnded = false;
                 for (int oidx = 0; oidx < outline.Count - 1; oidx++)
                 {
-                    spline.InsertPointAt(oidx, vertices[outline[oidx]]);
+                    spline.InsertPointAt(oidx, _scale * vertices[outline[oidx]]);
                     // Reflection for spline.SetCornerMode(pointIndex, Corner.Stretched);
                     if (_setCornerModeMethod == null)
                         _setCornerModeMethod = typeof(Spline).GetMethod("SetCornerMode",
@@ -93,7 +96,7 @@ public class MeshToOutline : MonoBehaviour
                 spline.isOpenEnded = true;
                 for (int oidx = 0; oidx < outline.Count; oidx++)
                 {
-                    spline.InsertPointAt(oidx, vertices[outline[oidx]]);
+                    spline.InsertPointAt(oidx, _scale * vertices[outline[oidx]]);
                     // Reflection for spline.SetCornerMode(pointIndex, Corner.Stretched);
                     if (_setCornerModeMethod == null)
                         _setCornerModeMethod = typeof(Spline).GetMethod("SetCornerMode",
