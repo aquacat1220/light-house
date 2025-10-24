@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 5989156536031541926}
   - component: {fileID: 5753547891548491889}
   - component: {fileID: 7641905666977704100}
-  - component: {fileID: 2922723460117174548}
+  - component: {fileID: 5606094261152223815}
+  - component: {fileID: 1573302493790001086}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -350,7 +351,7 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
-  - {fileID: 2922723460117174548}
+  - {fileID: 0}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -361,7 +362,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
---- !u!114 &2922723460117174548
+--- !u!114 &5606094261152223815
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -370,14 +371,43 @@ MonoBehaviour:
   m_GameObject: {fileID: 1063688963136659396}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 430964e81326b43e6aa2d2ad69118b6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 06aebed318a9571baa9a65bf800eb37b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 0
+  m_EditorClassIdentifier: Assembly-CSharp::Vitality
+  _componentIndexCache: 255
   _addedNetworkObject: {fileID: 7641905666977704100}
-  _networkObjectCache: {fileID: 7641905666977704100}
-  MaxHealth: 100
-  InitialHealth: 100
+  _networkObjectCache: {fileID: 0}
+  _minMaxVit: {x: 0, y: 100}
+  _initialVit: 100
+  _vitChange:
+    m_PersistentCalls:
+      m_Calls: []
+  _vitBelowZero:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1573302493790001086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063688963136659396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8f0b5df2a6d53bd2a0973075b266084, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sanity
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 7641905666977704100}
+  _networkObjectCache: {fileID: 0}
+  _minMaxSan: {x: 0, y: 100}
+  _initialSan: 100
+  _sanChange:
+    m_PersistentCalls:
+      m_Calls: []
+  _sanBelowZero:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1624640162264777389
 GameObject:
   m_ObjectHideFlags: 0
