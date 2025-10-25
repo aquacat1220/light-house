@@ -268,7 +268,9 @@ public class ProjectileTransform : NetworkBehaviour
                     // Case 2 & 3
                     // In both cases, the local client didn't predict a projectile to be spawned, but the server spawned one.
                     // Except if we are the host; hosts don't need to predict, as we have authority. In that case we don't want to trigger correction events.
-                    if (!base.IsServerInitialized)
+                    // We use `base.IsServerStarted` instead of `base.IsServerInitialized` because the projectile might despawn before `ReadPayload()` is called on the client-host.
+                    // This line is not intended to be called on the server anyways, so we are making sure it never does so.
+                    if (!base.IsServerStarted)
                         ProjectileSpawner.InvokeUnderPredicted();
                 }
             }
