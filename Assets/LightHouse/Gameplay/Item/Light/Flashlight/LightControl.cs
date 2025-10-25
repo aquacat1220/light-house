@@ -223,7 +223,7 @@ public class LightControl : MonoBehaviour
             return true;
         if (light.lightType != Light2D.LightType.Point)
             return false;
-        if (light.blendStyleIndex != 0)
+        if (light.blendStyleIndex != 1)
             return false;
         return true;
     }

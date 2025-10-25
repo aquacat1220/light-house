@@ -237,11 +237,12 @@ GameObject:
   m_Component:
   - component: {fileID: 7144536693335441282}
   - component: {fileID: 8589813380030189686}
+  - component: {fileID: -5677190928609688646}
   - component: {fileID: 3245403586699975347}
   - component: {fileID: 7044753674542805718}
-  - component: {fileID: -5677190928609688646}
   - component: {fileID: 2162946095732952466}
   - component: {fileID: 6862828856802526176}
+  - component: {fileID: 5399703363806622315}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Untagged
@@ -292,7 +293,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 11
+  <PrefabId>k__BackingField: 8
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 7287995382615559274
   <SceneId>k__BackingField: 0
@@ -310,6 +311,7 @@ MonoBehaviour:
   NetworkBehaviours:
   - {fileID: 3245403586699975347}
   - {fileID: 7044753674542805718}
+  - {fileID: 5399703363806622315}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -320,6 +322,22 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
+--- !u!114 &-5677190928609688646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2787902506105217941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71fd7f855ec523429999fc4e14a1928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Observing.NetworkObserver
+  _overrideType: 1
+  _updateHostVisibility: 1
+  _observerConditions:
+  - {fileID: 11400000, guid: c0814c7bf50771888aeb3ef6689e57c0, type: 2}
 --- !u!114 &3245403586699975347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,27 +370,11 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 8589813380030189686}
   _networkObjectCache: {fileID: 8589813380030189686}
-  _speed: 30
+  _speed: 100
   _rigidbody: {fileID: 2162946095732952466}
   ProjectileSpawner: {fileID: 0}
   _maxCatchUpTime: 1
   _maxCatchUpDistance: 1
---- !u!114 &-5677190928609688646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2787902506105217941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c71fd7f855ec523429999fc4e14a1928, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Observing.NetworkObserver
-  _overrideType: 1
-  _updateHostVisibility: 1
-  _observerConditions:
-  - {fileID: 11400000, guid: c0814c7bf50771888aeb3ef6689e57c0, type: 2}
 --- !u!50 &2162946095732952466
 Rigidbody2D:
   serializedVersion: 5
@@ -435,7 +437,7 @@ CompositeCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
+  m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
   m_ColliderPaths:
@@ -459,3 +461,19 @@ CompositeCollider2D:
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 2787902506105217941}
+--- !u!114 &5399703363806622315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2787902506105217941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10196ec4fa59c330190527260a40c013, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectileDamage
+  _componentIndexCache: 2
+  _addedNetworkObject: {fileID: 8589813380030189686}
+  _networkObjectCache: {fileID: 8589813380030189686}
+  _damage: 10
