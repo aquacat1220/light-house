@@ -1,9 +1,12 @@
-using UnityEngine;
-
-public class Logger : MonoBehaviour
+namespace LightHouse
 {
-    public void Log(string str)
+    using UnityEngine;
+    
+    public class Logger : MonoBehaviour
     {
-        Debug.Log($"{Time.time}: {str}");
+        public void Log(string str)
+        {
+            Debug.Log($"{Time.time}: {str}");
+        }
     }
 }

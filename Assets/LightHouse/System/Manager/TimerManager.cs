@@ -1,22 +1,25 @@
-using System;
-using UnityEngine;
-
-public class TimerManager : SubtickTimer
+namespace LightHouse
 {
-    public static TimerManager Singleton { get; private set; }
-
-    void Awake()
+    using System;
+    using UnityEngine;
+    
+    public class TimerManager : SubtickTimer
     {
-        if (Singleton != null)
+        public static TimerManager Singleton { get; private set; }
+    
+        void Awake()
         {
-            Debug.Log("`Singleton` was non-null, implying there are multiple instances of `TimerManager`s in this scene.");
-            throw new Exception();
+            if (Singleton != null)
+            {
+                Debug.Log("`Singleton` was non-null, implying there are multiple instances of `TimerManager`s in this scene.");
+                throw new Exception();
+            }
+            Singleton = this;
         }
-        Singleton = this;
-    }
-
-    void Update()
-    {
-        Tick(Time.deltaTime);
+    
+        void Update()
+        {
+            Tick(Time.deltaTime);
+        }
     }
 }

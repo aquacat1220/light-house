@@ -1,63 +1,66 @@
-using System;
-using System.Linq;
-using FishNet;
-using FishNet.Component.Observing;
-using FishNet.Object;
-using UnityEngine;
-using UnityEngine.InputSystem;
-
-public class NonObserverHostTest : NetworkBehaviour
+namespace LightHouse
 {
-    void Awake()
+    using System;
+    using System.Linq;
+    using FishNet;
+    using FishNet.Component.Observing;
+    using FishNet.Object;
+    using UnityEngine;
+    using UnityEngine.InputSystem;
+    
+    public class NonObserverHostTest : NetworkBehaviour
     {
-        if (InstanceFinder.ServerManager.StartConnection(7902))
-            Debug.Log("Success! Started as server!");
-        else
-            Debug.Log("Failure...");
-
-        if (InstanceFinder.ClientManager.StartConnection("127.0.0.1", 7902))
-            Debug.Log("Success! Started as client!");
-        else
-            Debug.Log("Failure...");
-    }
-
-    void Update()
-    {
-        if (!base.IsServerInitialized)
-            return;
-        if (Keyboard.current.qKey.wasPressedThisFrame)
+        void Awake()
         {
-            MatchCondition.AddToMatch(1, InstanceFinder.ServerManager.Clients.Values.ToArray());
+            if (InstanceFinder.ServerManager.StartConnection(7902))
+                Debug.Log("Success! Started as server!");
+            else
+                Debug.Log("Failure...");
+    
+            if (InstanceFinder.ClientManager.StartConnection("127.0.0.1", 7902))
+                Debug.Log("Success! Started as client!");
+            else
+                Debug.Log("Failure...");
         }
-        if (Keyboard.current.wKey.wasPressedThisFrame)
+    
+        void Update()
         {
-            MatchCondition.RemoveFromMatch(1, InstanceFinder.ServerManager.Clients.Values.ToArray(), null);
+            if (!base.IsServerInitialized)
+                return;
+            if (Keyboard.current.qKey.wasPressedThisFrame)
+            {
+                MatchCondition.AddToMatch(1, InstanceFinder.ServerManager.Clients.Values.ToArray());
+            }
+            if (Keyboard.current.wKey.wasPressedThisFrame)
+            {
+                MatchCondition.RemoveFromMatch(1, InstanceFinder.ServerManager.Clients.Values.ToArray(), null);
+            }
+            if (Keyboard.current.eKey.wasPressedThisFrame)
+            {
+                ObserverRpc();
+            }
         }
-        if (Keyboard.current.eKey.wasPressedThisFrame)
+    
+        public override void OnStartServer()
         {
-            ObserverRpc();
+            MatchCondition.AddToMatch(1, NetworkObject);
+            Debug.Log("SERVER");
         }
-    }
-
-    public override void OnStartServer()
-    {
-        MatchCondition.AddToMatch(1, NetworkObject);
-        Debug.Log("SERVER");
-    }
-
-    public override void OnStartClient()
-    {
-        Debug.Log("CLIENT START");
-    }
-
-    public override void OnStopClient()
-    {
-        Debug.Log("CLIENT STOP");
-    }
-
-    [ObserversRpc()]
-    void ObserverRpc()
-    {
-        Debug.Log("RPC");
+    
+        public override void OnStartClient()
+        {
+            Debug.Log("CLIENT START");
+        }
+    
+        public override void OnStopClient()
+        {
+            Debug.Log("CLIENT STOP");
+        }
+    
+        [ObserversRpc()]
+        void ObserverRpc()
+        {
+            Debug.Log("RPC");
+        }
     }
 }

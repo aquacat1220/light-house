@@ -1,27 +1,30 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
-
-public class MovingLight : MonoBehaviour
+namespace LightHouse
 {
-
-    // Update is called once per frame
-    void Update()
+    using UnityEngine;
+    using UnityEngine.InputSystem;
+    
+    public class MovingLight : MonoBehaviour
     {
-        if (Keyboard.current.wKey.isPressed)
+    
+        // Update is called once per frame
+        void Update()
         {
-            transform.Translate(Vector3.up * 0.05f);
-        }
-        if (Keyboard.current.sKey.isPressed)
-        {
-            transform.Translate(Vector3.up * (-0.05f));
-        }
-        if (Keyboard.current.dKey.isPressed)
-        {
-            transform.Translate(Vector3.right * 0.05f);
-        }
-        if (Keyboard.current.aKey.isPressed)
-        {
-            transform.Translate(Vector3.right * (-0.05f));
+            if (Keyboard.current.wKey.isPressed)
+            {
+                transform.Translate(Vector3.up * 0.05f);
+            }
+            if (Keyboard.current.sKey.isPressed)
+            {
+                transform.Translate(Vector3.up * (-0.05f));
+            }
+            if (Keyboard.current.dKey.isPressed)
+            {
+                transform.Translate(Vector3.right * 0.05f);
+            }
+            if (Keyboard.current.aKey.isPressed)
+            {
+                transform.Translate(Vector3.right * (-0.05f));
+            }
         }
     }
 }
