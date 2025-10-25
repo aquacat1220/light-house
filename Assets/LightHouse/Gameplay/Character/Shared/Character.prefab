@@ -361,15 +361,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2933eb4d4503e36c8b6ec52f4f2592b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageHandler
-  DamageResponses:
-  - rid: -2
-  - rid: -2
-  - rid: -2
+  DamageHandlers:
+  - rid: 4866375275036803349
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 4866375275036803349
+      type: {class: VitalityDamageHandler, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        Vitality: {fileID: 5606094261152223815}
+        CanHarmSelf: 0
 --- !u!114 &5606094261152223815
 MonoBehaviour:
   m_ObjectHideFlags: 0

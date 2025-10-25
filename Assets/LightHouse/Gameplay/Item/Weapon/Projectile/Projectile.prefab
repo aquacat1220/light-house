@@ -476,4 +476,13 @@ MonoBehaviour:
   _componentIndexCache: 2
   _addedNetworkObject: {fileID: 8589813380030189686}
   _networkObjectCache: {fileID: 8589813380030189686}
-  _damage: 10
+  _damageInfo:
+    rid: 4866375275036803350
+  references:
+    version: 2
+    RefIds:
+    - rid: 4866375275036803350
+      type: {class: NaiveDamageInfo, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        Attacker: {fileID: 0}
+        Damage: 15
