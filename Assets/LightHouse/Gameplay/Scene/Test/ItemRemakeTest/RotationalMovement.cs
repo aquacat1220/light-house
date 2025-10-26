@@ -1,13 +1,16 @@
-using UnityEngine;
-
-public class RotationalMovement : MonoBehaviour
+namespace LightHouse
 {
-    [SerializeField]
-    Transform _center;
-
-    // Update is called once per frame
-    void Update()
+    using UnityEngine;
+    
+    public class RotationalMovement : MonoBehaviour
     {
-        transform.RotateAround(_center.position, _center.forward, 0.02f);
+        [SerializeField]
+        Transform _center;
+    
+        // Update is called once per frame
+        void Update()
+        {
+            transform.RotateAround(_center.position, _center.forward, 0.02f);
+        }
     }
 }

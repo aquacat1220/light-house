@@ -1,84 +1,87 @@
-using System;
-using System.Linq;
-using FishNet;
-using FishNet.Component.Observing;
-using FishNet.Object;
-using UnityEngine;
-using UnityEngine.InputSystem;
-
-public class SpawnTest : NetworkBehaviour
+namespace LightHouse
 {
-    [SerializeField]
-    GameObject _spawnTestDummy;
-
-    GameObject _recentDummy;
-
-    void Update()
+    using System;
+    using System.Linq;
+    using FishNet;
+    using FishNet.Component.Observing;
+    using FishNet.Object;
+    using UnityEngine;
+    using UnityEngine.InputSystem;
+    
+    public class SpawnTest : NetworkBehaviour
     {
-        if (Keyboard.current.rKey.wasPressedThisFrame)
+        [SerializeField]
+        GameObject _spawnTestDummy;
+    
+        GameObject _recentDummy;
+    
+        void Update()
         {
-            var dummy = Instantiate(_spawnTestDummy, new Vector3(3f, 2f, 0f), Quaternion.identity);
-            Spawn(dummy, base.Owner, gameObject.scene);
-            _recentDummy = dummy;
+            if (Keyboard.current.rKey.wasPressedThisFrame)
+            {
+                var dummy = Instantiate(_spawnTestDummy, new Vector3(3f, 2f, 0f), Quaternion.identity);
+                Spawn(dummy, base.Owner, gameObject.scene);
+                _recentDummy = dummy;
+            }
+            if (Keyboard.current.tKey.wasPressedThisFrame)
+            {
+                SwitchCondition.Active = true;
+                Debug.Log("All nobs are now observable to all clients!");
+                _recentDummy.GetComponent<NetworkObject>().Despawn();
+                Debug.Log("Despawned nob.");
+            }
+            if (!base.IsServerInitialized)
+                return;
+            if (Keyboard.current.qKey.wasPressedThisFrame)
+            {
+                SwitchCondition.Active = true;
+                Debug.Log("All nobs are now observable to all clients!");
+            }
+            if (Keyboard.current.wKey.wasPressedThisFrame)
+            {
+                SwitchCondition.Active = false;
+                Debug.Log("All nobs are now unobservable to all clients!");
+            }
+            if (Keyboard.current.eKey.wasPressedThisFrame)
+            {
+                ObserverRpc();
+            }
         }
-        if (Keyboard.current.tKey.wasPressedThisFrame)
+        public override void OnStartNetwork()
         {
-            SwitchCondition.Active = true;
-            Debug.Log("All nobs are now observable to all clients!");
-            _recentDummy.GetComponent<NetworkObject>().Despawn();
-            Debug.Log("Despawned nob.");
+            Debug.Log("SpawnTest OnStartNetwork");
         }
-        if (!base.IsServerInitialized)
-            return;
-        if (Keyboard.current.qKey.wasPressedThisFrame)
+    
+        public override void OnStartServer()
         {
-            SwitchCondition.Active = true;
-            Debug.Log("All nobs are now observable to all clients!");
+            Debug.Log("SpawnTest OnStartServer");
         }
-        if (Keyboard.current.wKey.wasPressedThisFrame)
+    
+        public override void OnStartClient()
         {
-            SwitchCondition.Active = false;
-            Debug.Log("All nobs are now unobservable to all clients!");
+            Debug.Log("SpawnTest OnStartClient");
         }
-        if (Keyboard.current.eKey.wasPressedThisFrame)
+    
+        public override void OnStopNetwork()
         {
-            ObserverRpc();
+            Debug.Log("SpawnTest OnStopNetwork");
         }
-    }
-    public override void OnStartNetwork()
-    {
-        Debug.Log("SpawnTest OnStartNetwork");
-    }
-
-    public override void OnStartServer()
-    {
-        Debug.Log("SpawnTest OnStartServer");
-    }
-
-    public override void OnStartClient()
-    {
-        Debug.Log("SpawnTest OnStartClient");
-    }
-
-    public override void OnStopNetwork()
-    {
-        Debug.Log("SpawnTest OnStopNetwork");
-    }
-
-    public override void OnStopServer()
-    {
-        Debug.Log("SpawnTest OnStopServer");
-    }
-
-    public override void OnStopClient()
-    {
-        Debug.Log("SpawnTest OnStopClient");
-    }
-
-
-    [ObserversRpc()]
-    void ObserverRpc()
-    {
-        Debug.Log("RPC");
+    
+        public override void OnStopServer()
+        {
+            Debug.Log("SpawnTest OnStopServer");
+        }
+    
+        public override void OnStopClient()
+        {
+            Debug.Log("SpawnTest OnStopClient");
+        }
+    
+    
+        [ObserversRpc()]
+        void ObserverRpc()
+        {
+            Debug.Log("RPC");
+        }
     }
 }

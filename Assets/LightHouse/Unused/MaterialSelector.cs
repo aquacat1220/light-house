@@ -1,59 +1,62 @@
-using System;
-using System.Collections.Generic;
-using FishNet.Connection;
-using FishNet.Object;
-using UnityEngine;
-
-public class MaterialSelector : NetworkBehaviour
+namespace LightHouse
 {
-
-    // Material to use when the PlayerCharacter is owned.
-    [SerializeField]
-    Material _owner_material;
-
-    // Material to use when the PlayerCharacter is non-owned.
-    [SerializeField]
-    Material _nonowner_material;
-
-    // List of sprite renderers to set materials based on ownership.
-    [SerializeField]
-    List<SpriteRenderer> _sprite_renderers = new List<SpriteRenderer>();
-
-    void Awake()
+    using System;
+    using System.Collections.Generic;
+    using FishNet.Connection;
+    using FishNet.Object;
+    using UnityEngine;
+    
+    public class MaterialSelector : NetworkBehaviour
     {
-        if (_owner_material == null)
+    
+        // Material to use when the PlayerCharacter is owned.
+        [SerializeField]
+        Material _owner_material;
+    
+        // Material to use when the PlayerCharacter is non-owned.
+        [SerializeField]
+        Material _nonowner_material;
+    
+        // List of sprite renderers to set materials based on ownership.
+        [SerializeField]
+        List<SpriteRenderer> _sprite_renderers = new List<SpriteRenderer>();
+    
+        void Awake()
         {
-            Debug.Log("`_owner_material` wasn't set.");
-            throw new Exception();
-        }
-
-        if (_nonowner_material == null)
-        {
-            Debug.Log("`_nonowner_material` wasn't set.");
-            throw new Exception();
-        }
-
-        if (_sprite_renderers.Count == 0)
-        {
-            Debug.Log("`_sprite_renderers` is an empty list, so the component won't be doing anything. Is this intentional?");
-        }
-    }
-
-    // Set the material based on ownership.
-    public override void OnOwnershipClient(NetworkConnection prevOwner)
-    {
-        if (base.IsOwner)
-        {
-            foreach (var sprite_renderer in _sprite_renderers)
+            if (_owner_material == null)
             {
-                sprite_renderer.material = _owner_material;
+                Debug.Log("`_owner_material` wasn't set.");
+                throw new Exception();
+            }
+    
+            if (_nonowner_material == null)
+            {
+                Debug.Log("`_nonowner_material` wasn't set.");
+                throw new Exception();
+            }
+    
+            if (_sprite_renderers.Count == 0)
+            {
+                Debug.Log("`_sprite_renderers` is an empty list, so the component won't be doing anything. Is this intentional?");
             }
         }
-        else
+    
+        // Set the material based on ownership.
+        public override void OnOwnershipClient(NetworkConnection prevOwner)
         {
-            foreach (var sprite_renderer in _sprite_renderers)
+            if (base.IsOwner)
             {
-                sprite_renderer.material = _nonowner_material;
+                foreach (var sprite_renderer in _sprite_renderers)
+                {
+                    sprite_renderer.material = _owner_material;
+                }
+            }
+            else
+            {
+                foreach (var sprite_renderer in _sprite_renderers)
+                {
+                    sprite_renderer.material = _nonowner_material;
+                }
             }
         }
     }
