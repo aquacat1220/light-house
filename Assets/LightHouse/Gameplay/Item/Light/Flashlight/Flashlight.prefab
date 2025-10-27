@@ -39,7 +39,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 838385689072216893}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
   m_Name: 
@@ -49,7 +49,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 1
   m_FalloffIntensity: 0.7
   m_Color: {r: 0, g: 1, b: 0, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: 43cd770900000000e91fe1b6
@@ -70,10 +70,10 @@ MonoBehaviour:
   m_LocalBounds:
     m_Center: {x: 0, y: -0.00000011920929, z: 0}
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
-  m_PointLightInnerAngle: 80
-  m_PointLightOuterAngle: 100
-  m_PointLightInnerRadius: 12
-  m_PointLightOuterRadius: 13
+  m_PointLightInnerAngle: 0
+  m_PointLightOuterAngle: 15
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 4
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -188,6 +188,8 @@ GameObject:
   - component: {fileID: 6343127056236506670}
   - component: {fileID: 9029418283135670705}
   - component: {fileID: 4985077304802888449}
+  - component: {fileID: 4119332325352223952}
+  - component: {fileID: 5523033274244072422}
   - component: {fileID: 1162655753089864281}
   m_Layer: 0
   m_Name: Flashlight
@@ -256,6 +258,7 @@ MonoBehaviour:
   NetworkBehaviours:
   - {fileID: 4750419483905691176}
   - {fileID: 6343127056236506670}
+  - {fileID: 1162655753089864281}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -407,21 +410,9 @@ MonoBehaviour:
   _action1:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1162655753089864281}
-        m_TargetAssemblyTypeName: LightControl, Assembly-CSharp
-        m_MethodName: DecreaseRange
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1162655753089864281}
-        m_TargetAssemblyTypeName: LightControl, Assembly-CSharp
-        m_MethodName: IncreaseAngle
+      - m_Target: {fileID: 4119332325352223952}
+        m_TargetAssemblyTypeName: LightHouse.PulseIdentity, Assembly-CSharp
+        m_MethodName: OnPulseChange
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -434,21 +425,9 @@ MonoBehaviour:
   _action2:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1162655753089864281}
-        m_TargetAssemblyTypeName: LightControl, Assembly-CSharp
-        m_MethodName: IncreaseRange
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1162655753089864281}
-        m_TargetAssemblyTypeName: LightControl, Assembly-CSharp
-        m_MethodName: DecreaseAngle
+      - m_Target: {fileID: 5523033274244072422}
+        m_TargetAssemblyTypeName: LightHouse.PulseIdentity, Assembly-CSharp
+        m_MethodName: OnPulseChange
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -494,6 +473,144 @@ MonoBehaviour:
   _pulseChange:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4119332325352223952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4979753340546533646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d09ce6830b0ae4da5c11f9a7ce61c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.PulseIdentity
+  _pulseUp:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1162655753089864281}
+        m_TargetAssemblyTypeName: LightHouse.LightControl, Assembly-CSharp
+        m_MethodName: StartRangeChange
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1162655753089864281}
+        m_TargetAssemblyTypeName: LightHouse.LightControl, Assembly-CSharp
+        m_MethodName: StartAngleChange
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  _pulseDown:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1162655753089864281}
+        m_TargetAssemblyTypeName: LightHouse.LightControl, Assembly-CSharp
+        m_MethodName: StopRangeChange
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1162655753089864281}
+        m_TargetAssemblyTypeName: LightHouse.LightControl, Assembly-CSharp
+        m_MethodName: StopAngleChange
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _pulseChange:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &5523033274244072422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4979753340546533646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d09ce6830b0ae4da5c11f9a7ce61c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.PulseIdentity
+  _pulseUp:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1162655753089864281}
+        m_TargetAssemblyTypeName: LightHouse.LightControl, Assembly-CSharp
+        m_MethodName: StartRangeChange
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1162655753089864281}
+        m_TargetAssemblyTypeName: LightHouse.LightControl, Assembly-CSharp
+        m_MethodName: StartAngleChange
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _pulseDown:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1162655753089864281}
+        m_TargetAssemblyTypeName: LightHouse.LightControl, Assembly-CSharp
+        m_MethodName: StopRangeChange
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1162655753089864281}
+        m_TargetAssemblyTypeName: LightHouse.LightControl, Assembly-CSharp
+        m_MethodName: StopAngleChange
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _pulseChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1162655753089864281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,10 +623,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e92aae3534f46631a7657f04e6a67b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightControl
+  _componentIndexCache: 2
+  _addedNetworkObject: {fileID: 6621121559563478381}
+  _networkObjectCache: {fileID: 6621121559563478381}
   _light: {fileID: 2763725900317454453}
-  _rangeChangeRate: 14
-  _angleChangeRate: 90
-  _intensityChangeRate: 0.5
-  _minMaxRange: {x: 1, y: 15}
-  _minMaxAngle: {x: 30, y: 120}
+  _timeToChange: 1
+  _minMaxRange: {x: 4, y: 12}
+  _minMaxAngle: {x: 15, y: 135}
   _minMaxIntensity: {x: 0, y: 1}
+  _initialRange: 4
+  _initialAngle: 135
+  _initialIntensity: 1
+  _initialEnabled: 1
+  _innerToOuterRangeRatio: 0.9
+  _innerToOuterAngleRatio: 0.7
