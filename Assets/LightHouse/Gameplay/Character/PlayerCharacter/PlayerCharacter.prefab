@@ -910,7 +910,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: <AssetPathHash>k__BackingField
-      value: 1128850234028455896
+      value: 12883523950948078267
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[1]'
@@ -1132,6 +1132,7 @@ MonoBehaviour:
   _componentIndexCache: 2
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
+  _minimumCameraSize: 6
 --- !u!114 &4443254757174337321
 MonoBehaviour:
   m_ObjectHideFlags: 0

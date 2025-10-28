@@ -46,7 +46,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3458800118198264783, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: <PrefabId>k__BackingField
-      value: 19
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 3458800118198264783, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: NetworkBehaviours.Array.size
@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3458800118198264783, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: <AssetPathHash>k__BackingField
-      value: 8371756210127211066
+      value: 13722476383156440784
       objectReference: {fileID: 0}
     - target: {fileID: 3458800118198264783, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[1]'

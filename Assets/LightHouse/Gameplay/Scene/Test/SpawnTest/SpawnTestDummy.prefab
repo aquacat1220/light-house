@@ -137,9 +137,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 617e299bda713e6c3ac43859353bba50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnTestDummy
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 732925197364383298}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 732925197364383298}
 --- !u!114 &732925197364383298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,22 +166,24 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 65535
+  <PrefabId>k__BackingField: 1
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 1253034207148546819
+  <AssetPathHash>k__BackingField: 17674773561013876073
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    Scale: {x: 0, y: 0, z: 0}
-    IsValid: 0
+    Position: {x: 0.80103, y: -0.79359, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Scale: {x: 1, y: 1, z: 1}
+    IsValid: 1
   <IsNested>k__BackingField: 0
   WasActiveDuringEdit: 0
   WasActiveDuringEdit_Set1: 1
   <ComponentIndex>k__BackingField: 0
-  <PredictedSpawn>k__BackingField: {fileID: 0}
+  <PredictedSpawn>k__BackingField: {fileID: 7999591245682950117}
   <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours: []
+  NetworkBehaviours:
+  - {fileID: 8920497481100163340}
+  - {fileID: 7999591245682950117}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -204,8 +206,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2b597e1828355a4d994a69cbb11ef85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Ownership.PredictedSpawn
-  _componentIndexCache: 255
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: 732925197364383298}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 732925197364383298}
   _allowSpawning: 1
   _allowDespawning: 1

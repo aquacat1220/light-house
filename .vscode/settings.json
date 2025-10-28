@@ -56,7 +56,7 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "light-house.sln",
+    "dotnet.defaultSolution": "light-house.slnx",
     "csharp.debug.justMyCode": false,
     "debug.allowBreakpointsEverywhere": true
 }
