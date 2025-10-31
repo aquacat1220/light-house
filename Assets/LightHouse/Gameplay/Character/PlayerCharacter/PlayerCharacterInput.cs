@@ -4,15 +4,13 @@ namespace LightHouse
     using UnityEngine;
     using UnityEngine.Events;
     using UnityEngine.InputSystem;
-    
+
     public class PlayerCharacterInput : NetworkBehaviour
     {
         // Triggered when the move input changes. Argument holds the new input value.
         public UnityEvent<Vector2> Move;
         // Triggered when the look input changes. Argument holds the new input value.
         public UnityEvent<Vector2> Look;
-        // Triggered when the die action is performed.
-        public UnityEvent Die;
         // Triggered when the primary action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
         public UnityEvent<bool> Primary;
         // Triggered when the secondary action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
@@ -36,24 +34,24 @@ namespace LightHouse
         public UnityEvent<bool> SelectItem4;
         // Triggered when the drop item 4 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
         public UnityEvent<bool> DropItem4;
-    
+
         bool _isSubscribedToInputManager = false;
-    
+
         public override void OnStartClient()
         {
-            if (base.IsOwner)
+            if (base.isActiveAndEnabled && base.IsOwner)
             {
                 // We are the owning client of this character. Inputs should be passed down.
                 SubscribeToInputManager();
             }
         }
-    
+
         public override void OnStopClient()
         {
             // We don't check for ownership here, since calling `UnsubscribeFromInputManager()` when we are not subscribed shouldn't cause any problems.
             UnsubscribeFromInputManager();
         }
-    
+
         void OnEnable()
         {
             if (base.IsClientInitialized && base.IsOwner)
@@ -62,13 +60,13 @@ namespace LightHouse
                 SubscribeToInputManager();
             }
         }
-    
+
         void OnDisable()
         {
             // We don't check for ownership here, since calling `UnsubscribeFromInputManager()` when we are not subscribed shouldn't cause any problems.
             UnsubscribeFromInputManager();
         }
-    
+
         void SubscribeToInputManager()
         {
             if (!_isSubscribedToInputManager)
@@ -77,7 +75,6 @@ namespace LightHouse
                 InputManager.Singleton.InputActions.Player.Move.canceled += OnMove;
                 InputManager.Singleton.InputActions.Player.Look.performed += OnLook;
                 InputManager.Singleton.InputActions.Player.Look.canceled += OnLook;
-                InputManager.Singleton.InputActions.Player.Die.performed += OnDie;
                 InputManager.Singleton.InputActions.Player.Primary.performed += OnPrimary;
                 InputManager.Singleton.InputActions.Player.Primary.canceled += OnPrimary;
                 InputManager.Singleton.InputActions.Player.Secondary.performed += OnSecondary;
@@ -107,7 +104,7 @@ namespace LightHouse
                 _isSubscribedToInputManager = true;
             }
         }
-    
+
         void UnsubscribeFromInputManager()
         {
             if (_isSubscribedToInputManager)
@@ -116,7 +113,6 @@ namespace LightHouse
                 InputManager.Singleton.InputActions.Player.Move.canceled -= OnMove;
                 InputManager.Singleton.InputActions.Player.Look.performed -= OnLook;
                 InputManager.Singleton.InputActions.Player.Look.canceled -= OnLook;
-                InputManager.Singleton.InputActions.Player.Die.performed -= OnDie;
                 InputManager.Singleton.InputActions.Player.Primary.performed -= OnPrimary;
                 InputManager.Singleton.InputActions.Player.Primary.canceled -= OnPrimary;
                 InputManager.Singleton.InputActions.Player.Secondary.performed -= OnSecondary;
@@ -146,23 +142,17 @@ namespace LightHouse
                 _isSubscribedToInputManager = false;
             }
         }
-    
+
         void OnMove(InputAction.CallbackContext context)
         {
             Move?.Invoke(context.ReadValue<Vector2>());
         }
-    
+
         void OnLook(InputAction.CallbackContext context)
         {
             Look?.Invoke(context.ReadValue<Vector2>());
         }
-    
-        void OnDie(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-                Die?.Invoke();
-        }
-    
+
         void OnPrimary(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -170,7 +160,7 @@ namespace LightHouse
             else if (context.canceled)
                 Primary?.Invoke(false);
         }
-    
+
         void OnSecondary(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -178,7 +168,7 @@ namespace LightHouse
             else if (context.canceled)
                 Secondary?.Invoke(false);
         }
-    
+
         void OnItemAction1(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -186,7 +176,7 @@ namespace LightHouse
             else if (context.canceled)
                 ItemAction1?.Invoke(false);
         }
-    
+
         void OnItemAction2(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -194,7 +184,7 @@ namespace LightHouse
             else if (context.canceled)
                 ItemAction2?.Invoke(false);
         }
-    
+
         void OnReload(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -202,7 +192,7 @@ namespace LightHouse
             else if (context.canceled)
                 Reload?.Invoke(false);
         }
-    
+
         void OnSelectItem1(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -210,7 +200,7 @@ namespace LightHouse
             else if (context.canceled)
                 SelectItem1?.Invoke(false);
         }
-    
+
         void OnDropItem1(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -218,7 +208,7 @@ namespace LightHouse
             else if (context.canceled)
                 DropItem1?.Invoke(false);
         }
-    
+
         void OnSelectItem2(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -226,7 +216,7 @@ namespace LightHouse
             else if (context.canceled)
                 SelectItem2?.Invoke(false);
         }
-    
+
         void OnDropItem2(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -234,7 +224,7 @@ namespace LightHouse
             else if (context.canceled)
                 DropItem2?.Invoke(false);
         }
-    
+
         void OnSelectItem3(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -242,7 +232,7 @@ namespace LightHouse
             else if (context.canceled)
                 SelectItem3?.Invoke(false);
         }
-    
+
         void OnDropItem3(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -250,7 +240,7 @@ namespace LightHouse
             else if (context.canceled)
                 DropItem3?.Invoke(false);
         }
-    
+
         void OnSelectItem4(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -258,7 +248,7 @@ namespace LightHouse
             else if (context.canceled)
                 SelectItem4?.Invoke(false);
         }
-    
+
         void OnDropItem4(InputAction.CallbackContext context)
         {
             if (context.performed)

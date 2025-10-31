@@ -102,7 +102,7 @@ namespace LightHouse
 
         public override void OnStartClient()
         {
-            if (base.IsOwner)
+            if (base.isActiveAndEnabled && base.IsOwner)
             {
                 // We are the owning client of this character. Subscribe movement functions to the action.
                 AllowInputs();
