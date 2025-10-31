@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9265295abb9dfcba5abe125c6f8bbcef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSlot
-  _componentIndexCache: 9
+  _componentIndexCache: 10
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
   User: {fileID: 5139385379916303670}
@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9265295abb9dfcba5abe125c6f8bbcef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSlot
-  _componentIndexCache: 8
+  _componentIndexCache: 9
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
   User: {fileID: 5139385379916303670}
@@ -263,7 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9265295abb9dfcba5abe125c6f8bbcef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSlot
-  _componentIndexCache: 10
+  _componentIndexCache: 11
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
   User: {fileID: 5139385379916303670}
@@ -324,7 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9265295abb9dfcba5abe125c6f8bbcef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSlot
-  _componentIndexCache: 7
+  _componentIndexCache: 8
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
   User: {fileID: 5139385379916303670}
@@ -686,7 +686,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: <PrefabId>k__BackingField
-      value: 0
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: _preventDespawnOnDisconnect
@@ -694,7 +694,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: NetworkBehaviours.Array.size
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: _spectatorSmoothedProperties
@@ -707,37 +707,45 @@ PrefabInstance:
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[1]'
       value: 
-      objectReference: {fileID: 3324938354885705573}
+      objectReference: {fileID: 6648798440151713100}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[2]'
       value: 
-      objectReference: {fileID: 7544029604669326017}
+      objectReference: {fileID: 286916112871301450}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[3]'
+      value: 
+      objectReference: {fileID: 3324938354885705573}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[4]'
       value: 
-      objectReference: {fileID: 6290294256753253600}
+      objectReference: {fileID: 7613401983510641006}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[5]'
       value: 
-      objectReference: {fileID: 286916112871301450}
+      objectReference: {fileID: 6290294256753253600}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[6]'
       value: 
-      objectReference: {fileID: 7613401983510641006}
+      objectReference: {fileID: 7544029604669326017}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[7]'
       value: 
-      objectReference: {fileID: 5481230686748954216}
+      objectReference: {fileID: 3253198443913536155}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[8]'
       value: 
-      objectReference: {fileID: 6375065255222121820}
+      objectReference: {fileID: 5481230686748954216}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[9]'
       value: 
-      objectReference: {fileID: 2131203046410730692}
+      objectReference: {fileID: 6375065255222121820}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[10]'
+      value: 
+      objectReference: {fileID: 2131203046410730692}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[11]'
       value: 
       objectReference: {fileID: 1837316924962321096}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
@@ -894,7 +902,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16a3e4ef91f180ea0a9450b669d20c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCharacterInput
-  _componentIndexCache: 5
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
   Move:
@@ -1146,7 +1154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64a11691e8aa8456495080fae6ddb1dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 1
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
   _maxSpeed: 3
@@ -1163,7 +1171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2914d8886a5b6d35a89366d87bb6f4a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCharacterInventory
-  _componentIndexCache: 6
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
   _itemSlots:
@@ -1185,7 +1193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d49b2f94a0a84eac88a3a97d5f15f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 4
+  _componentIndexCache: 5
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
   _visionLight: {fileID: 1963208907921747166}
@@ -1206,7 +1214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71aa291e9cc890685a96c793a859b225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 2
+  _componentIndexCache: 6
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
   _minimumCameraSize: 6
@@ -1223,10 +1231,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8a1b5f64b205776abed91de20e38c09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCharacterDeath
-  _componentIndexCache: 255
+  _componentIndexCache: 7
   _addedNetworkObject: {fileID: 2566409721090996822}
-  _networkObjectCache: {fileID: 0}
-  Death:
+  _networkObjectCache: {fileID: 2566409721090996822}
+  _death:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 286916112871301450}
@@ -1238,7 +1246,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Character died.
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 3324938354885705573}
@@ -1277,6 +1285,42 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 7219512872310435980}
+        m_TargetAssemblyTypeName: LightHouse.Logger, Assembly-CSharp
+        m_MethodName: Log
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Character died.
+          m_BoolArgument: 0
+        m_CallState: 2
+  _respawnDelay: 3
+  _despawnDelay: 5
+--- !u!114 &6648798440151713100 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1573302493790001086, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+  m_PrefabInstance: {fileID: 5300799141838639858}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5139385379916303670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8f0b5df2a6d53bd2a0973075b266084, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sanity
+--- !u!114 &7219512872310435980 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3287878455279002238, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+  m_PrefabInstance: {fileID: 5300799141838639858}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5139385379916303670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d852d571aa07eb487a611303c76ec139, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Logger
 --- !u!4 &8119588425305905567 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4124921343106321261, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
