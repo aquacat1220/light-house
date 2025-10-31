@@ -1285,18 +1285,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 7219512872310435980}
-        m_TargetAssemblyTypeName: LightHouse.Logger, Assembly-CSharp
-        m_MethodName: Log
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Character died.
-          m_BoolArgument: 0
-        m_CallState: 2
   _respawnDelay: 3
   _despawnDelay: 5
 --- !u!114 &6648798440151713100 stripped
@@ -1310,17 +1298,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8f0b5df2a6d53bd2a0973075b266084, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Sanity
---- !u!114 &7219512872310435980 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3287878455279002238, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-  m_PrefabInstance: {fileID: 5300799141838639858}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5139385379916303670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d852d571aa07eb487a611303c76ec139, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Logger
 --- !u!4 &8119588425305905567 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4124921343106321261, guid: d2c828e519c166684af8c10a7975ee06, type: 3}

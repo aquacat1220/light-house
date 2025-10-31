@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using FishNet.Connection;
 using FishNet.Object;
+using FishNet.Transporting;
 using LightHouse;
 using UnityEngine;
 using UnityEngine.Events;
@@ -14,6 +15,16 @@ public class PlayerCharacterDeath : NetworkBehaviour
     float _respawnDelay = 0f;
     [SerializeField, Min(0f)]
     float _despawnDelay = 0f;
+
+    public override void OnStartServer()
+    {
+        base.ServerManager.OnRemoteConnectionState += OnRemoteConnectionState;
+    }
+
+    public override void OnStopServer()
+    {
+        base.ServerManager.OnRemoteConnectionState -= OnRemoteConnectionState;
+    }
 
     // [Server]
     public void Die()
@@ -64,11 +75,11 @@ public class PlayerCharacterDeath : NetworkBehaviour
         _death?.Invoke();
     }
 
-    public override void OnOwnershipServer(NetworkConnection prevOwner)
+    void OnRemoteConnectionState(NetworkConnection connection, RemoteConnectionStateArgs args)
     {
-        if (!base.Owner.IsValid)
+        if (connection == base.Owner && args.ConnectionState == RemoteConnectionState.Stopped)
         {
-            // The new owner is invalid, which probably means the character's owning connection was disconnected.
+            // Connection has been stopped.
             Die();
         }
     }

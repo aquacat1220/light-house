@@ -170,11 +170,10 @@ namespace LightHouse
             if (args.ConnectionState == RemoteConnectionState.Stopped)
             {
                 // Connection has been stopped.
-                // Kill the character of that client, and remove the conenction from `_clients`.
+                // Remove the connection from `_clients`.
                 if (_connectedClients.ContainsKey(connection))
                 {
                     var (_, character) = _connectedClients[connection];
-                    // character.GetComponent<Death>()?.Die();
                     _connectedClients.Remove(connection);
                 }
             }
