@@ -22,9 +22,9 @@ namespace LightHouse
         static float _maxWaitTime = 0.025f;
 
         [SerializeField]
-        UnityEvent<int> _counterChanged;
+        UnityEvent<int> _counterChange;
         [SerializeField]
-        UnityEvent<int> _predictedCounterChanged;
+        UnityEvent<int> _predictedCounterChange;
 
         // The number of projectiles that were spawned across the network.
         // On clients, this is the number of authoritative-spawned projectiles + accepted predicted-spawned projectiles.
@@ -129,8 +129,11 @@ namespace LightHouse
                     // An eviction can happen if a ticket never arrived.
 
                     // Make the spawning client the owner of the projectile, so that it receives the despawn message.
-                    nob.GiveOwnership(nob.PredictedSpawner);
+                    var predictedSpawner = nob.PredictedSpawner;
+                    nob.GiveOwnership(predictedSpawner);
                     nob.Despawn();
+                    // Send a NACK to the predicted spawner.
+                    TargetSyncCounter(predictedSpawner);
                     continue;
                 }
                 break;
@@ -157,6 +160,12 @@ namespace LightHouse
                     // Disable the alwaysfalse condition to make the projectile observable to everyone.
                     var nob = projectile.NetworkObject;
                     nob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
+                    // One waitlisted ticket has been officially spawned!
+                    _counter += 1;
+                    _predictedDelta -= 1;
+                    FlushCounterChanges();
+                    // Completely authoritative, no PS involved.
+                    GlobalSyncCounter(null);
                     continue;
                 }
                 break;
@@ -382,10 +391,11 @@ namespace LightHouse
                 // An eviction can happen if a ticket never arrived.
 
                 // Make the spawning client the owner of the projectile, so that it receives the despawn message.
-                nob.GiveOwnership(nob.PredictedSpawner);
+                var predictedSpawner = nob.PredictedSpawner;
+                nob.GiveOwnership(predictedSpawner);
                 nob.Despawn();
                 // Send a NACK to the predicted spawner.
-                TargetSyncCounter(nob.PredictedSpawner);
+                TargetSyncCounter(predictedSpawner);
             }
 
             // This line isn't needed, but just to make sure the condition is enabled before adding to the waitlist.
@@ -401,13 +411,13 @@ namespace LightHouse
         {
             if (_oldCounter != _counter)
             {
-                _counterChanged?.Invoke(_counter);
+                _counterChange?.Invoke(_counter);
                 Debug.Log($"Counter changed: {_oldCounter} -> {_counter}.");
                 _oldCounter = _counter;
             }
             if (_oldPredictedCounter != _counter + _predictedDelta)
             {
-                _predictedCounterChanged?.Invoke(_counter + _predictedDelta);
+                _predictedCounterChange?.Invoke(_counter + _predictedDelta);
                 Debug.Log($"Predicted counter changed: {_oldPredictedCounter} -> {_counter + _predictedDelta}.");
                 _oldPredictedCounter = _counter + _predictedDelta;
             }

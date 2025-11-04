@@ -16,6 +16,62 @@ PrefabInstance:
       propertyPath: _componentIndexCache
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: _predictedCounterChange.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: _predictedCounterChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: _predictedCounterChange.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: _predictedCounterChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: _predictedCounterChange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6717595353307084747}
+    - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: _predictedCounterChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6717595353307084747}
+    - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: _predictedCounterChange.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: _predictedCounterChange.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnPredictedCounterChange
+      objectReference: {fileID: 0}
+    - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: _predictedCounterChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: _predictedCounterChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnPredictedCounterChange
+      objectReference: {fileID: 0}
+    - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: _predictedCounterChange.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LightHouse.Magazine, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: _predictedCounterChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LightHouse.Magazine, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: _predictedCounterChange.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: _predictedCounterChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 264191854145071457, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -46,7 +102,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3458800118198264783, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: <PrefabId>k__BackingField
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3458800118198264783, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: NetworkBehaviours.Array.size
@@ -86,7 +142,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: _reloadTime
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: _componentIndexCache
@@ -269,6 +325,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &6717595353307084747 stripped
 MonoBehaviour:
