@@ -245,7 +245,6 @@ GameObject:
   - component: {fileID: 2162946095732952466}
   - component: {fileID: 6862828856802526176}
   - component: {fileID: 5399703363806622315}
-  - component: {fileID: -5008045997670648202}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Untagged
@@ -315,7 +314,7 @@ MonoBehaviour:
   - {fileID: 3245403586699975347}
   - {fileID: 7044753674542805718}
   - {fileID: 5399703363806622315}
-  - {fileID: -5008045997670648202}
+  - {fileID: 0}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -482,6 +481,7 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 8589813380030189686}
   _damageInfo:
     rid: 4866375275036803350
+  _visual: {fileID: 120516515841643400}
   references:
     version: 2
     RefIds:
@@ -490,18 +490,3 @@ MonoBehaviour:
       data:
         Attacker: {fileID: 0}
         Damage: 15
---- !u!114 &-5008045997670648202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2787902506105217941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8ae9951abab8add3a9c987c45852a65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.NetworkLogger
-  _componentIndexCache: 3
-  _addedNetworkObject: {fileID: 8589813380030189686}
-  _networkObjectCache: {fileID: 8589813380030189686}
