@@ -7,42 +7,46 @@ namespace LightHouse
     using FishNet.Object;
     using FishNet.Serializing;
     using UnityEngine;
-    
-    
+
+
     public class ProjectileTransform : NetworkBehaviour
     {
         [SerializeField]
         float _speed = 1f;
         [SerializeField]
         Rigidbody2D _rigidbody;
-    
+
         public ProjectileSpawner ProjectileSpawner;
-    
+
         // If `_isRejected` is true, this projectile was predicted-spawned, we are the predicted spawning client, and the server rejected the request.
         bool _isRejected = false;
-    
-        // The tick and position this projectile was spawned on the server. Set in `ReadPayload()` (in clients), `OnStartServer()` (in noPS server), `` (in PS server).
+
+        // The tick and position this projectile was spawned on the server. Set in `ReadPayload()` (in clients), `OnStartServer()` (in noPS server), `ResetSpawn()` (in PS server).
         PreciseTick _spawnedTick = PreciseTick.GetUnsetValue();
         Vector2 _spawnedPosition = Vector2.zero;
-    
+
+        // The tick and position this projectile started moving locally. Set in `OnTick()`, and is compared against `_spawnedXX` to calculate the time and distance we need to catch up.
+        PreciseTick _localTick = PreciseTick.GetUnsetValue();
+        Vector2 _localPosition = Vector2.zero;
+
         // The time we need to catch up.
         // On non-predicted cases, this value is 0 on server and positive on all clients.
         // On predicted cases, this value is 0 on server, positive on non-spawning clients, and negative on spawning client.
         // This is because the spawning client spawns the projectile before the server does.
         float _timeToCatchUp = 0f;
         Vector2 _distanceToCatchUp = Vector2.zero;
-    
+
         [SerializeField]
         float _maxCatchUpTime = 1f;
         [SerializeField]
         float _maxCatchUpDistance = 1f;
-    
+
         // Catch up time and distance is calculated once at the first `OnTick()` callback.
         bool _calculatedCatchUp = false;
-    
+
         // Whether we are subscribed to time manager tick events.
         bool _subscribedToTimeManager = false;
-    
+
         void Awake()
         {
             if (_rigidbody == null)
@@ -51,7 +55,7 @@ namespace LightHouse
                 throw new Exception();
             }
         }
-    
+
         void OnEnable()
         {
             if (!_subscribedToTimeManager && base.IsSpawned)
@@ -60,7 +64,7 @@ namespace LightHouse
                 _subscribedToTimeManager = true;
             }
         }
-    
+
         void OnDisable()
         {
             if (_subscribedToTimeManager)
@@ -69,7 +73,7 @@ namespace LightHouse
                 _subscribedToTimeManager = false;
             }
         }
-    
+
         public override void OnStartNetwork()
         {
             if (!_subscribedToTimeManager && base.isActiveAndEnabled)
@@ -78,7 +82,7 @@ namespace LightHouse
                 _subscribedToTimeManager = true;
             }
         }
-    
+
         public override void OnStopNetwork()
         {
             if (_subscribedToTimeManager)
@@ -87,7 +91,7 @@ namespace LightHouse
                 _subscribedToTimeManager = false;
             }
         }
-    
+
         public override void OnStartServer()
         {
             if (!_spawnedTick.IsValid())
@@ -96,7 +100,7 @@ namespace LightHouse
                 _spawnedPosition = transform.position;
             }
         }
-    
+
         // `SetSpawn()` should only be called on the server, before `WritePayload()`.
         public void ResetSpawn(PreciseTick spawnedTick, Vector2 spawnedPosition, float spawnedRotation)
         {
@@ -109,14 +113,14 @@ namespace LightHouse
             _spawnedPosition = spawnedPosition;
             transform.rotation = Quaternion.Euler(0f, 0f, spawnedRotation);
         }
-    
+
         // Reject a predicted-spawned projectile.
         // `RejectProjectile()` should only be called on the server, before `WritePayload()`.
         public void RejectProjectile()
         {
             _isRejected = true;
         }
-    
+
         // Disables this component, and deactivates all child gameobjects.
         // This is because the `NetworkObject` component shouldn't ever be disabled, but we still need a way to stop the projectile GO from affecting the game.
         // Components that should be disabled during waitlist should be added to a separate child GO.
@@ -129,42 +133,51 @@ namespace LightHouse
                 child.SetActive(active);
             }
         }
-    
+
         void OnTick()
         {
+            if (!_localTick.IsValid())
+            {
+                _localTick = TimeManager.GetPreciseTick(TickType.Tick);
+                _localPosition = transform.position;
+            }
             if (!_calculatedCatchUp && _spawnedTick.IsValid())
             {
                 // We have never calculated catch up time and distance. Try calculating now.
                 // If `_spawnedTick` is not valid, we are yet to receive the server side projectile details.
-                _timeToCatchUp = (float)TimeManager.TicksToTime(TimeManager.GetPreciseTick(TickType.Tick)) - (float)TimeManager.TicksToTime(_spawnedTick);
-                _distanceToCatchUp = _spawnedPosition - (Vector2)transform.position;
+                _timeToCatchUp = (float)TimeManager.TicksToTime(_localTick) - (float)TimeManager.TicksToTime(_spawnedTick);
+                _distanceToCatchUp = _spawnedPosition - _localPosition;
                 _calculatedCatchUp = true;
+                // Debug.Log($"{TimeManager.LocalTick}: Calculating catchup. Time to catch up = {_timeToCatchUp * 1000}ms. Distance to catch up = {_distanceToCatchUp}.");
             }
-    
+
             if (_timeToCatchUp >= _maxCatchUpTime)
             {
                 _rigidbody.position = _rigidbody.position + (Vector2)(transform.up * _speed * _timeToCatchUp);
                 _timeToCatchUp = 0f;
+                // Debug.Log($"{TimeManager.LocalTick}: Catchup time too long, snapping.");
             }
             if (_distanceToCatchUp.magnitude >= _maxCatchUpDistance)
             {
                 _rigidbody.position = _rigidbody.position + _distanceToCatchUp;
                 _distanceToCatchUp = Vector2.zero;
+                // Debug.Log($"{TimeManager.LocalTick}: Catchup distance too long, snapping.");
             }
-    
+
             float deltaTime = (float)TimeManager.TickDelta;
             if (_timeToCatchUp != 0f)
             {
                 float catchUp = _timeToCatchUp * 0.01f;
                 _timeToCatchUp -= catchUp;
-    
+
                 if (Math.Abs(_timeToCatchUp) <= deltaTime / 4f)
                 {
                     catchUp += _timeToCatchUp;
                     _timeToCatchUp = 0f;
                 }
-    
+
                 deltaTime += catchUp;
+                // Debug.Log($"{TimeManager.LocalTick}: Catching up {catchUp * 1000}ms.");
                 catchUp = 0f;
             }
             Vector2 delta = transform.up * _speed * deltaTime;
@@ -172,24 +185,25 @@ namespace LightHouse
             {
                 Vector2 catchUp = _distanceToCatchUp * 0.01f;
                 _distanceToCatchUp -= catchUp;
-    
+
                 if (_distanceToCatchUp.magnitude <= delta.magnitude / 4f)
                 {
                     catchUp += _distanceToCatchUp;
                     _distanceToCatchUp = Vector2.zero;
                 }
-    
+
                 delta += catchUp;
+                // Debug.Log($"{TimeManager.LocalTick}: Catching up {catchUp}.");
                 catchUp = Vector2.zero;
             }
             _rigidbody.MovePosition(_rigidbody.position + delta);
         }
-    
+
         public override void WritePayload(NetworkConnection connection, Writer writer)
         {
             // This function will be called on the server during spawning.
             // And it will also be called on the spawning client if it is being predicted-spawned.
-    
+
             // The connection is invalid only if we are the predicted-spawning client.
             // If we are the predicted-spawning client, send the parent projectile spawner.
             if (!connection.IsValid)
@@ -217,13 +231,13 @@ namespace LightHouse
                 }
             }
         }
-    
+
         public override void ReadPayload(NetworkConnection connection, Reader reader)
         {
             // This function will be called on all clients when spawned.
             // And it will also be called on the server if it is being predicted-spawned.
             // We want to read when and where the projectile was spawned on the server.
-    
+
             // If we are the server, read the parent projectile spawner and add this projectile to waitlist.
             if (connection != null && connection.IsValid)
             {
@@ -248,7 +262,7 @@ namespace LightHouse
                     //     - We are the PS request client. (Case 1)
                     //     - We are not the PS request client. (Case 2)
                     // - The projectile was originally spawned by the server. (Case 3)
-    
+
                     // First read the spawn info.
                     var tick = reader.ReadUInt32();
                     var percent = reader.ReadDouble();
@@ -257,7 +271,7 @@ namespace LightHouse
                     var spawnedRotation = reader.ReadSingle();
                     // Snap rotation to true value.
                     transform.rotation = Quaternion.Euler(0f, 0f, spawnedRotation);
-    
+
                     // Then trigger appropriate events at parent `ProjectileSpawner`.
                     if (NetworkObject.PredictedSpawner != null && NetworkObject.PredictedSpawner.IsLocalClient)
                     {
@@ -272,14 +286,14 @@ namespace LightHouse
                         // Except if we are the host; hosts don't need to predict, as we have authority. In that case we don't want to trigger correction events.
                         // We use `base.IsServerStarted` instead of `base.IsServerInitialized` because the projectile might despawn before `ReadPayload()` is called on the client-host.
                         // This line is not intended to be called on the server anyways, so we are making sure it never does so.
-                        if (!base.IsServerStarted)
-                            ProjectileSpawner.InvokeUnderPredicted();
+                        // if (!base.IsServerStarted)
+                        // ProjectileSpawner.InvokeUnderPredicted();
                     }
                 }
                 else
                 {
                     // The projectile was originally predicted-spawned, and the server rejected the request. (Case 4)
-                    ProjectileSpawner.InvokeOverPredicted();
+                    // ProjectileSpawner.InvokeOverPredicted();
                 }
             }
         }

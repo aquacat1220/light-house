@@ -4,7 +4,7 @@ namespace LightHouse
     using FishNet.Object;
     using UnityEngine;
     using UnityEngine.Events;
-    
+
     // A client-predicted magazine.
     // The mag (conceptually) maintains a "remaining ammo" count.
     // Each time `OnFire()` is called it will check if we have any ammo, and if so, decrement it and trigger the `_fire` event.
@@ -22,7 +22,7 @@ namespace LightHouse
                 return (int)_capacity;
             }
         }
-    
+
         public int LeftAmmo
         {
             get
@@ -31,38 +31,36 @@ namespace LightHouse
                 return Mathf.Clamp(leftAmmo, 0, (int)_capacity);
             }
         }
-    
+
         public UnityEvent<(int Old, int New)> LeftAmmoChange;
-    
-        [SerializeField]
-        static float _maxWaitTime = 0.025f;
-    
+
+        // [SerializeField]
+        // static float _maxWaitTime = 0.025f;
+
         [SerializeField]
         UnityEvent _fire;
         [SerializeField]
         uint _capacity = 10;
         [SerializeField]
         float _reloadTime = 2.5f;
-    
+
         uint _shotsFired = 0;
         uint _reloadPoint;
-    
+
         bool _isReloading = false;
-    
+
         Alarm _reloadAlarm;
         Alarm _predictedReloadAlarm;
-    
+
         int _stepsIntoFuture = 0;
         bool _isLastPredictionStart = false;
         uint? _nextReloadPoint = null;
-    
+
         void Awake()
         {
             _reloadPoint = _capacity;
-            // If we are the server, we need a reload timer.
-            // And we also need a timer to cancel reloads when client mispredicts.
         }
-    
+
         public override void OnStartServer()
         {
             _reloadAlarm = TimerManager.Singleton.AddAlarm(
@@ -73,12 +71,12 @@ namespace LightHouse
                 initialCooldown: _reloadTime
             );
         }
-    
+
         public override void OnStopServer()
         {
             _reloadAlarm?.Remove();
         }
-    
+
         public override void OnStartClient()
         {
             _predictedReloadAlarm = TimerManager.Singleton.AddAlarm(
@@ -89,12 +87,12 @@ namespace LightHouse
                 initialCooldown: _reloadTime
             );
         }
-    
+
         public override void OnStopClient()
         {
             _predictedReloadAlarm?.Remove();
         }
-    
+
         public void TryFire()
         {
             if (!base.IsServerInitialized && !base.IsOwner)
@@ -102,18 +100,18 @@ namespace LightHouse
                 Debug.Log("`TryFire()` should only be called on the server or the owner.");
                 throw new Exception();
             }
-    
+            Debug.Log($"TryFire() with {_shotsFired}, {_reloadPoint}.");
+
             if (_shotsFired >= _reloadPoint)
                 return;
             if (_isReloading)
                 return;
             var oldLeftAmmo = LeftAmmo;
-            _shotsFired += 1;
+            _fire?.Invoke();
             if (oldLeftAmmo != LeftAmmo)
                 LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
-            _fire?.Invoke();
         }
-    
+
         public void StartReload()
         {
             if (_isReloading)
@@ -133,7 +131,7 @@ namespace LightHouse
             Debug.Log("`StartReload()` should only ever be called on the server or the owner.");
             throw new Exception();
         }
-    
+
         void StartReloadServer()
         {
             _isReloading = true;
@@ -141,7 +139,7 @@ namespace LightHouse
             StartReloadObserver(_reloadPoint, _nextReloadPoint.Value);
             _reloadAlarm.Start();
         }
-    
+
         void StartReloadClient()
         {
             _isReloading = true;
@@ -149,7 +147,7 @@ namespace LightHouse
             _isLastPredictionStart = true;
             _predictedReloadAlarm.Start();
         }
-    
+
         // Observer RPCs always hold the most up to date states on the server.
         // Respect it, unless we are already predicting into the future more than two steps.
         [ObserversRpc(ExcludeServer = true)]
@@ -158,13 +156,13 @@ namespace LightHouse
             if (_stepsIntoFuture > 0)
             {
                 // We were predicting into the future.
-    
+
                 // The present stepped closer to the predicted future.
                 _stepsIntoFuture -= 1;
                 // If we are still predicting into the future, ignore the current correction.
                 if (_stepsIntoFuture != 0)
                     return;
-    
+
                 if (_isLastPredictionStart)
                 {
                     /// We predicted the future to be starting a reload, and we were correct.
@@ -216,8 +214,8 @@ namespace LightHouse
             if (oldLeftAmmo1 != LeftAmmo)
                 LeftAmmoChange?.Invoke((oldLeftAmmo1, LeftAmmo));
         }
-    
-        void EndReloadServer()
+
+        void EndReloadServer(float _)
         {
             if (_nextReloadPoint == null)
             {
@@ -232,8 +230,8 @@ namespace LightHouse
             _nextReloadPoint = null;
             EndReloadObserver(_reloadPoint);
         }
-    
-        void EndReloadClient()
+
+        void EndReloadClient(float _)
         {
             _isReloading = false;
             if (_nextReloadPoint is uint nextReloadPoint)
@@ -254,7 +252,7 @@ namespace LightHouse
                     LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
             }
         }
-    
+
         [ObserversRpc(ExcludeServer = true)]
         void EndReloadObserver(uint reloadPoint)
         {
@@ -276,7 +274,7 @@ namespace LightHouse
             if (oldLeftAmmo != LeftAmmo)
                 LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
         }
-    
+
         public void CancelReload()
         {
             if (!_isReloading)
@@ -296,7 +294,7 @@ namespace LightHouse
             Debug.Log("`CancelReload()` should only ever be called on the server or the owner.");
             throw new Exception();
         }
-    
+
         void CancelReloadServer()
         {
             _isReloading = false;
@@ -304,7 +302,7 @@ namespace LightHouse
             _reloadAlarm.Reset(_reloadTime);
             CancelReloadObserver(_reloadPoint);
         }
-    
+
         void CancelReloadClient()
         {
             _isReloading = false;
@@ -313,20 +311,20 @@ namespace LightHouse
             _predictedReloadAlarm.Stop();
             _predictedReloadAlarm.Reset(_reloadTime);
         }
-    
+
         [ObserversRpc(ExcludeServer = true)]
         void CancelReloadObserver(uint reloadPoint)
         {
             if (_stepsIntoFuture > 0)
             {
                 // We were predicting into the future.
-    
+
                 // The present stepped closer to the predicted future.
                 _stepsIntoFuture -= 1;
                 // If we are still predicting into the future, ignore the current correction.
                 if (_stepsIntoFuture != 0)
                     return;
-    
+
                 if (_isLastPredictionStart)
                 {
                     // We predicted the future to be starting a reload, but the server-authoritative truth tells otherwise.
@@ -380,13 +378,10 @@ namespace LightHouse
             if (oldLeftAmmo1 != LeftAmmo)
                 LeftAmmoChange?.Invoke((oldLeftAmmo1, LeftAmmo));
         }
-    
-        public void CorrectAmmo(int correction)
+
+        public void OnPredictedCounterChange(int newPredictedCounter)
         {
-            var oldLeftAmmo = LeftAmmo;
-            _shotsFired = _shotsFired + (uint)correction;
-            if (oldLeftAmmo != LeftAmmo)
-                LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
+            _shotsFired = (uint)newPredictedCounter;
         }
     }
 }

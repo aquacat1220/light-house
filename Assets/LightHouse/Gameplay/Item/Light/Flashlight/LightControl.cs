@@ -194,7 +194,7 @@ namespace LightHouse
             _alarm.Arm();
         }
 
-        void OnAlarm()
+        void OnAlarm(float _)
         {
             if (_rangeChangeRate != 0f)
                 SetRange(_light.pointLightOuterRadius + _rangeChange * _rangeChangeRate * (float)TimeManager.TickDelta);

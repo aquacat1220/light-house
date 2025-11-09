@@ -84,7 +84,7 @@ public class PlayerCharacterDeath : NetworkBehaviour
         }
     }
 
-    void RespawnAlarm()
+    void RespawnAlarm(float _)
     {
         if (base.Owner.IsValid)
         {
@@ -96,7 +96,7 @@ public class PlayerCharacterDeath : NetworkBehaviour
         }
     }
 
-    void DespawnAlarm()
+    void DespawnAlarm(float _)
     {
         base.Despawn();
     }

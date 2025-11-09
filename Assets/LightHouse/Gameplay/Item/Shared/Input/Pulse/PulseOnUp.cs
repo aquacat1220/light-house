@@ -2,23 +2,23 @@ namespace LightHouse
 {
     using UnityEngine;
     using UnityEngine.Events;
-    
+
     public class PulseOnUp : MonoBehaviour
     {
         [SerializeField]
         float _pulseLength = 0.25f;
-    
+
         [SerializeField]
         UnityEvent _pulseUp;
         [SerializeField]
         UnityEvent _pulseDown;
         [SerializeField]
         UnityEvent<bool> _pulseChange;
-    
+
         Alarm _alarm;
-    
+
         bool _pulseState = false;
-    
+
         void Awake()
         {
             _alarm = TimerManager.Singleton.AddAlarm(
@@ -32,17 +32,17 @@ namespace LightHouse
                 destroyAfterTriggered: false
             );
         }
-    
+
         public void OnPulseUp()
         {
             PulseUp();
             _alarm.Start();
         }
-    
+
         public void OnPulseDown()
         {
         }
-    
+
         public void OnPulseChange(bool isUp)
         {
             if (isUp)
@@ -50,7 +50,7 @@ namespace LightHouse
             else
                 OnPulseDown();
         }
-    
+
         void PulseUp()
         {
             if (_pulseState)
@@ -59,8 +59,8 @@ namespace LightHouse
             _pulseUp?.Invoke();
             _pulseChange?.Invoke(_pulseState);
         }
-    
-        void PulseDown()
+
+        void PulseDown(float _)
         {
             if (!_pulseState)
                 return;
