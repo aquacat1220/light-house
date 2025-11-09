@@ -54,6 +54,7 @@ namespace LightHouse
                 Debug.Log("`_rigidbody` wasn't set.");
                 throw new Exception();
             }
+            NetworkObject.OnHostVisibilityUpdated += (prev, next) => Debug.Log($"{Time.time}: {prev}, {next}");
         }
 
         void OnEnable()
@@ -126,6 +127,7 @@ namespace LightHouse
         // Components that should be disabled during waitlist should be added to a separate child GO.
         public void SetActive(bool active)
         {
+            Debug.Log($"SetActive({active})");
             enabled = active;
             foreach (Transform childTransform in transform)
             {

@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _logging: {fileID: 0}
-  _spawnablePrefabs: {fileID: 11400000, guid: 8fd1d60bdd8755292b0f2e905c871ffa, type: 2}
+  _spawnablePrefabs: {fileID: 11400000, guid: f383292f4530afeb9939ce32c24451af, type: 2}
   _refreshDefaultPrefabs: 0
   _runInBackground: 1
   _dontDestroyOnLoad: 1
@@ -73,7 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d331f979d46e8e4a9fc90070c596d44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _updateHostVisibility: 1
+  _updateHostVisibility: 0
   _maximumTimedObserversDuration: 10
   _defaultConditions:
   - {fileID: 11400000, guid: 2033f54fd2794464bae08fa5a55c8996, type: 2}
@@ -150,11 +150,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e08bb003fce297d4086cf8cba5aa459a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dropExcessiveReplicates: 1
-  _maximumServerReplicates: 15
+  _reduceReconcilesWithFramerate: 1
+  _minimumClientReconcileFramerate: 50
   _createLocalStates: 0
   _stateInterpolation: 2
   _stateOrder: 1
+  _dropExcessiveReplicates: 1
+  _maximumServerReplicates: 15
 --- !u!114 &818531611206326658
 MonoBehaviour:
   m_ObjectHideFlags: 0
