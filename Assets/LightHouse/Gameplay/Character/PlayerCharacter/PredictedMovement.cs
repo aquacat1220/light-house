@@ -12,24 +12,30 @@ namespace LightHouse
     {
         public struct ReplicateData : IReplicateData
         {
-            public ReplicateData(Vector2 moveInput, float angularVelocity)
+            public ReplicateData(Vector2 worldMove, float worldRotation)
             {
-                MoveInputX = moveInput.x;
-                MoveInputY = moveInput.y;
-                AngularVelocity = angularVelocity;
+                WorldMoveX = worldMove.x;
+                WorldMoveY = worldMove.y;
+                WorldRotation = worldRotation;
+
                 _tick = 0;
             }
 
-            // public Vector2 MoveInput;
+            // public Vector2 WorldMove;
 
-            public Vector2 MoveInput
+            public Vector2 WorldMove
             {
-                get { return new Vector2(MoveInputX, MoveInputY); }
+                get { return new Vector2(WorldMoveX, WorldMoveY); }
+                // set
+                // {
+                //     WorldMoveX = value.x;
+                //     WorldMoveY = value.y;
+                // }
             }
-            public float MoveInputX;
-            public float MoveInputY;
+            public float WorldMoveX;
+            public float WorldMoveY;
 
-            public float AngularVelocity;
+            public float WorldRotation;
 
             private uint _tick;
 
@@ -211,11 +217,16 @@ namespace LightHouse
                 }
             }
             // `data` is created by the owner.
-            Vector2 localMoveDirection = data.MoveInput;
-            Vector2 worldMoveDirection = transform.TransformDirection(localMoveDirection).normalized;
-            _predictionRigidbody2D.Velocity(worldMoveDirection * _maxSpeed);
+            Vector2 worldMove = data.WorldMove;
+            if (worldMove.magnitude > 1f + 0.001f)
+            {
+                // We add a small margin of error, since tiny errors can happen in floating point operations.
+                Debug.Log($"`data.WorldMove.magnitude > 1f` with a value of {worldMove.magnitude}, this might be an attempt for speed hacking.");
+                worldMove.Normalize();
+            }
+            _predictionRigidbody2D.Velocity(worldMove * _maxSpeed);
             // Since rigidbody has rotation frozen, we should directly set the rotation, instead of setting angular velocity.
-            _predictionRigidbody2D.Rotation(_rigidBody.rotation + data.AngularVelocity * (float)TimeManager.TickDelta);
+            _predictionRigidbody2D.Rotation(data.WorldRotation);
             _predictionRigidbody2D.Simulate();
         }
 
@@ -227,7 +238,13 @@ namespace LightHouse
                 return default;
             }
 
-            ReplicateData data = new ReplicateData(_recentMoveInput, _accumulatedMouseDeltaX * (-5.0f));
+            Vector2 localMove = _recentMoveInput;
+            float pr = Math.Min(1f, localMove.magnitude);
+            Vector2 worldMove = transform.TransformDirection(localMove).normalized * pr;
+
+            float worldRotation = transform.eulerAngles.z - (5.0f) * (float)TimeManager.TickDelta * _accumulatedMouseDeltaX;
+
+            ReplicateData data = new ReplicateData(worldMove, worldRotation);
             _accumulatedMouseDeltaX = 0f;
             return data;
         }
