@@ -2,25 +2,25 @@ namespace LightHouse
 {
     using UnityEngine;
     using UnityEngine.Events;
-    
+
     // Stops pulses from traveling down when the cooldown isn't done.
     // The cooldown starts when a pulse ends.
     public class CooldownBetweenPulse : MonoBehaviour
     {
         [SerializeField]
         float _cooldown = 1f;
-    
+
         [SerializeField]
         UnityEvent _pulseUp;
         [SerializeField]
         UnityEvent _pulseDown;
         [SerializeField]
         UnityEvent<bool> _pulseChange;
-    
+
         Alarm _alarm;
-    
+
         bool _pulseState = false;
-    
+
         void Awake()
         {
             _alarm = TimerManager.Singleton.AddAlarm(
@@ -34,19 +34,19 @@ namespace LightHouse
                 destroyAfterTriggered: false
             );
         }
-    
+
         public void OnPulseUp()
         {
             _alarm.Arm();
         }
-    
+
         public void OnPulseDown()
         {
             _alarm.Disarm();
             _alarm.Start();
             PulseDown();
         }
-    
+
         public void OnPulseChange(bool isUp)
         {
             if (isUp)
@@ -54,8 +54,8 @@ namespace LightHouse
             else
                 OnPulseDown();
         }
-    
-        void PulseUp()
+
+        void PulseUp(float _)
         {
             if (_pulseState)
                 return;
@@ -63,7 +63,7 @@ namespace LightHouse
             _pulseUp?.Invoke();
             _pulseChange?.Invoke(_pulseState);
         }
-    
+
         void PulseDown()
         {
             if (!_pulseState)

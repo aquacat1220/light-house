@@ -2,21 +2,21 @@ namespace LightHouse
 {
     using UnityEngine;
     using UnityEngine.InputSystem;
-    
+
     public class Stopwatch : MonoBehaviour
     {
         [SerializeField]
         Timer _timer;
         [SerializeField]
         bool _autoEverything = false;
-    
+
         Alarm _handle;
-    
+
         void Awake()
         {
             _handle = _timer.AddAlarm(
                     cooldown: 1f,
-                    callback: () => Debug.Log($"{Time.time}: {gameObject.name} triggered!"),
+                    callback: (float _) => Debug.Log($"{Time.time}: {gameObject.name} triggered!"),
                     startImmediately: _autoEverything,
                     armImmediately: _autoEverything,
                     autoRestart: _autoEverything,

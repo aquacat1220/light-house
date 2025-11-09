@@ -2,21 +2,21 @@ namespace LightHouse
 {
     using UnityEngine;
     using UnityEngine.Events;
-    
+
     public class RepeatUpDown : MonoBehaviour
     {
         [SerializeField]
         float _repeatDelay = 0.25f;
-    
+
         [SerializeField]
         UnityEvent _pulseUp;
         [SerializeField]
         UnityEvent _pulseDown;
         [SerializeField]
         UnityEvent<bool> _pulseChange;
-    
+
         Alarm _alarm;
-    
+
         void Awake()
         {
             _alarm = TimerManager.Singleton.AddAlarm(
@@ -30,17 +30,17 @@ namespace LightHouse
                 destroyAfterTriggered: false
             );
         }
-    
+
         public void OnPulseUp()
         {
             _alarm.Arm();
         }
-    
+
         public void OnPulseDown()
         {
             _alarm.Disarm();
         }
-    
+
         public void OnPulseChange(bool isUp)
         {
             if (isUp)
@@ -48,8 +48,8 @@ namespace LightHouse
             else
                 OnPulseDown();
         }
-    
-        void PulseUpDown()
+
+        void PulseUpDown(float _)
         {
             _pulseUp?.Invoke();
             _pulseChange?.Invoke(true);

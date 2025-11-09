@@ -154,7 +154,7 @@ namespace LightHouse
         // );
         public virtual Alarm AddAlarm(
             float cooldown,
-            Action callback,
+            Action<float> callback,
             bool startImmediately = true,
             bool armImmediately = true,
             bool autoRestart = true,

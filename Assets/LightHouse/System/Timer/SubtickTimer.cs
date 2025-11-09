@@ -3,7 +3,7 @@ namespace LightHouse
     using System;
     using System.Collections.Generic;
     using UnityEngine;
-    
+
     public class SubtickAlarmInfo : AlarmInfoBase
     {
         public Timer Timer;
@@ -15,9 +15,10 @@ namespace LightHouse
         public bool AutoRearm;
         public bool AutoRestart;
         public bool DestroyAfterTriggered;
-        public Action Callback;
-    
-        public SubtickAlarmInfo(float cooldown, bool isArmed, bool isStarted, bool isRemoved, bool willTick, bool autoRearm, bool autoRestart, bool destroyAfterTriggered, Action callback)
+        public Action<float> Callback;
+        public float LastTrigger;
+
+        public SubtickAlarmInfo(float cooldown, bool isArmed, bool isStarted, bool isRemoved, bool willTick, bool autoRearm, bool autoRestart, bool destroyAfterTriggered, Action<float> callback, float lastTrigger)
         {
             Cooldown = cooldown;
             IsArmed = isArmed;
@@ -28,9 +29,10 @@ namespace LightHouse
             AutoRestart = autoRestart;
             DestroyAfterTriggered = destroyAfterTriggered;
             Callback = callback;
+            LastTrigger = lastTrigger;
         }
     }
-    
+
     // Think of the `Timer` component as a time bomb.
     // We add new bombs with the `AddAlarm()` method.
     // Call `Alarm.Start()`, the timer starts counting down.
@@ -44,13 +46,13 @@ namespace LightHouse
         float _time = 0f;
         Heap<SubtickAlarmInfo, float> _tick = Heap.MinHeap<SubtickAlarmInfo, float>();
         Dictionary<SubtickAlarmInfo, float> _noTick = new Dictionary<SubtickAlarmInfo, float>();
-    
+
         protected override void Tick(float deltaTime)
         {
             TickAlarms(deltaTime);
             base.Tick(deltaTime);
         }
-    
+
         void TickAlarms(float deltaTime)
         {
             var remainingDeltaTime = deltaTime;
@@ -66,7 +68,7 @@ namespace LightHouse
                 var alarmTime = _tick.Peek().Value.Priority;
                 // We don't want to see alarms ringing in the past.
                 alarmTime = Math.Max(alarmTime, _time);
-    
+
                 // Try spending a portion of the remaining delta time to reach the alarm's trigger.
                 if ((alarmTime - _time) > remainingDeltaTime * RateMultiplier)
                 {
@@ -79,7 +81,7 @@ namespace LightHouse
                 var spentDeltaTime = (alarmTime - _time) / RateMultiplier;
                 remainingDeltaTime -= spentDeltaTime;
                 _time = alarmTime;
-    
+
                 // It is safe to use `.Value()` here because we know the heap has an item to pop.
                 var alarm = _tick.Pop().Value.Item;
                 if (alarm.IsArmed)
@@ -98,7 +100,12 @@ namespace LightHouse
                         else
                             _noTick.Add(alarm, alarm.Cooldown);
                     }
-                    alarm.Callback?.Invoke();
+                    if (alarm.LastTrigger < 0f)
+                        // Alarm is triggered for the first time.
+                        alarm.Callback?.Invoke(0f);
+                    else
+                        alarm.Callback?.Invoke(_time - alarm.LastTrigger);
+                    alarm.LastTrigger = _time;
                 }
                 else
                 {
@@ -108,8 +115,8 @@ namespace LightHouse
                 }
             }
         }
-    
-    
+
+
         public override bool StartAlarm(AlarmInfoBase alarmBase)
         {
             SubtickAlarmInfo alarm = alarmBase as SubtickAlarmInfo;
@@ -120,7 +127,7 @@ namespace LightHouse
             if (alarm.IsStarted)
                 return true;
             alarm.IsStarted = true;
-    
+
             if (alarm.WillTick)
             {
                 // Stopped alarms can't be ticking.
@@ -138,7 +145,7 @@ namespace LightHouse
                 throw new Exception();
             }
         }
-    
+
         public override bool StopAlarm(AlarmInfoBase alarmBase)
         {
             SubtickAlarmInfo alarm = alarmBase as SubtickAlarmInfo;
@@ -149,7 +156,7 @@ namespace LightHouse
             if (!alarm.IsStarted)
                 return true;
             alarm.IsStarted = false;
-    
+
             if (alarm.WillTick)
             {
                 // Alarm was previously ticking.
@@ -166,7 +173,7 @@ namespace LightHouse
                 return true;
             }
         }
-    
+
         public override bool ResetAlarm(AlarmInfoBase alarmBase, float newCooldown)
         {
             SubtickAlarmInfo alarm = alarmBase as SubtickAlarmInfo;
@@ -190,7 +197,7 @@ namespace LightHouse
                 return true;
             }
         }
-    
+
         public override void RemoveAlarm(AlarmInfoBase alarmBase)
         {
             SubtickAlarmInfo alarm = alarmBase as SubtickAlarmInfo;
@@ -199,13 +206,13 @@ namespace LightHouse
             if (alarm.IsRemoved)
                 return;
             alarm.IsRemoved = true;
-    
+
             if (alarm.WillTick)
                 _tick.Remove(alarm);
             else
                 _noTick.Remove(alarm);
         }
-    
+
         // Returns true if the alarm is now armed, false if the alarm was already removed from the timer.
         public override bool ArmAlarm(AlarmInfoBase alarmBase)
         {
@@ -217,7 +224,7 @@ namespace LightHouse
             if (alarm.IsArmed)
                 return true;
             alarm.IsArmed = true;
-    
+
             if (alarm.WillTick)
             {
                 // Leave the alarm tick to trigger.
@@ -241,7 +248,7 @@ namespace LightHouse
                 return true;
             }
         }
-    
+
         public override bool DisarmAlarm(AlarmInfoBase alarmBase)
         {
             SubtickAlarmInfo alarm = alarmBase as SubtickAlarmInfo;
@@ -252,16 +259,16 @@ namespace LightHouse
             if (!alarm.IsArmed)
                 return true;
             alarm.IsArmed = false;
-    
+
             // Disarming an alarm never changes its tick status.
             return true;
         }
-    
+
         // By default, adds an alarm that is started and armed, will auto rearm, but won't auto restart.
         // Basically an one-time alarm that needs a restart after being triggered.
         public override Alarm AddAlarm(
             float cooldown,
-            Action callback,
+            Action<float> callback,
             bool startImmediately = true,
             bool armImmediately = true,
             bool autoRestart = true,
@@ -279,9 +286,10 @@ namespace LightHouse
                 autoRearm: autoRearm,
                 autoRestart: autoRestart,
                 destroyAfterTriggered: destroyAfterTriggered,
-                callback: callback
+                callback: callback,
+                lastTrigger: -1f
             );
-    
+
             if (startImmediately)
                 _tick.Push(alarm, _time + initialCooldown);
             else

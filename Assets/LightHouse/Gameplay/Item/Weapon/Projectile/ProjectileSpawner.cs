@@ -112,7 +112,7 @@ namespace LightHouse
             FlushCounterChanges();
         }
 
-        void ClearWaitlist()
+        void ClearWaitlist(float _)
         {
             while (_waitingProjectiles.Count > 0)
             {

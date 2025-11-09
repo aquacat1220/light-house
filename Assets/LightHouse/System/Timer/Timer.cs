@@ -3,7 +3,7 @@ namespace LightHouse
     using System;
     using System.Collections.Generic;
     using UnityEngine;
-    
+
     public class AlarmInfo : AlarmInfoBase
     {
         public float Cooldown;
@@ -14,9 +14,10 @@ namespace LightHouse
         public bool AutoRestart;
         public bool DestroyAfterTriggered;
         public bool MarkedForRemoval;
-        public Action Callback;
-    
-        public AlarmInfo(float cooldown, float remainingCooldown, bool isStarted, bool isArmed, bool autoRearm, bool autoRestart, bool destroyAfterTriggered, bool markedForRemoval, Action callback)
+        public Action<float> Callback;
+        public float LastTrigger;
+
+        public AlarmInfo(float cooldown, float remainingCooldown, bool isStarted, bool isArmed, bool autoRearm, bool autoRestart, bool destroyAfterTriggered, bool markedForRemoval, Action<float> callback, float lastTrigger)
         {
             Cooldown = cooldown;
             RemainingCooldown = remainingCooldown;
@@ -27,10 +28,11 @@ namespace LightHouse
             DestroyAfterTriggered = destroyAfterTriggered;
             MarkedForRemoval = markedForRemoval;
             Callback = callback;
+            LastTrigger = lastTrigger;
         }
     }
-    
-    
+
+
     // Think of the `Timer` component as a time bomb.
     // We add new bombs with the `AddAlarm()` method.
     // Call `Alarm.Start()`, the timer starts counting down.
@@ -41,9 +43,10 @@ namespace LightHouse
     // The callback then can decide to override the automatic behavior.
     public class Timer : TimerBase
     {
+        float _time = 0f;
         List<AlarmInfo> _alarms = new List<AlarmInfo>();
-    
-    
+
+
         protected override void Tick(float deltaTime)
         {
             float multDeltaTime = deltaTime * RateMultiplier;
@@ -52,15 +55,16 @@ namespace LightHouse
                 TickAlarm(alarm, multDeltaTime);
             }
             _alarms.RemoveAll((alarm) => alarm.MarkedForRemoval);
+            _time += multDeltaTime;
             base.Tick(deltaTime);
         }
-    
+
         void TickAlarm(AlarmInfo alarm, float deltaTime)
         {
             // If the alarm is started, reduce its remaining cooldown.
             if (alarm.IsStarted)
                 alarm.RemainingCooldown -= deltaTime;
-    
+
             // Alarms with cooldown shorter than the game tickrate may trigger more than once per tick.
             // Thus we put the triggering cycle in a loop.
             while (!alarm.MarkedForRemoval && alarm.RemainingCooldown <= 0f)
@@ -72,9 +76,11 @@ namespace LightHouse
                     break;
                 }
                 float underflow = alarm.RemainingCooldown;
+                // Conceptually we have progressed `deltaTime + underflow` seconds forward.
+                float time = _time + deltaTime + underflow;
                 // Reset the alarm's remaining cooldown to `alarm.Cooldown`, so the callback will always see `alarm.RemainingCooldown == alarm.Cooldown` when triggered.
                 alarm.RemainingCooldown = alarm.Cooldown;
-    
+
                 if (alarm.DestroyAfterTriggered)
                     alarm.MarkedForRemoval = true;
                 else
@@ -82,14 +88,21 @@ namespace LightHouse
                     alarm.IsStarted = alarm.AutoRestart;
                     alarm.IsArmed = alarm.AutoRearm;
                 }
-                alarm.Callback?.Invoke();
-    
+
+                if (alarm.LastTrigger < 0f)
+                    // Alarm is triggered for the first time.
+                    alarm.Callback?.Invoke(0f);
+                else
+                    alarm.Callback?.Invoke(time - alarm.LastTrigger);
+
+
                 if (alarm.IsStarted)
                     // Add the underflow to the remaining cooldown, as the alarm must've kept ticking after triggering.
                     alarm.RemainingCooldown += underflow;
+                alarm.LastTrigger = time;
             }
         }
-    
+
         public override bool StartAlarm(AlarmInfoBase alarmBase)
         {
             AlarmInfo alarm = alarmBase as AlarmInfo;
@@ -102,7 +115,7 @@ namespace LightHouse
             alarm.IsStarted = true;
             return true;
         }
-    
+
         public override bool StopAlarm(AlarmInfoBase alarmBase)
         {
             AlarmInfo alarm = alarmBase as AlarmInfo;
@@ -115,7 +128,7 @@ namespace LightHouse
             alarm.IsStarted = false;
             return true;
         }
-    
+
         public override bool ResetAlarm(AlarmInfoBase alarmBase, float newCooldown)
         {
             AlarmInfo alarm = alarmBase as AlarmInfo;
@@ -128,7 +141,7 @@ namespace LightHouse
             alarm.RemainingCooldown = newCooldown;
             return true;
         }
-    
+
         public override void RemoveAlarm(AlarmInfoBase alarmBase)
         {
             AlarmInfo alarm = alarmBase as AlarmInfo;
@@ -139,7 +152,7 @@ namespace LightHouse
             alarm.MarkedForRemoval = true;
             return;
         }
-    
+
         public override bool ArmAlarm(AlarmInfoBase alarmBase)
         {
             AlarmInfo alarm = alarmBase as AlarmInfo;
@@ -152,7 +165,7 @@ namespace LightHouse
             alarm.IsArmed = true;
             return true;
         }
-    
+
         public override bool DisarmAlarm(AlarmInfoBase alarmBase)
         {
             AlarmInfo alarm = alarmBase as AlarmInfo;
@@ -165,12 +178,12 @@ namespace LightHouse
             alarm.IsArmed = false;
             return true;
         }
-    
+
         // By default, adds an alarm that is started and armed, will auto rearm, but won't auto restart.
         // Basically an one-time alarm that needs a restart after being triggered.
         public override Alarm AddAlarm(
             float cooldown,
-            Action callback,
+            Action<float> callback,
             bool startImmediately = true,
             bool armImmediately = true,
             bool autoRestart = true,
@@ -184,8 +197,8 @@ namespace LightHouse
                 Debug.Log("Attempted to create an alarm with non-positive cooldown.");
                 throw new Exception();
             }
-    
-    
+
+
             AlarmInfo alarm = new AlarmInfo(
                 cooldown: cooldown,
                 remainingCooldown: initialCooldown,
@@ -195,11 +208,12 @@ namespace LightHouse
                 autoRestart: autoRestart,
                 destroyAfterTriggered: destroyAfterTriggered,
                 markedForRemoval: false,
-                callback: callback
+                callback: callback,
+                lastTrigger: -1f
             );
-    
+
             _alarms.Add(alarm);
-    
+
             return new Alarm(this, alarm);
         }
     }

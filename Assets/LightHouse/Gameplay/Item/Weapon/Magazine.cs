@@ -215,7 +215,7 @@ namespace LightHouse
                 LeftAmmoChange?.Invoke((oldLeftAmmo1, LeftAmmo));
         }
 
-        void EndReloadServer()
+        void EndReloadServer(float _)
         {
             if (_nextReloadPoint == null)
             {
@@ -231,7 +231,7 @@ namespace LightHouse
             EndReloadObserver(_reloadPoint);
         }
 
-        void EndReloadClient()
+        void EndReloadClient(float _)
         {
             _isReloading = false;
             if (_nextReloadPoint is uint nextReloadPoint)

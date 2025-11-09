@@ -197,6 +197,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 948197007501555658, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       insertIndex: 5
       addedObject: {fileID: 6723617953800473079}
+    - targetCorrespondingSourceObject: {fileID: 948197007501555658, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3240689725535272604}
     - targetCorrespondingSourceObject: {fileID: 6550054319881265475, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8560658005397083321}
@@ -243,6 +246,52 @@ MonoBehaviour:
   _pulseChange:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3240689725535272604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368804676392382752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 668fcdd83740fb81d8d614bed27cc3c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeterministicSpread
+  _spawnPoint: {fileID: 0}
+  _accuracy:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2.144923
+      outSlope: 2.144923
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.33924425
+      value: 0.7276528
+      inSlope: 1.2785492
+      outSlope: 1.2785492
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.41217533
+      outSlope: 0.41217533
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &636056201720858014 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}

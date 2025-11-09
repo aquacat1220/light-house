@@ -3,13 +3,13 @@ namespace LightHouse
     using UnityEngine;
     using UnityEngine.Assertions;
     using UnityEngine.InputSystem;
-    
+
     public class TimerCallbackTest : MonoBehaviour
     {
         Alarm _alarm;
         bool isStarted = true;
         bool isArmed = true;
-    
+
         void Awake()
         {
             _alarm = TimerManager.Singleton.AddAlarm(
@@ -18,7 +18,7 @@ namespace LightHouse
                 initialCooldown: 1f
             );
         }
-    
+
         void Update()
         {
             if (Keyboard.current.qKey.wasPressedThisFrame)
@@ -57,8 +57,8 @@ namespace LightHouse
                 Debug.Log($"{Time.time}: isArmed: {isArmed}.");
             }
         }
-    
-        void Callback()
+
+        void Callback(float _)
         {
             if (!isStarted)
             {
