@@ -412,13 +412,13 @@ namespace LightHouse
             if (_oldCounter != _counter)
             {
                 _counterChange?.Invoke(_counter);
-                Debug.Log($"Counter changed: {_oldCounter} -> {_counter}.");
+                // Debug.Log($"Counter changed: {_oldCounter} -> {_counter}.");
                 _oldCounter = _counter;
             }
             if (_oldPredictedCounter != _counter + _predictedDelta)
             {
                 _predictedCounterChange?.Invoke(_counter + _predictedDelta);
-                Debug.Log($"Predicted counter changed: {_oldPredictedCounter} -> {_counter + _predictedDelta}.");
+                // Debug.Log($"Predicted counter changed: {_oldPredictedCounter} -> {_counter + _predictedDelta}.");
                 _oldPredictedCounter = _counter + _predictedDelta;
             }
         }
