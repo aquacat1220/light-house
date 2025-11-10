@@ -1,0 +1,28 @@
+{
+  "name": "com.mackysoft.serializereference-extensions",
+  "displayName": "SerializeReference Extensions",
+  "author": {
+    "name": "MackySoft",
+    "url": "https://github.com/mackysoft"
+  },
+  "version": "1.6.1",
+  "unity": "2021.3",
+  "description": "Provide popup to specify the type of the field serialized by the [SerializeReference] attribute in the inspector.",
+  "keywords": [
+    "SerializeReference",
+    "Editor"
+  ],
+  "license": "MIT",
+  "dependencies": {},
+  "documentationUrl": "https://github.com/mackysoft/Unity-SerializeReferenceExtensions",
+  "changelogUrl": "https://github.com/mackysoft/Unity-SerializeReferenceExtensions/releases",
+  "licensesUrl": "https://github.com/mackysoft/Unity-SerializeReferenceExtensions/blob/main/LICENSE",
+  "samples": [
+    {
+      "displayName": "Get Started",
+      "description": "",
+      "path": "Samples~/GetStarted"
+    }
+  ],
+  "_fingerprint": "d39bdc381954eb53b39b0cb7a0e4d91fe8bad3df"
+}
