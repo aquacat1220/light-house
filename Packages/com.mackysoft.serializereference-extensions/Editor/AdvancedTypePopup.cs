@@ -241,29 +241,29 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 					// Type parameter popup items receive constraints from their parent item.
 					AdvancedGenericTypePopupItem parent = typeParameterItem.Parent;
 					if (parent.Unsatisfiable)
-                    {
-                        // This type was deemed unsatisfiable.
+					{
+						// This type was deemed unsatisfiable.
 						Refresh();
 						return;
-                    }
+					}
 					if (parent.PropagatedConstraints)
 						throw new Exception();
 					var parameterConstraints = TypeSearch.PropagateConstraints(parent.Type, parent.Constraints);
 					parent.PropagatedConstraints = true;
 					if (parameterConstraints == null)
-                    {
-                        // The constraint was unsatisfiable.
+					{
+						// The constraint was unsatisfiable.
 						parent.Unsatisfiable = true;
 						// parent.name += " (Unsatisfiable)";
 						// Name changing doesn't work.
 						foreach (AdvancedTypeParameterPopupItem parameterItem in parent.children)
-                        {
-                            // parameterItem.name += " (Unsatisfiable)";
+						{
+							// parameterItem.name += " (Unsatisfiable)";
 							// Name changing doesn't work.
-                        }
+						}
 						Refresh();
 						return;
-                    }
+					}
 					foreach (AdvancedTypeParameterPopupItem parameterItem in parent.children)
 					{
 						parameterItem.Constraints = parameterConstraints[parameterItem.TypeParameter];
@@ -272,7 +272,7 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 
 				IEnumerable<Type> types = AppDomain.CurrentDomain.GetAssemblies()
 					.SelectMany(x => x.GetTypes())
-					.Where((type) => (type.IsPublic || type.IsNestedPublic || type.IsNestedPrivate));
+					.Where((type) => (type.IsPublic || type.IsNestedPublic));
 				m_InnerPopup = new AdvancedTypePopup(
 					TypeSearch.GetCandidates(typeParameterItem.Constraints.ToArray(), types),
 					typeParameterItem.Constraints.ToArray(),
