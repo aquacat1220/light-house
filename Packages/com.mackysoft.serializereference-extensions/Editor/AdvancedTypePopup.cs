@@ -21,6 +21,7 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 	public class AdvancedGenericTypePopupItem : AdvancedTypePopupItem
 	{
 		public bool PropagatedConstraints = false;
+		public bool Unsatisfiable = false;
 		public TypeSearch.IConstraint[] Constraints { get; private set; }
 
 		public AdvancedGenericTypePopupItem(Type type, TypeSearch.IConstraint[] constraints, string name) : base(type, name)
@@ -231,6 +232,7 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 			if (item is AdvancedTypePopupItem typePopupItem)
 			{
 				OnTypeSelected?.Invoke(typePopupItem.Type);
+				return;
 			}
 			else if (item is AdvancedTypeParameterPopupItem typeParameterItem)
 			{
@@ -238,11 +240,30 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 				{
 					// Type parameter popup items receive constraints from their parent item.
 					AdvancedGenericTypePopupItem parent = typeParameterItem.Parent;
+					if (parent.Unsatisfiable)
+                    {
+                        // This type was deemed unsatisfiable.
+						Refresh();
+						return;
+                    }
 					if (parent.PropagatedConstraints)
 						throw new Exception();
 					var parameterConstraints = TypeSearch.PropagateConstraints(parent.Type, parent.Constraints);
-					Debug.Log(parameterConstraints);
 					parent.PropagatedConstraints = true;
+					if (parameterConstraints == null)
+                    {
+                        // The constraint was unsatisfiable.
+						parent.Unsatisfiable = true;
+						// parent.name += " (Unsatisfiable)";
+						// Name changing doesn't work.
+						foreach (AdvancedTypeParameterPopupItem parameterItem in parent.children)
+                        {
+                            // parameterItem.name += " (Unsatisfiable)";
+							// Name changing doesn't work.
+                        }
+						Refresh();
+						return;
+                    }
 					foreach (AdvancedTypeParameterPopupItem parameterItem in parent.children)
 					{
 						parameterItem.Constraints = parameterConstraints[parameterItem.TypeParameter];
@@ -276,6 +297,7 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 				};
 				m_InnerPopup.OnTypeSelected += onInnerPopupSelected;
 				Refresh();
+				return;
 			}
 		}
 
