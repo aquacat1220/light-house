@@ -91,9 +91,8 @@ namespace LightHouse
             _coolAlarm?.Arm();
         }
 
-        public void ApplySpread()
+        public void ApplySpread(bool addHeat = true, bool reuseAimError = false)
         {
-            bool addHeat = true; bool reuseAimError = false;
             (var aimGaussian, var weaponGaussian) = new SplitMix64((ulong)_predictedCounter).NextGaussian();
 
             float aimError = _lastAimError;
