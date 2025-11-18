@@ -1511,6 +1511,7 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 			return
 				(type.IsPublic || type.IsNestedPublic || type.IsNestedPrivate) &&
 				!type.IsAbstract &&
+				!type.IsValueType &&
 				!typeof(UnityEngine.Object).IsAssignableFrom(type) &&
 				Attribute.IsDefined(type, typeof(SerializableAttribute)) &&
 				!Attribute.IsDefined(type, typeof(HideInTypeMenuAttribute));
