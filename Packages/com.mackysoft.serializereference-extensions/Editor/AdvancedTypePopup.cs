@@ -192,7 +192,6 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 
 		public AdvancedTypePopup(IEnumerable<Type> types, TypeSearch.IConstraint[] constraints, int maxLineCount, AdvancedDropdownState state) : base(state)
 		{
-			Debug.Log("Instantiating");
 			m_Types = types.ToArray();
 			m_Constraints = constraints;
 			minimumSize = new Vector2(minimumSize.x, EditorGUIUtility.singleLineHeight * maxLineCount + k_HeaderHeight);

@@ -62,7 +62,14 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 				{
 					SerializedObject targetObject = new SerializedObject(target);
 					SerializedProperty targetProperty = targetObject.FindProperty(property.propertyPath);
-					if (UnityEngine.Serialization.ManagedReferenceUtility.GetManagedReference(target, newId) != null)
+					if (newId == -2)
+					{
+						// `-2` is a special value for null.
+						targetProperty.managedReferenceValue = null;
+						targetObject.ApplyModifiedProperties();
+						targetObject.Update();
+					}
+					else if (UnityEngine.Serialization.ManagedReferenceUtility.GetManagedReference(target, newId) != null)
 					{
 						// `newId` is a valid managed reference id that points to a object.
 						// Thus it is safe to set `managedReferenceId` to `newId`.
