@@ -46,17 +46,39 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 				string originalText = label.text;
 				Rect selectorRect = new Rect(position);
 				selectorRect.height = EditorGUIUtility.singleLineHeight;
-				Rect typepopupRect = EditorGUI.PrefixLabel(selectorRect, new GUIContent($"{originalText} Type"));
+				Rect propertyRect = new Rect(position);
+				propertyRect.y += EditorGUIUtility.singleLineHeight;
+				Rect refIdAndTypeRect = EditorGUI.PrefixLabel(selectorRect, new GUIContent($"{originalText} Ref Id / Type"));
+				float halfWidth = refIdAndTypeRect.width / 2;
+				Rect refIdRect = new Rect(refIdAndTypeRect);
+				refIdRect.width = halfWidth;
+				Rect typeRect = new Rect(refIdAndTypeRect);
+				typeRect.width = halfWidth;
+				typeRect.x += halfWidth;
 
-				if (EditorGUI.DropdownButton(typepopupRect, new GUIContent(GetTypeName(property)), FocusType.Keyboard))
+				long newId = EditorGUI.LongField(refIdRect, property.managedReferenceId);
+				// `property` can potentially be pointing to multiple properties from multiple objects.
+				foreach (var target in property.serializedObject.targetObjects)
+				{
+					SerializedObject targetObject = new SerializedObject(target);
+					SerializedProperty targetProperty = targetObject.FindProperty(property.propertyPath);
+					if (UnityEngine.Serialization.ManagedReferenceUtility.GetManagedReference(target, newId) != null)
+					{
+						// `newId` is a valid managed reference id that points to a object.
+						// Thus it is safe to set `managedReferenceId` to `newId`.
+						targetProperty.managedReferenceId = newId;
+						targetObject.ApplyModifiedProperties();
+						targetObject.Update();
+					}
+				}
+
+				if (EditorGUI.DropdownButton(typeRect, new GUIContent(GetTypeName(property)), FocusType.Keyboard))
 				{
 					TypePopupCache popup = GetTypePopup(property);
 					m_TargetProperty = property;
-					popup.TypePopup.Show(typepopupRect);
+					popup.TypePopup.Show(typeRect);
 				}
 
-				Rect propertyRect = new Rect(position);
-				propertyRect.y += EditorGUIUtility.singleLineHeight;
 #if UNITY_2021_3_OR_NEWER
 				// Override the label text with the ToString() of the managed reference.
 				var subclassSelectorAttribute = (SubclassSelectorAttribute)attribute;
@@ -71,7 +93,6 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 #endif
 				EditorGUI.PropertyField(propertyRect, property, new GUIContent($"{originalText} ({GetTypeName(property)})"), true);
 			}
-
 			EditorGUI.EndProperty();
 		}
 
