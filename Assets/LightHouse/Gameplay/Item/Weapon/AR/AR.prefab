@@ -81,7 +81,7 @@ PrefabInstance:
       objectReference: {fileID: 3540927804677649194}
     - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: _componentIndexCache
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: _predictedCounterChange.m_PersistentCalls.m_Calls.Array.size
@@ -107,6 +107,10 @@ PrefabInstance:
       propertyPath: _predictedCounterChange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 6717595353307084747}
+    - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: _predictedCounterChange.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: -237993303408114848}
     - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: _predictedCounterChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -141,7 +145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: _predictedCounterChange.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: RandomSpread, Assembly-CSharp
+      value: LightHouse.RandomSpread, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 64550675818251124, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: _predictedCounterChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -210,11 +214,11 @@ PrefabInstance:
     - target: {fileID: 3458800118198264783, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[3]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 636056201720858014}
     - target: {fileID: 3458800118198264783, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[4]'
       value: 
-      objectReference: {fileID: 636056201720858014}
+      objectReference: {fileID: -237993303408114848}
     - target: {fileID: 5501519788436619483, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: _primary.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -240,12 +244,148 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: 'managedReferences[-2]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: _fire._listeners.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: '_fire._listeners.Array.data[0]'
+      value: 2166532176639950938
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: '_fire._listeners.Array.data[1]'
+      value: 2166532176639950937
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: 'managedReferences[2166532176639950928]'
+      value: 'Assembly-CSharp LightHouse.Fn.Then`3[[LightHouse.Fn.Tuple, Assembly-CSharp],[LightHouse.Fn.Tuple`2[[System.Boolean,
+        mscorlib],[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple,
+        Assembly-CSharp]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: 'managedReferences[2166532176639950929]'
+      value: 'Assembly-CSharp LightHouse.Fn.ConstantRef`1[[LightHouse.Fn.Tuple`2[[System.Boolean,
+        mscorlib],[System.Boolean, mscorlib]], Assembly-CSharp]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: 'managedReferences[2166532176639950930]'
+      value: 'Assembly-CSharp LightHouse.Fn.Tuple`2[[System.Boolean, mscorlib],[System.Boolean,
+        mscorlib]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: 'managedReferences[2166532176639950931]'
+      value: 'Assembly-CSharp LightHouse.Fn.Unpack`2[[LightHouse.Fn.ITuple`2[[System.Boolean,
+        mscorlib],[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple,
+        Assembly-CSharp]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: 'managedReferences[2166532176639950932]'
+      value: 'Assembly-CSharp LightHouse.Fn.Then`3[[LightHouse.Fn.Tuple, Assembly-CSharp],[LightHouse.Fn.ITuple`2[[System.Boolean,
+        mscorlib],[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple,
+        Assembly-CSharp]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: 'managedReferences[2166532176639950933]'
+      value: 'Assembly-CSharp LightHouse.Fn.ConstantRef`1[[LightHouse.Fn.Tuple`2[[System.Boolean,
+        mscorlib],[System.Boolean, mscorlib]], Assembly-CSharp]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: 'managedReferences[2166532176639950934]'
+      value: 'Assembly-CSharp LightHouse.Fn.Tuple`2[[System.Boolean, mscorlib],[System.Boolean,
+        mscorlib]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: 'managedReferences[2166532176639950935]'
+      value: 'Assembly-CSharp LightHouse.Fn.Unpack`2[[LightHouse.Fn.ITuple`2[[System.Boolean,
+        mscorlib],[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple,
+        Assembly-CSharp]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: 'managedReferences[2166532176639950936]'
+      value: Assembly-CSharp LightHouse.RandomSpread/ApplySpreadFn
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: 'managedReferences[2166532176639950937]'
+      value: Assembly-CSharp LightHouse.ProjectileSpawner/SpawnProjectileFn
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: 'managedReferences[2166532176639950938]'
+      value: Assembly-CSharp LightHouse.RandomSpread/ApplySpreadFn
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: _fire.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[2166532176639950928].First
+      value: 2166532176639950929
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[2166532176639950929].Value
+      value: 2166532176639950930
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[2166532176639950931].Inner
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[2166532176639950932].First
+      value: 2166532176639950933
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[2166532176639950933].Value
+      value: 2166532176639950934
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[2166532176639950935].Inner
+      value: 2166532176639950936
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[2166532176639950928].Second
+      value: 2166532176639950931
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[2166532176639950930]._item1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[2166532176639950930]._item2
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[2166532176639950932].Second
+      value: 2166532176639950935
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[2166532176639950934]._item1
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[2166532176639950934]._item2
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[2166532176639950938].AddHeat
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[2166532176639950936].RandomSpread
+      value: 
+      objectReference: {fileID: -237993303408114848}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[2166532176639950938].RandomSpread
+      value: 
+      objectReference: {fileID: -237993303408114848}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: _fire.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[2166532176639950938].ReuseAimError
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: _fire.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -253,6 +393,10 @@ PrefabInstance:
       objectReference: {fileID: 636056201720858014}
     - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: _fire.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 636056201720858014}
+    - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[2166532176639950937].ProjectileSpawner
       value: 
       objectReference: {fileID: 636056201720858014}
     - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
@@ -396,14 +540,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 668fcdd83740fb81d8d614bed27cc3c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeterministicSpread
-  _componentIndexCache: 3
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 4050651003901469989}
   _networkObjectCache: {fileID: 4050651003901469989}
   _spawnPoint: {fileID: 3540927804677649194}
   _weaponVariance: 15
   _weaponVarianceModifierCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

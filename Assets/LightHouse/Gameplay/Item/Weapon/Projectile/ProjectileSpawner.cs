@@ -6,6 +6,7 @@ namespace LightHouse
     using FishNet.Managing.Timing;
     using FishNet.Object;
     using FishNet.Observing;
+    using LightHouse.Fn;
     using UnityEngine;
     using UnityEngine.Events;
 
@@ -174,6 +175,17 @@ namespace LightHouse
             if (_waitingProjectiles.Count == 0 && _waitingTickets.Count == 0)
             {
                 _clearWaitlistAlarm.Stop();
+            }
+        }
+
+        [Serializable]
+        public class SpawnProjectileFn : IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public ProjectileSpawner ProjectileSpawner;
+            public Fn.Tuple Invoke(Fn.Tuple param)
+            {
+                ProjectileSpawner?.SpawnProjectile();
+                return Fn.Tuple.Unit;
             }
         }
 

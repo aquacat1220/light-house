@@ -37,8 +37,10 @@ namespace LightHouse
         // [SerializeField]
         // static float _maxWaitTime = 0.025f;
 
+        // [SerializeField]
+        // UnityEvent _fire;
         [SerializeField]
-        UnityEvent _fire;
+        Fn.Event<Fn.Tuple> _fire;
         [SerializeField]
         uint _capacity = 10;
         [SerializeField]
@@ -107,7 +109,7 @@ namespace LightHouse
             if (_isReloading)
                 return;
             var oldLeftAmmo = LeftAmmo;
-            _fire?.Invoke();
+            _fire?.Invoke(Fn.Tuple.Unit);
             if (oldLeftAmmo != LeftAmmo)
                 LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
         }

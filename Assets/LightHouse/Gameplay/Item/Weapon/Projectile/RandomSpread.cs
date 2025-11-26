@@ -2,6 +2,7 @@ namespace LightHouse
 {
     using System;
     using FishNet.Object;
+    using LightHouse.Fn;
     using NaughtyAttributes;
     using UnityEngine;
 
@@ -89,6 +90,26 @@ namespace LightHouse
         {
             // Arm alarm every frame, so the alarm will trigger on every frame as long as it is started.
             _coolAlarm?.Arm();
+        }
+
+        [Serializable]
+        public class ApplySpreadFn : IFn<ITuple<bool, bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public RandomSpread RandomSpread;
+            public bool AddHeat = true;
+            public bool ReuseAimError = false;
+
+            public Fn.Tuple Invoke(ITuple<bool, bool> param)
+            {
+                RandomSpread?.ApplySpread(param.Item1, param.Item2);
+                return Fn.Tuple.Unit;
+            }
+
+            public Fn.Tuple Invoke(Fn.Tuple param)
+            {
+                RandomSpread?.ApplySpread(AddHeat, ReuseAimError);
+                return Fn.Tuple.Unit;
+            }
         }
 
         public void ApplySpread(bool addHeat = true, bool reuseAimError = false)

@@ -3,7 +3,12 @@ namespace LightHouse.Fn
     using System;
 
     public interface ITupleBase { }
-    public interface ITuple : ITupleBase { }
+    [Serializable]
+    public class Tuple : ITupleBase
+    {
+        static Tuple _unit = new Tuple();
+        public static Tuple Unit { get => _unit; }
+    }
     public interface ITuple<out T1> : ITupleBase
     {
         public T1 Item1 { get; }
@@ -65,11 +70,6 @@ namespace LightHouse.Fn
         public T8 Item8 { get; }
     }
 
-
-    [Serializable]
-    public class Tuple : ITuple
-    {
-    }
     [Serializable]
     public class Tuple<T1> : ITuple<T1>
     {
