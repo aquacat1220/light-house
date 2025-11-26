@@ -275,8 +275,35 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 				IEnumerable<Type> types = AppDomain.CurrentDomain.GetAssemblies()
 					.SelectMany(x => x.GetTypes())
 					.Where((type) => (type.IsPublic || type.IsNestedPublic));
+				var candidates = TypeSearch.GetCandidates(typeParameterItem.Constraints.ToArray(), types);
+				if (candidates.Count() == 0)
+				{
+					AdvancedGenericTypePopupItem parent = typeParameterItem.Parent;
+					parent.Unsatisfiable = true;
+					parent.enabled = false;
+					foreach (AdvancedTypeParameterPopupItem parameterItem in parent.children)
+					{
+						parameterItem.enabled = false;
+					}
+					Refresh();
+					return;
+				}
+				else if (candidates.Count() == 1 && !candidates.First().ContainsGenericParameters)
+				{
+					// We have a single candidate, which is luckily nongeneric.
+					typeParameterItem.SelectedType = candidates.First();
+					Type constructedType = TryConstructGeneric(typeParameterItem.Parent);
+					if (constructedType != null)
+					{
+						OnTypeSelected?.Invoke(constructedType);
+						Refresh();
+					}
+					else
+						Refresh();
+					return;
+				}
 				m_InnerPopup = new AdvancedTypePopup(
-					TypeSearch.GetCandidates(typeParameterItem.Constraints.ToArray(), types),
+					candidates,
 					typeParameterItem.Constraints.ToArray(),
 					k_MaxChildTypePopupLineCount,
 					new AdvancedDropdownState()
