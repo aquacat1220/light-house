@@ -218,11 +218,16 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 		protected override AdvancedDropdownItem BuildRoot()
 		{
 			if (m_CachedRoot != null)
+			{
 				return m_CachedRoot;
-			var root = new AdvancedDropdownItem("Select Type");
-			AddTo(root, m_Types, m_Constraints);
-			m_CachedRoot = root;
-			return m_CachedRoot;
+			}
+			else
+			{
+				var root = new AdvancedDropdownItem("Select Type");
+				AddTo(root, m_Types, m_Constraints);
+				m_CachedRoot = root;
+				return m_CachedRoot;
+			}
 		}
 
 		protected override void ItemSelected(AdvancedDropdownItem item)
@@ -253,12 +258,10 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 					{
 						// The constraint was unsatisfiable.
 						parent.Unsatisfiable = true;
-						// parent.name += " (Unsatisfiable)";
-						// Name changing doesn't work.
+						parent.enabled = false;
 						foreach (AdvancedTypeParameterPopupItem parameterItem in parent.children)
 						{
-							// parameterItem.name += " (Unsatisfiable)";
-							// Name changing doesn't work.
+							parameterItem.enabled = false;
 						}
 						Refresh();
 						return;
