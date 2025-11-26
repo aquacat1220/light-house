@@ -307,7 +307,6 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 
 			foreach (AdvancedTypeParameterPopupItem child in item.children)
 			{
-				Debug.Log(child.SelectedType);
 				if (child.SelectedType != null)
 					typeArguments.Add(child.SelectedType);
 				else

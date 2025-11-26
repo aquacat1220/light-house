@@ -17,6 +17,7 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 			public bool NotInterface = false;
 			public bool NotValueType = false;
 			public bool NotArray = false;
+			public bool NeedsDefault = false;
 			// Pointer types are not allowed in constraints too.
 			// public bool NotPointer = false;
 			public Type FixedType = null;
@@ -550,7 +551,6 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 				else
 					throw new Exception();
 			}
-
 			// Prepare the parameter constraint dictionary.
 			Dictionary<Type, List<IConstraint>> parameterConstraints = new();
 			Type[] typeParameters;
@@ -618,12 +618,12 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 				}
 				else if (constraint is ReferenceType)
 				{
-					if (!type.IsValueType)
+					if (type.IsValueType)
 						return null;
 				}
 				else if (constraint is NotNullableValueType)
 				{
-					if (type.IsValueType)
+					if (!type.IsValueType)
 						return null;
 				}
 				else if (constraint is DefaultConstructor)
@@ -774,6 +774,10 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 							var typeArgument = typeArguments[i];
 							var parentArgument = parentArguments[i];
 							var variance = variances[i];
+							// C# doesn't want generic types to silently box (and allocate) value types in references.
+							// This can happen when we attempt to assign value-type to a covariant reference-type type parameter.
+							// Or when assigning a reference-type to a contravariant value-type type parameter.
+							// Both are prohibited by type system, so we don't want to consider them as valid options.
 							if (variance == GenericParameterAttributes.None)
 							{
 								if (!TryApplyEquivalent(typeArgument, parentArgument, ref clonedParameterConstraints))
@@ -784,18 +788,60 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 							}
 							else if (variance == GenericParameterAttributes.Covariant)
 							{
-								if (!TryApplyUpperBound(typeArgument, parentArgument, ref clonedParameterConstraints))
+								// If `parentArgument` is reference-type, `typeArgument` must not be a value type.
+								if (parentArgument.IsValueType)
 								{
-									success = false;
-									break;
+									// If `parentArgument` is value type, upperbound constraint can be reduced to the equivalent constraint.
+									if (!TryApplyEquivalent(typeArgument, parentArgument, ref clonedParameterConstraints))
+									{
+										success = false;
+										break;
+									}
+								}
+								else
+								{
+									if (typeArgument.IsGenericParameter)
+									{
+										// If `typeArgument` is a generic parameter, this is as easy as adding the `ReferenceType` constraint.
+										if (!TryAddConstraint(typeArgument, new ReferenceType(), clonedParameterConstraints))
+										{
+											success = false;
+											break;
+										}
+									}
+									else if (!typeArgument.IsValueType)
+									{
+										// If `typeArgument` is not a type parameter, we can just check if it is a value type or not.
+										success = false;
+										break;
+									}
+									// If we made this far, `typeArgument` is constrained to a reference type.
+									if (!TryApplyUpperBound(typeArgument, parentArgument, ref clonedParameterConstraints))
+									{
+										success = false;
+										break;
+									}
 								}
 							}
 							else if (variance == GenericParameterAttributes.Contravariant)
 							{
-								if (!TryApplyLowerBound(typeArgument, parentArgument, ref clonedParameterConstraints))
+								// If `parentArgument` is value-type, `typeArgument` must not be a reference type.
+								if (parentArgument.IsValueType)
 								{
-									success = false;
-									break;
+									// If `parentArgument` and `typeArgument` are both value types, lowerbound constraint can be reduced to equivalent constraint.
+									if (!TryApplyEquivalent(typeArgument, parentArgument, ref clonedParameterConstraints))
+									{
+										success = false;
+										break;
+									}
+								}
+								else
+								{
+									if (!TryApplyLowerBound(typeArgument, parentArgument, ref clonedParameterConstraints))
+									{
+										success = false;
+										break;
+									}
 								}
 							}
 							else
@@ -833,16 +879,7 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 								if (!TryApplyEquivalent(typeArgument, parentArgument, ref parameterConstraints))
 									return false;
 							}
-							else if (variance == GenericParameterAttributes.Covariant)
-							{
-								if (!TryApplyUpperBound(typeArgument, parentArgument, ref parameterConstraints))
-									return false;
-							}
-							else if (variance == GenericParameterAttributes.Contravariant)
-							{
-								if (!TryApplyLowerBound(typeArgument, parentArgument, ref parameterConstraints))
-									return false;
-							}
+							// Only generic interfaces allow variance.
 							else
 								throw new Exception();
 						}
@@ -875,16 +912,7 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 						if (!TryApplyEquivalent(typeArgument, parentArgument, ref parameterConstraints))
 							return false;
 					}
-					else if (variance == GenericParameterAttributes.Covariant)
-					{
-						if (!TryApplyUpperBound(typeArgument, parentArgument, ref parameterConstraints))
-							return false;
-					}
-					else if (variance == GenericParameterAttributes.Contravariant)
-					{
-						if (!TryApplyLowerBound(typeArgument, parentArgument, ref parameterConstraints))
-							return false;
-					}
+					// Only generic interfaces allow variance.
 					else
 						throw new Exception();
 				}
@@ -1169,6 +1197,9 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 				else
 					throw new Exception();
 
+				if (info.NeedsDefault && info.FixedType.GetConstructor(Type.EmptyTypes) != null)
+					return false;
+
 				// The quick check passed; time for iteration.
 				foreach (IConstraint otherConstraint in parameterConstraints[typeParameter])
 				{
@@ -1203,8 +1234,8 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 					}
 					else if (otherConstraint is DefaultConstructor)
 					{
-						if (info.FixedType.GetConstructor(Type.EmptyTypes) != null)
-							return false;
+						// We already checked these constraints with the flags.
+						continue;
 					}
 					else
 						throw new Exception();
@@ -1226,13 +1257,17 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 				// We use `info` to rule out invalid constraints early on, before we iterate over all constraints.
 				if (parentType.IsClass)
 				{
-					// Only classes and arrays (if this class is an `Array<T>` or an `object`) can live under classes.
-					// We don't check if this class is an `Array<T>` or an `object` here,
+					// Classes can live under classes, only if the class is its ancestor.
+					// Arrays can live under classes, only if the class is an `Array` or an `object`.
+					// Value types can live under classes, only if the class is a `ValueType` or an `object`.
 					// because that's going to be beneficial only if the type is already constrained to be an array, which should be impossible without an equivalent constraint.
-					if (info.NotClass && info.NotArray)
+					if (info.NotClass && info.NotArray && info.NotValueType)
 						return false;
 					info.NotInterface = true;
-					info.NotValueType = true;
+					if (!(parentType == typeof(Array) || parentType == typeof(object)))
+						info.NotArray = true;
+					if (!(parentType == typeof(ValueType) || parentType == typeof(object)))
+						info.NotValueType = true;
 				}
 				else if (parentType.IsInterface)
 				{
@@ -1325,16 +1360,19 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 					else if (existingConstraint is ReferenceType)
 					{
 						// We already checked these constraints with the flags.
+						newConstraints.Add(existingConstraint);
 						continue;
 					}
 					else if (existingConstraint is NotNullableValueType)
 					{
 						// We already checked these constraints with the flags.
+						newConstraints.Add(existingConstraint);
 						continue;
 					}
 					else if (existingConstraint is DefaultConstructor)
 					{
 						// We can check this constraint once we fix the type.
+						newConstraints.Add(existingConstraint);
 						continue;
 					}
 					else
@@ -1374,13 +1412,12 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 				}
 				else if (childType.IsValueType)
 				{
-					// Value types can only inherit interfaces and structs (equivalent).
-					if (info.NotInterface && info.NotValueType)
+					// Value types can inherit interfaces and classes `object` and `ValueType`, and can be equivalent to structs.
+					if (info.NotInterface && info.NotValueType && info.NotClass)
 						return false;
-					info.NotClass = true;
 					info.NotArray = true;
-					// So if the type is not an interface, we can take this as an equivalent constraint.
-					if (info.NotInterface)
+					// So if the type is not an interface nor a class, we can take this as an equivalent constraint.
+					if (info.NotClass && info.NotInterface)
 						return TryAddConstraint(typeParameter, new Equivalent(childType), parameterConstraints);
 				}
 				else if (childType.IsArray)
@@ -1442,16 +1479,19 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 					else if (existingConstraint is ReferenceType)
 					{
 						// We already checked these constraints with the flags.
+						newConstraints.Add(existingConstraint);
 						continue;
 					}
 					else if (existingConstraint is NotNullableValueType)
 					{
 						// We already checked these constraints with the flags.
+						newConstraints.Add(existingConstraint);
 						continue;
 					}
 					else if (existingConstraint is DefaultConstructor)
 					{
 						// We can check this constraint once we fix the type.
+						newConstraints.Add(existingConstraint);
 						continue;
 					}
 					else
@@ -1463,6 +1503,8 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 			}
 			else if (constraint is ReferenceType)
 			{
+				if (info.NotValueType)
+					return true;
 				if (info.NotClass && info.NotInterface && info.NotArray)
 					return false;
 				info.NotValueType = true;
@@ -1471,6 +1513,8 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 			}
 			else if (constraint is NotNullableValueType)
 			{
+				if (info.NotClass && info.NotInterface && info.NotArray)
+					return true;
 				if (info.NotValueType)
 					return false;
 				info.NotClass = true;
@@ -1482,6 +1526,9 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 			else if (constraint is DefaultConstructor)
 			{
 				// Can't check this until we have an equivalent constraint.
+				if (info.NeedsDefault)
+					return true;
+				info.NeedsDefault = true;
 				parameterConstraints[typeParameter].Add(constraint);
 				return true;
 			}
