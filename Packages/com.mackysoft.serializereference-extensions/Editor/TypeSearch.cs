@@ -596,6 +596,7 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 
 			foreach (IConstraint constraint in constraints)
 			{
+				UnityEngine.Debug.Log("sdfsdf");
 				if (constraint is ConstraintInfo)
 				{
 					// Ignore constraint info.
@@ -608,8 +609,10 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 				}
 				else if (constraint is UpperBound { Parent: var parentType })
 				{
+					UnityEngine.Debug.Log("ddddd");
 					if (!TryApplyUpperBound(type, parentType, ref parameterConstraints))
 						return null;
+					UnityEngine.Debug.Log("gggggggg");
 				}
 				else if (constraint is LowerBound { Child: var childType })
 				{
@@ -788,10 +791,10 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 							}
 							else if (variance == GenericParameterAttributes.Covariant)
 							{
-								// If `parentArgument` is reference-type, `typeArgument` must not be a value type.
+								// If any of `parentArgument` or `typeArgument` is a value type, this should be considered a non-variant case.
 								if (parentArgument.IsValueType)
 								{
-									// If `parentArgument` is value type, upperbound constraint can be reduced to the equivalent constraint.
+									// `parentArgument` is a value type. Let the recursive `TryApplyEquivalent()` call do the job.
 									if (!TryApplyEquivalent(typeArgument, parentArgument, ref clonedParameterConstraints))
 									{
 										success = false;
@@ -800,6 +803,7 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 								}
 								else
 								{
+									// `parentArgument` is not a value type. Since reference types can't be equivalent to value types, `typeArgument` must not be a value type.
 									if (typeArgument.IsGenericParameter)
 									{
 										// If `typeArgument` is a generic parameter, this is as easy as adding the `ReferenceType` constraint.
@@ -809,13 +813,13 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 											break;
 										}
 									}
-									else if (!typeArgument.IsValueType)
+									else if (typeArgument.IsValueType)
 									{
-										// If `typeArgument` is not a type parameter, we can just check if it is a value type or not.
+										// If `typeArgument` is a value type, but `parentArgument` isn't, we are doomed.
 										success = false;
 										break;
 									}
-									// If we made this far, `typeArgument` is constrained to a reference type.
+									// If we made this far, `typeArgument` is indeed a reference type.
 									if (!TryApplyUpperBound(typeArgument, parentArgument, ref clonedParameterConstraints))
 									{
 										success = false;
@@ -825,10 +829,10 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 							}
 							else if (variance == GenericParameterAttributes.Contravariant)
 							{
-								// If `parentArgument` is value-type, `typeArgument` must not be a reference type.
+								// If any of `parentArgument` or `typeArgument` is a value type, this should be considered a non-variant case.
 								if (parentArgument.IsValueType)
 								{
-									// If `parentArgument` and `typeArgument` are both value types, lowerbound constraint can be reduced to equivalent constraint.
+									// `parentArgument` is a value type. Let the recursive `TryApplyEquivalent()` call do the job.
 									if (!TryApplyEquivalent(typeArgument, parentArgument, ref clonedParameterConstraints))
 									{
 										success = false;
@@ -837,6 +841,23 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 								}
 								else
 								{
+									// `parentArgument` is not a value type. Since reference types can't be equivalent to value types, `typeArgument` must not be a value type.
+									if (typeArgument.IsGenericParameter)
+									{
+										// If `typeArgument` is a generic parameter, this is as easy as adding the `ReferenceType` constraint.
+										if (!TryAddConstraint(typeArgument, new ReferenceType(), clonedParameterConstraints))
+										{
+											success = false;
+											break;
+										}
+									}
+									else if (typeArgument.IsValueType)
+									{
+										// If `typeArgument` is a value type, but `parentArgument` isn't, we are doomed.
+										success = false;
+										break;
+									}
+									// If we made this far, `typeArgument` is indeed a reference type.
 									if (!TryApplyLowerBound(typeArgument, parentArgument, ref clonedParameterConstraints))
 									{
 										success = false;
@@ -1001,18 +1022,78 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 							}
 							else if (variance == GenericParameterAttributes.Covariant)
 							{
-								if (!TryApplyLowerBound(typeArgument, childArgument, ref clonedParameterConstraints))
+								// If any of `childArgument` or `typeArgument` is a value type, this should be considered a non-variant case.
+								if (childArgument.IsValueType)
 								{
-									success = false;
-									break;
+									// `childArgument` is a value type. Let the recursive `TryApplyEquivalent()` call do the job.
+									if (!TryApplyEquivalent(typeArgument, childArgument, ref clonedParameterConstraints))
+									{
+										success = false;
+										break;
+									}
+								}
+								else
+								{
+									// `childArgument` is not a value type. Since reference types can't be equivalent to value types, `typeArgument` must not be a value type.
+									if (typeArgument.IsGenericParameter)
+									{
+										// If `typeArgument` is a generic parameter, this is as easy as adding the `ReferenceType` constraint.
+										if (!TryAddConstraint(typeArgument, new ReferenceType(), clonedParameterConstraints))
+										{
+											success = false;
+											break;
+										}
+									}
+									else if (typeArgument.IsValueType)
+									{
+										// If `typeArgument` is a value type, but `childArgument` isn't, we are doomed.
+										success = false;
+										break;
+									}
+									// If we made this far, `typeArgument` is indeed a reference type.
+									if (!TryApplyLowerBound(typeArgument, childArgument, ref clonedParameterConstraints))
+									{
+										success = false;
+										break;
+									}
 								}
 							}
 							else if (variance == GenericParameterAttributes.Contravariant)
 							{
-								if (!TryApplyUpperBound(typeArgument, childArgument, ref clonedParameterConstraints))
+								// If any of `childArgument` or `typeArgument` is a value type, this should be considered a non-variant case.
+								if (childArgument.IsValueType)
 								{
-									success = false;
-									break;
+									// `childArgument` is a value type. Let the recursive `TryApplyEquivalent()` call do the job.
+									if (!TryApplyEquivalent(typeArgument, childArgument, ref clonedParameterConstraints))
+									{
+										success = false;
+										break;
+									}
+								}
+								else
+								{
+									// `childArgument` is not a value type. Since reference types can't be equivalent to value types, `typeArgument` must not be a value type.
+									if (typeArgument.IsGenericParameter)
+									{
+										// If `typeArgument` is a generic parameter, this is as easy as adding the `ReferenceType` constraint.
+										if (!TryAddConstraint(typeArgument, new ReferenceType(), clonedParameterConstraints))
+										{
+											success = false;
+											break;
+										}
+									}
+									else if (typeArgument.IsValueType)
+									{
+										// If `typeArgument` is a value type, but `childArgument` isn't, we are doomed.
+										success = false;
+										break;
+									}
+									// If we made this far, `typeArgument` is indeed a reference type.
+									if (!TryApplyUpperBound(typeArgument, childArgument, ref clonedParameterConstraints))
+									{
+										success = false;
+										break;
+									}
 								}
 							}
 							else
@@ -1046,16 +1127,7 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 								if (!TryApplyEquivalent(typeArgument, childArgument, ref parameterConstraints))
 									return false;
 							}
-							else if (variance == GenericParameterAttributes.Covariant)
-							{
-								if (!TryApplyLowerBound(typeArgument, childArgument, ref parameterConstraints))
-									return false;
-							}
-							else if (variance == GenericParameterAttributes.Contravariant)
-							{
-								if (!TryApplyUpperBound(typeArgument, childArgument, ref parameterConstraints))
-									return false;
-							}
+							// Only generic interfaces allow variance.
 							else
 								throw new Exception();
 						}
@@ -1081,16 +1153,7 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 						if (!TryApplyEquivalent(typeArgument, childArgument, ref parameterConstraints))
 							return false;
 					}
-					else if (variance == GenericParameterAttributes.Covariant)
-					{
-						if (!TryApplyLowerBound(typeArgument, childArgument, ref parameterConstraints))
-							return false;
-					}
-					else if (variance == GenericParameterAttributes.Contravariant)
-					{
-						if (!TryApplyUpperBound(typeArgument, childArgument, ref parameterConstraints))
-							return false;
-					}
+					// Only generic interfaces allow variance.
 					else
 						throw new Exception();
 				}
