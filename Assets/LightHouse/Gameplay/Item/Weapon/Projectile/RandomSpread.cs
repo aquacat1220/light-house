@@ -143,6 +143,18 @@ namespace LightHouse
             _delayAlarm?.Start();
         }
 
+        [Serializable]
+        public class OnPredictedCounterChangeFn : IFn<ITuple<int>, Fn.Tuple>
+        {
+            public RandomSpread RandomSpread;
+
+            public Fn.Tuple Invoke(ITuple<int> param)
+            {
+                RandomSpread?.OnPredictedCounterChange(param.Item1);
+                return Fn.Tuple.Unit;
+            }
+        }
+
         public void OnPredictedCounterChange(int newPredictedCounter)
         {
             _predictedCounter = newPredictedCounter;

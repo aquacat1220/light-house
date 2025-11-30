@@ -8,19 +8,19 @@ namespace LightHouse.Fn
     {
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult> Inner;
+        IFn<TParam, TResult> _inner;
 
         public Unpack() { }
         public Unpack(
             IFn<TParam, TResult> inner
         )
         {
-            Inner = inner;
+            _inner = inner;
         }
 
         public TResult Invoke(ITuple<TParam> param)
         {
-            return Inner.Invoke(param.Item1);
+            return _inner.Invoke(param.Item1);
         }
     }
 }

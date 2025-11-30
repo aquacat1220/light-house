@@ -6,50 +6,48 @@ namespace LightHouse
     using FishNet.Object;
     using NaughtyAttributes;
     using UnityEngine;
-    using UnityEngine.Events;
+    using Fn;
     using UnityEngine.Rendering.Universal;
-    
+
     public class Vision : NetworkBehaviour
     {
-        public struct RangeHandle
+        public class RangeHandle
         {
             public float Range;
-            public float Priority;
-    
-            public RangeHandle(float range, float priority)
+
+            public RangeHandle(float range)
             {
                 Range = range;
-                Priority = priority;
             }
         }
-    
-        public struct RangeModifierHandle
+
+        public class RangeModifierHandle
         {
             public float Modifier;
-    
+
             public RangeModifierHandle(float modifier)
             {
                 Modifier = modifier;
             }
         }
-    
+
         Heap<RangeHandle, float> _ranges = Heap.MaxHeap<RangeHandle, float>();
         List<RangeModifierHandle> _modifiers = new();
-    
+
         [Required]
         [ValidateInput("IsValidLight", "The vision light should be a 360 deg spot light with blend mode \"Vision\".")]
         [SerializeField]
         Light2D _visionLight;
-    
+
         [SerializeField]
         float _modifier = 2f;
-    
+
         [SerializeField]
         [Range(0f, 1f)]
         float _falloffDistance = 1f;
-    
-        RangeModifierHandle? _handle;
-    
+
+        RangeModifierHandle _handle;
+
         float _range = 0f;
         public float Range
         {
@@ -58,30 +56,32 @@ namespace LightHouse
                 return _range;
             }
         }
-    
-        public UnityEvent<float> RangeChanged;
-    
+
+        [SerializeField]
+        Event<float> _rangeChanged;
+
         public override void OnStartServer()
         {
             _handle = AddRangeModifier(_modifier);
         }
-    
+
         public override void OnStopServer()
         {
-            RemoveRangeModifier(_handle.Value);
+            if (_handle != null)
+                RemoveRangeModifier(_handle);
         }
-    
+
         public override void OnStartClient()
         {
             if (base.IsOwner)
                 _visionLight.enabled = true;
         }
-    
+
         public override void OnStopClient()
         {
             _visionLight.enabled = false;
         }
-    
+
         void UpdateRange()
         {
             float newRange = 0f;
@@ -97,30 +97,30 @@ namespace LightHouse
                 UpdateRangeRpc(newRange);
             }
         }
-    
+
         void UpdateRangeLocal(float newRange)
         {
             _range = newRange;
             _visionLight.pointLightInnerRadius = Math.Max(_range - _falloffDistance, 0f);
             _visionLight.pointLightOuterRadius = _range;
-            RangeChanged?.Invoke(_range);
+            _rangeChanged?.Invoke(_range);
         }
-    
+
         [ObserversRpc(BufferLast = true, ExcludeServer = true)]
         void UpdateRangeRpc(float newRange)
         {
             UpdateRangeLocal(newRange);
         }
-    
+
         [Server]
         public RangeHandle AddRange(float range, float priority)
         {
-            var handle = new RangeHandle(range, priority);
+            var handle = new RangeHandle(range);
             _ranges.Push(handle, priority);
             UpdateRange();
             return handle;
         }
-    
+
         [Server]
         public bool RemoveRange(RangeHandle handle)
         {
@@ -128,7 +128,7 @@ namespace LightHouse
             UpdateRange();
             return success;
         }
-    
+
         [Server]
         public RangeModifierHandle AddRangeModifier(float modifier)
         {
@@ -137,7 +137,7 @@ namespace LightHouse
             UpdateRange();
             return handle;
         }
-    
+
         [Server]
         public bool RemoveRangeModifier(RangeModifierHandle handle)
         {
@@ -145,7 +145,7 @@ namespace LightHouse
             UpdateRange();
             return success;
         }
-    
+
         bool IsValidLight(Light2D light)
         {
             if (light == null)

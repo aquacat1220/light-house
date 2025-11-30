@@ -4,7 +4,8 @@ namespace LightHouse
     using FishNet.Object;
     using UnityEngine;
     using UnityEngine.Assertions;
-    
+    using Fn;
+
     public class PlayerCharacterInventory : NetworkBehaviour
     {
         [SerializeField]
@@ -13,21 +14,21 @@ namespace LightHouse
         Transform _mainItemAnchor;
         [SerializeField]
         Transform _subItemAnchor;
-    
+
         Transform[] _itemSlotAnchors = new Transform[4];
         ItemSlotInput[] _itemSlotInputs = new ItemSlotInput[4];
-    
+
         int _mainHand = 0;
         int _subHand = 1;
-    
+
         InputState<bool> _primaryState = new();
         InputState<bool> _secondaryState = new();
         InputState<bool> _action1State = new();
         InputState<bool> _action2State = new();
         InputState<bool> _reloadState = new();
-    
+
         bool _blockInputs = true;
-    
+
         void Awake()
         {
             if (_itemSlots == null || _itemSlots.Length != 4)
@@ -45,7 +46,7 @@ namespace LightHouse
                 Debug.Log("`_subItemAnchor` wasn't set.");
                 throw new Exception();
             }
-    
+
             for (int i = 0; i < 4; i++)
             {
                 var itemSlot = _itemSlots[i];
@@ -63,7 +64,7 @@ namespace LightHouse
                         throw new Exception();
                     }
                 }
-    
+
                 var itemSlotAnchor = itemSlot.transform.parent;
                 if (itemSlotAnchor == null)
                 {
@@ -71,7 +72,7 @@ namespace LightHouse
                     throw new Exception();
                 }
                 _itemSlotAnchors[i] = itemSlotAnchor;
-    
+
                 var itemSlotInput = itemSlot.GetComponent<ItemSlotInput>();
                 if (itemSlotInput == null)
                 {
@@ -80,11 +81,11 @@ namespace LightHouse
                 }
                 _itemSlotInputs[i] = itemSlotInput;
             }
-    
+
             // For correctness, ensure the main/sub hand itemslots start equipped on the main/sub anchors!
             _itemSlots[_mainHand].transform.SetParent(_mainItemAnchor, worldPositionStays: false);
             _itemSlots[_subHand].transform.SetParent(_subItemAnchor, worldPositionStays: false);
-    
+
             // Trickle input down to main hand item.
             _itemSlotInputs[_mainHand].PrimaryState.Parent = _primaryState;
             _itemSlotInputs[_mainHand].SecondaryState.Parent = _secondaryState;
@@ -92,7 +93,7 @@ namespace LightHouse
             _itemSlotInputs[_mainHand].Action2State.Parent = _action2State;
             _itemSlotInputs[_mainHand].ReloadState.Parent = _reloadState;
         }
-    
+
         void OnEnable()
         {
             _primaryState.Enable();
@@ -102,7 +103,7 @@ namespace LightHouse
             _reloadState.Enable();
             _blockInputs = false;
         }
-    
+
         void OnDisable()
         {
             _primaryState.Disable();
@@ -112,7 +113,7 @@ namespace LightHouse
             _reloadState.Disable();
             _blockInputs = true;
         }
-    
+
         [Server]
         public bool AddItem(Item item)
         {
@@ -124,137 +125,256 @@ namespace LightHouse
             }
             return false;
         }
-    
+
+        [Serializable]
+        public class OnPrimaryFn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public PlayerCharacterInventory PlayerCharacterInventory;
+            public bool DefaultParam = true;
+            public Fn.Tuple Invoke(ITuple<bool> param)
+            {
+                PlayerCharacterInventory?.OnPrimary(param.Item1);
+                return Fn.Tuple.Unit;
+            }
+            public Fn.Tuple Invoke(Fn.Tuple _)
+            {
+                PlayerCharacterInventory?.OnPrimary(DefaultParam);
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Serializable]
+        public class OnSecondaryFn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public PlayerCharacterInventory PlayerCharacterInventory;
+            public bool DefaultParam = true;
+            public Fn.Tuple Invoke(ITuple<bool> param)
+            {
+                PlayerCharacterInventory?.OnSecondary(param.Item1);
+                return Fn.Tuple.Unit;
+            }
+            public Fn.Tuple Invoke(Fn.Tuple _)
+            {
+                PlayerCharacterInventory?.OnSecondary(DefaultParam);
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Serializable]
+        public class OnAction1Fn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public PlayerCharacterInventory PlayerCharacterInventory;
+            public bool DefaultParam = true;
+            public Fn.Tuple Invoke(ITuple<bool> param)
+            {
+                PlayerCharacterInventory?.OnAction1(param.Item1);
+                return Fn.Tuple.Unit;
+            }
+            public Fn.Tuple Invoke(Fn.Tuple _)
+            {
+                PlayerCharacterInventory?.OnAction1(DefaultParam);
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Serializable]
+        public class OnAction2Fn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public PlayerCharacterInventory PlayerCharacterInventory;
+            public bool DefaultParam = true;
+            public Fn.Tuple Invoke(ITuple<bool> param)
+            {
+                PlayerCharacterInventory?.OnAction2(param.Item1);
+                return Fn.Tuple.Unit;
+            }
+            public Fn.Tuple Invoke(Fn.Tuple _)
+            {
+                PlayerCharacterInventory?.OnAction2(DefaultParam);
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Serializable]
+        public class OnReloadFn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public PlayerCharacterInventory PlayerCharacterInventory;
+            public bool DefaultParam = true;
+            public Fn.Tuple Invoke(ITuple<bool> param)
+            {
+                PlayerCharacterInventory?.OnReload(param.Item1);
+                return Fn.Tuple.Unit;
+            }
+            public Fn.Tuple Invoke(Fn.Tuple _)
+            {
+                PlayerCharacterInventory?.OnReload(DefaultParam);
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Serializable]
+        public class DropItemFn : IFn<ITuple<int>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public PlayerCharacterInventory PlayerCharacterInventory;
+            public int DefaultParam = 1;
+            public Fn.Tuple Invoke(ITuple<int> param)
+            {
+                PlayerCharacterInventory?.DropItem(param.Item1);
+                return Fn.Tuple.Unit;
+            }
+            public Fn.Tuple Invoke(Fn.Tuple param)
+            {
+                PlayerCharacterInventory?.ChangeMainHand(DefaultParam);
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Serializable]
+        public class ChangeMainHandFn : IFn<ITuple<int>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public PlayerCharacterInventory PlayerCharacterInventory;
+            public int DefaultParam = 1;
+            public Fn.Tuple Invoke(ITuple<int> param)
+            {
+                PlayerCharacterInventory?.ChangeMainHand(param.Item1);
+                return Fn.Tuple.Unit;
+            }
+            public Fn.Tuple Invoke(Fn.Tuple param)
+            {
+                PlayerCharacterInventory?.ChangeMainHand(DefaultParam);
+                return Fn.Tuple.Unit;
+            }
+        }
+
         [Client(RequireOwnership = true)]
         public void OnPrimary(bool newState)
         {
             // Let the input pulse flow down the chain on the client.
             OnPrimaryLocal(newState);
-    
+
             // If we are the server too (= host), don't do this twice.
             if (base.IsServerInitialized)
                 return;
             // If we are not the host, make a RPC call to sync the pulse to the server.
             OnPrimaryRpc(newState);
         }
-    
+
         [ServerRpc(RequireOwnership = true)]
         void OnPrimaryRpc(bool newState)
         {
             OnPrimaryLocal(newState);
         }
-    
+
         void OnPrimaryLocal(bool newState)
         {
             // We don't check `_blockInputs` here because `InputState`s have their own `Enable()` `Disable()` logic.
             var rootChangeResult = _primaryState.RootChangeState(newState);
             Assert.IsTrue(rootChangeResult);
         }
-    
+
         [Client(RequireOwnership = true)]
         public void OnSecondary(bool newState)
         {
             // Let the input pulse flow down the chain on the client.
             OnSecondaryLocal(newState);
-    
+
             // If we are the server too (= host), don't do this twice.
             if (base.IsServerInitialized)
                 return;
             // If we are not the host, make a RPC call to sync the pulse to the server.
             OnSecondaryRpc(newState);
         }
-    
+
         [ServerRpc(RequireOwnership = true)]
         void OnSecondaryRpc(bool newState)
         {
             OnSecondaryLocal(newState);
         }
-    
+
         void OnSecondaryLocal(bool newState)
         {
             // We don't check `_blockInputs` here because `InputState`s have their own `Enable()` `Disable()` logic.
             var rootChangeResult = _secondaryState.RootChangeState(newState);
             Assert.IsTrue(rootChangeResult);
         }
-    
+
         [Client(RequireOwnership = true)]
         public void OnAction1(bool newState)
         {
             // Let the input pulse flow down the chain on the client.
             OnAction1Local(newState);
-    
+
             // If we are the server too (= host), don't do this twice.
             if (base.IsServerInitialized)
                 return;
             // If we are not the host, make a RPC call to sync the pulse to the server.
             OnAction1Rpc(newState);
         }
-    
+
         [ServerRpc(RequireOwnership = true)]
         void OnAction1Rpc(bool newState)
         {
             OnAction1Local(newState);
         }
-    
+
         void OnAction1Local(bool newState)
         {
             // We don't check `_blockInputs` here because `InputState`s have their own `Enable()` `Disable()` logic.
             var rootChangeResult = _action1State.RootChangeState(newState);
             Assert.IsTrue(rootChangeResult);
         }
-    
+
         [Client(RequireOwnership = true)]
         public void OnAction2(bool newState)
         {
             // Let the input pulse flow down the chain on the client.
             OnAction2Local(newState);
-    
+
             // If we are the server too (= host), don't do this twice.
             if (base.IsServerInitialized)
                 return;
             // If we are not the host, make a RPC call to sync the pulse to the server.
             OnAction2Rpc(newState);
         }
-    
+
         [ServerRpc(RequireOwnership = true)]
         void OnAction2Rpc(bool newState)
         {
             OnAction2Local(newState);
         }
-    
+
         void OnAction2Local(bool newState)
         {
             // We don't check `_blockInputs` here because `InputState`s have their own `Enable()` `Disable()` logic.
             var rootChangeResult = _action2State.RootChangeState(newState);
             Assert.IsTrue(rootChangeResult);
         }
-    
+
         [Client(RequireOwnership = true)]
         public void OnReload(bool newState)
         {
             // Let the input pulse flow down the chain on the client.
             OnReloadLocal(newState);
-    
+
             // If we are the server too (= host), don't do this twice.
             if (base.IsServerInitialized)
                 return;
             // If we are not the host, make a RPC call to sync the pulse to the server.
             OnReloadRpc(newState);
         }
-    
+
         [ServerRpc(RequireOwnership = true)]
         void OnReloadRpc(bool newState)
         {
             OnReloadLocal(newState);
         }
-    
+
         void OnReloadLocal(bool newState)
         {
             // We don't check `_blockInputs` here because `InputState`s have their own `Enable()` `Disable()` logic.
             var rootChangeResult = _reloadState.RootChangeState(newState);
             Assert.IsTrue(rootChangeResult);
         }
-    
+
         [ServerRpc(RequireOwnership = true)]
         public void OnSelectItem1(bool newState)
         {
@@ -264,7 +384,7 @@ namespace LightHouse
                 return;
             ChangeMainHand(0);
         }
-    
+
         [ServerRpc(RequireOwnership = true)]
         public void OnDropItem1(bool newState)
         {
@@ -274,7 +394,7 @@ namespace LightHouse
                 return;
             DropItem(0);
         }
-    
+
         [ServerRpc(RequireOwnership = true)]
         public void OnSelectItem2(bool newState)
         {
@@ -284,7 +404,7 @@ namespace LightHouse
                 return;
             ChangeMainHand(1);
         }
-    
+
         [ServerRpc(RequireOwnership = true)]
         public void OnDropItem2(bool newState)
         {
@@ -294,7 +414,7 @@ namespace LightHouse
                 return;
             DropItem(1);
         }
-    
+
         [ServerRpc(RequireOwnership = true)]
         public void OnSelectItem3(bool newState)
         {
@@ -304,7 +424,7 @@ namespace LightHouse
                 return;
             ChangeMainHand(2);
         }
-    
+
         [ServerRpc(RequireOwnership = true)]
         public void OnDropItem3(bool newState)
         {
@@ -314,7 +434,7 @@ namespace LightHouse
                 return;
             DropItem(2);
         }
-    
+
         [ServerRpc(RequireOwnership = true)]
         public void OnSelectItem4(bool newState)
         {
@@ -324,7 +444,7 @@ namespace LightHouse
                 return;
             ChangeMainHand(3);
         }
-    
+
         [ServerRpc(RequireOwnership = true)]
         public void OnDropItem4(bool newState)
         {
@@ -334,23 +454,23 @@ namespace LightHouse
                 return;
             DropItem(3);
         }
-    
+
         [Server]
         void ChangeMainHand(int newMainHand)
         {
             if (newMainHand == _mainHand)
                 return;
-    
+
             ChangeMainHandRpc(newMainHand, _mainHand);
         }
-    
+
         [Server]
         void DropItem(int hand)
         {
             _itemSlots[hand].Unequip();
             // We don't need bufferlast observerrpcs to sync this, since `ItemSlot` already handles that.
         }
-    
+
         [ObserversRpc(BufferLast = true, RunLocally = true)]
         void ChangeMainHandRpc(int newMainHand, int newSubHand)
         {
@@ -366,18 +486,18 @@ namespace LightHouse
             _itemSlotInputs[_mainHand].Action1State.Parent = null;
             _itemSlotInputs[_mainHand].Action2State.Parent = null;
             _itemSlotInputs[_mainHand].ReloadState.Parent = null;
-    
+
             // First reposition the old main/subhand item slots back to where they belong.
             _itemSlots[_mainHand].transform.SetParent(_itemSlotAnchors[_mainHand], worldPositionStays: false);
             _itemSlots[_subHand].transform.SetParent(_itemSlotAnchors[_subHand], worldPositionStays: false);
-    
+
             _mainHand = newMainHand;
             _subHand = newSubHand;
-    
+
             // Then position the new main/subhand item slots!
             _itemSlots[_mainHand].transform.SetParent(_mainItemAnchor, worldPositionStays: false);
             _itemSlots[_subHand].transform.SetParent(_subItemAnchor, worldPositionStays: false);
-    
+
             // After we swap items, make sure the new main hand item receives inputs.
             // This will also sync the current input state with the item.
             _itemSlotInputs[_mainHand].PrimaryState.Parent = _primaryState;

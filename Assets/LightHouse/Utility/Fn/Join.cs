@@ -8,20 +8,20 @@ namespace LightHouse.Fn
     {
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult> First;
+        IFn<TParam, TResult> _first;
 
         public Join() { }
         public Join(
             IFn<TParam, TResult> first
         )
         {
-            First = first;
+            _first = first;
         }
 
         public Tuple<TResult> Invoke(TParam param)
         {
             return new Tuple<TResult>(
-                First.Invoke(param)
+                _first.Invoke(param)
             );
         }
     }
@@ -30,10 +30,10 @@ namespace LightHouse.Fn
     {
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult1> First;
+        IFn<TParam, TResult1> _first;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult2> Second;
+        IFn<TParam, TResult2> _second;
 
         public Join() { }
         public Join(
@@ -41,15 +41,15 @@ namespace LightHouse.Fn
             IFn<TParam, TResult2> second
         )
         {
-            First = first;
-            Second = second;
+            _first = first;
+            _second = second;
         }
 
         public Tuple<TResult1, TResult2> Invoke(TParam param)
         {
             return new Tuple<TResult1, TResult2>(
-                First.Invoke(param),
-                Second.Invoke(param)
+                _first.Invoke(param),
+                _second.Invoke(param)
             );
         }
     }
@@ -58,13 +58,13 @@ namespace LightHouse.Fn
     {
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult1> First;
+        IFn<TParam, TResult1> _first;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult2> Second;
+        IFn<TParam, TResult2> _second;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult3> Third;
+        IFn<TParam, TResult3> _third;
 
         public Join() { }
         public Join(
@@ -73,17 +73,17 @@ namespace LightHouse.Fn
             IFn<TParam, TResult3> third
         )
         {
-            First = first;
-            Second = second;
-            Third = third;
+            _first = first;
+            _second = second;
+            _third = third;
         }
 
         public Tuple<TResult1, TResult2, TResult3> Invoke(TParam param)
         {
             return new Tuple<TResult1, TResult2, TResult3>(
-                First.Invoke(param),
-                Second.Invoke(param),
-                Third.Invoke(param)
+                _first.Invoke(param),
+                _second.Invoke(param),
+                _third.Invoke(param)
             );
         }
     }
@@ -92,16 +92,16 @@ namespace LightHouse.Fn
     {
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult1> First;
+        IFn<TParam, TResult1> _first;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult2> Second;
+        IFn<TParam, TResult2> _second;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult3> Third;
+        IFn<TParam, TResult3> _third;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult4> Fourth;
+        IFn<TParam, TResult4> _fourth;
 
         public Join() { }
         public Join(
@@ -111,19 +111,19 @@ namespace LightHouse.Fn
             IFn<TParam, TResult4> fourth
         )
         {
-            First = first;
-            Second = second;
-            Third = third;
-            Fourth = fourth;
+            _first = first;
+            _second = second;
+            _third = third;
+            _fourth = fourth;
         }
 
         public Tuple<TResult1, TResult2, TResult3, TResult4> Invoke(TParam param)
         {
             return new Tuple<TResult1, TResult2, TResult3, TResult4>(
-                First.Invoke(param),
-                Second.Invoke(param),
-                Third.Invoke(param),
-                Fourth.Invoke(param)
+                _first.Invoke(param),
+                _second.Invoke(param),
+                _third.Invoke(param),
+                _fourth.Invoke(param)
             );
         }
     }
@@ -132,19 +132,19 @@ namespace LightHouse.Fn
     {
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult1> First;
+        IFn<TParam, TResult1> _first;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult2> Second;
+        IFn<TParam, TResult2> _second;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult3> Third;
+        IFn<TParam, TResult3> _third;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult4> Fourth;
+        IFn<TParam, TResult4> _fourth;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult5> Fifth;
+        IFn<TParam, TResult5> _fifth;
 
         public Join() { }
         public Join(
@@ -155,21 +155,21 @@ namespace LightHouse.Fn
             IFn<TParam, TResult5> fifth
         )
         {
-            First = first;
-            Second = second;
-            Third = third;
-            Fourth = fourth;
-            Fifth = fifth;
+            _first = first;
+            _second = second;
+            _third = third;
+            _fourth = fourth;
+            _fifth = fifth;
         }
 
         public Tuple<TResult1, TResult2, TResult3, TResult4, TResult5> Invoke(TParam param)
         {
             return new Tuple<TResult1, TResult2, TResult3, TResult4, TResult5>(
-                First.Invoke(param),
-                Second.Invoke(param),
-                Third.Invoke(param),
-                Fourth.Invoke(param),
-                Fifth.Invoke(param)
+                _first.Invoke(param),
+                _second.Invoke(param),
+                _third.Invoke(param),
+                _fourth.Invoke(param),
+                _fifth.Invoke(param)
             );
         }
     }
@@ -178,22 +178,22 @@ namespace LightHouse.Fn
     {
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult1> First;
+        IFn<TParam, TResult1> _first;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult2> Second;
+        IFn<TParam, TResult2> _second;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult3> Third;
+        IFn<TParam, TResult3> _third;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult4> Fourth;
+        IFn<TParam, TResult4> _fourth;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult5> Fifth;
+        IFn<TParam, TResult5> _fifth;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult6> Sixth;
+        IFn<TParam, TResult6> _sixth;
 
         public Join() { }
         public Join(
@@ -205,23 +205,23 @@ namespace LightHouse.Fn
             IFn<TParam, TResult6> sixth
         )
         {
-            First = first;
-            Second = second;
-            Third = third;
-            Fourth = fourth;
-            Fifth = fifth;
-            Sixth = sixth;
+            _first = first;
+            _second = second;
+            _third = third;
+            _fourth = fourth;
+            _fifth = fifth;
+            _sixth = sixth;
         }
 
         public Tuple<TResult1, TResult2, TResult3, TResult4, TResult5, TResult6> Invoke(TParam param)
         {
             return new Tuple<TResult1, TResult2, TResult3, TResult4, TResult5, TResult6>(
-                First.Invoke(param),
-                Second.Invoke(param),
-                Third.Invoke(param),
-                Fourth.Invoke(param),
-                Fifth.Invoke(param),
-                Sixth.Invoke(param)
+                _first.Invoke(param),
+                _second.Invoke(param),
+                _third.Invoke(param),
+                _fourth.Invoke(param),
+                _fifth.Invoke(param),
+                _sixth.Invoke(param)
             );
         }
     }
@@ -230,25 +230,25 @@ namespace LightHouse.Fn
     {
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult1> First;
+        IFn<TParam, TResult1> _first;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult2> Second;
+        IFn<TParam, TResult2> _second;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult3> Third;
+        IFn<TParam, TResult3> _third;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult4> Fourth;
+        IFn<TParam, TResult4> _fourth;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult5> Fifth;
+        IFn<TParam, TResult5> _fifth;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult6> Sixth;
+        IFn<TParam, TResult6> _sixth;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult7> Seventh;
+        IFn<TParam, TResult7> _seventh;
 
         public Join() { }
         public Join(
@@ -261,25 +261,25 @@ namespace LightHouse.Fn
             IFn<TParam, TResult7> seventh
         )
         {
-            First = first;
-            Second = second;
-            Third = third;
-            Fourth = fourth;
-            Fifth = fifth;
-            Sixth = sixth;
-            Seventh = seventh;
+            _first = first;
+            _second = second;
+            _third = third;
+            _fourth = fourth;
+            _fifth = fifth;
+            _sixth = sixth;
+            _seventh = seventh;
         }
 
         public Tuple<TResult1, TResult2, TResult3, TResult4, TResult5, TResult6, TResult7> Invoke(TParam param)
         {
             return new Tuple<TResult1, TResult2, TResult3, TResult4, TResult5, TResult6, TResult7>(
-                First.Invoke(param),
-                Second.Invoke(param),
-                Third.Invoke(param),
-                Fourth.Invoke(param),
-                Fifth.Invoke(param),
-                Sixth.Invoke(param),
-                Seventh.Invoke(param)
+                _first.Invoke(param),
+                _second.Invoke(param),
+                _third.Invoke(param),
+                _fourth.Invoke(param),
+                _fifth.Invoke(param),
+                _sixth.Invoke(param),
+                _seventh.Invoke(param)
             );
         }
     }
@@ -288,28 +288,28 @@ namespace LightHouse.Fn
     {
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult1> First;
+        IFn<TParam, TResult1> _first;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult2> Second;
+        IFn<TParam, TResult2> _second;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult3> Third;
+        IFn<TParam, TResult3> _third;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult4> Fourth;
+        IFn<TParam, TResult4> _fourth;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult5> Fifth;
+        IFn<TParam, TResult5> _fifth;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult6> Sixth;
+        IFn<TParam, TResult6> _sixth;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult7> Seventh;
+        IFn<TParam, TResult7> _seventh;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TResult8> Eighth;
+        IFn<TParam, TResult8> _eighth;
 
         public Join() { }
         public Join(
@@ -323,27 +323,27 @@ namespace LightHouse.Fn
             IFn<TParam, TResult8> eighth
         )
         {
-            First = first;
-            Second = second;
-            Third = third;
-            Fourth = fourth;
-            Fifth = fifth;
-            Sixth = sixth;
-            Seventh = seventh;
-            Eighth = eighth;
+            _first = first;
+            _second = second;
+            _third = third;
+            _fourth = fourth;
+            _fifth = fifth;
+            _sixth = sixth;
+            _seventh = seventh;
+            _eighth = eighth;
         }
 
         public Tuple<TResult1, TResult2, TResult3, TResult4, TResult5, TResult6, TResult7, TResult8> Invoke(TParam param)
         {
             return new Tuple<TResult1, TResult2, TResult3, TResult4, TResult5, TResult6, TResult7, TResult8>(
-                First.Invoke(param),
-                Second.Invoke(param),
-                Third.Invoke(param),
-                Fourth.Invoke(param),
-                Fifth.Invoke(param),
-                Sixth.Invoke(param),
-                Seventh.Invoke(param),
-                Eighth.Invoke(param)
+                _first.Invoke(param),
+                _second.Invoke(param),
+                _third.Invoke(param),
+                _fourth.Invoke(param),
+                _fifth.Invoke(param),
+                _sixth.Invoke(param),
+                _seventh.Invoke(param),
+                _eighth.Invoke(param)
             );
         }
     }

@@ -8,10 +8,10 @@ namespace LightHouse.Fn
     {
         [SerializeReference]
         [SubclassSelector]
-        public IFn<TParam, TInter> First;
+        IFn<TParam, TInter> _first;
         [SerializeReference]
         [SubclassSelector]
-        public IFn<ITuple<TInter>, TResult> Second;
+        IFn<ITuple<TInter>, TResult> _second;
 
         public Then() { }
         public Then(
@@ -19,13 +19,13 @@ namespace LightHouse.Fn
             IFn<ITuple<TInter>, TResult> second
         )
         {
-            First = first;
-            Second = second;
+            _first = first;
+            _second = second;
         }
 
         public TResult Invoke(TParam param)
         {
-            return Second.Invoke(new Tuple<TInter>(First.Invoke(param)));
+            return _second.Invoke(new Tuple<TInter>(_first.Invoke(param)));
         }
     }
 }

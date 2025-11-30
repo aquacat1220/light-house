@@ -179,6 +179,24 @@ namespace LightHouse
             return true;
         }
 
+        public override bool IsStarted(AlarmInfoBase alarmBase)
+        {
+            AlarmInfo alarm = alarmBase as AlarmInfo;
+            return alarm.IsStarted;
+        }
+
+        public override bool IsArmed(AlarmInfoBase alarmBase)
+        {
+            AlarmInfo alarm = alarmBase as AlarmInfo;
+            return alarm.IsArmed;
+        }
+
+        public override bool IsRemoved(AlarmInfoBase alarmBase)
+        {
+            AlarmInfo alarm = alarmBase as AlarmInfo;
+            return alarm.MarkedForRemoval;
+        }
+
         // By default, adds an alarm that is started and armed, will auto rearm, but won't auto restart.
         // Basically an one-time alarm that needs a restart after being triggered.
         public override Alarm AddAlarm(

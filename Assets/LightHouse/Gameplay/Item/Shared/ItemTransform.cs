@@ -1,8 +1,10 @@
 namespace LightHouse
 {
+    using System;
     using FishNet.Object;
     using UnityEngine;
-    
+    using Fn;
+
     public class ItemTransform : NetworkBehaviour
     {
         enum TransformMode
@@ -10,30 +12,52 @@ namespace LightHouse
             Attached,
             Detached
         }
-    
+
         // Invariant:
         // 1. If `_mode == TransformMode.Detached`, `_position == transform.position && _rotation == transform.rotation.eulerAngles.z && _scale == transform.lossyScale`.
         // 2. If `_mode == TransformMode.Attached`, 
         TransformMode _mode = TransformMode.Detached;
         Vector2 _position;
         float _rotation;
-    
+
         void Awake()
         {
             _position = transform.position;
             _rotation = transform.rotation.eulerAngles.z;
         }
-    
+
+        [Serializable]
+        public class OnRegisterFn : IFn<ITuple<ItemSlot>, Fn.Tuple>
+        {
+            public ItemTransform ItemTransform;
+            public Fn.Tuple Invoke(ITuple<ItemSlot> param)
+            {
+                ItemTransform?.OnRegister(param.Item1);
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Serializable]
+        public class OnUnregisterFn : IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public ItemTransform ItemTransform;
+            public Fn.Tuple Invoke(Fn.Tuple _)
+            {
+                ItemTransform?.OnUnregister();
+                return Fn.Tuple.Unit;
+            }
+        }
+
         public void OnRegister(ItemSlot itemSlot)
         {
             AttachToTransform(itemSlot.transform);
         }
-    
+
         public void OnUnregister()
         {
             DetachFromTransform();
         }
-    
+
         void AttachToTransform(Transform parent)
         {
             transform.localPosition = Vector3.zero;
@@ -41,7 +65,7 @@ namespace LightHouse
             transform.SetParent(parent, worldPositionStays: false);
             _mode = TransformMode.Attached;
         }
-    
+
         void DetachFromTransform()
         {
             if (base.IsServerInitialized)
@@ -59,7 +83,7 @@ namespace LightHouse
             _mode = TransformMode.Detached;
             ReflectNewPosRot();
         }
-    
+
         [ObserversRpc(ExcludeServer = true, BufferLast = true)]
         void BroadcastNewPosRot(Vector2 position, float rotation)
         {
@@ -67,7 +91,7 @@ namespace LightHouse
             _rotation = rotation;
             ReflectNewPosRot();
         }
-    
+
         void ReflectNewPosRot()
         {
             if (_mode == TransformMode.Detached)

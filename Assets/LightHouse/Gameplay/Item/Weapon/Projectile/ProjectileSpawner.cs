@@ -7,6 +7,7 @@ namespace LightHouse
     using FishNet.Object;
     using FishNet.Observing;
     using LightHouse.Fn;
+    using NaughtyAttributes;
     using UnityEngine;
     using UnityEngine.Events;
 
@@ -15,6 +16,7 @@ namespace LightHouse
         [SerializeField]
         GameObject _projectile;
         [SerializeField]
+        [Required]
         Transform _spawnPoint;
 
         [SerializeField]
@@ -23,9 +25,9 @@ namespace LightHouse
         static float _maxWaitTime = 0.025f;
 
         [SerializeField]
-        UnityEvent<int> _counterChange;
+        Event<int> _counterChange;
         [SerializeField]
-        UnityEvent<int> _predictedCounterChange;
+        Event<int> _predictedCounterChange;
 
         // The number of projectiles that were spawned across the network.
         // On clients, this is the number of authoritative-spawned projectiles + accepted predicted-spawned projectiles.

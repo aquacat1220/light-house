@@ -2,6 +2,7 @@ namespace LightHouse
 {
     using System;
     using FishNet.Object;
+    using LightHouse.Fn;
     using UnityEngine;
     using UnityEngine.Events;
 
@@ -32,15 +33,11 @@ namespace LightHouse
             }
         }
 
-        public UnityEvent<(int Old, int New)> LeftAmmoChange;
-
-        // [SerializeField]
-        // static float _maxWaitTime = 0.025f;
-
-        // [SerializeField]
-        // UnityEvent _fire;
         [SerializeField]
-        Fn.Event<Fn.Tuple> _fire;
+        Fn.Event<int, int> _leftAmmoChange;
+        [SerializeField]
+        Fn.Event _fire;
+
         [SerializeField]
         uint _capacity = 10;
         [SerializeField]
@@ -95,6 +92,39 @@ namespace LightHouse
             _predictedReloadAlarm?.Remove();
         }
 
+        [Serializable]
+        public class TryFireFn : IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public Magazine Magazine;
+            public Fn.Tuple Invoke(Fn.Tuple _)
+            {
+                Magazine?.TryFire();
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Serializable]
+        public class StartReloadFn : IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public Magazine Magazine;
+            public Fn.Tuple Invoke(Fn.Tuple _)
+            {
+                Magazine?.StartReload();
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Serializable]
+        public class CancelReloadFn : IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public Magazine Magazine;
+            public Fn.Tuple Invoke(Fn.Tuple _)
+            {
+                Magazine?.CancelReload();
+                return Fn.Tuple.Unit;
+            }
+        }
+
         public void TryFire()
         {
             if (!base.IsServerInitialized && !base.IsOwner)
@@ -102,16 +132,16 @@ namespace LightHouse
                 Debug.Log("`TryFire()` should only be called on the server or the owner.");
                 throw new Exception();
             }
-            Debug.Log($"TryFire() with {_shotsFired}, {_reloadPoint}.");
+            // Debug.Log($"TryFire() with {_shotsFired}, {_reloadPoint}.");
 
             if (_shotsFired >= _reloadPoint)
                 return;
             if (_isReloading)
                 return;
             var oldLeftAmmo = LeftAmmo;
-            _fire?.Invoke(Fn.Tuple.Unit);
+            _fire?.Invoke();
             if (oldLeftAmmo != LeftAmmo)
-                LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
+                _leftAmmoChange?.Invoke(oldLeftAmmo, LeftAmmo);
         }
 
         public void StartReload()
@@ -174,7 +204,7 @@ namespace LightHouse
                         var oldLeftAmmo = LeftAmmo;
                         _reloadPoint = reloadPoint;
                         if (oldLeftAmmo != LeftAmmo)
-                            LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
+                            _leftAmmoChange?.Invoke(oldLeftAmmo, LeftAmmo);
                         _nextReloadPoint = nextReloadPoint;
                         return;
                     }
@@ -184,7 +214,7 @@ namespace LightHouse
                         var oldLeftAmmo = LeftAmmo;
                         _reloadPoint = nextReloadPoint;
                         if (oldLeftAmmo != LeftAmmo)
-                            LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
+                            _leftAmmoChange?.Invoke(oldLeftAmmo, LeftAmmo);
                         return;
                     }
                 }
@@ -205,7 +235,7 @@ namespace LightHouse
                         var oldLeftAmmo = LeftAmmo;
                         _reloadPoint = reloadPoint;
                         if (oldLeftAmmo != LeftAmmo)
-                            LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
+                            _leftAmmoChange?.Invoke(oldLeftAmmo, LeftAmmo);
                         return;
                     }
                 }
@@ -214,7 +244,7 @@ namespace LightHouse
             var oldLeftAmmo1 = LeftAmmo;
             _reloadPoint = reloadPoint;
             if (oldLeftAmmo1 != LeftAmmo)
-                LeftAmmoChange?.Invoke((oldLeftAmmo1, LeftAmmo));
+                _leftAmmoChange?.Invoke(oldLeftAmmo1, LeftAmmo);
         }
 
         void EndReloadServer(float _)
@@ -228,7 +258,7 @@ namespace LightHouse
             var oldLeftAmmo = LeftAmmo;
             _reloadPoint = _nextReloadPoint.Value;
             if (oldLeftAmmo != LeftAmmo)
-                LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
+                _leftAmmoChange?.Invoke(oldLeftAmmo, LeftAmmo);
             _nextReloadPoint = null;
             EndReloadObserver(_reloadPoint);
         }
@@ -242,7 +272,7 @@ namespace LightHouse
                 var oldLeftAmmo = LeftAmmo;
                 _reloadPoint = nextReloadPoint;
                 if (oldLeftAmmo != LeftAmmo)
-                    LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
+                    _leftAmmoChange?.Invoke(oldLeftAmmo, LeftAmmo);
                 _nextReloadPoint = null;
             }
             else
@@ -251,7 +281,7 @@ namespace LightHouse
                 var oldLeftAmmo = LeftAmmo;
                 _reloadPoint = _shotsFired + _capacity;
                 if (oldLeftAmmo != LeftAmmo)
-                    LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
+                    _leftAmmoChange?.Invoke(oldLeftAmmo, LeftAmmo);
             }
         }
 
@@ -274,7 +304,7 @@ namespace LightHouse
             var oldLeftAmmo = LeftAmmo;
             _reloadPoint = reloadPoint;
             if (oldLeftAmmo != LeftAmmo)
-                LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
+                _leftAmmoChange?.Invoke(oldLeftAmmo, LeftAmmo);
         }
 
         public void CancelReload()
@@ -339,7 +369,7 @@ namespace LightHouse
                         var oldLeftAmmo = LeftAmmo;
                         _reloadPoint = reloadPoint;
                         if (oldLeftAmmo != LeftAmmo)
-                            LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
+                            _leftAmmoChange?.Invoke(oldLeftAmmo, LeftAmmo);
                         _nextReloadPoint = null;
                         return;
                     }
@@ -349,7 +379,7 @@ namespace LightHouse
                         var oldLeftAmmo = LeftAmmo;
                         _reloadPoint = reloadPoint;
                         if (oldLeftAmmo != LeftAmmo)
-                            LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
+                            _leftAmmoChange?.Invoke(oldLeftAmmo, LeftAmmo);
                         return;
                     }
                 }
@@ -369,7 +399,7 @@ namespace LightHouse
                         var oldLeftAmmo = LeftAmmo;
                         _reloadPoint = reloadPoint;
                         if (oldLeftAmmo != LeftAmmo)
-                            LeftAmmoChange?.Invoke((oldLeftAmmo, LeftAmmo));
+                            _leftAmmoChange?.Invoke(oldLeftAmmo, LeftAmmo);
                         return;
                     }
                 }
@@ -378,9 +408,20 @@ namespace LightHouse
             var oldLeftAmmo1 = LeftAmmo;
             _reloadPoint = reloadPoint;
             if (oldLeftAmmo1 != LeftAmmo)
-                LeftAmmoChange?.Invoke((oldLeftAmmo1, LeftAmmo));
+                _leftAmmoChange?.Invoke(oldLeftAmmo1, LeftAmmo);
         }
 
+        [Serializable]
+        public class OnPredictedCounterChangeFn : IFn<ITuple<int>, Fn.Tuple>
+        {
+            public Magazine Magazine;
+
+            public Fn.Tuple Invoke(ITuple<int> param)
+            {
+                Magazine?.OnPredictedCounterChange(param.Item1);
+                return Fn.Tuple.Unit;
+            }
+        }
         public void OnPredictedCounterChange(int newPredictedCounter)
         {
             _shotsFired = (uint)newPredictedCounter;

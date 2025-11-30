@@ -1,16 +1,15 @@
 namespace LightHouse
 {
     using System;
-    using FishNet;
     using FishNet.Managing.Timing;
     using FishNet.Object;
     using NaughtyAttributes;
     using UnityEngine;
     using UnityEngine.Rendering.Universal;
+    using Fn;
 
     public class LightControl : NetworkBehaviour
     {
-
         [Required]
         [ValidateInput("IsValidLight", "The light should be a point light with blend mode \"Default\"")]
         [SerializeField]
@@ -48,7 +47,7 @@ namespace LightHouse
         float _innerToOuterAngleRatio = 0.8f;
 
         Vision _vision;
-        Vision.RangeHandle? _handle = null;
+        Vision.RangeHandle _handle = null;
 
         Alarm _alarm;
 
@@ -69,6 +68,28 @@ namespace LightHouse
             SetRange(_initialRange);
             SetAngle(_initialAngle);
             SetIntensity(_initialIntensity);
+        }
+
+        [Serializable]
+        public class OnRegisterFn : IFn<ITuple<ItemSlot>, Fn.Tuple>
+        {
+            public LightControl LightControl;
+            public Fn.Tuple Invoke(ITuple<ItemSlot> param)
+            {
+                LightControl?.OnRegister(param.Item1);
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Serializable]
+        public class OnUnregisterFn : IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public LightControl LightControl;
+            public Fn.Tuple Invoke(Fn.Tuple _)
+            {
+                LightControl?.OnUnregister();
+                return Fn.Tuple.Unit;
+            }
         }
 
         public void OnRegister(ItemSlot itemSlot)
@@ -100,15 +121,139 @@ namespace LightHouse
             _alarm.Remove();
         }
 
-        [Server]
-        public void Toggle()
+        [Serializable]
+        public class ToggleFn : IFn<Fn.Tuple, Fn.Tuple>
         {
-            if (_light.enabled)
-                SetEnabled(false);
-            else
-                SetEnabled(true);
-            SyncState();
-            RefreshVision();
+            public LightControl LightControl;
+
+            public Fn.Tuple Invoke(Fn.Tuple _)
+            {
+                if (LightControl?.IsOn() is true)
+                    LightControl?.Off();
+                else
+                    LightControl?.On();
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Serializable]
+        public class SwitchFn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public LightControl LightControl;
+            public bool DefaultParam = false;
+
+            public Fn.Tuple Invoke(ITuple<bool> param)
+            {
+                if (param.Item1)
+                    LightControl?.On();
+                else
+                    LightControl?.Off();
+                return Fn.Tuple.Unit;
+            }
+            public Fn.Tuple Invoke(Fn.Tuple _)
+            {
+                if (DefaultParam)
+                    LightControl?.On();
+                else
+                    LightControl?.Off();
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Serializable]
+        public class StartRangeChangeFn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public LightControl LightControl;
+            public bool DefaultParam = false;
+
+            public Fn.Tuple Invoke(ITuple<bool> param)
+            {
+                LightControl?.StartRangeChange(param.Item1);
+                return Fn.Tuple.Unit;
+            }
+            public Fn.Tuple Invoke(Fn.Tuple _)
+            {
+                LightControl?.StartRangeChange(DefaultParam);
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Serializable]
+        public class StopRangeChangeFn : IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public LightControl LightControl;
+
+            public Fn.Tuple Invoke(Fn.Tuple _)
+            {
+                LightControl?.StopRangeChange();
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Serializable]
+        public class StartIntensityChangeFn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public LightControl LightControl;
+            public bool DefaultParam = false;
+
+            public Fn.Tuple Invoke(ITuple<bool> param)
+            {
+                LightControl?.StartIntensityChange(param.Item1);
+                return Fn.Tuple.Unit;
+            }
+            public Fn.Tuple Invoke(Fn.Tuple _)
+            {
+                LightControl?.StartIntensityChange(DefaultParam);
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Serializable]
+        public class StopIntensityChangeFn : IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public LightControl LightControl;
+
+            public Fn.Tuple Invoke(Fn.Tuple _)
+            {
+                LightControl?.StopIntensityChange();
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Serializable]
+        public class StartAngleChangeFn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public LightControl LightControl;
+            public bool DefaultParam = false;
+
+            public Fn.Tuple Invoke(ITuple<bool> param)
+            {
+                LightControl?.StartAngleChange(param.Item1);
+                return Fn.Tuple.Unit;
+            }
+            public Fn.Tuple Invoke(Fn.Tuple _)
+            {
+                LightControl?.StartAngleChange(DefaultParam);
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Serializable]
+        public class StopAngleChangeFn : IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public LightControl LightControl;
+
+            public Fn.Tuple Invoke(Fn.Tuple _)
+            {
+                LightControl?.StopAngleChange();
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Server]
+        public bool IsOn()
+        {
+            return _light.enabled;
         }
 
         [Server]
