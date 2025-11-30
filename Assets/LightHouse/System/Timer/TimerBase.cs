@@ -46,6 +46,16 @@ namespace LightHouse
         {
             return _timer.DisarmAlarm(_alarm);
         }
+
+        public bool IsStarted()
+        {
+            return _timer.IsStarted(_alarm);
+        }
+
+        public bool IsArmed()
+        {
+            return _timer.IsArmed(_alarm);
+        }
     }
 
     // Think of the `Timer` component as a time bomb.
@@ -56,7 +66,7 @@ namespace LightHouse
     // If the bomb is armed, it "goes off".
     // The timer will restart/rearm/remove the bomb according to its settings, then trigger the callback.
     // The callback then can decide to override the automatic behavior.
-    public class TimerBase : MonoBehaviour
+    public abstract class TimerBase : MonoBehaviour
     {
         [SerializeField]
         TimerBase _initialParent;
@@ -101,35 +111,23 @@ namespace LightHouse
             TickChildren(deltaTime);
         }
 
-        public virtual bool StartAlarm(AlarmInfoBase alarm)
-        {
-            return false;
-        }
+        public abstract bool StartAlarm(AlarmInfoBase alarm);
 
-        public virtual bool StopAlarm(AlarmInfoBase alarm)
-        {
-            return false;
-        }
+        public abstract bool StopAlarm(AlarmInfoBase alarm);
 
-        public virtual bool ResetAlarm(AlarmInfoBase alarm, float newCooldown)
-        {
-            return false;
-        }
+        public abstract bool ResetAlarm(AlarmInfoBase alarm, float newCooldown);
 
-        public virtual void RemoveAlarm(AlarmInfoBase alarm)
-        {
-            return;
-        }
+        public abstract void RemoveAlarm(AlarmInfoBase alarm);
 
-        public virtual bool ArmAlarm(AlarmInfoBase alarm)
-        {
-            return false;
-        }
+        public abstract bool ArmAlarm(AlarmInfoBase alarm);
 
-        public virtual bool DisarmAlarm(AlarmInfoBase alarm)
-        {
-            return false;
-        }
+        public abstract bool DisarmAlarm(AlarmInfoBase alarm);
+
+        public abstract bool IsStarted(AlarmInfoBase alarm);
+
+        public abstract bool IsArmed(AlarmInfoBase alarm);
+
+        public abstract bool IsRemoved(AlarmInfoBase alarm);
 
         void TickChildren(float deltaTime)
         {
@@ -152,7 +150,7 @@ namespace LightHouse
         //     initialCooldown: 0f,
         //     destroyAfterTriggered: true
         // );
-        public virtual Alarm AddAlarm(
+        public abstract Alarm AddAlarm(
             float cooldown,
             Action<float> callback,
             bool startImmediately = true,
@@ -161,9 +159,6 @@ namespace LightHouse
             bool autoRearm = true,
             float initialCooldown = 0f,
             bool destroyAfterTriggered = false
-        )
-        {
-            return null;
-        }
+        );
     }
 }

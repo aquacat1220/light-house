@@ -389,33 +389,25 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: _vitBelowZero.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      propertyPath: 'managedReferences[-2]'
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: _vitBelowZero.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      propertyPath: _vitBelowZero._listeners.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: _vitBelowZero.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      propertyPath: '_vitBelowZero._listeners.Array.data[0]'
+      value: 2166532276616953978
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'managedReferences[2166532276616953978]'
+      value: Assembly-CSharp LightHouse.PlayerCharacterDeath/DieFn
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[2166532276616953978].PlayerCharacterDeath
       value: 
       objectReference: {fileID: 3253198443913536155}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: _vitBelowZero.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: _vitBelowZero.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: Die
-      objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: _vitBelowZero.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: PlayerCharacterDeath, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: _vitBelowZero.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 5989156536031541926, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.size
       value: 60
@@ -905,243 +897,185 @@ MonoBehaviour:
   _componentIndexCache: 2
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
-  Move:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3324938354885705573}
-        m_TargetAssemblyTypeName: PredictedMovement, Assembly-CSharp
-        m_MethodName: OnMove
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  Look:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3324938354885705573}
-        m_TargetAssemblyTypeName: PredictedMovement, Assembly-CSharp
-        m_MethodName: OnLook
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerCharacterAim, Assembly-CSharp
-        m_MethodName: OnLook
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  Primary:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7613401983510641006}
-        m_TargetAssemblyTypeName: PlayerCharacterInventory, Assembly-CSharp
-        m_MethodName: OnPrimary
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  Secondary:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7613401983510641006}
-        m_TargetAssemblyTypeName: PlayerCharacterInventory, Assembly-CSharp
-        m_MethodName: OnSecondary
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  ItemAction1:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7613401983510641006}
-        m_TargetAssemblyTypeName: PlayerCharacterInventory, Assembly-CSharp
-        m_MethodName: OnAction1
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  ItemAction2:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7613401983510641006}
-        m_TargetAssemblyTypeName: PlayerCharacterInventory, Assembly-CSharp
-        m_MethodName: OnAction2
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  Reload:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7613401983510641006}
-        m_TargetAssemblyTypeName: PlayerCharacterInventory, Assembly-CSharp
-        m_MethodName: OnReload
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  SelectItem1:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7613401983510641006}
-        m_TargetAssemblyTypeName: PlayerCharacterInventory, Assembly-CSharp
-        m_MethodName: OnSelectItem1
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  DropItem1:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7613401983510641006}
-        m_TargetAssemblyTypeName: PlayerCharacterInventory, Assembly-CSharp
-        m_MethodName: OnDropItem1
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  SelectItem2:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7613401983510641006}
-        m_TargetAssemblyTypeName: PlayerCharacterInventory, Assembly-CSharp
-        m_MethodName: OnSelectItem2
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  DropItem2:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7613401983510641006}
-        m_TargetAssemblyTypeName: PlayerCharacterInventory, Assembly-CSharp
-        m_MethodName: OnDropItem2
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  SelectItem3:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7613401983510641006}
-        m_TargetAssemblyTypeName: PlayerCharacterInventory, Assembly-CSharp
-        m_MethodName: OnSelectItem3
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  DropItem3:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7613401983510641006}
-        m_TargetAssemblyTypeName: PlayerCharacterInventory, Assembly-CSharp
-        m_MethodName: OnDropItem3
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  SelectItem4:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7613401983510641006}
-        m_TargetAssemblyTypeName: PlayerCharacterInventory, Assembly-CSharp
-        m_MethodName: OnSelectItem4
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  DropItem4:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7613401983510641006}
-        m_TargetAssemblyTypeName: PlayerCharacterInventory, Assembly-CSharp
-        m_MethodName: OnDropItem4
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  _move:
+    _listeners:
+    - rid: 2166532276616953948
+  _look:
+    _listeners:
+    - rid: 2166532276616953949
+  _primary:
+    _listeners:
+    - rid: 2166532276616953950
+  _secondary:
+    _listeners:
+    - rid: 2166532276616953951
+  _itemAction1:
+    _listeners:
+    - rid: 2166532276616953952
+  _itemAction2:
+    _listeners:
+    - rid: 2166532276616953953
+  _reload:
+    _listeners:
+    - rid: 2166532276616953954
+  _selectItem1:
+    _listeners:
+    - rid: 2166532276616953955
+  _dropItem1:
+    _listeners:
+    - rid: 2166532276616953959
+  _selectItem2:
+    _listeners:
+    - rid: 2166532276616953961
+  _dropItem2:
+    _listeners:
+    - rid: 2166532276616953963
+  _selectItem3:
+    _listeners:
+    - rid: 2166532276616953967
+  _dropItem3:
+    _listeners:
+    - rid: 2166532276616953968
+  _selectItem4:
+    _listeners:
+    - rid: 2166532276616953969
+  _dropItem4:
+    _listeners:
+    - rid: 2166532276616953970
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 2166532276616953948
+      type: {class: PredictedMovement/OnMoveFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PredictedMovement: {fileID: 3324938354885705573}
+    - rid: 2166532276616953949
+      type: {class: PredictedMovement/OnLookFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PredictedMovement: {fileID: 3324938354885705573}
+    - rid: 2166532276616953950
+      type: {class: PlayerCharacterInventory/OnPrimaryFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 1
+    - rid: 2166532276616953951
+      type: {class: PlayerCharacterInventory/OnSecondaryFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 1
+    - rid: 2166532276616953952
+      type: {class: PlayerCharacterInventory/OnAction1Fn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 1
+    - rid: 2166532276616953953
+      type: {class: PlayerCharacterInventory/OnAction2Fn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 1
+    - rid: 2166532276616953954
+      type: {class: PlayerCharacterInventory/OnReloadFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 1
+    - rid: 2166532276616953955
+      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _true:
+          rid: 2166532276616953965
+        _false:
+          rid: -2
+    - rid: 2166532276616953959
+      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _true:
+          rid: 2166532276616953966
+        _false:
+          rid: -2
+    - rid: 2166532276616953961
+      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _true:
+          rid: 2166532276616953971
+        _false:
+          rid: -2
+    - rid: 2166532276616953963
+      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _true:
+          rid: 2166532276616953972
+        _false:
+          rid: -2
+    - rid: 2166532276616953965
+      type: {class: PlayerCharacterInventory/ChangeMainHandFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 0
+    - rid: 2166532276616953966
+      type: {class: PlayerCharacterInventory/DropItemFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 0
+    - rid: 2166532276616953967
+      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _true:
+          rid: 2166532276616953973
+        _false:
+          rid: -2
+    - rid: 2166532276616953968
+      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _true:
+          rid: 2166532276616953974
+        _false:
+          rid: -2
+    - rid: 2166532276616953969
+      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _true:
+          rid: 2166532276616953975
+        _false:
+          rid: -2
+    - rid: 2166532276616953970
+      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _true:
+          rid: 2166532276616953976
+        _false:
+          rid: -2
+    - rid: 2166532276616953971
+      type: {class: PlayerCharacterInventory/ChangeMainHandFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 1
+    - rid: 2166532276616953972
+      type: {class: PlayerCharacterInventory/DropItemFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 1
+    - rid: 2166532276616953973
+      type: {class: PlayerCharacterInventory/ChangeMainHandFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 2
+    - rid: 2166532276616953974
+      type: {class: PlayerCharacterInventory/DropItemFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 2
+    - rid: 2166532276616953975
+      type: {class: PlayerCharacterInventory/ChangeMainHandFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 3
+    - rid: 2166532276616953976
+      type: {class: PlayerCharacterInventory/DropItemFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 3
 --- !u!114 &3324938354885705573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1199,9 +1133,16 @@ MonoBehaviour:
   _visionLight: {fileID: 1963208907921747166}
   _modifier: 2
   _falloffDistance: 1
-  RangeChanged:
-    m_PersistentCalls:
-      m_Calls: []
+  _rangeChanged:
+    _listeners:
+    - rid: 2166532276616953977
+  references:
+    version: 2
+    RefIds:
+    - rid: 2166532276616953977
+      type: {class: PlayerCharacterCamera/OnRangeChangedFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterCamera: {fileID: 7544029604669326017}
 --- !u!114 &7544029604669326017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1218,7 +1159,6 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
   _minimumCameraSize: 6
-  _vision: {fileID: 6290294256753253600}
 --- !u!114 &3253198443913536155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1235,58 +1175,36 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
   _death:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 286916112871301450}
-        m_TargetAssemblyTypeName: LightHouse.PlayerCharacterInput, Assembly-CSharp
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Character died.
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 3324938354885705573}
-        m_TargetAssemblyTypeName: LightHouse.PredictedMovement, Assembly-CSharp
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 7613401983510641006}
-        m_TargetAssemblyTypeName: LightHouse.PlayerCharacterInventory, Assembly-CSharp
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 7544029604669326017}
-        m_TargetAssemblyTypeName: LightHouse.PlayerCharacterCamera, Assembly-CSharp
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+    _listeners:
+    - rid: 2166532276616953979
+    - rid: 2166532276616953980
+    - rid: 2166532276616953981
+    - rid: 2166532276616953982
   _respawnDelay: 3
   _despawnDelay: 5
+  references:
+    version: 2
+    RefIds:
+    - rid: 2166532276616953979
+      type: {class: EnableFn, ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MonoBehaviour: {fileID: 286916112871301450}
+        DefaultParam: 0
+    - rid: 2166532276616953980
+      type: {class: EnableFn, ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MonoBehaviour: {fileID: 3324938354885705573}
+        DefaultParam: 0
+    - rid: 2166532276616953981
+      type: {class: EnableFn, ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MonoBehaviour: {fileID: 7613401983510641006}
+        DefaultParam: 0
+    - rid: 2166532276616953982
+      type: {class: EnableFn, ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MonoBehaviour: {fileID: 7544029604669326017}
+        DefaultParam: 0
 --- !u!114 &6648798440151713100 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1573302493790001086, guid: d2c828e519c166684af8c10a7975ee06, type: 3}

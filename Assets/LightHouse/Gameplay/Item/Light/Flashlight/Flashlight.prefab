@@ -165,6 +165,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &3443445690164091086
 MeshFilter:
@@ -187,9 +188,6 @@ GameObject:
   - component: {fileID: 4750419483905691176}
   - component: {fileID: 6343127056236506670}
   - component: {fileID: 9029418283135670705}
-  - component: {fileID: 4985077304802888449}
-  - component: {fileID: 4119332325352223952}
-  - component: {fileID: 5523033274244072422}
   - component: {fileID: 1162655753089864281}
   m_Layer: 0
   m_Name: Flashlight
@@ -285,83 +283,42 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 6621121559563478381}
   _networkObjectCache: {fileID: 6621121559563478381}
   _register:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6343127056236506670}
-        m_TargetAssemblyTypeName: ItemTransform, Assembly-CSharp
-        m_MethodName: OnRegister
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 9029418283135670705}
-        m_TargetAssemblyTypeName: ItemInput, Assembly-CSharp
-        m_MethodName: OnRegister
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1162655753089864281}
-        m_TargetAssemblyTypeName: LightControl, Assembly-CSharp
-        m_MethodName: OnRegister
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+    _listeners:
+    - rid: 2166532276616953987
+    - rid: 2166532276616953986
+    - rid: 2166532283608596566
   _unregister:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6343127056236506670}
-        m_TargetAssemblyTypeName: ItemTransform, Assembly-CSharp
-        m_MethodName: OnUnregister
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 9029418283135670705}
-        m_TargetAssemblyTypeName: ItemInput, Assembly-CSharp
-        m_MethodName: OnUnregister
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1162655753089864281}
-        m_TargetAssemblyTypeName: LightControl, Assembly-CSharp
-        m_MethodName: OnUnregister
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+    _listeners:
+    - rid: 2166532276616953989
+    - rid: 2166532276616953988
+    - rid: 2166532283608596567
+  references:
+    version: 2
+    RefIds:
+    - rid: 2166532276616953986
+      type: {class: ItemInput/OnRegisterFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        ItemInput: {fileID: 9029418283135670705}
+    - rid: 2166532276616953987
+      type: {class: ItemTransform/OnRegisterFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        ItemTransform: {fileID: 6343127056236506670}
+    - rid: 2166532276616953988
+      type: {class: ItemInput/OnUnregisterFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        ItemInput: {fileID: 9029418283135670705}
+    - rid: 2166532276616953989
+      type: {class: ItemTransform/OnUnregisterFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        ItemTransform: {fileID: 6343127056236506670}
+    - rid: 2166532283608596566
+      type: {class: LightControl/OnRegisterFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        LightControl: {fileID: 1162655753089864281}
+    - rid: 2166532283608596567
+      type: {class: LightControl/OnUnregisterFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        LightControl: {fileID: 1162655753089864281}
 --- !u!114 &6343127056236506670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,227 +347,106 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemInput
   _primary:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4985077304802888449}
-        m_TargetAssemblyTypeName: PulseIdentity, Assembly-CSharp
-        m_MethodName: OnPulseChange
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+    _listeners:
+    - rid: 2166532283608596564
   _secondary:
-    m_PersistentCalls:
-      m_Calls: []
+    _listeners:
+    - rid: 2166532276616953992
+    - rid: 2166532276616953993
   _action1:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4119332325352223952}
-        m_TargetAssemblyTypeName: LightHouse.PulseIdentity, Assembly-CSharp
-        m_MethodName: OnPulseChange
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+    _listeners:
+    - rid: 2166532283608596560
   _action2:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5523033274244072422}
-        m_TargetAssemblyTypeName: LightHouse.PulseIdentity, Assembly-CSharp
-        m_MethodName: OnPulseChange
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+    _listeners:
+    - rid: 2166532283608596555
   _reload:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &4985077304802888449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4979753340546533646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90d09ce6830b0ae4da5c11f9a7ce61c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PulseIdentity
-  _pulseUp:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1162655753089864281}
-        m_TargetAssemblyTypeName: LightControl, Assembly-CSharp
-        m_MethodName: Toggle
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _pulseDown:
-    m_PersistentCalls:
-      m_Calls: []
-  _pulseChange:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &4119332325352223952
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4979753340546533646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90d09ce6830b0ae4da5c11f9a7ce61c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.PulseIdentity
-  _pulseUp:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1162655753089864281}
-        m_TargetAssemblyTypeName: LightHouse.LightControl, Assembly-CSharp
-        m_MethodName: StartRangeChange
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1162655753089864281}
-        m_TargetAssemblyTypeName: LightHouse.LightControl, Assembly-CSharp
-        m_MethodName: StartAngleChange
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-  _pulseDown:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1162655753089864281}
-        m_TargetAssemblyTypeName: LightHouse.LightControl, Assembly-CSharp
-        m_MethodName: StopRangeChange
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1162655753089864281}
-        m_TargetAssemblyTypeName: LightHouse.LightControl, Assembly-CSharp
-        m_MethodName: StopAngleChange
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _pulseChange:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &5523033274244072422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4979753340546533646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90d09ce6830b0ae4da5c11f9a7ce61c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.PulseIdentity
-  _pulseUp:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1162655753089864281}
-        m_TargetAssemblyTypeName: LightHouse.LightControl, Assembly-CSharp
-        m_MethodName: StartRangeChange
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1162655753089864281}
-        m_TargetAssemblyTypeName: LightHouse.LightControl, Assembly-CSharp
-        m_MethodName: StartAngleChange
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _pulseDown:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1162655753089864281}
-        m_TargetAssemblyTypeName: LightHouse.LightControl, Assembly-CSharp
-        m_MethodName: StopRangeChange
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1162655753089864281}
-        m_TargetAssemblyTypeName: LightHouse.LightControl, Assembly-CSharp
-        m_MethodName: StopAngleChange
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _pulseChange:
-    m_PersistentCalls:
-      m_Calls: []
+    _listeners: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 2166532276616953990
+      type: {class: LightControl/StartRangeChangeFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        LightControl: {fileID: 1162655753089864281}
+        DefaultParam: 1
+    - rid: 2166532276616953991
+      type: {class: LightControl/StartAngleChangeFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        LightControl: {fileID: 1162655753089864281}
+        DefaultParam: 0
+    - rid: 2166532276616953992
+      type: {class: LightControl/StartRangeChangeFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        LightControl: {fileID: 1162655753089864281}
+        DefaultParam: 0
+    - rid: 2166532276616953993
+      type: {class: LightControl/StartAngleChangeFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        LightControl: {fileID: 1162655753089864281}
+        DefaultParam: 1
+    - rid: 2166532283608596555
+      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _true:
+          rid: 2166532283608596556
+        _false:
+          rid: 2166532283608596557
+    - rid: 2166532283608596556
+      type: {class: 'Array`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _inners:
+        - rid: 2166532276616953990
+        - rid: 2166532276616953991
+    - rid: 2166532283608596557
+      type: {class: 'Array`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _inners:
+        - rid: 2166532283608596558
+        - rid: 2166532283608596559
+    - rid: 2166532283608596558
+      type: {class: LightControl/StopRangeChangeFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        LightControl: {fileID: 1162655753089864281}
+    - rid: 2166532283608596559
+      type: {class: LightControl/StopAngleChangeFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        LightControl: {fileID: 1162655753089864281}
+    - rid: 2166532283608596560
+      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _true:
+          rid: 2166532283608596561
+        _false:
+          rid: 2166532283608596557
+    - rid: 2166532283608596561
+      type: {class: 'Array`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _inners:
+        - rid: 2166532283608596562
+        - rid: 2166532283608596563
+    - rid: 2166532283608596562
+      type: {class: LightControl/StartRangeChangeFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        LightControl: {fileID: 1162655753089864281}
+        DefaultParam: 0
+    - rid: 2166532283608596563
+      type: {class: LightControl/StartAngleChangeFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        LightControl: {fileID: 1162655753089864281}
+        DefaultParam: 1
+    - rid: 2166532283608596564
+      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _true:
+          rid: 2166532283608596565
+        _false:
+          rid: -2
+    - rid: 2166532283608596565
+      type: {class: LightControl/ToggleFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        LightControl: {fileID: 1162655753089864281}
 --- !u!114 &1162655753089864281
 MonoBehaviour:
   m_ObjectHideFlags: 0

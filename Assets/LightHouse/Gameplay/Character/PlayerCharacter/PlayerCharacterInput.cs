@@ -2,38 +2,53 @@ namespace LightHouse
 {
     using FishNet.Object;
     using UnityEngine;
-    using UnityEngine.Events;
+    using Fn;
     using UnityEngine.InputSystem;
 
     public class PlayerCharacterInput : NetworkBehaviour
     {
         // Triggered when the move input changes. Argument holds the new input value.
-        public UnityEvent<Vector2> Move;
+        [SerializeField]
+        Event<Vector2> _move;
         // Triggered when the look input changes. Argument holds the new input value.
-        public UnityEvent<Vector2> Look;
+        [SerializeField]
+        Event<Vector2> _look;
         // Triggered when the primary action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
-        public UnityEvent<bool> Primary;
+        [SerializeField]
+        Event<bool> _primary;
         // Triggered when the secondary action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
-        public UnityEvent<bool> Secondary;
-        public UnityEvent<bool> ItemAction1;
-        public UnityEvent<bool> ItemAction2;
-        public UnityEvent<bool> Reload;
+        [SerializeField]
+        Event<bool> _secondary;
+        [SerializeField]
+        Event<bool> _itemAction1;
+        [SerializeField]
+        Event<bool> _itemAction2;
+        [SerializeField]
+        Event<bool> _reload;
         // Triggered when the select item 1 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
-        public UnityEvent<bool> SelectItem1;
+        [SerializeField]
+        Event<bool> _selectItem1;
         // Triggered when the drop item 1 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
-        public UnityEvent<bool> DropItem1;
+        [SerializeField]
+        Event<bool> _dropItem1;
         // Triggered when the select item 2 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
-        public UnityEvent<bool> SelectItem2;
+        [SerializeField]
+        Event<bool> _selectItem2;
         // Triggered when the drop item 2 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
-        public UnityEvent<bool> DropItem2;
+        [SerializeField]
+        Event<bool> _dropItem2;
         // Triggered when the select item 3 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
-        public UnityEvent<bool> SelectItem3;
+        [SerializeField]
+        Event<bool> _selectItem3;
         // Triggered when the drop item 3 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
-        public UnityEvent<bool> DropItem3;
+        [SerializeField]
+        Event<bool> _dropItem3;
         // Triggered when the select item 4 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
-        public UnityEvent<bool> SelectItem4;
+        [SerializeField]
+        Event<bool> _selectItem4;
         // Triggered when the drop item 4 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
-        public UnityEvent<bool> DropItem4;
+        [SerializeField]
+        Event<bool> _dropItem4;
 
         bool _isSubscribedToInputManager = false;
 
@@ -145,116 +160,116 @@ namespace LightHouse
 
         void OnMove(InputAction.CallbackContext context)
         {
-            Move?.Invoke(context.ReadValue<Vector2>());
+            _move?.Invoke(context.ReadValue<Vector2>());
         }
 
         void OnLook(InputAction.CallbackContext context)
         {
-            Look?.Invoke(context.ReadValue<Vector2>());
+            _look?.Invoke(context.ReadValue<Vector2>());
         }
 
         void OnPrimary(InputAction.CallbackContext context)
         {
             if (context.performed)
-                Primary?.Invoke(true);
+                _primary?.Invoke(true);
             else if (context.canceled)
-                Primary?.Invoke(false);
+                _primary?.Invoke(false);
         }
 
         void OnSecondary(InputAction.CallbackContext context)
         {
             if (context.performed)
-                Secondary?.Invoke(true);
+                _secondary?.Invoke(true);
             else if (context.canceled)
-                Secondary?.Invoke(false);
+                _secondary?.Invoke(false);
         }
 
         void OnItemAction1(InputAction.CallbackContext context)
         {
             if (context.performed)
-                ItemAction1?.Invoke(true);
+                _itemAction1?.Invoke(true);
             else if (context.canceled)
-                ItemAction1?.Invoke(false);
+                _itemAction1?.Invoke(false);
         }
 
         void OnItemAction2(InputAction.CallbackContext context)
         {
             if (context.performed)
-                ItemAction2?.Invoke(true);
+                _itemAction2?.Invoke(true);
             else if (context.canceled)
-                ItemAction2?.Invoke(false);
+                _itemAction2?.Invoke(false);
         }
 
         void OnReload(InputAction.CallbackContext context)
         {
             if (context.performed)
-                Reload?.Invoke(true);
+                _reload?.Invoke(true);
             else if (context.canceled)
-                Reload?.Invoke(false);
+                _reload?.Invoke(false);
         }
 
         void OnSelectItem1(InputAction.CallbackContext context)
         {
             if (context.performed)
-                SelectItem1?.Invoke(true);
+                _selectItem1?.Invoke(true);
             else if (context.canceled)
-                SelectItem1?.Invoke(false);
+                _selectItem1?.Invoke(false);
         }
 
         void OnDropItem1(InputAction.CallbackContext context)
         {
             if (context.performed)
-                DropItem1?.Invoke(true);
+                _dropItem1?.Invoke(true);
             else if (context.canceled)
-                DropItem1?.Invoke(false);
+                _dropItem1?.Invoke(false);
         }
 
         void OnSelectItem2(InputAction.CallbackContext context)
         {
             if (context.performed)
-                SelectItem2?.Invoke(true);
+                _selectItem2?.Invoke(true);
             else if (context.canceled)
-                SelectItem2?.Invoke(false);
+                _selectItem2?.Invoke(false);
         }
 
         void OnDropItem2(InputAction.CallbackContext context)
         {
             if (context.performed)
-                DropItem2?.Invoke(true);
+                _dropItem2?.Invoke(true);
             else if (context.canceled)
-                DropItem2?.Invoke(false);
+                _dropItem2?.Invoke(false);
         }
 
         void OnSelectItem3(InputAction.CallbackContext context)
         {
             if (context.performed)
-                SelectItem3?.Invoke(true);
+                _selectItem3?.Invoke(true);
             else if (context.canceled)
-                SelectItem3?.Invoke(false);
+                _selectItem3?.Invoke(false);
         }
 
         void OnDropItem3(InputAction.CallbackContext context)
         {
             if (context.performed)
-                DropItem3?.Invoke(true);
+                _dropItem3?.Invoke(true);
             else if (context.canceled)
-                DropItem3?.Invoke(false);
+                _dropItem3?.Invoke(false);
         }
 
         void OnSelectItem4(InputAction.CallbackContext context)
         {
             if (context.performed)
-                SelectItem4?.Invoke(true);
+                _selectItem4?.Invoke(true);
             else if (context.canceled)
-                SelectItem4?.Invoke(false);
+                _selectItem4?.Invoke(false);
         }
 
         void OnDropItem4(InputAction.CallbackContext context)
         {
             if (context.performed)
-                DropItem4?.Invoke(true);
+                _dropItem4?.Invoke(true);
             else if (context.canceled)
-                DropItem4?.Invoke(false);
+                _dropItem4?.Invoke(false);
         }
     }
 }

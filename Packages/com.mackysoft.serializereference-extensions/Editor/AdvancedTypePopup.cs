@@ -21,6 +21,7 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 	public class AdvancedGenericTypePopupItem : AdvancedTypePopupItem
 	{
 		public bool PropagatedConstraints = false;
+		public bool Unsatisfiable = false;
 		public TypeSearch.IConstraint[] Constraints { get; private set; }
 
 		public AdvancedGenericTypePopupItem(Type type, TypeSearch.IConstraint[] constraints, string name) : base(type, name)
@@ -191,7 +192,6 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 
 		public AdvancedTypePopup(IEnumerable<Type> types, TypeSearch.IConstraint[] constraints, int maxLineCount, AdvancedDropdownState state) : base(state)
 		{
-			Debug.Log("Instantiating");
 			m_Types = types.ToArray();
 			m_Constraints = constraints;
 			minimumSize = new Vector2(minimumSize.x, EditorGUIUtility.singleLineHeight * maxLineCount + k_HeaderHeight);
@@ -218,11 +218,16 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 		protected override AdvancedDropdownItem BuildRoot()
 		{
 			if (m_CachedRoot != null)
+			{
 				return m_CachedRoot;
-			var root = new AdvancedDropdownItem("Select Type");
-			AddTo(root, m_Types, m_Constraints);
-			m_CachedRoot = root;
-			return m_CachedRoot;
+			}
+			else
+			{
+				var root = new AdvancedDropdownItem("Select Type");
+				AddTo(root, m_Types, m_Constraints);
+				m_CachedRoot = root;
+				return m_CachedRoot;
+			}
 		}
 
 		protected override void ItemSelected(AdvancedDropdownItem item)
@@ -231,6 +236,7 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 			if (item is AdvancedTypePopupItem typePopupItem)
 			{
 				OnTypeSelected?.Invoke(typePopupItem.Type);
+				return;
 			}
 			else if (item is AdvancedTypeParameterPopupItem typeParameterItem)
 			{
@@ -238,11 +244,28 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 				{
 					// Type parameter popup items receive constraints from their parent item.
 					AdvancedGenericTypePopupItem parent = typeParameterItem.Parent;
+					if (parent.Unsatisfiable)
+					{
+						// This type was deemed unsatisfiable.
+						Refresh();
+						return;
+					}
 					if (parent.PropagatedConstraints)
 						throw new Exception();
 					var parameterConstraints = TypeSearch.PropagateConstraints(parent.Type, parent.Constraints);
-					Debug.Log(parameterConstraints);
 					parent.PropagatedConstraints = true;
+					if (parameterConstraints == null)
+					{
+						// The constraint was unsatisfiable.
+						parent.Unsatisfiable = true;
+						parent.enabled = false;
+						foreach (AdvancedTypeParameterPopupItem parameterItem in parent.children)
+						{
+							parameterItem.enabled = false;
+						}
+						Refresh();
+						return;
+					}
 					foreach (AdvancedTypeParameterPopupItem parameterItem in parent.children)
 					{
 						parameterItem.Constraints = parameterConstraints[parameterItem.TypeParameter];
@@ -251,9 +274,36 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 
 				IEnumerable<Type> types = AppDomain.CurrentDomain.GetAssemblies()
 					.SelectMany(x => x.GetTypes())
-					.Where((type) => (type.IsPublic || type.IsNestedPublic || type.IsNestedPrivate));
+					.Where((type) => (type.IsPublic || type.IsNestedPublic));
+				var candidates = TypeSearch.GetCandidates(typeParameterItem.Constraints.ToArray(), types);
+				if (candidates.Count() == 0)
+				{
+					AdvancedGenericTypePopupItem parent = typeParameterItem.Parent;
+					parent.Unsatisfiable = true;
+					parent.enabled = false;
+					foreach (AdvancedTypeParameterPopupItem parameterItem in parent.children)
+					{
+						parameterItem.enabled = false;
+					}
+					Refresh();
+					return;
+				}
+				else if (candidates.Count() == 1 && !candidates.First().ContainsGenericParameters)
+				{
+					// We have a single candidate, which is luckily nongeneric.
+					typeParameterItem.SelectedType = candidates.First();
+					Type constructedType = TryConstructGeneric(typeParameterItem.Parent);
+					if (constructedType != null)
+					{
+						OnTypeSelected?.Invoke(constructedType);
+						Refresh();
+					}
+					else
+						Refresh();
+					return;
+				}
 				m_InnerPopup = new AdvancedTypePopup(
-					TypeSearch.GetCandidates(typeParameterItem.Constraints.ToArray(), types),
+					candidates,
 					typeParameterItem.Constraints.ToArray(),
 					k_MaxChildTypePopupLineCount,
 					new AdvancedDropdownState()
@@ -276,6 +326,7 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 				};
 				m_InnerPopup.OnTypeSelected += onInnerPopupSelected;
 				Refresh();
+				return;
 			}
 		}
 
@@ -286,7 +337,6 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 
 			foreach (AdvancedTypeParameterPopupItem child in item.children)
 			{
-				Debug.Log(child.SelectedType);
 				if (child.SelectedType != null)
 					typeArguments.Add(child.SelectedType);
 				else

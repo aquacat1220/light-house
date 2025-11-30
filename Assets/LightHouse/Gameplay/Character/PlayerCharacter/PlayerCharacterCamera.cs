@@ -4,6 +4,7 @@ namespace LightHouse
     using FishNet.Object;
     using NaughtyAttributes;
     using UnityEngine;
+    using Fn;
 
     public class PlayerCharacterCamera : NetworkBehaviour
     {
@@ -11,18 +12,8 @@ namespace LightHouse
         [Min(1f)]
         float _minimumCameraSize = 6f;
 
-        [SerializeField]
-        [Required]
-        Vision _vision;
-
         FollowCamera _followCamera = null;
         float _range = 1f;
-
-        void Awake()
-        {
-            _vision.RangeChanged.AddListener(OnRangeChanged);
-            _range = _vision.Range;
-        }
 
         void OnEnable()
         {
@@ -70,7 +61,18 @@ namespace LightHouse
             _followCamera = null;
         }
 
-        void OnRangeChanged(float newRange)
+        [Serializable]
+        public class OnRangeChangedFn : IFn<ITuple<float>, Fn.Tuple>
+        {
+            public PlayerCharacterCamera PlayerCharacterCamera;
+            public Fn.Tuple Invoke(ITuple<float> param)
+            {
+                PlayerCharacterCamera?.OnRangeChanged(param.Item1);
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        public void OnRangeChanged(float newRange)
         {
             _range = newRange;
             if (_followCamera != null)

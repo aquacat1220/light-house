@@ -6,7 +6,7 @@ namespace LightHouse
     using FishNet.Object.Prediction;
     using FishNet.Transporting;
     using UnityEngine;
-    using UnityEngine.InputSystem;
+    using Fn;
 
     public class PredictedMovement : NetworkBehaviour
     {
@@ -260,6 +260,28 @@ namespace LightHouse
         {
             ReconcileData data = new ReconcileData(_predictionRigidbody2D);
             Reconcile(data);
+        }
+
+        [Serializable]
+        public class OnMoveFn : IFn<ITuple<Vector2>, Fn.Tuple>
+        {
+            public PredictedMovement PredictedMovement;
+            public Fn.Tuple Invoke(ITuple<Vector2> param)
+            {
+                PredictedMovement?.OnMove(param.Item1);
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Serializable]
+        public class OnLookFn : IFn<ITuple<Vector2>, Fn.Tuple>
+        {
+            public PredictedMovement PredictedMovement;
+            public Fn.Tuple Invoke(ITuple<Vector2> param)
+            {
+                PredictedMovement?.OnLook(param.Item1);
+                return Fn.Tuple.Unit;
+            }
         }
 
         // Called to notify movement input change.

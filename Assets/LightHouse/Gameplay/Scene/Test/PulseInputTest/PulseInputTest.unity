@@ -130,15 +130,13 @@ GameObject:
   - component: {fileID: 69427190}
   - component: {fileID: 69427189}
   - component: {fileID: 69427192}
-  - component: {fileID: 69427194}
-  - component: {fileID: 69427193}
   m_Layer: 0
   m_Name: SubtickAlarmTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &69427189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,18 +164,6 @@ MonoBehaviour:
           m_StringArgument: Mouse pressed.
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 69427194}
-        m_TargetAssemblyTypeName: RepeatUpDown, Assembly-CSharp
-        m_MethodName: OnPulseUp
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   _mouseRelease:
     m_PersistentCalls:
       m_Calls:
@@ -193,19 +179,24 @@ MonoBehaviour:
           m_StringArgument: Mouse released.
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 69427194}
-        m_TargetAssemblyTypeName: RepeatUpDown, Assembly-CSharp
-        m_MethodName: OnPulseDown
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  _mouse:
+    _listeners:
+    - rid: 2166532276616953933
   _marker: {fileID: 494630791338335743, guid: 4b95fd64a0ab318a1a10a7b7bf6a5c72, type: 3}
+  references:
+    version: 2
+    RefIds:
+    - rid: 2166532276616953933
+      type: {class: LimitPulse, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        _inner:
+          rid: 2166532276616953934
+        _delay: 1
+        _bufferInput: 1
+    - rid: 2166532276616953934
+      type: {class: PulseInputTest/OnPulseChangeFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PulseInputTest: {fileID: 69427189}
 --- !u!4 &69427190
 Transform:
   m_ObjectHideFlags: 0
@@ -233,122 +224,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d852d571aa07eb487a611303c76ec139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Logger
---- !u!114 &69427193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 69427187}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5954ff1a1efeed33eb773d5bbb642e4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PulseOnUp
-  _pulseLength: 0.0003
-  _pulseUp:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 69427192}
-        m_TargetAssemblyTypeName: Logger, Assembly-CSharp
-        m_MethodName: Log
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Child up.
-          m_BoolArgument: 0
-        m_CallState: 2
-  _pulseDown:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 69427192}
-        m_TargetAssemblyTypeName: Logger, Assembly-CSharp
-        m_MethodName: Log
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Child down.
-          m_BoolArgument: 0
-        m_CallState: 2
-  _pulseChange:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 69427189}
-        m_TargetAssemblyTypeName: PulseInputTest, Assembly-CSharp
-        m_MethodName: OnPulseChange
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &69427194
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 69427187}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8abb44d6955eb3cb596a470c40e7ecdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RepeatUpDown
-  _repeatDelay: 0.001
-  _pulseUp:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 69427192}
-        m_TargetAssemblyTypeName: Logger, Assembly-CSharp
-        m_MethodName: Log
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Parent up.
-          m_BoolArgument: 0
-        m_CallState: 2
-  _pulseDown:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 69427192}
-        m_TargetAssemblyTypeName: Logger, Assembly-CSharp
-        m_MethodName: Log
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Parent down.
-          m_BoolArgument: 0
-        m_CallState: 2
-  _pulseChange:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 69427193}
-        m_TargetAssemblyTypeName: PulseOnUp, Assembly-CSharp
-        m_MethodName: OnPulseChange
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &164397060
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,188 +361,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!1 &1614053720
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1614053726}
-  - component: {fileID: 1614053725}
-  - component: {fileID: 1614053724}
-  - component: {fileID: 1614053723}
-  - component: {fileID: 1614053727}
-  m_Layer: 0
-  m_Name: PulseSyncTest
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1614053723
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1614053720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8abb44d6955eb3cb596a470c40e7ecdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RepeatUpDown
-  _repeatDelay: 2
-  _pulseUp:
-    m_PersistentCalls:
-      m_Calls: []
-  _pulseDown:
-    m_PersistentCalls:
-      m_Calls: []
-  _pulseChange:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1614053727}
-        m_TargetAssemblyTypeName: PulseOnUp, Assembly-CSharp
-        m_MethodName: OnPulseChange
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1614053724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1614053720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d852d571aa07eb487a611303c76ec139, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Logger
---- !u!114 &1614053725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1614053720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f64ac7d0caf0c9b95b965622a26b2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PulseInputTest
-  _mousePress:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1614053724}
-        m_TargetAssemblyTypeName: Logger, Assembly-CSharp
-        m_MethodName: Log
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Mouse pressed.
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1614053723}
-        m_TargetAssemblyTypeName: RepeatUpDown, Assembly-CSharp
-        m_MethodName: OnPulseUp
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _mouseRelease:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1614053724}
-        m_TargetAssemblyTypeName: Logger, Assembly-CSharp
-        m_MethodName: Log
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Mouse released.
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1614053723}
-        m_TargetAssemblyTypeName: RepeatUpDown, Assembly-CSharp
-        m_MethodName: OnPulseDown
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _marker: {fileID: 494630791338335743, guid: 4b95fd64a0ab318a1a10a7b7bf6a5c72, type: 3}
---- !u!4 &1614053726
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1614053720}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1614053727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1614053720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5954ff1a1efeed33eb773d5bbb642e4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PulseOnUp
-  _pulseLength: 1.5
-  _pulseUp:
-    m_PersistentCalls:
-      m_Calls: []
-  _pulseDown:
-    m_PersistentCalls:
-      m_Calls: []
-  _pulseChange:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2035547526}
-        m_TargetAssemblyTypeName: SyncPulse, Assembly-CSharp
-        m_MethodName: OnPulseChange
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1001 &1812202479
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -824,8 +517,6 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 2035547525}
   _networkObjectCache: {fileID: 0}
-  _syncToServer: 1
-  _syncToObservers: 1
   _pulseUp:
     m_PersistentCalls:
       m_Calls:
@@ -859,7 +550,7 @@ MonoBehaviour:
   _pulseChange:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614053725}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PulseInputTest, Assembly-CSharp
         m_MethodName: OnPulseChange
         m_Mode: 0
@@ -923,5 +614,4 @@ SceneRoots:
   - {fileID: 164397063}
   - {fileID: 1812202479}
   - {fileID: 69427190}
-  - {fileID: 1614053726}
   - {fileID: 2035547527}
