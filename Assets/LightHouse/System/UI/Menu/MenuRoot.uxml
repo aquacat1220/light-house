@@ -1,26 +1,36 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="MainMenu" src="project://database/Assets/LightHouse/Gameplay/UI/MainMenu/MainMenu.uxml?fileID=9197481963319205126&amp;guid=26a62438e4e8ed7de876afa07b5341ee&amp;type=3#MainMenu"/>
     <Style src="project://database/Assets/LightHouse/System/UI/Menu/MenuRoot.uss?fileID=7433441132597879392&amp;guid=4ce3ea78fec222ba2ae73461a96d5b86&amp;type=3#MenuRoot"/>
-    <Unity.AppUI.UI.Panel>
-        <Unity.AppUI.UI.Accordion>
-            <Unity.AppUI.UI.AccordionItem>
-                <Unity.AppUI.UI.Button/>
-            </Unity.AppUI.UI.AccordionItem>
-            <Unity.AppUI.UI.AccordionItem/>
-            <Unity.AppUI.UI.AccordionItem/>
-            <Unity.AppUI.UI.AccordionItem/>
-            <Unity.AppUI.UI.AccordionItem/>
-            <Unity.AppUI.UI.AccordionItem/>
-            <Unity.AppUI.UI.AccordionItem/>
-            <Unity.AppUI.UI.AccordionItem/>
-            <Unity.AppUI.UI.AccordionItem/>
-            <Unity.AppUI.UI.AccordionItem/>
-            <Unity.AppUI.UI.AccordionItem/>
-            <Unity.AppUI.UI.AccordionItem/>
-            <Unity.AppUI.UI.AccordionItem/>
-            <Unity.AppUI.UI.AccordionItem/>
-            <Unity.AppUI.UI.AccordionItem/>
-            <Unity.AppUI.UI.AccordionItem/>
-            <Unity.AppUI.UI.AccordionItem/>
-        </Unity.AppUI.UI.Accordion>
+    <Unity.AppUI.UI.Panel style="background-color: rgba(29, 29, 29, 0.5);">
+        <ui:VisualElement name="menu-container" style="flex-grow: 1; position: absolute; top: 20%; left: 20%; bottom: 20%; right: 20%;">
+            <Unity.AppUI.UI.Tabs value="-1" class="menu-tab">
+                <Unity.AppUI.UI.TabItem class="menu-tab__tab-item">
+                    <ui:Label text="dffffffffffff" class="menu-tab__tab-item-label"/>
+                </Unity.AppUI.UI.TabItem>
+                <Unity.AppUI.UI.TabItem class="menu-tab__tab-item">
+                    <ui:Label text="dffffffffffff" class="menu-tab__tab-item-label"/>
+                </Unity.AppUI.UI.TabItem>
+                <Unity.AppUI.UI.TabItem class="menu-tab__tab-item">
+                    <ui:Label text="dffffffffffff" class="menu-tab__tab-item-label"/>
+                </Unity.AppUI.UI.TabItem>
+                <Unity.AppUI.UI.TabItem class="menu-tab__tab-item">
+                    <ui:Label text="dffffffffffff" class="menu-tab__tab-item-label"/>
+                </Unity.AppUI.UI.TabItem>
+            </Unity.AppUI.UI.Tabs>
+            <Unity.AppUI.UI.SwipeView value="-2" class="menu-view">
+                <Unity.AppUI.UI.SwipeViewItem>
+                    <ui:Instance template="MainMenu" style="width: 100%; height: 100%;"/>
+                </Unity.AppUI.UI.SwipeViewItem>
+                <Unity.AppUI.UI.SwipeViewItem>
+                    <ui:VisualElement style="background-color: rgb(130, 37, 37); width: 100%; height: 100%;"/>
+                </Unity.AppUI.UI.SwipeViewItem>
+                <Unity.AppUI.UI.SwipeViewItem>
+                    <ui:VisualElement style="background-color: rgb(130, 37, 130); width: 100%; height: 100%;"/>
+                </Unity.AppUI.UI.SwipeViewItem>
+                <Unity.AppUI.UI.SwipeViewItem>
+                    <ui:VisualElement style="background-color: rgb(37, 41, 130); width: 100%; height: 100%;"/>
+                </Unity.AppUI.UI.SwipeViewItem>
+            </Unity.AppUI.UI.SwipeView>
+        </ui:VisualElement>
     </Unity.AppUI.UI.Panel>
 </ui:UXML>

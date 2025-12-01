@@ -1,0 +1,43 @@
+#menu-container {
+    background-color: var(--appui-backgrounds-100);
+}
+
+.menu-tab__tab-item-label {
+    margin-top: 3px;
+    margin-right: 0;
+    margin-bottom: 3px;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    font-size: 24px;
+    -unity-text-align: lower-left;
+    -unity-font-definition: url("project://database/Packages/com.unity.dt.app-ui/PackageResources/Fonts/Inter-SemiBold.ttf?fileID=12800000&guid=8c9d11570d1ef4f4cbeb28d1c7e6b763&type=3#Inter-SemiBold");
+}
+
+.menu-tab__tab-item {
+    height: 100%;
+}
+
+.menu-tab {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+    height: 7%;
+    padding-bottom: 3px;
+}
+
+.menu-tab .appui-tabs__indicator {
+    height: 3px;
+}
+
+.menu-view {
+    flex-grow: 1;
+    border-radius: 0;
+    /* border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px; */
+}
