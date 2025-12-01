@@ -1,3 +1,26 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/LightHouse/System/UI/Menu/MenuRoot.uss?fileID=7433441132597879392&amp;guid=4ce3ea78fec222ba2ae73461a96d5b86&amp;type=3#MenuRoot"/>
+    <Unity.AppUI.UI.Panel>
+        <Unity.AppUI.UI.Accordion>
+            <Unity.AppUI.UI.AccordionItem>
+                <Unity.AppUI.UI.Button/>
+            </Unity.AppUI.UI.AccordionItem>
+            <Unity.AppUI.UI.AccordionItem/>
+            <Unity.AppUI.UI.AccordionItem/>
+            <Unity.AppUI.UI.AccordionItem/>
+            <Unity.AppUI.UI.AccordionItem/>
+            <Unity.AppUI.UI.AccordionItem/>
+            <Unity.AppUI.UI.AccordionItem/>
+            <Unity.AppUI.UI.AccordionItem/>
+            <Unity.AppUI.UI.AccordionItem/>
+            <Unity.AppUI.UI.AccordionItem/>
+            <Unity.AppUI.UI.AccordionItem/>
+            <Unity.AppUI.UI.AccordionItem/>
+            <Unity.AppUI.UI.AccordionItem/>
+            <Unity.AppUI.UI.AccordionItem/>
+            <Unity.AppUI.UI.AccordionItem/>
+            <Unity.AppUI.UI.AccordionItem/>
+            <Unity.AppUI.UI.AccordionItem/>
+        </Unity.AppUI.UI.Accordion>
+    </Unity.AppUI.UI.Panel>
 </ui:UXML>
