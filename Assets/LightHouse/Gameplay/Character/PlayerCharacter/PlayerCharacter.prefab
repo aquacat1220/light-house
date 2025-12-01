@@ -909,15 +909,15 @@ MonoBehaviour:
   _secondary:
     _listeners:
     - rid: 2166532276616953951
-  _itemAction1:
+  _action1:
     _listeners:
-    - rid: 2166532276616953952
-  _itemAction2:
+    - rid: 109097971698630852
+  _action2:
     _listeners:
-    - rid: 2166532276616953953
-  _reload:
+    - rid: 109097971698630853
+  _action3:
     _listeners:
-    - rid: 2166532276616953954
+    - rid: 109097971698630854
   _selectItem1:
     _listeners:
     - rid: 2166532276616953955
@@ -947,6 +947,21 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 109097971698630852
+      type: {class: PlayerCharacterInventory/OnAction1Fn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 1
+    - rid: 109097971698630853
+      type: {class: PlayerCharacterInventory/OnAction2Fn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 1
+    - rid: 109097971698630854
+      type: {class: PlayerCharacterInventory/OnAction3Fn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 1
     - rid: 2166532276616953948
       type: {class: PredictedMovement/OnMoveFn, ns: LightHouse, asm: Assembly-CSharp}
       data:
@@ -962,21 +977,6 @@ MonoBehaviour:
         DefaultParam: 1
     - rid: 2166532276616953951
       type: {class: PlayerCharacterInventory/OnSecondaryFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 1
-    - rid: 2166532276616953952
-      type: {class: PlayerCharacterInventory/OnAction1Fn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 1
-    - rid: 2166532276616953953
-      type: {class: PlayerCharacterInventory/OnAction2Fn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 1
-    - rid: 2166532276616953954
-      type: {class: PlayerCharacterInventory/OnReloadFn, ns: LightHouse, asm: Assembly-CSharp}
       data:
         PlayerCharacterInventory: {fileID: 7613401983510641006}
         DefaultParam: 1

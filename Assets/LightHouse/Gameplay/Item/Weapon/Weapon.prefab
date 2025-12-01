@@ -265,14 +265,25 @@ MonoBehaviour:
     _listeners: []
   _action2:
     _listeners: []
-  _reload:
+  _action3:
     _listeners:
-    - rid: 2166532276616953944
+    - rid: 109097971698630855
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 109097971698630855
+      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _true:
+          rid: 109097971698630856
+        _false:
+          rid: -2
+    - rid: 109097971698630856
+      type: {class: Magazine/StartReloadFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        Magazine: {fileID: 6129219461553058081}
     - rid: 2166532276616953942
       type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
@@ -282,17 +293,6 @@ MonoBehaviour:
           rid: -2
     - rid: 2166532276616953943
       type: {class: Magazine/TryFireFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        Magazine: {fileID: 6129219461553058081}
-    - rid: 2166532276616953944
-      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _true:
-          rid: 2166532276616953946
-        _false:
-          rid: -2
-    - rid: 2166532276616953946
-      type: {class: Magazine/StartReloadFn, ns: LightHouse, asm: Assembly-CSharp}
       data:
         Magazine: {fileID: 6129219461553058081}
 --- !u!114 &6129219461553058081

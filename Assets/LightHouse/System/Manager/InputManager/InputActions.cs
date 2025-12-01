@@ -89,7 +89,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     ""name"": ""InputActions"",
     ""maps"": [
         {
-            ""name"": ""Player"",
+            ""name"": ""Gameplay"",
             ""id"": ""df70fa95-8a34-4494-b137-73ab6b9c7d37"",
             ""actions"": [
                 {
@@ -129,7 +129,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ItemAction1"",
+                    ""name"": ""Action1"",
                     ""type"": ""Button"",
                     ""id"": ""2a93d629-a63b-42f9-a343-7e3ed1843495"",
                     ""expectedControlType"": """",
@@ -138,7 +138,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ItemAction2"",
+                    ""name"": ""Action2"",
                     ""type"": ""Button"",
                     ""id"": ""caa37ed5-21ba-4f69-9bb3-591ccd820b14"",
                     ""expectedControlType"": """",
@@ -147,7 +147,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Reload"",
+                    ""name"": ""Action3"",
                     ""type"": ""Button"",
                     ""id"": ""34828d44-d612-442f-9bea-d56a4d0f8f31"",
                     ""expectedControlType"": """",
@@ -156,7 +156,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ShowUI"",
+                    ""name"": ""ShowMenu"",
                     ""type"": ""Button"",
                     ""id"": ""83fbc5c5-3dab-460b-9246-51aeab541599"",
                     ""expectedControlType"": """",
@@ -366,7 +366,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""ShowUI"",
+                    ""action"": ""ShowMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -476,7 +476,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Reload"",
+                    ""action"": ""Action3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -487,7 +487,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""ItemAction1"",
+                    ""action"": ""Action1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -498,7 +498,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""ItemAction2"",
+                    ""action"": ""Action2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1084,24 +1084,24 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         }
     ]
 }");
-        // Player
-        m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
-        m_Player_Primary = m_Player.FindAction("Primary", throwIfNotFound: true);
-        m_Player_Secondary = m_Player.FindAction("Secondary", throwIfNotFound: true);
-        m_Player_ItemAction1 = m_Player.FindAction("ItemAction1", throwIfNotFound: true);
-        m_Player_ItemAction2 = m_Player.FindAction("ItemAction2", throwIfNotFound: true);
-        m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
-        m_Player_ShowUI = m_Player.FindAction("ShowUI", throwIfNotFound: true);
-        m_Player_SelectItem1 = m_Player.FindAction("SelectItem1", throwIfNotFound: true);
-        m_Player_SelectItem2 = m_Player.FindAction("SelectItem2", throwIfNotFound: true);
-        m_Player_SelectItem3 = m_Player.FindAction("SelectItem3", throwIfNotFound: true);
-        m_Player_SelectItem4 = m_Player.FindAction("SelectItem4", throwIfNotFound: true);
-        m_Player_DropItem1 = m_Player.FindAction("DropItem1", throwIfNotFound: true);
-        m_Player_DropItem2 = m_Player.FindAction("DropItem2", throwIfNotFound: true);
-        m_Player_DropItem3 = m_Player.FindAction("DropItem3", throwIfNotFound: true);
-        m_Player_DropItem4 = m_Player.FindAction("DropItem4", throwIfNotFound: true);
+        // Gameplay
+        m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
+        m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
+        m_Gameplay_Look = m_Gameplay.FindAction("Look", throwIfNotFound: true);
+        m_Gameplay_Primary = m_Gameplay.FindAction("Primary", throwIfNotFound: true);
+        m_Gameplay_Secondary = m_Gameplay.FindAction("Secondary", throwIfNotFound: true);
+        m_Gameplay_Action1 = m_Gameplay.FindAction("Action1", throwIfNotFound: true);
+        m_Gameplay_Action2 = m_Gameplay.FindAction("Action2", throwIfNotFound: true);
+        m_Gameplay_Action3 = m_Gameplay.FindAction("Action3", throwIfNotFound: true);
+        m_Gameplay_ShowMenu = m_Gameplay.FindAction("ShowMenu", throwIfNotFound: true);
+        m_Gameplay_SelectItem1 = m_Gameplay.FindAction("SelectItem1", throwIfNotFound: true);
+        m_Gameplay_SelectItem2 = m_Gameplay.FindAction("SelectItem2", throwIfNotFound: true);
+        m_Gameplay_SelectItem3 = m_Gameplay.FindAction("SelectItem3", throwIfNotFound: true);
+        m_Gameplay_SelectItem4 = m_Gameplay.FindAction("SelectItem4", throwIfNotFound: true);
+        m_Gameplay_DropItem1 = m_Gameplay.FindAction("DropItem1", throwIfNotFound: true);
+        m_Gameplay_DropItem2 = m_Gameplay.FindAction("DropItem2", throwIfNotFound: true);
+        m_Gameplay_DropItem3 = m_Gameplay.FindAction("DropItem3", throwIfNotFound: true);
+        m_Gameplay_DropItem4 = m_Gameplay.FindAction("DropItem4", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1118,7 +1118,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
 
     ~@InputActions()
     {
-        UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, InputActions.Player.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Gameplay.enabled, "This will cause a leak and performance issues, InputActions.Gameplay.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, InputActions.UI.Disable() has not been called.");
     }
 
@@ -1192,104 +1192,104 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Player
-    private readonly InputActionMap m_Player;
-    private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_Look;
-    private readonly InputAction m_Player_Primary;
-    private readonly InputAction m_Player_Secondary;
-    private readonly InputAction m_Player_ItemAction1;
-    private readonly InputAction m_Player_ItemAction2;
-    private readonly InputAction m_Player_Reload;
-    private readonly InputAction m_Player_ShowUI;
-    private readonly InputAction m_Player_SelectItem1;
-    private readonly InputAction m_Player_SelectItem2;
-    private readonly InputAction m_Player_SelectItem3;
-    private readonly InputAction m_Player_SelectItem4;
-    private readonly InputAction m_Player_DropItem1;
-    private readonly InputAction m_Player_DropItem2;
-    private readonly InputAction m_Player_DropItem3;
-    private readonly InputAction m_Player_DropItem4;
+    // Gameplay
+    private readonly InputActionMap m_Gameplay;
+    private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
+    private readonly InputAction m_Gameplay_Move;
+    private readonly InputAction m_Gameplay_Look;
+    private readonly InputAction m_Gameplay_Primary;
+    private readonly InputAction m_Gameplay_Secondary;
+    private readonly InputAction m_Gameplay_Action1;
+    private readonly InputAction m_Gameplay_Action2;
+    private readonly InputAction m_Gameplay_Action3;
+    private readonly InputAction m_Gameplay_ShowMenu;
+    private readonly InputAction m_Gameplay_SelectItem1;
+    private readonly InputAction m_Gameplay_SelectItem2;
+    private readonly InputAction m_Gameplay_SelectItem3;
+    private readonly InputAction m_Gameplay_SelectItem4;
+    private readonly InputAction m_Gameplay_DropItem1;
+    private readonly InputAction m_Gameplay_DropItem2;
+    private readonly InputAction m_Gameplay_DropItem3;
+    private readonly InputAction m_Gameplay_DropItem4;
     /// <summary>
-    /// Provides access to input actions defined in input action map "Player".
+    /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
-    public struct PlayerActions
+    public struct GameplayActions
     {
         private @InputActions m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-        public PlayerActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public GameplayActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "Player/Move".
+        /// Provides access to the underlying input action "Gameplay/Move".
         /// </summary>
-        public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @Move => m_Wrapper.m_Gameplay_Move;
         /// <summary>
-        /// Provides access to the underlying input action "Player/Look".
+        /// Provides access to the underlying input action "Gameplay/Look".
         /// </summary>
-        public InputAction @Look => m_Wrapper.m_Player_Look;
+        public InputAction @Look => m_Wrapper.m_Gameplay_Look;
         /// <summary>
-        /// Provides access to the underlying input action "Player/Primary".
+        /// Provides access to the underlying input action "Gameplay/Primary".
         /// </summary>
-        public InputAction @Primary => m_Wrapper.m_Player_Primary;
+        public InputAction @Primary => m_Wrapper.m_Gameplay_Primary;
         /// <summary>
-        /// Provides access to the underlying input action "Player/Secondary".
+        /// Provides access to the underlying input action "Gameplay/Secondary".
         /// </summary>
-        public InputAction @Secondary => m_Wrapper.m_Player_Secondary;
+        public InputAction @Secondary => m_Wrapper.m_Gameplay_Secondary;
         /// <summary>
-        /// Provides access to the underlying input action "Player/ItemAction1".
+        /// Provides access to the underlying input action "Gameplay/Action1".
         /// </summary>
-        public InputAction @ItemAction1 => m_Wrapper.m_Player_ItemAction1;
+        public InputAction @Action1 => m_Wrapper.m_Gameplay_Action1;
         /// <summary>
-        /// Provides access to the underlying input action "Player/ItemAction2".
+        /// Provides access to the underlying input action "Gameplay/Action2".
         /// </summary>
-        public InputAction @ItemAction2 => m_Wrapper.m_Player_ItemAction2;
+        public InputAction @Action2 => m_Wrapper.m_Gameplay_Action2;
         /// <summary>
-        /// Provides access to the underlying input action "Player/Reload".
+        /// Provides access to the underlying input action "Gameplay/Action3".
         /// </summary>
-        public InputAction @Reload => m_Wrapper.m_Player_Reload;
+        public InputAction @Action3 => m_Wrapper.m_Gameplay_Action3;
         /// <summary>
-        /// Provides access to the underlying input action "Player/ShowUI".
+        /// Provides access to the underlying input action "Gameplay/ShowMenu".
         /// </summary>
-        public InputAction @ShowUI => m_Wrapper.m_Player_ShowUI;
+        public InputAction @ShowMenu => m_Wrapper.m_Gameplay_ShowMenu;
         /// <summary>
-        /// Provides access to the underlying input action "Player/SelectItem1".
+        /// Provides access to the underlying input action "Gameplay/SelectItem1".
         /// </summary>
-        public InputAction @SelectItem1 => m_Wrapper.m_Player_SelectItem1;
+        public InputAction @SelectItem1 => m_Wrapper.m_Gameplay_SelectItem1;
         /// <summary>
-        /// Provides access to the underlying input action "Player/SelectItem2".
+        /// Provides access to the underlying input action "Gameplay/SelectItem2".
         /// </summary>
-        public InputAction @SelectItem2 => m_Wrapper.m_Player_SelectItem2;
+        public InputAction @SelectItem2 => m_Wrapper.m_Gameplay_SelectItem2;
         /// <summary>
-        /// Provides access to the underlying input action "Player/SelectItem3".
+        /// Provides access to the underlying input action "Gameplay/SelectItem3".
         /// </summary>
-        public InputAction @SelectItem3 => m_Wrapper.m_Player_SelectItem3;
+        public InputAction @SelectItem3 => m_Wrapper.m_Gameplay_SelectItem3;
         /// <summary>
-        /// Provides access to the underlying input action "Player/SelectItem4".
+        /// Provides access to the underlying input action "Gameplay/SelectItem4".
         /// </summary>
-        public InputAction @SelectItem4 => m_Wrapper.m_Player_SelectItem4;
+        public InputAction @SelectItem4 => m_Wrapper.m_Gameplay_SelectItem4;
         /// <summary>
-        /// Provides access to the underlying input action "Player/DropItem1".
+        /// Provides access to the underlying input action "Gameplay/DropItem1".
         /// </summary>
-        public InputAction @DropItem1 => m_Wrapper.m_Player_DropItem1;
+        public InputAction @DropItem1 => m_Wrapper.m_Gameplay_DropItem1;
         /// <summary>
-        /// Provides access to the underlying input action "Player/DropItem2".
+        /// Provides access to the underlying input action "Gameplay/DropItem2".
         /// </summary>
-        public InputAction @DropItem2 => m_Wrapper.m_Player_DropItem2;
+        public InputAction @DropItem2 => m_Wrapper.m_Gameplay_DropItem2;
         /// <summary>
-        /// Provides access to the underlying input action "Player/DropItem3".
+        /// Provides access to the underlying input action "Gameplay/DropItem3".
         /// </summary>
-        public InputAction @DropItem3 => m_Wrapper.m_Player_DropItem3;
+        public InputAction @DropItem3 => m_Wrapper.m_Gameplay_DropItem3;
         /// <summary>
-        /// Provides access to the underlying input action "Player/DropItem4".
+        /// Provides access to the underlying input action "Gameplay/DropItem4".
         /// </summary>
-        public InputAction @DropItem4 => m_Wrapper.m_Player_DropItem4;
+        public InputAction @DropItem4 => m_Wrapper.m_Gameplay_DropItem4;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_Player; }
+        public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
         public void Enable() { Get().Enable(); }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
@@ -1297,9 +1297,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
         public bool enabled => Get().enabled;
         /// <summary>
-        /// Implicitly converts an <see ref="PlayerActions" /> to an <see ref="InputActionMap" /> instance.
+        /// Implicitly converts an <see ref="GameplayActions" /> to an <see ref="InputActionMap" /> instance.
         /// </summary>
-        public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
+        public static implicit operator InputActionMap(GameplayActions set) { return set.Get(); }
         /// <summary>
         /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
         /// </summary>
@@ -1307,11 +1307,11 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
         /// </remarks>
-        /// <seealso cref="PlayerActions" />
-        public void AddCallbacks(IPlayerActions instance)
+        /// <seealso cref="GameplayActions" />
+        public void AddCallbacks(IGameplayActions instance)
         {
-            if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_GameplayActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GameplayActionsCallbackInterfaces.Add(instance);
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
@@ -1324,18 +1324,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Secondary.started += instance.OnSecondary;
             @Secondary.performed += instance.OnSecondary;
             @Secondary.canceled += instance.OnSecondary;
-            @ItemAction1.started += instance.OnItemAction1;
-            @ItemAction1.performed += instance.OnItemAction1;
-            @ItemAction1.canceled += instance.OnItemAction1;
-            @ItemAction2.started += instance.OnItemAction2;
-            @ItemAction2.performed += instance.OnItemAction2;
-            @ItemAction2.canceled += instance.OnItemAction2;
-            @Reload.started += instance.OnReload;
-            @Reload.performed += instance.OnReload;
-            @Reload.canceled += instance.OnReload;
-            @ShowUI.started += instance.OnShowUI;
-            @ShowUI.performed += instance.OnShowUI;
-            @ShowUI.canceled += instance.OnShowUI;
+            @Action1.started += instance.OnAction1;
+            @Action1.performed += instance.OnAction1;
+            @Action1.canceled += instance.OnAction1;
+            @Action2.started += instance.OnAction2;
+            @Action2.performed += instance.OnAction2;
+            @Action2.canceled += instance.OnAction2;
+            @Action3.started += instance.OnAction3;
+            @Action3.performed += instance.OnAction3;
+            @Action3.canceled += instance.OnAction3;
+            @ShowMenu.started += instance.OnShowMenu;
+            @ShowMenu.performed += instance.OnShowMenu;
+            @ShowMenu.canceled += instance.OnShowMenu;
             @SelectItem1.started += instance.OnSelectItem1;
             @SelectItem1.performed += instance.OnSelectItem1;
             @SelectItem1.canceled += instance.OnSelectItem1;
@@ -1368,8 +1368,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <remarks>
         /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
         /// </remarks>
-        /// <seealso cref="PlayerActions" />
-        private void UnregisterCallbacks(IPlayerActions instance)
+        /// <seealso cref="GameplayActions" />
+        private void UnregisterCallbacks(IGameplayActions instance)
         {
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
@@ -1383,18 +1383,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Secondary.started -= instance.OnSecondary;
             @Secondary.performed -= instance.OnSecondary;
             @Secondary.canceled -= instance.OnSecondary;
-            @ItemAction1.started -= instance.OnItemAction1;
-            @ItemAction1.performed -= instance.OnItemAction1;
-            @ItemAction1.canceled -= instance.OnItemAction1;
-            @ItemAction2.started -= instance.OnItemAction2;
-            @ItemAction2.performed -= instance.OnItemAction2;
-            @ItemAction2.canceled -= instance.OnItemAction2;
-            @Reload.started -= instance.OnReload;
-            @Reload.performed -= instance.OnReload;
-            @Reload.canceled -= instance.OnReload;
-            @ShowUI.started -= instance.OnShowUI;
-            @ShowUI.performed -= instance.OnShowUI;
-            @ShowUI.canceled -= instance.OnShowUI;
+            @Action1.started -= instance.OnAction1;
+            @Action1.performed -= instance.OnAction1;
+            @Action1.canceled -= instance.OnAction1;
+            @Action2.started -= instance.OnAction2;
+            @Action2.performed -= instance.OnAction2;
+            @Action2.canceled -= instance.OnAction2;
+            @Action3.started -= instance.OnAction3;
+            @Action3.performed -= instance.OnAction3;
+            @Action3.canceled -= instance.OnAction3;
+            @ShowMenu.started -= instance.OnShowMenu;
+            @ShowMenu.performed -= instance.OnShowMenu;
+            @ShowMenu.canceled -= instance.OnShowMenu;
             @SelectItem1.started -= instance.OnSelectItem1;
             @SelectItem1.performed -= instance.OnSelectItem1;
             @SelectItem1.canceled -= instance.OnSelectItem1;
@@ -1422,12 +1422,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         }
 
         /// <summary>
-        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="PlayerActions.UnregisterCallbacks(IPlayerActions)" />.
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GameplayActions.UnregisterCallbacks(IGameplayActions)" />.
         /// </summary>
-        /// <seealso cref="PlayerActions.UnregisterCallbacks(IPlayerActions)" />
-        public void RemoveCallbacks(IPlayerActions instance)
+        /// <seealso cref="GameplayActions.UnregisterCallbacks(IGameplayActions)" />
+        public void RemoveCallbacks(IGameplayActions instance)
         {
-            if (m_Wrapper.m_PlayerActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_GameplayActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
@@ -1437,21 +1437,21 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
         /// </remarks>
-        /// <seealso cref="PlayerActions.AddCallbacks(IPlayerActions)" />
-        /// <seealso cref="PlayerActions.RemoveCallbacks(IPlayerActions)" />
-        /// <seealso cref="PlayerActions.UnregisterCallbacks(IPlayerActions)" />
-        public void SetCallbacks(IPlayerActions instance)
+        /// <seealso cref="GameplayActions.AddCallbacks(IGameplayActions)" />
+        /// <seealso cref="GameplayActions.RemoveCallbacks(IGameplayActions)" />
+        /// <seealso cref="GameplayActions.UnregisterCallbacks(IGameplayActions)" />
+        public void SetCallbacks(IGameplayActions instance)
         {
-            foreach (var item in m_Wrapper.m_PlayerActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_GameplayActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_PlayerActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_GameplayActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
     /// <summary>
-    /// Provides a new <see cref="PlayerActions" /> instance referencing this action map.
+    /// Provides a new <see cref="GameplayActions" /> instance referencing this action map.
     /// </summary>
-    public PlayerActions @Player => new PlayerActions(this);
+    public GameplayActions @Gameplay => new GameplayActions(this);
 
     // UI
     private readonly InputActionMap m_UI;
@@ -1713,11 +1713,11 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         }
     }
     /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Player" which allows adding and removing callbacks.
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Gameplay" which allows adding and removing callbacks.
     /// </summary>
-    /// <seealso cref="PlayerActions.AddCallbacks(IPlayerActions)" />
-    /// <seealso cref="PlayerActions.RemoveCallbacks(IPlayerActions)" />
-    public interface IPlayerActions
+    /// <seealso cref="GameplayActions.AddCallbacks(IGameplayActions)" />
+    /// <seealso cref="GameplayActions.RemoveCallbacks(IGameplayActions)" />
+    public interface IGameplayActions
     {
         /// <summary>
         /// Method invoked when associated input action "Move" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
@@ -1748,33 +1748,33 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSecondary(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "ItemAction1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Action1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnItemAction1(InputAction.CallbackContext context);
+        void OnAction1(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "ItemAction2" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Action2" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnItemAction2(InputAction.CallbackContext context);
+        void OnAction2(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Reload" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Action3" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnReload(InputAction.CallbackContext context);
+        void OnAction3(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "ShowUI" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "ShowMenu" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnShowUI(InputAction.CallbackContext context);
+        void OnShowMenu(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "SelectItem1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

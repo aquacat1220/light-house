@@ -7,15 +7,15 @@ namespace LightHouse
     using UnityEngine;
     using UnityEngine.InputSystem;
     using UnityEngine.UIElements;
-    
+
     public class MainMenu : MonoBehaviour
     {
         [SerializeField]
         UIDocument _uiDocument;
-    
+
         [SerializeField]
         bool _startVisible = true;
-    
+
         bool _isVisible = true;
         public bool IsVisible
         {
@@ -33,28 +33,28 @@ namespace LightHouse
                 }
                 else if (!value && _isVisible)
                 {
-                    InputManager.Singleton.InputMode = InputMode.Player;
+                    InputManager.Singleton.InputMode = InputMode.Gameplay;
                     _uiDocument.rootVisualElement.AddToClassList("display-none");
                     _isVisible = value;
                 }
             }
         }
-    
+
         TextField _addressInput;
         TextField _portInput;
         Button _hostButton;
         Button _joinButton;
         Button _soloButton;
-    
+
         // Is the component subscribed to button clicked?
         bool _isSubscribedToButtons = false;
-    
+
         // Is the component subscribed to `InputManager.Singleton.ShowUIAction`?
-        bool _isSubscribedToShowUI = false;
-    
+        bool _isSubscribedToShowMenu = false;
+
         // Is the component listening for unhandled `Cancel` events?
         bool _isSubscribedToCancel = false;
-    
+
         void Awake()
         {
             if (_uiDocument == null)
@@ -71,41 +71,41 @@ namespace LightHouse
             }
             else
             {
-                InputManager.Singleton.InputMode = InputMode.Player;
+                InputManager.Singleton.InputMode = InputMode.Gameplay;
                 _uiDocument.rootVisualElement.AddToClassList("display-none");
             }
-    
+
             // Then make it follow the `_startVisible` value.
             IsVisible = _startVisible;
-    
+
             _addressInput = _uiDocument.rootVisualElement.Q<TextField>("AddressInput");
             if (_addressInput == null)
             {
                 Debug.Log("TextField with name `AddressInput` wasn't found.");
                 throw new Exception();
             }
-    
+
             _portInput = _uiDocument.rootVisualElement.Q<TextField>("PortInput");
             if (_portInput == null)
             {
                 Debug.Log("TextField with name `PortInput` wasn't found.");
                 throw new Exception();
             }
-    
+
             _hostButton = _uiDocument.rootVisualElement.Q<Button>("HostButton");
             if (_hostButton == null)
             {
                 Debug.Log("Button with name `HostButton` wasn't found.");
                 throw new Exception();
             }
-    
+
             _joinButton = _uiDocument.rootVisualElement.Q<Button>("JoinButton");
             if (_joinButton == null)
             {
                 Debug.Log("Button with name `JoinButton` wasn't found.");
                 throw new Exception();
             }
-    
+
             _soloButton = _uiDocument.rootVisualElement.Q<Button>("SoloButton");
             if (_soloButton == null)
             {
@@ -113,7 +113,7 @@ namespace LightHouse
                 throw new Exception();
             }
         }
-    
+
         void OnEnable()
         {
             if (!_isSubscribedToButtons)
@@ -123,13 +123,13 @@ namespace LightHouse
                 _soloButton.clicked += OnSoloButtonClicked;
                 _isSubscribedToButtons = true;
             }
-    
-            if (!_isSubscribedToShowUI)
+
+            if (!_isSubscribedToShowMenu)
             {
-                InputManager.Singleton.InputActions.Player.ShowUI.performed += OnShowUI;
-                _isSubscribedToShowUI = true;
+                InputManager.Singleton.InputActions.Gameplay.ShowMenu.performed += OnShowMenu;
+                _isSubscribedToShowMenu = true;
             }
-    
+
             if (!_isSubscribedToCancel)
             {
                 InputManager.Singleton.InputActions.UI.Cancel.performed += OnCancel;
@@ -137,7 +137,7 @@ namespace LightHouse
                 _isSubscribedToCancel = true;
             }
         }
-    
+
         void OnDisable()
         {
             if (_isSubscribedToButtons)
@@ -147,13 +147,13 @@ namespace LightHouse
                 _soloButton.clicked -= OnSoloButtonClicked;
                 _isSubscribedToButtons = false;
             }
-    
-            if (_isSubscribedToShowUI)
+
+            if (_isSubscribedToShowMenu)
             {
-                InputManager.Singleton.InputActions.Player.ShowUI.performed -= OnShowUI;
-                _isSubscribedToShowUI = false;
+                InputManager.Singleton.InputActions.Gameplay.ShowMenu.performed -= OnShowMenu;
+                _isSubscribedToShowMenu = false;
             }
-    
+
             if (_isSubscribedToCancel)
             {
                 InputManager.Singleton.InputActions.UI.Cancel.performed -= OnCancel;
@@ -162,7 +162,7 @@ namespace LightHouse
                 _isSubscribedToCancel = false;
             }
         }
-    
+
         void OnHostButtonClicked()
         {
             string address = _addressInput.value;
@@ -173,13 +173,13 @@ namespace LightHouse
                 Debug.Log("Supplied port was invalid.");
                 return;
             }
-    
+
             // Start the instance as a server and a client.
             InstanceFinder.ServerManager.StartConnection(port);
             // TODO: What happens if the address is invalid?
             // TODO: Stop existing connections if any exist, and return early.
             InstanceFinder.ClientManager.StartConnection(address, port);
-    
+
             // Scene loading is only possible after the server is started.
             // Bind a one-shot lambda to the event.
             Action<ServerConnectionStateArgs> loadSceneOnServerStart = null;
@@ -198,7 +198,7 @@ namespace LightHouse
             };
             InstanceFinder.ServerManager.OnServerConnectionState += loadSceneOnServerStart;
         }
-    
+
         void OnJoinButtonClicked()
         {
             string address = _addressInput.value;
@@ -209,12 +209,12 @@ namespace LightHouse
                 Debug.Log("Supplied port was invalid.");
                 return;
             }
-    
+
             // Start the instance as a client.
             // TODO: What happens if the address is invalid?
             InstanceFinder.ClientManager.StartConnection(address, port);
         }
-    
+
         void OnSoloButtonClicked()
         {
             string address = _addressInput.value;
@@ -225,13 +225,13 @@ namespace LightHouse
                 Debug.Log("Supplied port was invalid.");
                 return;
             }
-    
+
             // Start the instance as a server and a client.
             InstanceFinder.ServerManager.StartConnection(port);
             // TODO: Stop existing connections if any exist, and return early.
             // TODO: What happens if the address is invalid?
             InstanceFinder.ClientManager.StartConnection(address, port);
-    
+
             // Scene loading is only possible after the server is started.
             // Bind a one-shot lambda to the event.
             Action<ServerConnectionStateArgs> loadSceneOnServerStart = null;
@@ -250,8 +250,8 @@ namespace LightHouse
             };
             InstanceFinder.ServerManager.OnServerConnectionState += loadSceneOnServerStart;
         }
-    
-        void OnShowUI(InputAction.CallbackContext context)
+
+        void OnShowMenu(InputAction.CallbackContext context)
         {
             // Return early if the action wasn't `performed`.
             if (!context.performed)
@@ -260,7 +260,7 @@ namespace LightHouse
             // So assigning without checking old value won't cause any redundant calls.
             IsVisible = true;
         }
-    
+
         void OnCancel(InputAction.CallbackContext context)
         {
             // Return early if the action wasn't `performed`.
@@ -274,7 +274,7 @@ namespace LightHouse
             // Else, we should exit the UI.
             IsVisible = false;
         }
-    
+
         void OnUnhandledCancel(NavigationCancelEvent evt)
         {
             IsVisible = false;

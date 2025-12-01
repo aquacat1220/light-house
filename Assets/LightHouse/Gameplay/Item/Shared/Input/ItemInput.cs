@@ -15,13 +15,13 @@ namespace LightHouse
         [SerializeField]
         Event<bool> _action2;
         [SerializeField]
-        Event<bool> _reload;
+        Event<bool> _action3;
 
         InputState<bool> _primaryState = new();
         InputState<bool> _secondaryState = new();
         InputState<bool> _action1State = new();
         InputState<bool> _action2State = new();
-        InputState<bool> _reloadState = new();
+        InputState<bool> _action3State = new();
 
         void Awake()
         {
@@ -29,7 +29,7 @@ namespace LightHouse
             _secondaryState.Change += OnSecondary;
             _action1State.Change += OnAction1;
             _action2State.Change += OnAction2;
-            _reloadState.Change += OnReload;
+            _action3State.Change += OnAction3;
         }
 
         void OnDestroy()
@@ -38,7 +38,7 @@ namespace LightHouse
             _secondaryState.Change -= OnSecondary;
             _action1State.Change -= OnAction1;
             _action2State.Change -= OnAction2;
-            _reloadState.Change -= OnReload;
+            _action3State.Change -= OnAction3;
         }
 
         void OnEnable()
@@ -47,7 +47,7 @@ namespace LightHouse
             _secondaryState.Enable();
             _action1State.Enable();
             _action2State.Enable();
-            _reloadState.Enable();
+            _action3State.Enable();
         }
 
         void OnDisable()
@@ -56,7 +56,7 @@ namespace LightHouse
             _secondaryState.Disable();
             _action1State.Disable();
             _action2State.Disable();
-            _reloadState.Disable();
+            _action3State.Disable();
         }
 
         [Serializable]
@@ -94,7 +94,7 @@ namespace LightHouse
             _secondaryState.Parent = itemSlotInput.SecondaryState;
             _action1State.Parent = itemSlotInput.Action1State;
             _action2State.Parent = itemSlotInput.Action2State;
-            _reloadState.Parent = itemSlotInput.ReloadState;
+            _action3State.Parent = itemSlotInput.Action3State;
         }
 
         public void OnUnregister()
@@ -103,7 +103,7 @@ namespace LightHouse
             _secondaryState.Parent = null;
             _action1State.Parent = null;
             _action2State.Parent = null;
-            _reloadState.Parent = null;
+            _action3State.Parent = null;
         }
 
         void OnPrimary(bool newState)
@@ -126,9 +126,9 @@ namespace LightHouse
             _action2?.Invoke(newState);
         }
 
-        void OnReload(bool newState)
+        void OnAction3(bool newState)
         {
-            _reload?.Invoke(newState);
+            _action3?.Invoke(newState);
         }
     }
 }
