@@ -1,0 +1,71 @@
+#root-panel {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(32, 32, 32, 0.5);
+}
+
+.menu-root {
+    position: absolute;
+    top: 10%;
+    bottom: 10%;
+    left: 15%;
+    right: 15%;
+    background-color: rgb(34, 34, 34);
+}
+
+.menu-root__tab-button {
+    margin-right: 3px;
+    margin-left: 3px;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 5px;
+    padding-bottom: 1px;
+    -unity-font-definition: url("project://database/Assets/Fonts/Oxanium-SemiBold%20SDF.asset?fileID=11400000&guid=29857f4c9683c7369bce60f3705910ca&type=2#Oxanium-SemiBold SDF");
+    font-size: 24px;
+    -unity-text-align: middle-center;
+    margin-bottom: 0;
+    border-bottom-width: 4px;
+    color: rgb(210, 210, 210);
+}
+
+.menu-root__tab-button--hovered {
+    border-bottom-color: rgb(94, 94, 94);
+}
+
+.menu-root__tab-button--selected {
+    border-bottom-color: rgb(255, 255, 255);
+}
+
+.menu-root__tab {
+    height: 6%;
+    flex-direction: row;
+    justify-content: center;
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(94, 94, 94);
+}
+
+.menu-root__menu-container {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.menu-root__menu--selected {
+    position: absolute;
+    top: 0;
+    left: 0%;
+    bottom: 0;
+    right: 0%;
+}
+
+.menu-root__menu--not-selected {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    bottom: 0;
+    right: -100%;
+}
