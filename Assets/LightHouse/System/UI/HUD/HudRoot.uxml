@@ -1,0 +1,4 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/LightHouse/System/UI/HUD/HUDRoot.uss?fileID=7433441132597879392&amp;guid=14f9aae236fb758ca9e13076b04f5dd6&amp;type=3#HUDRoot"/>
+    <ui:VisualElement name="hud-root" class="hud-root"/>
+</ui:UXML>

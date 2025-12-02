@@ -66,7 +66,7 @@ GameObject:
   - component: {fileID: 7529975910365453798}
   - component: {fileID: 6929650751035587371}
   m_Layer: 0
-  m_Name: HUDDocument
+  m_Name: HudDocument
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 4118051918886285464}
   - component: {fileID: 1780655100438947970}
   - component: {fileID: 7897201322591572533}
-  - component: {fileID: 5070651305424947037}
+  - component: {fileID: 7081310655673794043}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -336,7 +336,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MenuManager
   _menuDocument: {fileID: 8667314505724683793}
   _menuRoot: {fileID: 9197481963319205126, guid: f512e65db9d4265c9a4afc1fcc757f6e, type: 3}
---- !u!114 &5070651305424947037
+  _startVisible: 1
+--- !u!114 &7081310655673794043
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -347,5 +348,6 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9050f9c5ae2fdd00897e085c5de6026f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HUDManager
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.HudManager
   _hudDocument: {fileID: 6929650751035587371}
+  _hudRoot: {fileID: 9197481963319205126, guid: 00d787962af0df87eb3641cd224bc107, type: 3}
