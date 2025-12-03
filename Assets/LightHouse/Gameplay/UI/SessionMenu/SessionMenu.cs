@@ -92,6 +92,7 @@ namespace LightHouse
                 }
             };
             InstanceFinder.ServerManager.OnServerConnectionState += loadSceneOnServerStart;
+            MenuManager.Singleton.IsVisible = false;
         }
 
         void OnJoinButtonClicked()
@@ -108,6 +109,7 @@ namespace LightHouse
             // Start the instance as a client.
             // TODO: What happens if the address is invalid?
             InstanceFinder.ClientManager.StartConnection(address, port);
+            MenuManager.Singleton.IsVisible = false;
         }
 
         void OnSoloButtonClicked()
@@ -144,6 +146,7 @@ namespace LightHouse
                 }
             };
             InstanceFinder.ServerManager.OnServerConnectionState += loadSceneOnServerStart;
+            MenuManager.Singleton.IsVisible = false;
         }
     }
 }

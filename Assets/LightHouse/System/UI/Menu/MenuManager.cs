@@ -65,15 +65,17 @@ namespace LightHouse
                 if (_selectedHandle == value)
                     return;
 
+                // If we have a current selected handle, clear it first.
                 if (_selectedHandle != null && _menus.ContainsKey(_selectedHandle))
                 {
                     (var tabButton, var menu) = _menus[_selectedHandle];
-                    _selectedHandle = null;
                     tabButton.RemoveFromClassList("menu-root__tab-button--selected");
                     menu.RemoveFromClassList("menu-root__menu--selected");
                     menu.AddToClassList("menu-root__menu--not-selected");
                 }
+                _selectedHandle = null;
 
+                // Then select the provided handle if it is valid.
                 if (value != null && _menus.ContainsKey(value))
                 {
                     (var tabButton, var menu) = _menus[value];
@@ -114,6 +116,9 @@ namespace LightHouse
             _menuContainer.Add(menuInstance);
 
             _menus.Add(handle, (tabButton, menuInstance));
+
+            if (SelectedHandle == null)
+                SelectedHandle = handle;
             return handle;
         }
 
