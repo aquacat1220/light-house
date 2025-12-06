@@ -207,13 +207,23 @@ MonoBehaviour:
     _listeners:
     - rid: 2166532276616953938
     - rid: 2166532276616953940
+    - rid: 109098073642500273
   _unregister:
     _listeners:
     - rid: 2166532276616953939
     - rid: 2166532276616953941
+    - rid: 109098073642500274
   references:
     version: 2
     RefIds:
+    - rid: 109098073642500273
+      type: {class: AimLineController/OnRegisterFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        AimLineController: {fileID: 5494872604823970513}
+    - rid: 109098073642500274
+      type: {class: AimLineController/OnUnregisterFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        AimLineController: {fileID: 5494872604823970513}
     - rid: 2166532276616953938
       type: {class: ItemTransform/OnRegisterFn, ns: LightHouse, asm: Assembly-CSharp}
       data:
@@ -429,6 +439,7 @@ MonoBehaviour:
   _pixelsPerUnit: 100
   _aimLineLength: 1
   _aimLineWidth: 0.02
+  _stubLength: 0.02
 --- !u!1 &1888319515093233070
 GameObject:
   m_ObjectHideFlags: 0

@@ -212,35 +212,35 @@ namespace LightHouse
         }
 
         [Serializable]
-        public class DropItemFn : IFn<ITuple<int>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
+        public class OnSelectItemFn : IFn<ITuple<int>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
         {
             public PlayerCharacterInventory PlayerCharacterInventory;
-            public int DefaultParam = 1;
+            public int DefaultParam = 0;
             public Fn.Tuple Invoke(ITuple<int> param)
             {
-                PlayerCharacterInventory?.DropItem(param.Item1);
+                PlayerCharacterInventory?.OnSelectItem(param.Item1);
                 return Fn.Tuple.Unit;
             }
             public Fn.Tuple Invoke(Fn.Tuple param)
             {
-                PlayerCharacterInventory?.ChangeMainHand(DefaultParam);
+                PlayerCharacterInventory?.OnSelectItem(DefaultParam);
                 return Fn.Tuple.Unit;
             }
         }
 
         [Serializable]
-        public class ChangeMainHandFn : IFn<ITuple<int>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
+        public class OnDropItemFn : IFn<ITuple<int>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
         {
             public PlayerCharacterInventory PlayerCharacterInventory;
-            public int DefaultParam = 1;
+            public int DefaultParam = 0;
             public Fn.Tuple Invoke(ITuple<int> param)
             {
-                PlayerCharacterInventory?.ChangeMainHand(param.Item1);
+                PlayerCharacterInventory?.OnDropItem(param.Item1);
                 return Fn.Tuple.Unit;
             }
             public Fn.Tuple Invoke(Fn.Tuple param)
             {
-                PlayerCharacterInventory?.ChangeMainHand(DefaultParam);
+                PlayerCharacterInventory?.OnDropItem(DefaultParam);
                 return Fn.Tuple.Unit;
             }
         }
@@ -376,83 +376,19 @@ namespace LightHouse
         }
 
         [ServerRpc(RequireOwnership = true)]
-        public void OnSelectItem1(bool newState)
+        public void OnSelectItem(int item)
         {
             if (_blockInputs)
                 return;
-            if (!newState)
-                return;
-            ChangeMainHand(0);
+            ChangeMainHand(item);
         }
 
         [ServerRpc(RequireOwnership = true)]
-        public void OnDropItem1(bool newState)
+        public void OnDropItem(int item)
         {
             if (_blockInputs)
                 return;
-            if (!newState)
-                return;
-            DropItem(0);
-        }
-
-        [ServerRpc(RequireOwnership = true)]
-        public void OnSelectItem2(bool newState)
-        {
-            if (_blockInputs)
-                return;
-            if (!newState)
-                return;
-            ChangeMainHand(1);
-        }
-
-        [ServerRpc(RequireOwnership = true)]
-        public void OnDropItem2(bool newState)
-        {
-            if (_blockInputs)
-                return;
-            if (!newState)
-                return;
-            DropItem(1);
-        }
-
-        [ServerRpc(RequireOwnership = true)]
-        public void OnSelectItem3(bool newState)
-        {
-            if (_blockInputs)
-                return;
-            if (!newState)
-                return;
-            ChangeMainHand(2);
-        }
-
-        [ServerRpc(RequireOwnership = true)]
-        public void OnDropItem3(bool newState)
-        {
-            if (_blockInputs)
-                return;
-            if (!newState)
-                return;
-            DropItem(2);
-        }
-
-        [ServerRpc(RequireOwnership = true)]
-        public void OnSelectItem4(bool newState)
-        {
-            if (_blockInputs)
-                return;
-            if (!newState)
-                return;
-            ChangeMainHand(3);
-        }
-
-        [ServerRpc(RequireOwnership = true)]
-        public void OnDropItem4(bool newState)
-        {
-            if (_blockInputs)
-                return;
-            if (!newState)
-                return;
-            DropItem(3);
+            DropItem(item);
         }
 
         [Server]

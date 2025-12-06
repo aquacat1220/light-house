@@ -962,6 +962,46 @@ MonoBehaviour:
       data:
         PlayerCharacterInventory: {fileID: 7613401983510641006}
         DefaultParam: 1
+    - rid: 109098073642500277
+      type: {class: PlayerCharacterInventory/OnSelectItemFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 0
+    - rid: 109098073642500278
+      type: {class: PlayerCharacterInventory/OnDropItemFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 0
+    - rid: 109098073642500279
+      type: {class: PlayerCharacterInventory/OnSelectItemFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 1
+    - rid: 109098073642500280
+      type: {class: PlayerCharacterInventory/OnDropItemFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 1
+    - rid: 109098073642500282
+      type: {class: PlayerCharacterInventory/OnSelectItemFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 2
+    - rid: 109098073642500283
+      type: {class: PlayerCharacterInventory/OnDropItemFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 2
+    - rid: 109098073642500284
+      type: {class: PlayerCharacterInventory/OnSelectItemFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 3
+    - rid: 109098073642500285
+      type: {class: PlayerCharacterInventory/OnDropItemFn, ns: LightHouse, asm: Assembly-CSharp}
+      data:
+        PlayerCharacterInventory: {fileID: 7613401983510641006}
+        DefaultParam: 3
     - rid: 2166532276616953948
       type: {class: PredictedMovement/OnMoveFn, ns: LightHouse, asm: Assembly-CSharp}
       data:
@@ -984,98 +1024,58 @@ MonoBehaviour:
       type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
         _true:
-          rid: 2166532276616953965
+          rid: 109098073642500277
         _false:
           rid: -2
     - rid: 2166532276616953959
       type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
         _true:
-          rid: 2166532276616953966
+          rid: 109098073642500278
         _false:
           rid: -2
     - rid: 2166532276616953961
       type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
         _true:
-          rid: 2166532276616953971
+          rid: 109098073642500279
         _false:
           rid: -2
     - rid: 2166532276616953963
       type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
         _true:
-          rid: 2166532276616953972
+          rid: 109098073642500280
         _false:
           rid: -2
-    - rid: 2166532276616953965
-      type: {class: PlayerCharacterInventory/ChangeMainHandFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 0
-    - rid: 2166532276616953966
-      type: {class: PlayerCharacterInventory/DropItemFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 0
     - rid: 2166532276616953967
       type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
         _true:
-          rid: 2166532276616953973
+          rid: 109098073642500282
         _false:
           rid: -2
     - rid: 2166532276616953968
       type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
         _true:
-          rid: 2166532276616953974
+          rid: 109098073642500283
         _false:
           rid: -2
     - rid: 2166532276616953969
       type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
         _true:
-          rid: 2166532276616953975
+          rid: 109098073642500284
         _false:
           rid: -2
     - rid: 2166532276616953970
       type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
         _true:
-          rid: 2166532276616953976
+          rid: 109098073642500285
         _false:
           rid: -2
-    - rid: 2166532276616953971
-      type: {class: PlayerCharacterInventory/ChangeMainHandFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 1
-    - rid: 2166532276616953972
-      type: {class: PlayerCharacterInventory/DropItemFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 1
-    - rid: 2166532276616953973
-      type: {class: PlayerCharacterInventory/ChangeMainHandFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 2
-    - rid: 2166532276616953974
-      type: {class: PlayerCharacterInventory/DropItemFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 2
-    - rid: 2166532276616953975
-      type: {class: PlayerCharacterInventory/ChangeMainHandFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 3
-    - rid: 2166532276616953976
-      type: {class: PlayerCharacterInventory/DropItemFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 3
 --- !u!114 &3324938354885705573
 MonoBehaviour:
   m_ObjectHideFlags: 0

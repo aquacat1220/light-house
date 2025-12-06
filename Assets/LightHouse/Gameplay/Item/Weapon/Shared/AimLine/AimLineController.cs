@@ -1,6 +1,7 @@
 namespace LightHouse
 {
     using System;
+    using LightHouse.Fn;
     using NaughtyAttributes;
     using UnityEngine;
     using UnityEngine.UIElements;
@@ -55,22 +56,26 @@ namespace LightHouse
                 Debug.Log("`_aimLineDocument` wasn't set.");
                 throw new Exception();
             }
-            _aimLine = _aimLineDocument.rootVisualElement.Q<AimLine>(className: "aim-line");
             if (_randomSpread == null)
             {
                 Debug.Log("`_randomSpread` wasn't set.");
                 throw new Exception();
             }
+            _aimLineDocument.enabled = false;
+            Refresh();
         }
 
         [Button]
-        void ApplyStyle()
+        void Refresh()
         {
             if (_aimLineDocument == null)
             {
                 Debug.Log("`_aimLineDocument` wasn't set.");
                 throw new Exception();
             }
+            // UQuery doesn't seem to work when the document isn't enabled.
+            if (!_aimLineDocument.isActiveAndEnabled)
+                return;
             _aimLine = _aimLineDocument.rootVisualElement.Q<AimLine>(className: "aim-line");
             if (_aimLine != null)
             {
@@ -80,7 +85,6 @@ namespace LightHouse
                 _aimLine.LineWidth = AimLineWidth * _pixelsPerUnit;
                 _aimLine.StubLength = StubLength * _pixelsPerUnit;
             }
-            _aimLine = null;
         }
 
         void Update()
@@ -93,6 +97,39 @@ namespace LightHouse
                 _aimLine.LineWidth = AimLineWidth * _pixelsPerUnit;
                 _aimLine.StubLength = StubLength * _pixelsPerUnit;
             }
+        }
+
+        [Serializable]
+        public class OnRegisterFn : IFn<ITuple<ItemSlot>, Fn.Tuple>
+        {
+            public AimLineController AimLineController;
+            public Fn.Tuple Invoke(ITuple<ItemSlot> param)
+            {
+                AimLineController?.OnRegister(param.Item1);
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        [Serializable]
+        public class OnUnregisterFn : IFn<Fn.Tuple, Fn.Tuple>
+        {
+            public AimLineController AimLineController;
+            public Fn.Tuple Invoke(Fn.Tuple _)
+            {
+                AimLineController?.OnUnregister();
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        public void OnRegister(ItemSlot itemSlot)
+        {
+            _aimLineDocument.enabled = itemSlot.Owner.IsLocalClient;
+            Refresh();
+        }
+
+        public void OnUnregister()
+        {
+            _aimLineDocument.enabled = false;
         }
     }
 }

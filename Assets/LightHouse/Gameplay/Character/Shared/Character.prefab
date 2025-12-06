@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 6590988795066372338}
   - component: {fileID: 5606094261152223815}
   - component: {fileID: 1573302493790001086}
-  - component: {fileID: 3287878455279002238}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -390,35 +389,12 @@ MonoBehaviour:
   _minMaxVit: {x: 0, y: 100}
   _initialVit: 100
   _vitChange:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3287878455279002238}
-        m_TargetAssemblyTypeName: Logger, Assembly-CSharp
-        m_MethodName: Log
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Vitality changed.
-          m_BoolArgument: 0
-        m_CallState: 2
+    _listeners: []
   _vitBelowZero:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3287878455279002238}
-        m_TargetAssemblyTypeName: Logger, Assembly-CSharp
-        m_MethodName: Log
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Vitality below zero.
-          m_BoolArgument: 0
-        m_CallState: 2
+    _listeners: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &1573302493790001086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,23 +413,12 @@ MonoBehaviour:
   _minMaxSan: {x: 0, y: 100}
   _initialSan: 100
   _sanChange:
-    m_PersistentCalls:
-      m_Calls: []
+    _listeners: []
   _sanBelowZero:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &3287878455279002238
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1063688963136659396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d852d571aa07eb487a611303c76ec139, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Logger
+    _listeners: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &3320970893476492054
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,6 +517,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1971053207 &5449496049711448218
 SpriteShapeRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -598,8 +564,8 @@ SpriteShapeRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_ShapeTexture: {fileID: 0}
   m_Sprites:
   - {fileID: 4966732595609684114, guid: e73a6ee428a94b4bb81be30deb9a0c43, type: 3}
@@ -953,6 +919,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &5677574305675582770
 MeshFilter:
