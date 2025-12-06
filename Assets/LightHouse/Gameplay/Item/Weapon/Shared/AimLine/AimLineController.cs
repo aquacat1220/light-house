@@ -20,32 +20,22 @@ namespace LightHouse
         [SerializeField]
         float _pixelsPerUnit = 100f;
 
-        // The intended aimline length in world units.
+        // Maximum aimline length in world units.
         [SerializeField]
-        float _aimLineLength = 1f;
-        public float AimLineLength
-        {
-            get => _aimLineLength;
-            set => _aimLineLength = value;
-        }
+        float _maxAimLineLength = 10f;
+        // Ratio of aimline length to the orthographic camera size.
+        [SerializeField]
+        float _cameraSizeToAimLineLength = 0.6f;
 
-        // The intended aimline width in world units.
-        [SerializeField]
-        float _aimLineWidth = 0.02f;
-        public float AimLineWidth
-        {
-            get => _aimLineWidth;
-            set => _aimLineWidth = value;
-        }
+        float _aimLineLength = 0f;
+        float _aimLineWidth = 0f;
+        float _stubLength = 0f;
 
-        // The intended stub length in world units.
-        [SerializeField]
-        float _stubLength = 0.02f;
-        public float StubLength
-        {
-            get => _stubLength;
-            set => _stubLength = value;
-        }
+        static float _lengtoToWidth = 0.005f;
+        static float _lengthToStub = 0.015f;
+
+        PlayerCharacterCamera _playerCharacterCamera;
+        OnSizeChangeFn _sizeChangeListener = null;
 
         AimLine _aimLine;
 
@@ -65,6 +55,25 @@ namespace LightHouse
             Refresh();
         }
 
+        [Serializable]
+        public class OnSizeChangeFn : IFn<ITuple<float>, Fn.Tuple>
+        {
+            public AimLineController AimLineController;
+            public Fn.Tuple Invoke(ITuple<float> param)
+            {
+                AimLineController?.OnSizeChange(param.Item1);
+                return Fn.Tuple.Unit;
+            }
+        }
+
+        public void OnSizeChange(float newSize)
+        {
+            _aimLineLength = Mathf.Min(_maxAimLineLength, newSize * _cameraSizeToAimLineLength);
+            _aimLineWidth = _aimLineLength * _lengtoToWidth;
+            _stubLength = _aimLineLength * _lengthToStub;
+            Refresh();
+        }
+
         [Button]
         void Refresh()
         {
@@ -81,21 +90,22 @@ namespace LightHouse
             {
                 _aimLine.InnerAngle = _randomSpread.AimVariance;
                 _aimLine.OuterAngle = _randomSpread.WeaponVariance;
-                _aimLine.LineLength = AimLineLength * _pixelsPerUnit;
-                _aimLine.LineWidth = AimLineWidth * _pixelsPerUnit;
-                _aimLine.StubLength = StubLength * _pixelsPerUnit;
+                _aimLine.LineLength = _aimLineLength * _pixelsPerUnit;
+                _aimLine.LineWidth = _aimLineWidth * _pixelsPerUnit;
+                _aimLine.StubLength = _stubLength * _pixelsPerUnit;
             }
         }
 
         void Update()
         {
+            // Debug.Log($"{_aimLineLength}, {_aimLineWidth}, {_stubLength}");
             if (_aimLine != null)
             {
                 _aimLine.InnerAngle = _randomSpread.AimVariance;
                 _aimLine.OuterAngle = _randomSpread.WeaponVariance;
-                _aimLine.LineLength = AimLineLength * _pixelsPerUnit;
-                _aimLine.LineWidth = AimLineWidth * _pixelsPerUnit;
-                _aimLine.StubLength = StubLength * _pixelsPerUnit;
+                _aimLine.LineLength = _aimLineLength * _pixelsPerUnit;
+                _aimLine.LineWidth = _aimLineWidth * _pixelsPerUnit;
+                _aimLine.StubLength = _stubLength * _pixelsPerUnit;
             }
         }
 
@@ -123,13 +133,29 @@ namespace LightHouse
 
         public void OnRegister(ItemSlot itemSlot)
         {
-            _aimLineDocument.enabled = itemSlot.Owner.IsLocalClient;
+            if (!itemSlot.Owner.IsLocalClient)
+                return;
+            _aimLineDocument.enabled = true;
+            _playerCharacterCamera = itemSlot.User.GetComponent<PlayerCharacterCamera>();
+            if (_playerCharacterCamera != null)
+            {
+                _sizeChangeListener = new OnSizeChangeFn();
+                _sizeChangeListener.AimLineController = this;
+                _playerCharacterCamera.AddSizeChangedListener(_sizeChangeListener);
+                OnSizeChange(_playerCharacterCamera.Size);
+            }
             Refresh();
         }
 
         public void OnUnregister()
         {
             _aimLineDocument.enabled = false;
+            if (_playerCharacterCamera != null)
+            {
+                _playerCharacterCamera.RemoveSizeChangedListener(_sizeChangeListener);
+                _sizeChangeListener = null;
+                _playerCharacterCamera = null;
+            }
         }
     }
 }

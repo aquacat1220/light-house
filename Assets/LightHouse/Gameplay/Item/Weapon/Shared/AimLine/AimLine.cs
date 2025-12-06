@@ -36,7 +36,7 @@ namespace LightHouse
         }
 
         [SerializeField]
-        float _lineLength = 100f;
+        float _lineLength = 0f;
         [UxmlAttribute, CreateProperty]
         public float LineLength
         {
@@ -50,7 +50,7 @@ namespace LightHouse
         }
 
         [SerializeField]
-        float _lineWidth = 1f;
+        float _lineWidth = 0f;
         [UxmlAttribute, CreateProperty]
         public float LineWidth
         {
@@ -64,7 +64,7 @@ namespace LightHouse
         }
 
         [SerializeField]
-        float _stubLength = 2f;
+        float _stubLength = 0f;
         [UxmlAttribute, CreateProperty]
         public float StubLength
         {
