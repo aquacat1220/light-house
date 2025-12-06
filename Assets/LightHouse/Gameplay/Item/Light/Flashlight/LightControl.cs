@@ -76,7 +76,7 @@ namespace LightHouse
             public LightControl LightControl;
             public Fn.Tuple Invoke(ITuple<ItemSlot> param)
             {
-                LightControl?.OnRegister(param.Item1);
+                LightControl.OnRegister(param.Item1);
                 return Fn.Tuple.Unit;
             }
         }
@@ -87,7 +87,7 @@ namespace LightHouse
             public LightControl LightControl;
             public Fn.Tuple Invoke(Fn.Tuple _)
             {
-                LightControl?.OnUnregister();
+                LightControl.OnUnregister();
                 return Fn.Tuple.Unit;
             }
         }
@@ -128,10 +128,12 @@ namespace LightHouse
 
             public Fn.Tuple Invoke(Fn.Tuple _)
             {
-                if (LightControl?.IsOn() is true)
-                    LightControl?.Off();
+                if (LightControl.IsServerInitialized is false)
+                    return Fn.Tuple.Unit;
+                if (LightControl.IsOn() is true)
+                    LightControl.Off();
                 else
-                    LightControl?.On();
+                    LightControl.On();
                 return Fn.Tuple.Unit;
             }
         }
@@ -144,18 +146,22 @@ namespace LightHouse
 
             public Fn.Tuple Invoke(ITuple<bool> param)
             {
+                if (LightControl.IsServerInitialized is false)
+                    return Fn.Tuple.Unit;
                 if (param.Item1)
-                    LightControl?.On();
+                    LightControl.On();
                 else
-                    LightControl?.Off();
+                    LightControl.Off();
                 return Fn.Tuple.Unit;
             }
             public Fn.Tuple Invoke(Fn.Tuple _)
             {
+                if (LightControl.IsServerInitialized is false)
+                    return Fn.Tuple.Unit;
                 if (DefaultParam)
-                    LightControl?.On();
+                    LightControl.On();
                 else
-                    LightControl?.Off();
+                    LightControl.Off();
                 return Fn.Tuple.Unit;
             }
         }
@@ -168,12 +174,16 @@ namespace LightHouse
 
             public Fn.Tuple Invoke(ITuple<bool> param)
             {
-                LightControl?.StartRangeChange(param.Item1);
+                if (LightControl.IsServerInitialized is false)
+                    return Fn.Tuple.Unit;
+                LightControl.StartRangeChange(param.Item1);
                 return Fn.Tuple.Unit;
             }
             public Fn.Tuple Invoke(Fn.Tuple _)
             {
-                LightControl?.StartRangeChange(DefaultParam);
+                if (LightControl.IsServerInitialized is false)
+                    return Fn.Tuple.Unit;
+                LightControl.StartRangeChange(DefaultParam);
                 return Fn.Tuple.Unit;
             }
         }
@@ -185,7 +195,9 @@ namespace LightHouse
 
             public Fn.Tuple Invoke(Fn.Tuple _)
             {
-                LightControl?.StopRangeChange();
+                if (LightControl.IsServerInitialized is false)
+                    return Fn.Tuple.Unit;
+                LightControl.StopRangeChange();
                 return Fn.Tuple.Unit;
             }
         }
@@ -198,12 +210,16 @@ namespace LightHouse
 
             public Fn.Tuple Invoke(ITuple<bool> param)
             {
-                LightControl?.StartIntensityChange(param.Item1);
+                if (LightControl.IsServerInitialized is false)
+                    return Fn.Tuple.Unit;
+                LightControl.StartIntensityChange(param.Item1);
                 return Fn.Tuple.Unit;
             }
             public Fn.Tuple Invoke(Fn.Tuple _)
             {
-                LightControl?.StartIntensityChange(DefaultParam);
+                if (LightControl.IsServerInitialized is false)
+                    return Fn.Tuple.Unit;
+                LightControl.StartIntensityChange(DefaultParam);
                 return Fn.Tuple.Unit;
             }
         }
@@ -215,7 +231,9 @@ namespace LightHouse
 
             public Fn.Tuple Invoke(Fn.Tuple _)
             {
-                LightControl?.StopIntensityChange();
+                if (LightControl.IsServerInitialized is false)
+                    return Fn.Tuple.Unit;
+                LightControl.StopIntensityChange();
                 return Fn.Tuple.Unit;
             }
         }
@@ -228,12 +246,16 @@ namespace LightHouse
 
             public Fn.Tuple Invoke(ITuple<bool> param)
             {
-                LightControl?.StartAngleChange(param.Item1);
+                if (LightControl.IsServerInitialized is false)
+                    return Fn.Tuple.Unit;
+                LightControl.StartAngleChange(param.Item1);
                 return Fn.Tuple.Unit;
             }
             public Fn.Tuple Invoke(Fn.Tuple _)
             {
-                LightControl?.StartAngleChange(DefaultParam);
+                if (LightControl.IsServerInitialized is false)
+                    return Fn.Tuple.Unit;
+                LightControl.StartAngleChange(DefaultParam);
                 return Fn.Tuple.Unit;
             }
         }
@@ -245,7 +267,9 @@ namespace LightHouse
 
             public Fn.Tuple Invoke(Fn.Tuple _)
             {
-                LightControl?.StopAngleChange();
+                if (LightControl.IsServerInitialized is false)
+                    return Fn.Tuple.Unit;
+                LightControl.StopAngleChange();
                 return Fn.Tuple.Unit;
             }
         }
