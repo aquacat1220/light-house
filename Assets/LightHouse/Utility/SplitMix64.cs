@@ -41,6 +41,17 @@ namespace LightHouse
             return (z0, z1); // both ~ N(0,1)
         }
 
+        public double NextBates6()
+        {
+            double u1 = NextDouble();
+            double u2 = NextDouble();
+            double u3 = NextDouble();
+            double u4 = NextDouble();
+            double u5 = NextDouble();
+            double u6 = NextDouble();
+            return (u1 + u2 + u3 + u4 + u5 + u6) / 6d;
+        }
+
         public static ulong StaticNextUInt64()
         {
             ulong z = (_staticState += 0x9E3779B97F4A7C15UL);
@@ -59,7 +70,7 @@ namespace LightHouse
             return (float)((StaticNextUInt64() >> 40) * (1.0 / (1U << 24)));
         }
 
-        public (double, double) StaticNextGaussian()
+        public static (double, double) StaticNextGaussian()
         {
             double u1 = StaticNextDouble();
             double u2 = StaticNextDouble();
@@ -68,6 +79,17 @@ namespace LightHouse
             double z0 = r * Math.Cos(theta);
             double z1 = r * Math.Sin(theta);
             return (z0, z1); // both ~ N(0,1)
+        }
+
+        public static double StaticNextBates6()
+        {
+            double u1 = StaticNextDouble();
+            double u2 = StaticNextDouble();
+            double u3 = StaticNextDouble();
+            double u4 = StaticNextDouble();
+            double u5 = StaticNextDouble();
+            double u6 = StaticNextDouble();
+            return (u1 + u2 + u3 + u4 + u5 + u6) / 6d;
         }
     }
 }

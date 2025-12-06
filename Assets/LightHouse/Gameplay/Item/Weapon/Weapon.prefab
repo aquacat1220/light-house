@@ -358,8 +358,8 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 3458800118198264783}
   _networkObjectCache: {fileID: 3458800118198264783}
   _spawnPoint: {fileID: 6300384520653930673}
-  _weaponVariance: 1
-  _weaponVarianceModifierCurve:
+  _weaponSpread: 1
+  _weaponSpreadModifierCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -383,8 +383,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _aimVariance: 1
-  _aimVarianceModifier: 1
+  _aimSpread: 1
+  _aimSpreadModifier: 1
   _heatPerFire: 0.25
   _coolDelay: 1
   _coolPerSecond: 0.25
@@ -437,9 +437,8 @@ MonoBehaviour:
   _aimLineDocument: {fileID: 822041163810678081}
   _randomSpread: {fileID: 6827245192062937493}
   _pixelsPerUnit: 100
-  _aimLineLength: 1
-  _aimLineWidth: 0.02
-  _stubLength: 0.02
+  _maxAimLineLength: 10
+  _cameraSizeToAimLineLength: 0.6
 --- !u!1 &1888319515093233070
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,23 +13,24 @@ namespace LightHouse
         [ValidateInput("CheckSpawn", "`_spawnPoint` should have a zeroed local transform.")]
         Transform _spawnPoint;
 
-        // Weapon variance (inaccuracy due to weapon design) in degrees.
+        // Weapon spread in degrees. This is the maximum degree in which the projectile can spread, with respect to the aimed direction.
         [SerializeField]
         [Min(0f)]
-        float _weaponVariance = 1f;
-        // A curve that maps heat to weapon variance modifier (multiplied to weapon variance).
+        float _weaponSpread = 1f;
+        // A curve that maps heat to weapon spread modifier (multiplied to weapon spread).
         [SerializeField]
         [CurveRange(0f, 0f, 1f, 1f)]
-        AnimationCurve _weaponVarianceModifierCurve;
+        AnimationCurve _weaponSpreadModifierCurve;
 
-        // Aiming variance (inaccuracy from character's imprecise aiming) in degrees.
+        // Aiming spread (inaccuracy from character's imprecise aiming) in degrees.
+        // Weapon spread in degrees. This is the maximum degree in which the aim direction can spread.
         [SerializeField]
         [Min(0f)]
-        float _aimVariance = 1f;
-        // Modifier to be multiplied to aim variance.
+        float _aimSpread = 1f;
+        // Modifier to be multiplied to aim spread.
         [SerializeField]
         [Min(0f)]
-        float _aimVarianceModifier = 1f;
+        float _aimSpreadModifier = 1f;
 
         // Accumulated heat per fire.
         [SerializeField]
@@ -51,14 +52,14 @@ namespace LightHouse
         Alarm _delayAlarm;
         Alarm _coolAlarm;
 
-        public float WeaponVariance
+        public float WeaponSpread
         {
-            get => _weaponVariance * _weaponVarianceModifierCurve.Evaluate(_heat);
+            get => _weaponSpread * _weaponSpreadModifierCurve.Evaluate(_heat);
         }
 
-        public float AimVariance
+        public float AimSpread
         {
-            get => _aimVariance * _aimVarianceModifier;
+            get => _aimSpread * _aimSpreadModifier;
         }
 
         void Awake()
@@ -124,18 +125,20 @@ namespace LightHouse
 
         public void ApplySpread(bool addHeat = true, bool reuseAimError = false)
         {
-            (var aimGaussian, var weaponGaussian) = new SplitMix64((ulong)_predictedCounter).NextGaussian();
+            var rng = new SplitMix64((ulong)_predictedCounter);
+            var aimBates = 2 * rng.NextBates6() - 1;
+            var weaponBates = 2 * rng.NextBates6() - 1;
 
             float aimError = _lastAimError;
             if (!reuseAimError)
             {
-                float aimVariance = _aimVariance * _aimVarianceModifier;
-                aimError = (float)aimGaussian * aimVariance;
+                float aimSpread = _aimSpread * _aimSpreadModifier;
+                aimError = (float)aimBates * aimSpread;
                 _lastAimError = aimError;
             }
 
-            float weaponVariance = _weaponVariance * _weaponVarianceModifierCurve.Evaluate(_heat);
-            float weaponError = (float)weaponGaussian * weaponVariance;
+            float weaponSpread = _weaponSpread * _weaponSpreadModifierCurve.Evaluate(_heat);
+            float weaponError = (float)weaponBates * weaponSpread;
 
             float error = aimError + weaponError;
             _spawnPoint.localEulerAngles = new Vector3(0f, 0f, error);

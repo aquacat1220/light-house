@@ -88,8 +88,8 @@ namespace LightHouse
             _aimLine = _aimLineDocument.rootVisualElement.Q<AimLine>(className: "aim-line");
             if (_aimLine != null)
             {
-                _aimLine.InnerAngle = _randomSpread.AimVariance;
-                _aimLine.OuterAngle = _randomSpread.WeaponVariance;
+                _aimLine.InnerAngle = _randomSpread.AimSpread;
+                _aimLine.OuterAngle = _randomSpread.WeaponSpread;
                 _aimLine.LineLength = _aimLineLength * _pixelsPerUnit;
                 _aimLine.LineWidth = _aimLineWidth * _pixelsPerUnit;
                 _aimLine.StubLength = _stubLength * _pixelsPerUnit;
@@ -101,8 +101,8 @@ namespace LightHouse
             // Debug.Log($"{_aimLineLength}, {_aimLineWidth}, {_stubLength}");
             if (_aimLine != null)
             {
-                _aimLine.InnerAngle = _randomSpread.AimVariance;
-                _aimLine.OuterAngle = _randomSpread.WeaponVariance;
+                _aimLine.InnerAngle = _randomSpread.AimSpread;
+                _aimLine.OuterAngle = _randomSpread.WeaponSpread;
                 _aimLine.LineLength = _aimLineLength * _pixelsPerUnit;
                 _aimLine.LineWidth = _aimLineWidth * _pixelsPerUnit;
                 _aimLine.StubLength = _stubLength * _pixelsPerUnit;
