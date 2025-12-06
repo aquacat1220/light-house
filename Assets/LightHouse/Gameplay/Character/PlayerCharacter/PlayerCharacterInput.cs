@@ -20,11 +20,11 @@ namespace LightHouse
         [SerializeField]
         Event<bool> _secondary;
         [SerializeField]
-        Event<bool> _itemAction1;
+        Event<bool> _action1;
         [SerializeField]
-        Event<bool> _itemAction2;
+        Event<bool> _action2;
         [SerializeField]
-        Event<bool> _reload;
+        Event<bool> _action3;
         // Triggered when the select item 1 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
         [SerializeField]
         Event<bool> _selectItem1;
@@ -86,36 +86,36 @@ namespace LightHouse
         {
             if (!_isSubscribedToInputManager)
             {
-                InputManager.Singleton.InputActions.Player.Move.performed += OnMove;
-                InputManager.Singleton.InputActions.Player.Move.canceled += OnMove;
-                InputManager.Singleton.InputActions.Player.Look.performed += OnLook;
-                InputManager.Singleton.InputActions.Player.Look.canceled += OnLook;
-                InputManager.Singleton.InputActions.Player.Primary.performed += OnPrimary;
-                InputManager.Singleton.InputActions.Player.Primary.canceled += OnPrimary;
-                InputManager.Singleton.InputActions.Player.Secondary.performed += OnSecondary;
-                InputManager.Singleton.InputActions.Player.Secondary.canceled += OnSecondary;
-                InputManager.Singleton.InputActions.Player.ItemAction1.performed += OnItemAction1;
-                InputManager.Singleton.InputActions.Player.ItemAction1.canceled += OnItemAction1;
-                InputManager.Singleton.InputActions.Player.ItemAction2.performed += OnItemAction2;
-                InputManager.Singleton.InputActions.Player.ItemAction2.canceled += OnItemAction2;
-                InputManager.Singleton.InputActions.Player.Reload.performed += OnReload;
-                InputManager.Singleton.InputActions.Player.Reload.canceled += OnReload;
-                InputManager.Singleton.InputActions.Player.SelectItem1.performed += OnSelectItem1;
-                InputManager.Singleton.InputActions.Player.SelectItem1.canceled += OnSelectItem1;
-                InputManager.Singleton.InputActions.Player.DropItem1.performed += OnDropItem1;
-                InputManager.Singleton.InputActions.Player.DropItem1.canceled += OnDropItem1;
-                InputManager.Singleton.InputActions.Player.SelectItem2.performed += OnSelectItem2;
-                InputManager.Singleton.InputActions.Player.SelectItem2.canceled += OnSelectItem2;
-                InputManager.Singleton.InputActions.Player.DropItem2.performed += OnDropItem2;
-                InputManager.Singleton.InputActions.Player.DropItem2.canceled += OnDropItem2;
-                InputManager.Singleton.InputActions.Player.SelectItem3.performed += OnSelectItem3;
-                InputManager.Singleton.InputActions.Player.SelectItem3.canceled += OnSelectItem3;
-                InputManager.Singleton.InputActions.Player.DropItem3.performed += OnDropItem3;
-                InputManager.Singleton.InputActions.Player.DropItem3.canceled += OnDropItem3;
-                InputManager.Singleton.InputActions.Player.SelectItem4.performed += OnSelectItem4;
-                InputManager.Singleton.InputActions.Player.SelectItem4.canceled += OnSelectItem4;
-                InputManager.Singleton.InputActions.Player.DropItem4.performed += OnDropItem4;
-                InputManager.Singleton.InputActions.Player.DropItem4.canceled += OnDropItem4;
+                InputManager.Singleton.InputActions.Gameplay.Move.performed += OnMove;
+                InputManager.Singleton.InputActions.Gameplay.Move.canceled += OnMove;
+                InputManager.Singleton.InputActions.Gameplay.Look.performed += OnLook;
+                InputManager.Singleton.InputActions.Gameplay.Look.canceled += OnLook;
+                InputManager.Singleton.InputActions.Gameplay.Primary.performed += OnPrimary;
+                InputManager.Singleton.InputActions.Gameplay.Primary.canceled += OnPrimary;
+                InputManager.Singleton.InputActions.Gameplay.Secondary.performed += OnSecondary;
+                InputManager.Singleton.InputActions.Gameplay.Secondary.canceled += OnSecondary;
+                InputManager.Singleton.InputActions.Gameplay.Action1.performed += OnAction1;
+                InputManager.Singleton.InputActions.Gameplay.Action1.canceled += OnAction1;
+                InputManager.Singleton.InputActions.Gameplay.Action2.performed += OnAction2;
+                InputManager.Singleton.InputActions.Gameplay.Action2.canceled += OnAction2;
+                InputManager.Singleton.InputActions.Gameplay.Action3.performed += OnAction3;
+                InputManager.Singleton.InputActions.Gameplay.Action3.canceled += OnAction3;
+                InputManager.Singleton.InputActions.Gameplay.SelectItem1.performed += OnSelectItem1;
+                InputManager.Singleton.InputActions.Gameplay.SelectItem1.canceled += OnSelectItem1;
+                InputManager.Singleton.InputActions.Gameplay.DropItem1.performed += OnDropItem1;
+                InputManager.Singleton.InputActions.Gameplay.DropItem1.canceled += OnDropItem1;
+                InputManager.Singleton.InputActions.Gameplay.SelectItem2.performed += OnSelectItem2;
+                InputManager.Singleton.InputActions.Gameplay.SelectItem2.canceled += OnSelectItem2;
+                InputManager.Singleton.InputActions.Gameplay.DropItem2.performed += OnDropItem2;
+                InputManager.Singleton.InputActions.Gameplay.DropItem2.canceled += OnDropItem2;
+                InputManager.Singleton.InputActions.Gameplay.SelectItem3.performed += OnSelectItem3;
+                InputManager.Singleton.InputActions.Gameplay.SelectItem3.canceled += OnSelectItem3;
+                InputManager.Singleton.InputActions.Gameplay.DropItem3.performed += OnDropItem3;
+                InputManager.Singleton.InputActions.Gameplay.DropItem3.canceled += OnDropItem3;
+                InputManager.Singleton.InputActions.Gameplay.SelectItem4.performed += OnSelectItem4;
+                InputManager.Singleton.InputActions.Gameplay.SelectItem4.canceled += OnSelectItem4;
+                InputManager.Singleton.InputActions.Gameplay.DropItem4.performed += OnDropItem4;
+                InputManager.Singleton.InputActions.Gameplay.DropItem4.canceled += OnDropItem4;
                 _isSubscribedToInputManager = true;
             }
         }
@@ -124,36 +124,36 @@ namespace LightHouse
         {
             if (_isSubscribedToInputManager)
             {
-                InputManager.Singleton.InputActions.Player.Move.performed -= OnMove;
-                InputManager.Singleton.InputActions.Player.Move.canceled -= OnMove;
-                InputManager.Singleton.InputActions.Player.Look.performed -= OnLook;
-                InputManager.Singleton.InputActions.Player.Look.canceled -= OnLook;
-                InputManager.Singleton.InputActions.Player.Primary.performed -= OnPrimary;
-                InputManager.Singleton.InputActions.Player.Primary.canceled -= OnPrimary;
-                InputManager.Singleton.InputActions.Player.Secondary.performed -= OnSecondary;
-                InputManager.Singleton.InputActions.Player.Secondary.canceled -= OnSecondary;
-                InputManager.Singleton.InputActions.Player.ItemAction1.performed -= OnItemAction1;
-                InputManager.Singleton.InputActions.Player.ItemAction1.canceled -= OnItemAction1;
-                InputManager.Singleton.InputActions.Player.ItemAction2.performed -= OnItemAction2;
-                InputManager.Singleton.InputActions.Player.ItemAction2.canceled -= OnItemAction2;
-                InputManager.Singleton.InputActions.Player.Reload.performed -= OnReload;
-                InputManager.Singleton.InputActions.Player.Reload.canceled -= OnReload;
-                InputManager.Singleton.InputActions.Player.SelectItem1.performed -= OnSelectItem1;
-                InputManager.Singleton.InputActions.Player.SelectItem1.canceled -= OnSelectItem1;
-                InputManager.Singleton.InputActions.Player.DropItem1.performed -= OnDropItem1;
-                InputManager.Singleton.InputActions.Player.DropItem1.canceled -= OnDropItem1;
-                InputManager.Singleton.InputActions.Player.SelectItem2.performed -= OnSelectItem2;
-                InputManager.Singleton.InputActions.Player.SelectItem2.canceled -= OnSelectItem2;
-                InputManager.Singleton.InputActions.Player.DropItem2.performed -= OnDropItem2;
-                InputManager.Singleton.InputActions.Player.DropItem2.canceled -= OnDropItem2;
-                InputManager.Singleton.InputActions.Player.SelectItem3.performed -= OnSelectItem3;
-                InputManager.Singleton.InputActions.Player.SelectItem3.canceled -= OnSelectItem3;
-                InputManager.Singleton.InputActions.Player.DropItem3.performed -= OnDropItem3;
-                InputManager.Singleton.InputActions.Player.DropItem3.canceled -= OnDropItem3;
-                InputManager.Singleton.InputActions.Player.SelectItem4.performed -= OnSelectItem4;
-                InputManager.Singleton.InputActions.Player.SelectItem4.canceled -= OnSelectItem4;
-                InputManager.Singleton.InputActions.Player.DropItem4.performed -= OnDropItem4;
-                InputManager.Singleton.InputActions.Player.DropItem4.canceled -= OnDropItem4;
+                InputManager.Singleton.InputActions.Gameplay.Move.performed -= OnMove;
+                InputManager.Singleton.InputActions.Gameplay.Move.canceled -= OnMove;
+                InputManager.Singleton.InputActions.Gameplay.Look.performed -= OnLook;
+                InputManager.Singleton.InputActions.Gameplay.Look.canceled -= OnLook;
+                InputManager.Singleton.InputActions.Gameplay.Primary.performed -= OnPrimary;
+                InputManager.Singleton.InputActions.Gameplay.Primary.canceled -= OnPrimary;
+                InputManager.Singleton.InputActions.Gameplay.Secondary.performed -= OnSecondary;
+                InputManager.Singleton.InputActions.Gameplay.Secondary.canceled -= OnSecondary;
+                InputManager.Singleton.InputActions.Gameplay.Action1.performed -= OnAction1;
+                InputManager.Singleton.InputActions.Gameplay.Action1.canceled -= OnAction1;
+                InputManager.Singleton.InputActions.Gameplay.Action2.performed -= OnAction2;
+                InputManager.Singleton.InputActions.Gameplay.Action2.canceled -= OnAction2;
+                InputManager.Singleton.InputActions.Gameplay.Action3.performed -= OnAction3;
+                InputManager.Singleton.InputActions.Gameplay.Action3.canceled -= OnAction3;
+                InputManager.Singleton.InputActions.Gameplay.SelectItem1.performed -= OnSelectItem1;
+                InputManager.Singleton.InputActions.Gameplay.SelectItem1.canceled -= OnSelectItem1;
+                InputManager.Singleton.InputActions.Gameplay.DropItem1.performed -= OnDropItem1;
+                InputManager.Singleton.InputActions.Gameplay.DropItem1.canceled -= OnDropItem1;
+                InputManager.Singleton.InputActions.Gameplay.SelectItem2.performed -= OnSelectItem2;
+                InputManager.Singleton.InputActions.Gameplay.SelectItem2.canceled -= OnSelectItem2;
+                InputManager.Singleton.InputActions.Gameplay.DropItem2.performed -= OnDropItem2;
+                InputManager.Singleton.InputActions.Gameplay.DropItem2.canceled -= OnDropItem2;
+                InputManager.Singleton.InputActions.Gameplay.SelectItem3.performed -= OnSelectItem3;
+                InputManager.Singleton.InputActions.Gameplay.SelectItem3.canceled -= OnSelectItem3;
+                InputManager.Singleton.InputActions.Gameplay.DropItem3.performed -= OnDropItem3;
+                InputManager.Singleton.InputActions.Gameplay.DropItem3.canceled -= OnDropItem3;
+                InputManager.Singleton.InputActions.Gameplay.SelectItem4.performed -= OnSelectItem4;
+                InputManager.Singleton.InputActions.Gameplay.SelectItem4.canceled -= OnSelectItem4;
+                InputManager.Singleton.InputActions.Gameplay.DropItem4.performed -= OnDropItem4;
+                InputManager.Singleton.InputActions.Gameplay.DropItem4.canceled -= OnDropItem4;
                 _isSubscribedToInputManager = false;
             }
         }
@@ -184,28 +184,28 @@ namespace LightHouse
                 _secondary?.Invoke(false);
         }
 
-        void OnItemAction1(InputAction.CallbackContext context)
+        void OnAction1(InputAction.CallbackContext context)
         {
             if (context.performed)
-                _itemAction1?.Invoke(true);
+                _action1?.Invoke(true);
             else if (context.canceled)
-                _itemAction1?.Invoke(false);
+                _action1?.Invoke(false);
         }
 
-        void OnItemAction2(InputAction.CallbackContext context)
+        void OnAction2(InputAction.CallbackContext context)
         {
             if (context.performed)
-                _itemAction2?.Invoke(true);
+                _action2?.Invoke(true);
             else if (context.canceled)
-                _itemAction2?.Invoke(false);
+                _action2?.Invoke(false);
         }
 
-        void OnReload(InputAction.CallbackContext context)
+        void OnAction3(InputAction.CallbackContext context)
         {
             if (context.performed)
-                _reload?.Invoke(true);
+                _action3?.Invoke(true);
             else if (context.canceled)
-                _reload?.Invoke(false);
+                _action3?.Invoke(false);
         }
 
         void OnSelectItem1(InputAction.CallbackContext context)

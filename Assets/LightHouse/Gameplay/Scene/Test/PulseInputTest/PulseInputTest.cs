@@ -42,8 +42,8 @@ namespace LightHouse
 
         void Awake()
         {
-            InputManager.Singleton.InputActions.Player.Primary.performed += OnClick;
-            InputManager.Singleton.InputActions.Player.Primary.canceled += OnRelease;
+            InputManager.Singleton.InputActions.Gameplay.Primary.performed += OnClick;
+            InputManager.Singleton.InputActions.Gameplay.Primary.canceled += OnRelease;
         }
 
         void OnClick(InputAction.CallbackContext ctx)

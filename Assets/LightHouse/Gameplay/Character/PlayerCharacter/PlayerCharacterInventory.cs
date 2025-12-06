@@ -91,7 +91,7 @@ namespace LightHouse
             _itemSlotInputs[_mainHand].SecondaryState.Parent = _secondaryState;
             _itemSlotInputs[_mainHand].Action1State.Parent = _action1State;
             _itemSlotInputs[_mainHand].Action2State.Parent = _action2State;
-            _itemSlotInputs[_mainHand].ReloadState.Parent = _reloadState;
+            _itemSlotInputs[_mainHand].Action3State.Parent = _reloadState;
         }
 
         void OnEnable()
@@ -195,52 +195,52 @@ namespace LightHouse
         }
 
         [Serializable]
-        public class OnReloadFn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
+        public class OnAction3Fn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
         {
             public PlayerCharacterInventory PlayerCharacterInventory;
             public bool DefaultParam = true;
             public Fn.Tuple Invoke(ITuple<bool> param)
             {
-                PlayerCharacterInventory?.OnReload(param.Item1);
+                PlayerCharacterInventory?.OnAction3(param.Item1);
                 return Fn.Tuple.Unit;
             }
             public Fn.Tuple Invoke(Fn.Tuple _)
             {
-                PlayerCharacterInventory?.OnReload(DefaultParam);
+                PlayerCharacterInventory?.OnAction3(DefaultParam);
                 return Fn.Tuple.Unit;
             }
         }
 
         [Serializable]
-        public class DropItemFn : IFn<ITuple<int>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
+        public class OnSelectItemFn : IFn<ITuple<int>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
         {
             public PlayerCharacterInventory PlayerCharacterInventory;
-            public int DefaultParam = 1;
+            public int DefaultParam = 0;
             public Fn.Tuple Invoke(ITuple<int> param)
             {
-                PlayerCharacterInventory?.DropItem(param.Item1);
+                PlayerCharacterInventory?.OnSelectItem(param.Item1);
                 return Fn.Tuple.Unit;
             }
             public Fn.Tuple Invoke(Fn.Tuple param)
             {
-                PlayerCharacterInventory?.ChangeMainHand(DefaultParam);
+                PlayerCharacterInventory?.OnSelectItem(DefaultParam);
                 return Fn.Tuple.Unit;
             }
         }
 
         [Serializable]
-        public class ChangeMainHandFn : IFn<ITuple<int>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
+        public class OnDropItemFn : IFn<ITuple<int>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
         {
             public PlayerCharacterInventory PlayerCharacterInventory;
-            public int DefaultParam = 1;
+            public int DefaultParam = 0;
             public Fn.Tuple Invoke(ITuple<int> param)
             {
-                PlayerCharacterInventory?.ChangeMainHand(param.Item1);
+                PlayerCharacterInventory?.OnDropItem(param.Item1);
                 return Fn.Tuple.Unit;
             }
             public Fn.Tuple Invoke(Fn.Tuple param)
             {
-                PlayerCharacterInventory?.ChangeMainHand(DefaultParam);
+                PlayerCharacterInventory?.OnDropItem(DefaultParam);
                 return Fn.Tuple.Unit;
             }
         }
@@ -350,25 +350,25 @@ namespace LightHouse
         }
 
         [Client(RequireOwnership = true)]
-        public void OnReload(bool newState)
+        public void OnAction3(bool newState)
         {
             // Let the input pulse flow down the chain on the client.
-            OnReloadLocal(newState);
+            OnAction3Local(newState);
 
             // If we are the server too (= host), don't do this twice.
             if (base.IsServerInitialized)
                 return;
             // If we are not the host, make a RPC call to sync the pulse to the server.
-            OnReloadRpc(newState);
+            OnAction3Rpc(newState);
         }
 
         [ServerRpc(RequireOwnership = true)]
-        void OnReloadRpc(bool newState)
+        void OnAction3Rpc(bool newState)
         {
-            OnReloadLocal(newState);
+            OnAction3Local(newState);
         }
 
-        void OnReloadLocal(bool newState)
+        void OnAction3Local(bool newState)
         {
             // We don't check `_blockInputs` here because `InputState`s have their own `Enable()` `Disable()` logic.
             var rootChangeResult = _reloadState.RootChangeState(newState);
@@ -376,83 +376,19 @@ namespace LightHouse
         }
 
         [ServerRpc(RequireOwnership = true)]
-        public void OnSelectItem1(bool newState)
+        public void OnSelectItem(int item)
         {
             if (_blockInputs)
                 return;
-            if (!newState)
-                return;
-            ChangeMainHand(0);
+            ChangeMainHand(item);
         }
 
         [ServerRpc(RequireOwnership = true)]
-        public void OnDropItem1(bool newState)
+        public void OnDropItem(int item)
         {
             if (_blockInputs)
                 return;
-            if (!newState)
-                return;
-            DropItem(0);
-        }
-
-        [ServerRpc(RequireOwnership = true)]
-        public void OnSelectItem2(bool newState)
-        {
-            if (_blockInputs)
-                return;
-            if (!newState)
-                return;
-            ChangeMainHand(1);
-        }
-
-        [ServerRpc(RequireOwnership = true)]
-        public void OnDropItem2(bool newState)
-        {
-            if (_blockInputs)
-                return;
-            if (!newState)
-                return;
-            DropItem(1);
-        }
-
-        [ServerRpc(RequireOwnership = true)]
-        public void OnSelectItem3(bool newState)
-        {
-            if (_blockInputs)
-                return;
-            if (!newState)
-                return;
-            ChangeMainHand(2);
-        }
-
-        [ServerRpc(RequireOwnership = true)]
-        public void OnDropItem3(bool newState)
-        {
-            if (_blockInputs)
-                return;
-            if (!newState)
-                return;
-            DropItem(2);
-        }
-
-        [ServerRpc(RequireOwnership = true)]
-        public void OnSelectItem4(bool newState)
-        {
-            if (_blockInputs)
-                return;
-            if (!newState)
-                return;
-            ChangeMainHand(3);
-        }
-
-        [ServerRpc(RequireOwnership = true)]
-        public void OnDropItem4(bool newState)
-        {
-            if (_blockInputs)
-                return;
-            if (!newState)
-                return;
-            DropItem(3);
+            DropItem(item);
         }
 
         [Server]
@@ -485,7 +421,7 @@ namespace LightHouse
             _itemSlotInputs[_mainHand].SecondaryState.Parent = null;
             _itemSlotInputs[_mainHand].Action1State.Parent = null;
             _itemSlotInputs[_mainHand].Action2State.Parent = null;
-            _itemSlotInputs[_mainHand].ReloadState.Parent = null;
+            _itemSlotInputs[_mainHand].Action3State.Parent = null;
 
             // First reposition the old main/subhand item slots back to where they belong.
             _itemSlots[_mainHand].transform.SetParent(_itemSlotAnchors[_mainHand], worldPositionStays: false);
@@ -504,7 +440,7 @@ namespace LightHouse
             _itemSlotInputs[_mainHand].SecondaryState.Parent = _secondaryState;
             _itemSlotInputs[_mainHand].Action1State.Parent = _action1State;
             _itemSlotInputs[_mainHand].Action2State.Parent = _action2State;
-            _itemSlotInputs[_mainHand].ReloadState.Parent = _reloadState;
+            _itemSlotInputs[_mainHand].Action3State.Parent = _reloadState;
         }
     }
 }

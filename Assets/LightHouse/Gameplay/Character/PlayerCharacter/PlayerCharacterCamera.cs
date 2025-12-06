@@ -13,7 +13,35 @@ namespace LightHouse
         float _minimumCameraSize = 6f;
 
         FollowCamera _followCamera = null;
-        float _range = 1f;
+
+
+        float _size = 6f;
+        public float Size
+        {
+            get
+            {
+                return _size;
+            }
+            private set
+            {
+                var newSize = Mathf.Max(value, _minimumCameraSize);
+                _size = newSize;
+                _sizeChanged?.Invoke(newSize);
+            }
+        }
+
+        [SerializeField]
+        Event<float> _sizeChanged;
+
+        public void AddSizeChangedListener(IFn<Fn.Tuple<float>, Fn.Tuple> listener)
+        {
+            _sizeChanged._listeners.Add(listener);
+        }
+
+        public void RemoveSizeChangedListener(IFn<Fn.Tuple<float>, Fn.Tuple> listener)
+        {
+            _sizeChanged._listeners.Remove(listener);
+        }
 
         void OnEnable()
         {
@@ -51,7 +79,7 @@ namespace LightHouse
                 throw new Exception();
             }
             _followCamera.Target = transform;
-            _followCamera.Camera.orthographicSize = Math.Max(_range, _minimumCameraSize);
+            _followCamera.Camera.orthographicSize = Size;
         }
 
         void DetachCamera()
@@ -74,10 +102,10 @@ namespace LightHouse
 
         public void OnRangeChanged(float newRange)
         {
-            _range = newRange;
+            Size = newRange;
             if (_followCamera != null)
             {
-                _followCamera.Camera.orthographicSize = Math.Max(_range, _minimumCameraSize);
+                _followCamera.Camera.orthographicSize = Size;
             }
         }
     }

@@ -2,12 +2,12 @@ namespace LightHouse
 {
     using NaughtyAttributes;
     using UnityEngine;
-    
-    
-    #if UNITY_EDITOR
+
+
+#if UNITY_EDITOR
     using UnityEditor;
-    #endif
-    
+#endif
+
     public class ColliderToMesh : MonoBehaviour
     {
         // Source to bake the mesh.
@@ -19,7 +19,7 @@ namespace LightHouse
         // In playmode, any additional calls to `BakeMesh()` will create a new mesh, instead of modifying the asset.
         [SerializeField]
         Mesh _mesh;
-    
+
         // Bake a mesh from the collider, save it to an asset.
         [Button("Bake Collider to Mesh")]
         public void BakeMesh()
@@ -28,6 +28,7 @@ namespace LightHouse
             // We call `_collider.CreateMesh(true, true)` to ensure the created mesh is always in world space regardless of collider type.
             Mesh dynamicMesh = _collider.CreateMesh(true, true);
             MeshToLocalSpace(dynamicMesh);
+#if UNITY_EDITOR
             if (Application.isEditor)
             {
                 if (!Application.isPlaying)
@@ -78,15 +79,18 @@ namespace LightHouse
             }
             else
             {
+#endif
                 // We are in a build.
                 // We don't have "assets" or "disks", so just destroy the old mesh, and assign a new one.
                 var oldMesh = _mesh;
                 _mesh = dynamicMesh;
                 if (oldMesh != null)
                     Destroy(oldMesh);
+#if UNITY_EDITOR
             }
+#endif
         }
-    
+
         // Move a mesh in world space to transform-local space.
         void MeshToLocalSpace(Mesh mesh)
         {
@@ -95,12 +99,13 @@ namespace LightHouse
             mesh.vertices = vertices;
             mesh.RecalculateBounds();
         }
-    
+
         void OnDestroy()
         {
             if (_mesh == null)
                 return;
-    
+
+#if UNITY_EDITOR
             if (Application.isEditor)
             {
                 if (!AssetDatabase.Contains(_mesh))
@@ -113,10 +118,13 @@ namespace LightHouse
             }
             else
             {
+#endif
                 var oldMesh = _mesh;
                 _mesh = null;
                 Destroy(oldMesh);
+#if UNITY_EDITOR
             }
+#endif
         }
     }
 }

@@ -596,7 +596,6 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 
 			foreach (IConstraint constraint in constraints)
 			{
-				UnityEngine.Debug.Log("sdfsdf");
 				if (constraint is ConstraintInfo)
 				{
 					// Ignore constraint info.
@@ -609,10 +608,8 @@ namespace MackySoft.SerializeReferenceExtensions.Editor
 				}
 				else if (constraint is UpperBound { Parent: var parentType })
 				{
-					UnityEngine.Debug.Log("ddddd");
 					if (!TryApplyUpperBound(type, parentType, ref parameterConstraints))
 						return null;
-					UnityEngine.Debug.Log("gggggggg");
 				}
 				else if (constraint is LowerBound { Child: var childType })
 				{
