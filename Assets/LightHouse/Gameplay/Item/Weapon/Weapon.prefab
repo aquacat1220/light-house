@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: 6129219461553058081}
   - component: {fileID: 6827245192062937493}
   - component: {fileID: 64550675818251124}
+  - component: {fileID: 5494872604823970513}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
@@ -346,7 +347,7 @@ MonoBehaviour:
   _componentIndexCache: 3
   _addedNetworkObject: {fileID: 3458800118198264783}
   _networkObjectCache: {fileID: 3458800118198264783}
-  _spawnPoint: {fileID: 0}
+  _spawnPoint: {fileID: 6300384520653930673}
   _weaponVariance: 1
   _weaponVarianceModifierCurve:
     serializedVersion: 2
@@ -393,7 +394,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 3458800118198264783}
   _networkObjectCache: {fileID: 3458800118198264783}
   _projectile: {fileID: 2787902506105217941, guid: d1e23beb3b32891edb5c59def39e1429, type: 3}
-  _spawnPoint: {fileID: 0}
+  _spawnPoint: {fileID: 6300384520653930673}
   _counterChange:
     _listeners: []
   _predictedCounterChange:
@@ -411,6 +412,86 @@ MonoBehaviour:
       type: {class: RandomSpread/OnPredictedCounterChangeFn, ns: LightHouse, asm: Assembly-CSharp}
       data:
         RandomSpread: {fileID: 6827245192062937493}
+--- !u!114 &5494872604823970513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948197007501555658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c41ef7c8c03c96eaeaf32bb51b10bee2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.AimLineController
+  _aimLineDocument: {fileID: 822041163810678081}
+  _randomSpread: {fileID: 6827245192062937493}
+  _aimLineLength: 500
+  _aimLineWidth: 2
+--- !u!1 &1888319515093233070
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6872200990941785703}
+  m_Layer: 0
+  m_Name: Muzzle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6872200990941785703
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888319515093233070}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6300384520653930673}
+  - {fileID: 3056372189102445646}
+  m_Father: {fileID: 264191854145071457}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2399727391948543240
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6300384520653930673}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6300384520653930673
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2399727391948543240}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6872200990941785703}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6550054319881265475
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,5 +522,61 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9011010165433911751}
+  - {fileID: 6872200990941785703}
   m_Father: {fileID: 7609666418286192090}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6609454343902701687
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3056372189102445646}
+  - component: {fileID: 822041163810678081}
+  m_Layer: 0
+  m_Name: AimLineDocument
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3056372189102445646
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6609454343902701687}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6872200990941785703}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+--- !u!114 &822041163810678081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6609454343902701687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
+  m_PanelSettings: {fileID: 11400000, guid: 3b75e86725f75f35b81c1af17e1d549c, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 03b73735c80d47371b9721349ca8b4bf, type: 3}
+  m_SortingOrder: 0
+  m_Position: 0
+  m_WorldSpaceSizeMode: 0
+  m_WorldSpaceWidth: 50
+  m_WorldSpaceHeight: 50
+  m_PivotReferenceSize: 1
+  m_Pivot: 2
+  m_WorldSpaceCollider: {fileID: 0}

@@ -8,7 +8,7 @@ namespace LightHouse
     using UnityEngine;
     using UnityEngine.UIElements;
 
-    public class SessionMenu : MonoBehaviour
+    public class SessionMenuController : MonoBehaviour
     {
         [SerializeField]
         [Required]

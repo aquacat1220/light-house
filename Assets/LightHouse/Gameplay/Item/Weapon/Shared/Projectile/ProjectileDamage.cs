@@ -32,6 +32,7 @@ namespace LightHouse
             // First test if `other` is something that can be damaged.
             if (other.GetComponent<DamageProcessor>() is DamageProcessor processor)
             {
+                Debug.Log("DSFS");
                 processor.ProcessDamage(_damageInfo.Clone());
             }
 

@@ -297,7 +297,7 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 5
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 7985129476373049740
+  <AssetPathHash>k__BackingField: 6074658041598265075
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
@@ -314,7 +314,6 @@ MonoBehaviour:
   - {fileID: 3245403586699975347}
   - {fileID: 7044753674542805718}
   - {fileID: 5399703363806622315}
-  - {fileID: 0}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}

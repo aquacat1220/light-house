@@ -51,6 +51,16 @@ namespace LightHouse
         Alarm _delayAlarm;
         Alarm _coolAlarm;
 
+        public float WeaponVariance
+        {
+            get => _weaponVariance * _weaponVarianceModifierCurve.Evaluate(_heat);
+        }
+
+        public float AimVariance
+        {
+            get => _aimVariance * _aimVarianceModifier;
+        }
+
         void Awake()
         {
             if (_spawnPoint == null)
@@ -122,20 +132,17 @@ namespace LightHouse
                 float aimVariance = _aimVariance * _aimVarianceModifier;
                 aimError = (float)aimGaussian * aimVariance;
                 _lastAimError = aimError;
-                Debug.Log($"{Time.time}: Recalculated aim error to {aimError}.");
             }
 
             float weaponVariance = _weaponVariance * _weaponVarianceModifierCurve.Evaluate(_heat);
             float weaponError = (float)weaponGaussian * weaponVariance;
 
             float error = aimError + weaponError;
-            Debug.Log($"{Time.time}: Set spawn point with aim error {aimError}, weapon error {weaponError}.");
             _spawnPoint.localEulerAngles = new Vector3(0f, 0f, error);
 
             if (addHeat)
             {
                 _heat = Math.Clamp(_heat + _heatPerFire, 0f, 1f);
-                Debug.Log($"{Time.time}: Heated up to {_heat}.");
             }
             _coolAlarm?.Remove();
             _coolAlarm = null;
@@ -162,7 +169,6 @@ namespace LightHouse
 
         void StartCooling(float _)
         {
-            Debug.Log($"{Time.time}: Starting cooling.");
             if (_coolAlarm != null)
             {
                 Debug.Log("We already have a cool alarm, which shouldn't be possible.");
@@ -183,7 +189,6 @@ namespace LightHouse
         void Cool(float deltaTime)
         {
             _heat = Math.Clamp(_heat - deltaTime * _coolPerSecond, 0f, 1f);
-            Debug.Log($"{Time.time}: Cooled down to {_heat}.");
             if (_heat == 0f)
             {
                 _coolAlarm.Remove();
