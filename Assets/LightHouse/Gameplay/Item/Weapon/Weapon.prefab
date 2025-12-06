@@ -426,8 +426,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LightHouse.AimLineController
   _aimLineDocument: {fileID: 822041163810678081}
   _randomSpread: {fileID: 6827245192062937493}
-  _aimLineLength: 500
-  _aimLineWidth: 2
+  _pixelsPerUnit: 100
+  _aimLineLength: 1
+  _aimLineWidth: 0.02
 --- !u!1 &1888319515093233070
 GameObject:
   m_ObjectHideFlags: 0

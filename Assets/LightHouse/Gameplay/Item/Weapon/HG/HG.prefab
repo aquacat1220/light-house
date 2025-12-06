@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: 'NetworkBehaviours.Array.data[3]'
       value: 
       objectReference: {fileID: 2710907771187567213}
+    - target: {fileID: 5494872604823970513, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: _aimLineLength
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5501519788436619483, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: _primary._listeners.Array.size
       value: 1
