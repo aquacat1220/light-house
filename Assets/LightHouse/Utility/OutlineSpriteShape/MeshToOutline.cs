@@ -3,18 +3,15 @@ namespace LightHouse
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using NaughtyAttributes;
     using UnityEngine;
     using UnityEngine.Assertions;
     using UnityEngine.U2D;
-    
+
     public class MeshToOutline : MonoBehaviour
     {
-        [Required]
-        [ValidateInput("HasSpriteShapeController")]
         [SerializeField]
         GameObject _outlinePrafab;
-    
+
         // Using fill materials will cause issues in meshes with holes.
         // Temporarily disabling this until I really need it.
         // [SerializeField]
@@ -31,15 +28,15 @@ namespace LightHouse
         // Use when Unity complains about control points too close together.
         [SerializeField]
         float _scale = 10f;
-    
+
         [SerializeField]
         Mesh _mesh;
-    
+
         public List<SpriteShapeController> _generatedOutlines = new();
-    
+
         System.Reflection.MethodInfo _setCornerModeMethod = null;
-    
-        [Button]
+
+        // [Button]
         public void BakeOutline()
         {
             for (int i = 0; i < _generatedOutlines.Count; i++)
@@ -52,13 +49,13 @@ namespace LightHouse
                     DestroyImmediate(_generatedOutlines[i].gameObject);
             }
             _generatedOutlines.RemoveRange(0, _generatedOutlines.Count);
-    
+
             if (_mesh == null)
                 return;
-    
+
             var outlines = FetchOutlines(_mesh);
             var vertices = _mesh.vertices;
-    
+
             for (int i = 0; i < outlines.Count; i++)
             {
                 var outline = Instantiate(_outlinePrafab, transform);
@@ -67,11 +64,11 @@ namespace LightHouse
                 spriteShapeController.spline.Clear();
                 _generatedOutlines.Add(spriteShapeController);
             }
-    
+
             Assert.IsTrue(outlines.Count == _generatedOutlines.Count);
-    
+
             float height = _scale * _outlineWidth * _spritePixelsPerUnit / _spriteSizeInPixels;
-    
+
             for (int i = 0; i < outlines.Count; i++)
             {
                 var outline = outlines[i];
@@ -110,7 +107,7 @@ namespace LightHouse
                 spriteShapeController.BakeMesh().Complete();
             }
         }
-    
+
         List<List<int>> FetchOutlines(Mesh mesh)
         {
             HashSet<(int, int)> edges = new();
@@ -123,13 +120,13 @@ namespace LightHouse
                 }
                 if (vidx1 > vidx2)
                     (vidx1, vidx2) = (vidx2, vidx1);
-    
+
                 if (edges.Contains((vidx1, vidx2)))
                     edges.Remove((vidx1, vidx2));
                 else
                     edges.Add((vidx1, vidx2));
             }
-    
+
             var tCount = mesh.triangles.Length;
             var triangles = mesh.triangles;
             if (tCount % 3 != 0)
@@ -147,7 +144,7 @@ namespace LightHouse
                 InsertEdgeToSet(vidx1, vidx3);
                 InsertEdgeToSet(vidx2, vidx3);
             }
-    
+
             // Now only edges that appear once will remain in the set.
             // We need to order the edges in a loop.
             // Build an adjacency map.
@@ -161,9 +158,9 @@ namespace LightHouse
                 adj[vidx1].Add(vidx2);
                 adj[vidx2].Add(vidx1);
             }
-    
+
             List<List<int>> outlines = new();
-    
+
             while (adj.Count != 0)
             {
                 List<int> outline = new();
@@ -186,10 +183,10 @@ namespace LightHouse
                 }
                 outlines.Add(outline);
             }
-    
+
             return outlines;
         }
-    
+
         bool HasSpriteShapeController(GameObject prefab)
         {
             if (prefab == null)

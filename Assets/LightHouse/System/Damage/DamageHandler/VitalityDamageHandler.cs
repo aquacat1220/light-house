@@ -1,9 +1,7 @@
-using System;
-using NaughtyAttributes;
-using UnityEngine;
-
 namespace LightHouse
 {
+    using System;
+    using UnityEngine;
     [Serializable]
     public class VitalityDamageHandler : DamageHandlerBase
     {

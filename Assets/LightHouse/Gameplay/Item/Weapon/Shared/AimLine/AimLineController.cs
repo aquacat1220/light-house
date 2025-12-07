@@ -2,18 +2,15 @@ namespace LightHouse
 {
     using System;
     using LightHouse.Fn;
-    using NaughtyAttributes;
     using UnityEngine;
     using UnityEngine.UIElements;
 
     public class AimLineController : MonoBehaviour
     {
         [SerializeField]
-        [Required]
         UIDocument _aimLineDocument;
 
         [SerializeField]
-        [Required]
         RandomSpread _randomSpread;
 
         // Pixels per unit. Should be set in Assets/LightHouse/System/UI/Setting/WorldPanelSettings.asset, but unity doesn't expose the corresponding property.
@@ -74,7 +71,6 @@ namespace LightHouse
             Refresh();
         }
 
-        [Button]
         void Refresh()
         {
             if (_aimLineDocument == null)

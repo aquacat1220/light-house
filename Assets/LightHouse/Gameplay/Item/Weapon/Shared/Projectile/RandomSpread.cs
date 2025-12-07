@@ -3,14 +3,11 @@ namespace LightHouse
     using System;
     using FishNet.Object;
     using LightHouse.Fn;
-    using NaughtyAttributes;
     using UnityEngine;
 
     public class RandomSpread : NetworkBehaviour
     {
         [SerializeField]
-        [Required]
-        [ValidateInput("CheckSpawn", "`_spawnPoint` should have a zeroed local transform.")]
         Transform _spawnPoint;
 
         // Weapon spread in degrees. This is the maximum degree in which the projectile can spread, with respect to the aimed direction.
@@ -19,7 +16,6 @@ namespace LightHouse
         float _weaponSpread = 1f;
         // A curve that maps heat to weapon spread modifier (multiplied to weapon spread).
         [SerializeField]
-        [CurveRange(0f, 0f, 1f, 1f)]
         AnimationCurve _weaponSpreadModifierCurve;
 
         // Aiming spread (inaccuracy from character's imprecise aiming) in degrees.

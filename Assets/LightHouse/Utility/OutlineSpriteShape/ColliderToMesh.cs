@@ -1,6 +1,5 @@
 namespace LightHouse
 {
-    using NaughtyAttributes;
     using UnityEngine;
 
 
@@ -11,7 +10,6 @@ namespace LightHouse
     public class ColliderToMesh : MonoBehaviour
     {
         // Source to bake the mesh.
-        [Required]
         [SerializeField]
         Collider2D _collider;
         // Generated mesh.
@@ -21,7 +19,7 @@ namespace LightHouse
         Mesh _mesh;
 
         // Bake a mesh from the collider, save it to an asset.
-        [Button("Bake Collider to Mesh")]
+        // [Button("Bake Collider to Mesh")]
         public void BakeMesh()
         {
             // If `_collider` is connected to a rigidbody, `_collider.CreateMesh(false, false)` will return a mesh in rigidbody-local space.

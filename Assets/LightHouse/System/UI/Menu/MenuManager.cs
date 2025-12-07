@@ -2,7 +2,6 @@ namespace LightHouse
 {
     using System;
     using System.Collections.Generic;
-    using NaughtyAttributes;
     using UnityEngine;
     using UnityEngine.InputSystem;
     using UnityEngine.UIElements;
@@ -11,11 +10,9 @@ namespace LightHouse
     {
         public static MenuManager Singleton { get; private set; }
         [SerializeField]
-        [Required]
         UIDocument _menuDocument;
 
         [SerializeField]
-        [Required]
         VisualTreeAsset _menuRoot;
 
         [SerializeField]
@@ -135,6 +132,16 @@ namespace LightHouse
 
         void Awake()
         {
+            if (_menuDocument == null)
+            {
+                Debug.Log("`_menuDocument` was not set.");
+                throw new Exception();
+            }
+            if (_menuRoot == null)
+            {
+                Debug.Log("`_menuRoot` was not set.");
+                throw new Exception();
+            }
             _menuDocument.visualTreeAsset = _menuRoot;
             _tab = _menuDocument?.rootVisualElement?.Q(className: "menu-root__tab");
             _menuContainer = _menuDocument?.rootVisualElement?.Q(className: "menu-root__menu-container");

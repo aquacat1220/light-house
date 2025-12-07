@@ -4,7 +4,6 @@ namespace LightHouse
     using System.Collections.Generic;
     using System.Linq;
     using FishNet.Object;
-    using NaughtyAttributes;
     using UnityEngine;
     using Fn;
     using UnityEngine.Rendering.Universal;
@@ -34,8 +33,6 @@ namespace LightHouse
         Heap<RangeHandle, float> _ranges = Heap.MaxHeap<RangeHandle, float>();
         List<RangeModifierHandle> _modifiers = new();
 
-        [Required]
-        [ValidateInput("IsValidLight", "The vision light should be a 360 deg spot light with blend mode \"Vision\".")]
         [SerializeField]
         Light2D _visionLight;
 
@@ -59,6 +56,15 @@ namespace LightHouse
 
         [SerializeField]
         Event<float> _rangeChanged;
+
+        void Awake()
+        {
+            if (!IsValidLight(_visionLight))
+            {
+                Debug.Log("`_visionLight` is not valid.");
+                throw new Exception();
+            }
+        }
 
         public override void OnStartServer()
         {
@@ -149,24 +155,17 @@ namespace LightHouse
         bool IsValidLight(Light2D light)
         {
             if (light == null)
-                return true;
-            // light.lightType = Light2D.LightType.Point;
-            // light.pointLightInnerAngle = 360f;
-            // light.pointLightOuterAngle = 360f;
-            // light.pointLightInnerRadius = 0f;
-            // light.pointLightOuterRadius = 0f;
-            // light.enabled = false;
-            // light.blendStyleIndex = 1;
+                return false;
             if (light.lightType != Light2D.LightType.Point)
                 return false;
             if (light.pointLightInnerAngle != 360f)
                 return false;
             if (light.pointLightOuterAngle != 360f)
                 return false;
-            // if (light.pointLightInnerRadius != 0f)
-            //     return false;
-            // if (light.pointLightOuterRadius != 0f)
-            //     return false;
+            if (light.pointLightInnerRadius != 0f)
+                return false;
+            if (light.pointLightOuterRadius != 0f)
+                return false;
             if (light.enabled)
                 return false;
             if (light.blendStyleIndex != 2)

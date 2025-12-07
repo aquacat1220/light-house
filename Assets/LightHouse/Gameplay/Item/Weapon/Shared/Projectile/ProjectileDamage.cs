@@ -1,8 +1,6 @@
 namespace LightHouse
 {
-    using FishNet;
     using FishNet.Object;
-    using NaughtyAttributes;
     using UnityEngine;
 
     public class ProjectileDamage : NetworkBehaviour
@@ -12,8 +10,16 @@ namespace LightHouse
         DamageInfoBase _damageInfo;
 
         [SerializeField]
-        [Required]
         GameObject _visual;
+
+        void Awake()
+        {
+            if (_visual == null)
+            {
+                Debug.Log("`_visual` was not set.");
+                throw new System.Exception();
+            }
+        }
 
         void OnTriggerEnter2D(Collider2D other)
         {
