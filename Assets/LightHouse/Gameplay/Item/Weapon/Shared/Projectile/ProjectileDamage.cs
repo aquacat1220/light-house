@@ -1,5 +1,6 @@
 namespace LightHouse
 {
+    using System.Runtime.CompilerServices;
     using FishNet.Object;
     using UnityEngine;
 

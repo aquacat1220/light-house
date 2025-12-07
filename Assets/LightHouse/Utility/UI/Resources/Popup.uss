@@ -1,0 +1,20 @@
+.popup {
+    flex-direction: row;
+}
+
+.popup__label {
+    flex-grow: 1;
+}
+
+.popup__container {
+    align-self: flex-start;
+}
+
+.popup__container--closed {
+    display: none;
+}
+
+.popup__container--opened {
+    display: flex;
+    overflow: hidden;
+}

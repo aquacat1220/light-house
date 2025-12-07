@@ -1,0 +1,58 @@
+.method-info-drawer {
+    flex-direction: row;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.method-info-drawer__object {
+    margin-top: 0;
+    margin-left: 0;
+    margin-bottom: 0;
+    margin-right: 0;
+}
+
+.method-info-drawer__popup {
+    border-left-width: 1px;
+    border-top-left-radius: 3px;
+    border-top-width: 1px;
+    border-top-right-radius: 3px;
+    border-right-width: 1px;
+    border-bottom-right-radius: 3px;
+    border-bottom-width: 1px;
+    border-bottom-left-radius: 3px;
+    border-left-color: rgb(24, 24, 24);
+    border-right-color: rgb(24, 24, 24);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(24, 24, 24);
+    background-color: rgb(42, 42, 42);
+    flex-grow: 1;
+}
+
+.method-info-drawer__popup:hover {
+    border-left-color: rgb(101, 101, 101);
+    border-right-color: rgb(101, 101, 101);
+    border-top-color: rgb(101, 101, 101);
+    border-bottom-color: rgb(101, 101, 101);
+}
+
+.method-info-drawer__popup:focus {
+    border-left-color: rgb(129, 180, 255);
+    border-right-color: rgb(129, 180, 255);
+    border-top-color: rgb(129, 180, 255);
+    border-bottom-color: rgb(129, 180, 255);
+}
+
+.method-info-drawer__popup:focus .popup__label {
+    color: rgb(129, 180, 255);
+}
+
+.method-info-drawer__treeview {
+    width: 300px;
+    max-height: 200px;
+}

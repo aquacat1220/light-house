@@ -1,10 +1,11 @@
 namespace LightHouse.Fn
 {
     using System;
+    using System.Linq;
 
     public interface ITupleBase { }
     [Serializable]
-    public class Tuple : ITupleBase
+    public sealed class Tuple : ITupleBase
     {
         static Tuple _unit = new Tuple();
         public static Tuple Unit { get => _unit; }
@@ -70,8 +71,42 @@ namespace LightHouse.Fn
         public T8 Item8 { get; }
     }
 
+    public static class TupleHelper
+    {
+        public static Type[] GetTypes(Type tupleType)
+        {
+            if (!typeof(ITupleBase).IsAssignableFrom(tupleType))
+                throw new Exception();
+            foreach (var tupleInterface in tupleType.GetInterfaces().Append(tupleType))
+            {
+                if (tupleInterface == typeof(Tuple))
+                    return new Type[0];
+                if (!tupleInterface.IsConstructedGenericType)
+                    continue;
+                Type definition = tupleInterface.GetGenericTypeDefinition();
+                if (definition == typeof(ITuple<>))
+                    return tupleInterface.GetGenericArguments();
+                if (definition == typeof(ITuple<,>))
+                    return tupleInterface.GetGenericArguments();
+                if (definition == typeof(ITuple<,,>))
+                    return tupleInterface.GetGenericArguments();
+                if (definition == typeof(ITuple<,,,>))
+                    return tupleInterface.GetGenericArguments();
+                if (definition == typeof(ITuple<,,,,>))
+                    return tupleInterface.GetGenericArguments();
+                if (definition == typeof(ITuple<,,,,,>))
+                    return tupleInterface.GetGenericArguments();
+                if (definition == typeof(ITuple<,,,,,,>))
+                    return tupleInterface.GetGenericArguments();
+                if (definition == typeof(ITuple<,,,,,,,>))
+                    return tupleInterface.GetGenericArguments();
+            }
+            throw new Exception();
+        }
+    }
+
     [Serializable]
-    public class Tuple<T1> : ITuple<T1>
+    public sealed class Tuple<T1> : ITuple<T1>
     {
         [UnityEngine.SerializeField]
         T1 _item1;
@@ -88,7 +123,7 @@ namespace LightHouse.Fn
         }
     }
     [Serializable]
-    public class Tuple<T1, T2> : ITuple<T1, T2>
+    public sealed class Tuple<T1, T2> : ITuple<T1, T2>
     {
         [UnityEngine.SerializeField]
         T1 _item1;
@@ -107,7 +142,7 @@ namespace LightHouse.Fn
     }
 
     [Serializable]
-    public class Tuple<T1, T2, T3> : ITuple<T1, T2, T3>
+    public sealed class Tuple<T1, T2, T3> : ITuple<T1, T2, T3>
     {
         [UnityEngine.SerializeField]
         T1 _item1;
@@ -129,7 +164,7 @@ namespace LightHouse.Fn
         }
     }
     [Serializable]
-    public class Tuple<T1, T2, T3, T4> : ITuple<T1, T2, T3, T4>
+    public sealed class Tuple<T1, T2, T3, T4> : ITuple<T1, T2, T3, T4>
     {
         [UnityEngine.SerializeField]
         T1 _item1;
@@ -155,7 +190,7 @@ namespace LightHouse.Fn
         }
     }
     [Serializable]
-    public class Tuple<T1, T2, T3, T4, T5> : ITuple<T1, T2, T3, T4, T5>
+    public sealed class Tuple<T1, T2, T3, T4, T5> : ITuple<T1, T2, T3, T4, T5>
     {
         [UnityEngine.SerializeField]
         T1 _item1;
@@ -185,7 +220,7 @@ namespace LightHouse.Fn
         }
     }
     [Serializable]
-    public class Tuple<T1, T2, T3, T4, T5, T6> : ITuple<T1, T2, T3, T4, T5, T6>
+    public sealed class Tuple<T1, T2, T3, T4, T5, T6> : ITuple<T1, T2, T3, T4, T5, T6>
     {
         [UnityEngine.SerializeField]
         T1 _item1;
@@ -219,7 +254,7 @@ namespace LightHouse.Fn
         }
     }
     [Serializable]
-    public class Tuple<T1, T2, T3, T4, T5, T6, T7> : ITuple<T1, T2, T3, T4, T5, T6, T7>
+    public sealed class Tuple<T1, T2, T3, T4, T5, T6, T7> : ITuple<T1, T2, T3, T4, T5, T6, T7>
     {
         [UnityEngine.SerializeField]
         T1 _item1;
@@ -257,7 +292,7 @@ namespace LightHouse.Fn
         }
     }
     [Serializable]
-    public class Tuple<T1, T2, T3, T4, T5, T6, T7, T8> : ITuple<T1, T2, T3, T4, T5, T6, T7, T8>
+    public sealed class Tuple<T1, T2, T3, T4, T5, T6, T7, T8> : ITuple<T1, T2, T3, T4, T5, T6, T7, T8>
     {
         [UnityEngine.SerializeField]
         T1 _item1;

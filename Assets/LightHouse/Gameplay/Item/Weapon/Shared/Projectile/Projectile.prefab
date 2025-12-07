@@ -295,7 +295,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 5
+  <PrefabId>k__BackingField: 3
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 6074658041598265075
   <SceneId>k__BackingField: 0
@@ -481,6 +481,10 @@ MonoBehaviour:
   _damageInfo:
     rid: 4866375275036803350
   _visual: {fileID: 120516515841643400}
+  _test:
+    MethodInfo:
+      Target: {fileID: 5399703363806622315}
+      MethodName: ITuple<bool> Test2(GameObject, DamageInfoBase)
   references:
     version: 2
     RefIds:
