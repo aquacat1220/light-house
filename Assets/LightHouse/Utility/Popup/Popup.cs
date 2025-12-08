@@ -87,6 +87,10 @@ namespace LightHouse
             _label.text = value;
             this.Add(_label);
 
+            var icon = new VisualElement();
+            icon.AddToClassList("popup__icon");
+            this.Add(icon);
+
             _container = new VisualElement();
             _container.AddToClassList("popup__container");
             _container.AddToClassList("popup__container--closed");

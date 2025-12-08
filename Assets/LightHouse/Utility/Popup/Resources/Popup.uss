@@ -1,0 +1,32 @@
+.popup {
+    flex-direction: row;
+}
+
+.popup__label {
+    flex-grow: 1;
+}
+
+.popup__icon {
+    min-width: 8px;
+    min-height: 8px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    margin-right: 4px;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("dropdown.svg");
+    -unity-background-scale-mode: scale-to-fit;
+    -unity-background-image-tint-color: rgb(210, 210, 210);
+}
+
+.popup__container {
+    align-self: flex-start;
+}
+
+.popup__container--closed {
+    display: none;
+}
+
+.popup__container--opened {
+    display: flex;
+    overflow: hidden;
+}

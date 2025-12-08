@@ -1,0 +1,10 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/LightHouse/Utility/PolymorphicSelector/Editor/Resources/PolymorphicSelectorDrawer.uss?fileID=7433441132597879392&amp;guid=fe5545099225fa2b3a3b8d9ead3e6cc8&amp;type=3#PolymorphicSelectorDrawer"/>
+    <ui:VisualElement class="polymorphic-selector-drawer">
+        <ui:Label text="Type" class="polymorphic-selector-drawer__label"/>
+        <LightHouse.Popup value="" focusable="true" class="polymorphic-selector-drawer__popup">
+            <ui:TreeView class="polymorphic-selector-drawer__treeview"/>
+        </LightHouse.Popup>
+    </ui:VisualElement>
+    <uie:PropertyField class="polymorphic-selector-drawer__property-field"/>
+</ui:UXML>

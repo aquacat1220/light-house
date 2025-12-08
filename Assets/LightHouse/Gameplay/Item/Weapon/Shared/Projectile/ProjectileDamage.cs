@@ -2,6 +2,7 @@ namespace LightHouse
 {
     using System.Runtime.CompilerServices;
     using FishNet.Object;
+    using LightHouse.Fn;
     using UnityEngine;
 
     public class ProjectileDamage : NetworkBehaviour
@@ -12,6 +13,18 @@ namespace LightHouse
 
         [SerializeField]
         GameObject _visual;
+
+        [PolymorphicSelector]
+        [SerializeReference]
+        public Tuple<int> _test = new();
+
+        [SubclassSelector]
+        [SerializeReference]
+        public Tuple<int> _test2 = new(1);
+
+        public Tuple<int> _test3 = new(1);
+
+        public int _test4 = 3;
 
         void Awake()
         {

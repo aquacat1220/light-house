@@ -482,12 +482,23 @@ MonoBehaviour:
     rid: 4866375275036803350
   _visual: {fileID: 120516515841643400}
   _test:
-    MethodInfo:
-      Target: {fileID: 5399703363806622315}
-      MethodName: ITuple<bool> Test2(GameObject, DamageInfoBase)
+    rid: 109098123858805375
+  _test2:
+    rid: 109098123858805135
+  _test3:
+    _item1: 1
+  _test4: 3
   references:
     version: 2
     RefIds:
+    - rid: 109098123858805135
+      type: {class: 'Tuple`1[[System.Int32, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _item1: 0
+    - rid: 109098123858805375
+      type: {class: 'Tuple`1[[System.Int32, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _item1: 2
     - rid: 4866375275036803350
       type: {class: NaiveDamageInfo, ns: LightHouse, asm: Assembly-CSharp}
       data:
