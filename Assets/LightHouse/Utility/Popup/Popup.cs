@@ -12,6 +12,7 @@ namespace LightHouse
         static StyleSheet StyleSheet;
         Label _label;
         VisualElement _container;
+        VisualElement _topbar;
 
         string _value = "Popup Default Text";
         [UxmlAttribute, CreateProperty]
@@ -70,6 +71,17 @@ namespace LightHouse
             }
         }
 
+        bool _draggable = false;
+        [UxmlAttribute, CreateProperty]
+        public bool Draggable
+        {
+            get => _draggable;
+            set
+            {
+                _draggable = value;
+            }
+        }
+
         IVisualElementScheduledItem _scheduledExecute;
 
         public event Action Clicked;
@@ -94,12 +106,26 @@ namespace LightHouse
             _container = new VisualElement();
             _container.AddToClassList("popup__container");
             _container.AddToClassList("popup__container--closed");
-
             this.Add(_container);
             _useThisAsContainer = false;
 
+            _topbar = new VisualElement();
+            _topbar.AddToClassList("popup__container-topbar");
+            _container.Add(_topbar);
+
+            var closeIcon = new VisualElement();
+            closeIcon.AddToClassList("popup__container-close-icon");
+            _topbar.Add(closeIcon);
+
             Clickable clickable = new Clickable(OnClick);
             _label.AddManipulator(clickable);
+
+            _topbar.RegisterCallback<PointerDownEvent>(OnContainerDragStart);
+            _topbar.RegisterCallback<PointerUpEvent>(OnContainerDragEnd);
+            _topbar.RegisterCallback<PointerMoveEvent>(OnContainerDrag);
+
+            Clickable closeIconClickable = new Clickable(() => WantPopupOpen = false);
+            closeIcon.AddManipulator(closeIconClickable);
 
             this.RegisterCallback<AttachToPanelEvent>(evt => OnAttachToPanel());
             this.RegisterCallback<DetachFromPanelEvent>(evt => OnDetachFromPanel());
@@ -204,6 +230,28 @@ namespace LightHouse
             if (!TogglePopupOnClick)
                 return;
             WantPopupOpen = !WantPopupOpen;
+        }
+
+        void OnContainerDragStart(PointerDownEvent evt)
+        {
+            if (evt.target == _topbar)
+                _topbar.CapturePointer(evt.pointerId);
+        }
+
+        void OnContainerDragEnd(PointerUpEvent evt)
+        {
+            if (evt.target == _topbar)
+                _topbar.ReleasePointer(evt.pointerId);
+        }
+
+        void OnContainerDrag(PointerMoveEvent evt)
+        {
+            if (evt.target != evt.currentTarget || !evt.target.HasPointerCapture(evt.pointerId))
+                return;
+            if (!_popupOpen)
+                return;
+            _container.style.top = _container.style.top.value.value + evt.deltaPosition.y;
+            _container.style.left = _container.style.left.value.value + evt.deltaPosition.x;
         }
     }
 }
