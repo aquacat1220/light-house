@@ -1,5 +1,5 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/LightHouse/Utility/PolymorphicSelector/Editor/Resources/TypePopup.uss?fileID=7433441132597879392&amp;guid=b9c360271ebd33818bcc15c3b5b5266f&amp;type=3#TypePopup"/>
+    <Style src="project://database/Assets/LightHouse/Utility/PolySelector/Editor/Resources/TypePopup.uss?fileID=7433441132597879392&amp;guid=b9c360271ebd33818bcc15c3b5b5266f&amp;type=3#TypePopup"/>
     <LightHouse.Popup focusable="true" value="" class="type-popup__popup">
         <ui:TextField label="" placeholder-text="Search for Types" class="type-popup__searchbar"/>
         <ui:TreeView fixed-item-height="24" class="type-popup__treeview"/>

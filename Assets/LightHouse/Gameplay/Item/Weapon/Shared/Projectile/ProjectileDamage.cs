@@ -26,11 +26,11 @@ namespace LightHouse
             public int BarData = 22;
         }
 
-        [PolymorphicSelector]
+        [PolySelector]
         [SerializeReference]
         public Foo _foo;
 
-        [PolymorphicSelector]
+        [PolySelector]
         [SerializeReference]
         public Bar _bar;
 

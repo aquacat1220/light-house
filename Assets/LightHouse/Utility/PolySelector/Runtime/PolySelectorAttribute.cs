@@ -4,5 +4,5 @@ namespace LightHouse
     using UnityEngine;
 
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
-    public sealed class PolymorphicSelectorAttribute : PropertyAttribute { }
+    public sealed class PolySelectorAttribute : PropertyAttribute { }
 }

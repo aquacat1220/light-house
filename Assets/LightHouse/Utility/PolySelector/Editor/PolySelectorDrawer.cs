@@ -8,8 +8,8 @@ namespace LightHouse
     using UnityEngine;
     using UnityEngine.UIElements;
 
-    [CustomPropertyDrawer(typeof(PolymorphicSelectorAttribute))]
-    public class PolymorphicSelectorDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(PolySelectorAttribute))]
+    public class PolySelectorDrawer : PropertyDrawer
     {
         static VisualTreeAsset _polymorphicSelectorDrawerTemplate;
 
@@ -23,18 +23,18 @@ namespace LightHouse
             }
             if (property.propertyType != SerializedPropertyType.ManagedReference)
             {
-                var textField = new TextField("PolymorphicSelectorDrawers are for `[SerializeReference]` fields.");
+                var textField = new TextField("PolySelectorDrawers are for `[SerializeReference]` fields.");
                 textField.enabledSelf = false;
                 return textField;
             }
 
             if (_polymorphicSelectorDrawerTemplate == null)
-                _polymorphicSelectorDrawerTemplate = Resources.Load<VisualTreeAsset>("PolymorphicSelectorDrawerTemplate");
+                _polymorphicSelectorDrawerTemplate = Resources.Load<VisualTreeAsset>("PolySelectorDrawerTemplate");
             var drawer = _polymorphicSelectorDrawerTemplate.Instantiate();
 
-            var typePopup = drawer.Q<TypePopup>(className: "polymorphic-selector-drawer__type-popup");
-            var drag = drawer.Q<VisualElement>(className: "polymorphic-selector-drawer__drag");
-            var propertyField = drawer.Q<PropertyField>(className: "polymorphic-selector-drawer__property-field");
+            var typePopup = drawer.Q<TypePopup>(className: "poly-selector-drawer__type-popup");
+            var drag = drawer.Q<VisualElement>(className: "poly-selector-drawer__drag");
+            var propertyField = drawer.Q<PropertyField>(className: "poly-selector-drawer__property-field");
 
             typePopup.Reset(
                 new TypeConstraint.IConstraint[]
@@ -76,14 +76,14 @@ namespace LightHouse
                 if (evt.target != drag)
                     return;
                 drag.CapturePointer(evt.pointerId);
-                drag.AddToClassList("polymorphic-selector-drawer__drag--dragging");
+                drag.AddToClassList("poly-selector-drawer__drag--dragging");
             });
             drag.RegisterCallback<PointerUpEvent>((evt) =>
             {
                 if (evt.target != drag)
                     return;
                 drag.ReleasePointer(evt.pointerId);
-                drag.RemoveFromClassList("polymorphic-selector-drawer__drag--dragging");
+                drag.RemoveFromClassList("poly-selector-drawer__drag--dragging");
                 var destination = drag.panel.Pick(evt.position);
                 if (destination == drag)
                 {
@@ -92,7 +92,7 @@ namespace LightHouse
                     property.serializedObject.ApplyModifiedProperties();
                     return;
                 }
-                if (!destination.ClassListContains("polymorphic-selector-drawer__drag"))
+                if (!destination.ClassListContains("poly-selector-drawer__drag"))
                     return;
                 property.serializedObject.Update();
                 if (property.managedReferenceValue == null)

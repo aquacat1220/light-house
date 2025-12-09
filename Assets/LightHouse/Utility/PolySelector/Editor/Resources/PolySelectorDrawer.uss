@@ -1,4 +1,4 @@
-.polymorphic-selector-drawer {
+.poly-selector-drawer {
     margin-top: 1px;
     margin-left: 3px;
     margin-right: 3px;
@@ -6,19 +6,19 @@
     flex-direction: row;
 }
 
-.polymorphic-selector-drawer__label {
+.poly-selector-drawer__label {
     padding-top: 2px;
     margin-right: 10px;
 }
 
-.polymorphic-selector-drawer__type-popup {
+.poly-selector-drawer__type-popup {
     flex-grow: 1;
 }
 
-.polymorphic-selector-drawer__property-field {
+.poly-selector-drawer__property-field {
 }
 
-.polymorphic-selector-drawer__drag {
+.poly-selector-drawer__drag {
     width: 36px;
     background-color: rgb(32, 32, 32);
     border-top-left-radius: 3px;
@@ -36,7 +36,7 @@
     margin-left: 4px;
 }
 
-.polymorphic-selector-drawer__drag--dragging {
+.poly-selector-drawer__drag--dragging {
     background-color: rgb(42, 42, 42);
     border-color: rgb(200, 200, 200);
 }

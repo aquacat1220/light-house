@@ -484,10 +484,12 @@ MonoBehaviour:
   _foo:
     rid: 109098161325998095
   _bar:
-    rid: 109098161325998095
+    rid: -2
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 109098161325998095
       type: {class: ProjectileDamage/Bar, ns: LightHouse, asm: Assembly-CSharp}
       data:
