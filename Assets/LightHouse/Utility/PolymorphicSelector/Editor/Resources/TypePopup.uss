@@ -16,6 +16,10 @@
     min-height: 18px;
 }
 
+.type-popup__popup .popup__label {
+    -unity-text-align: middle-left;
+}
+
 .type-popup__popup:hover {
     border-left-color: rgb(101, 101, 101);
     border-right-color: rgb(101, 101, 101);

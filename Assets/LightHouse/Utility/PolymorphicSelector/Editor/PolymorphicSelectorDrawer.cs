@@ -31,38 +31,13 @@ namespace LightHouse
                 _polymorphicSelectorDrawerTemplate = Resources.Load<VisualTreeAsset>("PolymorphicSelectorDrawerTemplate");
             var drawer = _polymorphicSelectorDrawerTemplate.Instantiate();
 
-            var popup = drawer.Q<Popup>(className: "polymorphic-selector-drawer__popup");
-            var treeView = drawer.Q<TreeView>(className: "polymorphic-selector-drawer__treeview");
+            var typePopup = drawer.Q<TypePopup>(className: "polymorphic-selector-drawer__type-popup");
             var propertyField = drawer.Q<PropertyField>(className: "polymorphic-selector-drawer__property-field");
 
             if (property.managedReferenceValue != null)
-                popup.value = property.managedReferenceValue.GetType().CSharpFullName();
+                typePopup.Popup.value = property.managedReferenceValue.GetType().CSharpFullName();
             else
-                popup.value = fieldInfo.FieldType.CSharpFullName();
-
-            popup.Clicked += () =>
-            {
-                // We want to build tree items the first time we click on the popup.
-                // We always have at least one element, because if no candidates are found we will add a label telling the user so.
-                if (treeView.GetRootElementForId(0) != null)
-                    return;
-                // Fetch all candidates, add nongenerics as leaf nodes, add generics with type parameters as children.
-            };
-
-            treeView.makeItem = () => new Label();
-            treeView.bindItem = (element, index) =>
-            {
-                var methodInfo = treeView.GetItemDataForIndex<System.Reflection.MethodInfo>(index);
-                var id = treeView.GetIdForIndex(index);
-                string text = "";
-                ((Label)element).text = text;
-            };
-
-            propertyField.BindProperty(property);
-            treeView.selectionChanged += (items) =>
-            {
-                // If selected type is a generic type that hasn't been selected previously, propagate constraints.
-            };
+                typePopup.Popup.value = "Undetermined";
 
             return drawer;
         }

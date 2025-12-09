@@ -13,44 +13,8 @@
     margin-right: 10px;
 }
 
-.polymorphic-selector-drawer__popup {
-    border-left-width: 1px;
-    border-top-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
-    background-color: rgb(42, 42, 42);
-    border-left-color: rgb(24, 24, 24);
-    border-right-color: rgb(24, 24, 24);
-    border-top-color: rgb(0, 0, 0);
-    border-bottom-color: rgb(24, 24, 24);
+.polymorphic-selector-drawer__type-popup {
     flex-grow: 1;
-}
-
-.polymorphic-selector-drawer__popup:hover {
-    border-left-color: rgb(101, 101, 101);
-    border-right-color: rgb(101, 101, 101);
-    border-top-color: rgb(101, 101, 101);
-    border-bottom-color: rgb(101, 101, 101);
-}
-
-.polymorphic-selector-drawer__popup:focus {
-    border-left-color: rgb(129, 180, 255);
-    border-right-color: rgb(129, 180, 255);
-    border-top-color: rgb(129, 180, 255);
-    border-bottom-color: rgb(129, 180, 255);
-}
-
-.polymorphic-selector-drawer__popup:focus .popup__label {
-    color: rgb(129, 180, 255);
-}
-
-.polymorphic-selector-drawer__treeview {
-    width: 400px;
-    max-height: 200px;
 }
 
 .polymorphic-selector-drawer__property-field {

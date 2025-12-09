@@ -131,6 +131,10 @@ namespace LightHouse
                 return;
             _scheduledExecute = schedule.Execute(() =>
                 {
+                    _scheduledExecute = null;
+                    // The panel is null. We can't add the popup to anywhere.
+                    if (this.panel == null)
+                        return;
                     _container.RemoveFromClassList("popup__container--closed");
                     _container.AddToClassList("popup__container--opened");
                     // We are connected to a valid panel. Move the popup container to panel root.
@@ -139,7 +143,6 @@ namespace LightHouse
                     _container.style.top = worldBottomLeft.y;
                     _container.style.left = worldBottomLeft.x;
                     _popupOpen = true;
-                    _scheduledExecute = null;
                 }
             ).StartingIn(50);
         }

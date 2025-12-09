@@ -4,6 +4,10 @@
 
 .popup__label {
     flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .popup__icon {
@@ -20,6 +24,7 @@
 
 .popup__container {
     align-self: flex-start;
+    position: absolute;
 }
 
 .popup__container--closed {

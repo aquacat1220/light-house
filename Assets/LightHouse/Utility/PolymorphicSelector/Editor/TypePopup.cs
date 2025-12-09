@@ -218,8 +218,6 @@ namespace LightHouse
                         }
 
                         label.text = $"ID: {data.Id} {data.GenericParameter.TypeParameter.CSharpName()}";
-                        if (data.GenericParameter.SelectedType != null)
-                            innerPopup.Popup.value = data.GenericParameter.SelectedType.CSharpName();
                         innerPopup.TypeSelected += (type) =>
                         {
                             if (type == null)
@@ -241,6 +239,8 @@ namespace LightHouse
                             data.GenericParameter.SelectedType = type;
                         }; ;
                         innerPopup.Reset(data.GenericParameter.Constraints); // Reset with propagated constraints.
+                        if (data.GenericParameter.SelectedType != null)
+                            innerPopup.Popup.value = data.GenericParameter.SelectedType.CSharpName();
                         innerPopup.RemoveFromClassList("type-popup__treeview-item-inner-popup--disabled");
                         return;
                     }
