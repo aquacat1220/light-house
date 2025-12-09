@@ -3,6 +3,7 @@
     <ui:VisualElement class="polymorphic-selector-drawer">
         <ui:Label text="Type" class="polymorphic-selector-drawer__label"/>
         <LightHouse.TypePopup class="polymorphic-selector-drawer__type-popup"/>
+        <ui:VisualElement class="polymorphic-selector-drawer__drag"/>
     </ui:VisualElement>
     <uie:PropertyField class="polymorphic-selector-drawer__property-field"/>
 </ui:UXML>

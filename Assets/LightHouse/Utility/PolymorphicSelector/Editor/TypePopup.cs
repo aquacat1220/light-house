@@ -112,27 +112,27 @@ namespace LightHouse
                 innerPopup.Reset(null, null);
                 if (data.Enum == TypePopupItemDataEnum.Info)
                 {
-                    label.text = $"ID: {data.Id} {data.Info.Text}";
+                    label.text = $"{data.Info.Text}";
                     return;
                 }
                 else if (data.Enum == TypePopupItemDataEnum.Nongeneric)
                 {
-                    label.text = $"ID: {data.Id} {data.Nongeneric.Type.CSharpFullName()}";
+                    label.text = $"{data.Nongeneric.Type.CSharpFullName()}";
                     return;
                 }
                 else if (data.Enum == TypePopupItemDataEnum.Generic)
                 {
                     if (data.Generic.Disabled)
-                        label.text = $"ID: {data.Id} {data.Generic.Type.CSharpFullName()} - Unsatisfiable";
+                        label.text = $"{data.Generic.Type.CSharpFullName()} - Unsatisfiable";
                     else
-                        label.text = $"ID: {data.Id} {data.Generic.Type.CSharpFullName()}";
+                        label.text = $"{data.Generic.Type.CSharpFullName()}";
                     return;
                 }
                 else if (data.Enum == TypePopupItemDataEnum.GenericParameter)
                 {
                     if (data.GenericParameter.Disabled)
                     {
-                        label.text = $"ID: {data.Id} {data.GenericParameter.TypeParameter.CSharpFullName()} - Unsatisfiable";
+                        label.text = $"{data.GenericParameter.TypeParameter.CSharpFullName()} - Unsatisfiable";
                         return;
                     }
                     else
@@ -162,7 +162,7 @@ namespace LightHouse
                             }
                         }
 
-                        label.text = $"ID: {data.Id} {data.GenericParameter.TypeParameter.CSharpFullName()}";
+                        label.text = $"{data.GenericParameter.TypeParameter.CSharpFullName()}";
                         innerPopup.TypeSelected += (type) =>
                         {
                             if (type == null)

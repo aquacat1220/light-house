@@ -16,17 +16,23 @@ namespace LightHouse
         GameObject _visual;
 
         [Serializable]
-        public class Foo { }
+        public class Foo
+        {
+            public int FooData = 2;
+        }
         [Serializable]
-        public class Bar : Foo { }
+        public class Bar : Foo
+        {
+            public int BarData = 22;
+        }
 
         [PolymorphicSelector]
         [SerializeReference]
-        public Fn.Tuple<int> _test = new();
+        public Foo _foo;
 
         [PolymorphicSelector]
         [SerializeReference]
-        public Event<DamageInfoBase, Foo> _test2;
+        public Bar _bar;
 
 
         void Awake()

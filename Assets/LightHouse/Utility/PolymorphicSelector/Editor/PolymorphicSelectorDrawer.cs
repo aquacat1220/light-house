@@ -33,6 +33,7 @@ namespace LightHouse
             var drawer = _polymorphicSelectorDrawerTemplate.Instantiate();
 
             var typePopup = drawer.Q<TypePopup>(className: "polymorphic-selector-drawer__type-popup");
+            var drag = drawer.Q<VisualElement>(className: "polymorphic-selector-drawer__drag");
             var propertyField = drawer.Q<PropertyField>(className: "polymorphic-selector-drawer__property-field");
 
             typePopup.Reset(
@@ -44,10 +45,10 @@ namespace LightHouse
                 (type) => type.IsVisible && !type.IsAbstract && !type.IsValueType && !typeof(UnityEngine.Object).IsAssignableFrom(type) && Attribute.IsDefined(type, typeof(SerializableAttribute))
             );
 
-            if (property.managedReferenceValue != null)
-                typePopup.Popup.value = property.managedReferenceValue.GetType().CSharpName();
-            else
-                typePopup.Popup.value = "Undetermined";
+            // if (property.managedReferenceValue != null)
+            //     typePopup.Popup.value = property.managedReferenceValue.GetType().CSharpName();
+            // else
+            //     typePopup.Popup.value = "Undetermined";
             typePopup.TypeSelected += (type) =>
             {
                 if (type == null)
@@ -68,7 +69,56 @@ namespace LightHouse
                 // End
                 property.serializedObject.ApplyModifiedProperties();
             };
+
+            drag.userData = property;
+            drag.RegisterCallback<PointerDownEvent>((evt) =>
+            {
+                if (evt.target != drag)
+                    return;
+                drag.CapturePointer(evt.pointerId);
+                drag.AddToClassList("polymorphic-selector-drawer__drag--dragging");
+            });
+            drag.RegisterCallback<PointerUpEvent>((evt) =>
+            {
+                if (evt.target != drag)
+                    return;
+                drag.ReleasePointer(evt.pointerId);
+                drag.RemoveFromClassList("polymorphic-selector-drawer__drag--dragging");
+                var destination = drag.panel.Pick(evt.position);
+                if (destination == drag)
+                {
+                    // Clicking on self should null the current value.
+                    property.managedReferenceValue = null;
+                    property.serializedObject.ApplyModifiedProperties();
+                    return;
+                }
+                if (!destination.ClassListContains("polymorphic-selector-drawer__drag"))
+                    return;
+                property.serializedObject.Update();
+                if (property.managedReferenceValue == null)
+                    return;
+                SerializedProperty destinationProperty = (SerializedProperty)destination.userData;
+                destinationProperty.serializedObject.Update();
+                if (!destinationProperty.GetUnderlyingField().FieldType.IsAssignableFrom(property.managedReferenceValue.GetType()))
+                {
+                    Debug.Log("Source property's reference value isn't compatible with the destination.");
+                    return;
+                }
+                destinationProperty.managedReferenceValue = property.managedReferenceValue;
+                destinationProperty.serializedObject.ApplyModifiedProperties();
+            });
+
+            propertyField.TrackPropertyValue(property, OnPropertyChange);
             propertyField.BindProperty(property);
+            OnPropertyChange(property);
+
+            void OnPropertyChange(SerializedProperty changedProperty)
+            {
+                if (changedProperty.managedReferenceValue != null)
+                    typePopup.Popup.value = changedProperty.managedReferenceValue.GetType().CSharpName();
+                else
+                    typePopup.Popup.value = "Undetermined";
+            }
 
             return drawer;
         }
