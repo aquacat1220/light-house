@@ -21,6 +21,7 @@ namespace LightHouse
         }
         public class Info
         {
+            public string Text;
         }
         public class Nongeneric
         {
@@ -134,16 +135,19 @@ namespace LightHouse
                     }
                 );
 
-                var infoData = new TypePopupItemData();
-                infoData.Enum = TypePopupItemDataEnum.Info;
-                infoData.Id = id;
-                var info = new Info();
-                infoData.Info = info;
-                items = items.Prepend(
-                    new TreeViewItemData<TypePopupItemData>(id++, infoData, null)
-                );
+                var itemsList = items.ToList();
+                if (itemsList.Count == 0)
+                {
+                    var infoData = new TypePopupItemData();
+                    infoData.Enum = TypePopupItemDataEnum.Info;
+                    infoData.Id = id;
+                    var info = new Info();
+                    info.Text = "No candidate types were found.";
+                    infoData.Info = info;
+                    itemsList = new List<TreeViewItemData<TypePopupItemData>> { new TreeViewItemData<TypePopupItemData>(id++, infoData, null) };
+                }
 
-                _treeview.SetRootItems(items.ToList());
+                _treeview.SetRootItems(itemsList);
                 _treeview.Rebuild();
             };
 
@@ -170,7 +174,7 @@ namespace LightHouse
                 innerPopup.Reset(null, null);
                 if (data.Enum == TypePopupItemDataEnum.Info)
                 {
-                    label.text = $"ID: {data.Id} INFO";
+                    label.text = $"ID: {data.Id} {data.Info.Text}";
                     return;
                 }
                 else if (data.Enum == TypePopupItemDataEnum.Nongeneric)
@@ -201,16 +205,9 @@ namespace LightHouse
                             var parentData = _treeview.GetItemDataForId<TypePopupItemData>(parentId);
                             if (parentData.Enum != TypePopupItemDataEnum.Generic || parentData.Generic.Disabled)
                                 throw new Exception();
-                            foreach (var constraint in _constraints)
-                            {
-                                if (constraint is TypeConstraint.UpperBound)
-                                    Debug.Log(((TypeConstraint.UpperBound)constraint).Parent);
-                            }
-                            Debug.Log(parentData.Generic.Type);
                             var parameterConstraints = TypeConstraint.PropagateConstraints(parentData.Generic.Type, _constraints);
                             if (parameterConstraints == null)
                             {
-                                Debug.Log("HERE");
                                 parentData.Generic.Disabled = true;
                                 foreach (int childId in _treeview.viewController.GetChildrenIds(parentId))
                                 {
@@ -269,6 +266,8 @@ namespace LightHouse
 
             _treeview.selectionChanged += (items) =>
             {
+                if (items.Count() == 0)
+                    return;
                 TypePopupItemData data = (TypePopupItemData)items.First();
                 int id = data.Id;
                 if (_treeview.IsExpanded(id))
@@ -318,7 +317,9 @@ namespace LightHouse
 
             Popup.WantPopupOpen = false;
             Popup.value = "";
+            _treeview.ClearSelection();
             _treeview.SetRootItems<TypePopupItemData>(null);
+            _treeview.Rebuild();
             _constraints = constraints;
             _filter = filter;
         }
