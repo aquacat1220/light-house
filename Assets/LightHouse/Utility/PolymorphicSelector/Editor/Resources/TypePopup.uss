@@ -1,7 +1,7 @@
 .type-popup__popup {
     border-left-width: 1px;
-    border-top-width: 1px;
     border-right-width: 1px;
+    border-top-width: 1px;
     border-bottom-width: 1px;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
@@ -36,6 +36,28 @@
 
 .type-popup__popup:focus .popup__label {
     color: rgb(129, 180, 255);
+}
+
+.type-popup__searchbar {
+    height: 24px;
+    width: 400px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.type-popup__searchbar .unity-text-field__input {
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
 
 .type-popup__treeview {

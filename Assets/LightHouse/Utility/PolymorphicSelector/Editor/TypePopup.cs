@@ -3,8 +3,6 @@ namespace LightHouse
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Unity.Properties;
-    using Unity.VisualScripting;
     using UnityEngine;
     using UnityEngine.UIElements;
 
@@ -56,7 +54,10 @@ namespace LightHouse
         Func<Type, bool> _filter;
 
         public Popup Popup { get; }
+        TextField _searchbar;
         TreeView _treeview;
+
+        string _searchString = "";
 
         public event Action<Type> TypeSelected;
 
@@ -70,6 +71,7 @@ namespace LightHouse
 
             this.AddToClassList("type-popup");
             Popup = this.Q<Popup>(className: "type-popup__popup");
+            _searchbar = this.Q<TextField>(className: "type-popup__searchbar");
             _treeview = this.Q<TreeView>(className: "type-popup__treeview");
 
             Popup.Clicked += () =>
@@ -78,78 +80,14 @@ namespace LightHouse
                 // We always have at least one element, because if no candidates are found we will add a label telling the user so.
                 if (_treeview.GetRootElementForId(0) != null)
                     return;
-                // Fetch all candidates, add nongenerics as leaf nodes, add generics with type parameters as children.
-                var allTypes = AppDomain.CurrentDomain.GetAssemblies()
-                    .SelectMany(asm => asm.GetTypes())
-                    .Where(_filter);
-                var candidateTypes = TypeConstraint.GetCandidates(_constraints, allTypes);
-                if (candidateTypes.Count == 0)
-                {
-                    Popup.value = "Unsatisfiable";
-                    TypeSelected?.Invoke(null);
-                    return;
-                }
-
-                // id 0 is for the info on top.
-                int id = 0;
-                var items = candidateTypes.Select(
-                    candidateType =>
-                    {
-                        if (!candidateType.ContainsGenericParameters)
-                        {
-                            var data = new TypePopupItemData();
-                            data.Enum = TypePopupItemDataEnum.Nongeneric;
-                            data.Id = id;
-                            var nongeneric = new Nongeneric();
-                            nongeneric.Type = candidateType;
-                            data.Nongeneric = nongeneric;
-                            var item = new TreeViewItemData<TypePopupItemData>(id++, data, null);
-                            return item;
-                        }
-                        else
-                        {
-                            var data = new TypePopupItemData();
-                            data.Enum = TypePopupItemDataEnum.Generic;
-                            data.Id = id;
-                            var generic = new Generic();
-                            generic.Type = candidateType;
-                            data.Generic = generic;
-                            int index = 0;
-                            var children = candidateType.GetGenericArguments().Select(
-                                typeParameter =>
-                                {
-                                    var data = new TypePopupItemData();
-                                    data.Enum = TypePopupItemDataEnum.GenericParameter;
-                                    data.Id = id;
-                                    var genericParameter = new GenericParameter();
-                                    genericParameter.Index = index++;
-                                    genericParameter.TypeParameter = typeParameter;
-                                    data.GenericParameter = genericParameter;
-                                    var item = new TreeViewItemData<TypePopupItemData>(id++, data, null);
-                                    return item;
-                                }
-                            );
-                            var item = new TreeViewItemData<TypePopupItemData>(id++, data, children.ToList());
-                            return item;
-                        }
-                    }
-                );
-
-                var itemsList = items.ToList();
-                if (itemsList.Count == 0)
-                {
-                    var infoData = new TypePopupItemData();
-                    infoData.Enum = TypePopupItemDataEnum.Info;
-                    infoData.Id = id;
-                    var info = new Info();
-                    info.Text = "No candidate types were found.";
-                    infoData.Info = info;
-                    itemsList = new List<TreeViewItemData<TypePopupItemData>> { new TreeViewItemData<TypePopupItemData>(id++, infoData, null) };
-                }
-
-                _treeview.SetRootItems(itemsList);
-                _treeview.Rebuild();
+                Rebuild();
             };
+
+            _searchbar.RegisterCallback<FocusOutEvent>((evt) =>
+            {
+                _searchString = _searchbar.value;
+                Rebuild();
+            });
 
             _treeview.makeItem = () =>
             {
@@ -179,22 +117,22 @@ namespace LightHouse
                 }
                 else if (data.Enum == TypePopupItemDataEnum.Nongeneric)
                 {
-                    label.text = $"ID: {data.Id} {data.Nongeneric.Type.CSharpName()}";
+                    label.text = $"ID: {data.Id} {data.Nongeneric.Type.CSharpFullName()}";
                     return;
                 }
                 else if (data.Enum == TypePopupItemDataEnum.Generic)
                 {
                     if (data.Generic.Disabled)
-                        label.text = $"ID: {data.Id} {data.Generic.Type.CSharpName()} - Unsatisfiable";
+                        label.text = $"ID: {data.Id} {data.Generic.Type.CSharpFullName()} - Unsatisfiable";
                     else
-                        label.text = $"ID: {data.Id} {data.Generic.Type.CSharpName()}";
+                        label.text = $"ID: {data.Id} {data.Generic.Type.CSharpFullName()}";
                     return;
                 }
                 else if (data.Enum == TypePopupItemDataEnum.GenericParameter)
                 {
                     if (data.GenericParameter.Disabled)
                     {
-                        label.text = $"ID: {data.Id} {data.GenericParameter.TypeParameter.CSharpName()} - Unsatisfiable";
+                        label.text = $"ID: {data.Id} {data.GenericParameter.TypeParameter.CSharpFullName()} - Unsatisfiable";
                         return;
                     }
                     else
@@ -224,7 +162,7 @@ namespace LightHouse
                             }
                         }
 
-                        label.text = $"ID: {data.Id} {data.GenericParameter.TypeParameter.CSharpName()}";
+                        label.text = $"ID: {data.Id} {data.GenericParameter.TypeParameter.CSharpFullName()}";
                         innerPopup.TypeSelected += (type) =>
                         {
                             if (type == null)
@@ -322,6 +260,83 @@ namespace LightHouse
             _treeview.Rebuild();
             _constraints = constraints;
             _filter = filter;
+        }
+
+        public void Rebuild()
+        {
+            // Fetch all candidates, add nongenerics as leaf nodes, add generics with type parameters as children.
+            var allTypes = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(asm => asm.GetTypes())
+                .Where(_filter)
+                .Where((type) => type.CSharpFullName().Contains(_searchString));
+            var candidateTypes = TypeConstraint.GetCandidates(_constraints, allTypes);
+            if (candidateTypes.Count == 0 && string.IsNullOrEmpty(_searchString))
+            {
+                Popup.value = "Unsatisfiable";
+                TypeSelected?.Invoke(null);
+                return;
+            }
+
+            // id 0 is for the info on top.
+            int id = 0;
+            var items = candidateTypes.Select(
+                candidateType =>
+                {
+                    if (!candidateType.ContainsGenericParameters)
+                    {
+                        var data = new TypePopupItemData();
+                        data.Enum = TypePopupItemDataEnum.Nongeneric;
+                        data.Id = id;
+                        var nongeneric = new Nongeneric();
+                        nongeneric.Type = candidateType;
+                        data.Nongeneric = nongeneric;
+                        var item = new TreeViewItemData<TypePopupItemData>(id++, data, null);
+                        return item;
+                    }
+                    else
+                    {
+                        var data = new TypePopupItemData();
+                        data.Enum = TypePopupItemDataEnum.Generic;
+                        data.Id = id;
+                        var generic = new Generic();
+                        generic.Type = candidateType;
+                        data.Generic = generic;
+                        int index = 0;
+                        var children = candidateType.GetGenericArguments().Select(
+                            typeParameter =>
+                            {
+                                var data = new TypePopupItemData();
+                                data.Enum = TypePopupItemDataEnum.GenericParameter;
+                                data.Id = id;
+                                var genericParameter = new GenericParameter();
+                                genericParameter.Index = index++;
+                                genericParameter.TypeParameter = typeParameter;
+                                data.GenericParameter = genericParameter;
+                                var item = new TreeViewItemData<TypePopupItemData>(id++, data, null);
+                                return item;
+                            }
+                        );
+                        var item = new TreeViewItemData<TypePopupItemData>(id++, data, children.ToList());
+                        return item;
+                    }
+                }
+            );
+
+            var itemsList = items.ToList();
+            if (itemsList.Count == 0)
+            {
+                var infoData = new TypePopupItemData();
+                infoData.Enum = TypePopupItemDataEnum.Info;
+                infoData.Id = id;
+                var info = new Info();
+                info.Text = "No candidate types were found.";
+                infoData.Info = info;
+                itemsList = new List<TreeViewItemData<TypePopupItemData>> { new TreeViewItemData<TypePopupItemData>(id++, infoData, null) };
+            }
+
+            _treeview.ClearSelection();
+            _treeview.SetRootItems(itemsList);
+            _treeview.Rebuild();
         }
 
         // We don't want this element to have children.
