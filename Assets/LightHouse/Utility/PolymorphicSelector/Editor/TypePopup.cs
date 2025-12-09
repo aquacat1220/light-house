@@ -52,20 +52,20 @@ namespace LightHouse
         static VisualTreeAsset _typePopupTemplate;
 
         TypeConstraint.IConstraint[] _constraints;
+        Func<Type, bool> _filter;
 
         public Popup Popup { get; }
         TreeView _treeview;
 
         public event Action<Type> TypeSelected;
 
-        public TypePopup() : this(new TypeConstraint.IConstraint[0]) { }
+        public TypePopup() : this(null, null) { }
 
-        public TypePopup(TypeConstraint.IConstraint[] constraints)
+        public TypePopup(TypeConstraint.IConstraint[] constraints, Func<Type, bool> filter)
         {
             if (_typePopupTemplate == null)
                 _typePopupTemplate = Resources.Load<VisualTreeAsset>("TypePopupTemplate");
             _typePopupTemplate.CloneTree(this);
-
 
             this.AddToClassList("type-popup");
             Popup = this.Q<Popup>(className: "type-popup__popup");
@@ -80,7 +80,7 @@ namespace LightHouse
                 // Fetch all candidates, add nongenerics as leaf nodes, add generics with type parameters as children.
                 var allTypes = AppDomain.CurrentDomain.GetAssemblies()
                     .SelectMany(asm => asm.GetTypes())
-                    .Where(type => (type.IsPublic || type.IsNestedPublic));
+                    .Where(_filter);
                 var candidateTypes = TypeConstraint.GetCandidates(_constraints, allTypes);
                 if (candidateTypes.Count == 0)
                 {
@@ -167,7 +167,7 @@ namespace LightHouse
                 var label = element.Q<Label>(className: "type-popup__treeview-item-label");
                 var innerPopup = element.Q<TypePopup>(className: "type-popup__treeview-item-inner-popup");
                 innerPopup.AddToClassList("type-popup__treeview-item-inner-popup--disabled");
-                innerPopup.Reset(null);
+                innerPopup.Reset(null, null);
                 if (data.Enum == TypePopupItemDataEnum.Info)
                 {
                     label.text = $"ID: {data.Id} INFO";
@@ -180,7 +180,10 @@ namespace LightHouse
                 }
                 else if (data.Enum == TypePopupItemDataEnum.Generic)
                 {
-                    label.text = $"ID: {data.Id} {data.Generic.Type.CSharpName()}";
+                    if (data.Generic.Disabled)
+                        label.text = $"ID: {data.Id} {data.Generic.Type.CSharpName()} - Unsatisfiable";
+                    else
+                        label.text = $"ID: {data.Id} {data.Generic.Type.CSharpName()}";
                     return;
                 }
                 else if (data.Enum == TypePopupItemDataEnum.GenericParameter)
@@ -198,9 +201,16 @@ namespace LightHouse
                             var parentData = _treeview.GetItemDataForId<TypePopupItemData>(parentId);
                             if (parentData.Enum != TypePopupItemDataEnum.Generic || parentData.Generic.Disabled)
                                 throw new Exception();
+                            foreach (var constraint in _constraints)
+                            {
+                                if (constraint is TypeConstraint.UpperBound)
+                                    Debug.Log(((TypeConstraint.UpperBound)constraint).Parent);
+                            }
+                            Debug.Log(parentData.Generic.Type);
                             var parameterConstraints = TypeConstraint.PropagateConstraints(parentData.Generic.Type, _constraints);
                             if (parameterConstraints == null)
                             {
+                                Debug.Log("HERE");
                                 parentData.Generic.Disabled = true;
                                 foreach (int childId in _treeview.viewController.GetChildrenIds(parentId))
                                 {
@@ -238,7 +248,7 @@ namespace LightHouse
                             }
                             data.GenericParameter.SelectedType = type;
                         }; ;
-                        innerPopup.Reset(data.GenericParameter.Constraints); // Reset with propagated constraints.
+                        innerPopup.Reset(data.GenericParameter.Constraints, null); // Reset with propagated constraints.
                         if (data.GenericParameter.SelectedType != null)
                             innerPopup.Popup.value = data.GenericParameter.SelectedType.CSharpName();
                         innerPopup.RemoveFromClassList("type-popup__treeview-item-inner-popup--disabled");
@@ -253,7 +263,7 @@ namespace LightHouse
                 var label = element.Q<Label>(className: "type-popup__treeview-item-label");
                 var innerPopup = element.Q<TypePopup>(className: "type-popup__treeview-item-inner-popup");
                 innerPopup.AddToClassList("type-popup__treeview-item-inner-popup--disabled");
-                innerPopup.Reset(null);
+                innerPopup.Reset(null, null);
                 innerPopup.TypeSelected = null;
             };
 
@@ -296,18 +306,21 @@ namespace LightHouse
                     return;
                 }
             };
-            Reset(constraints);
+            Reset(constraints, filter);
         }
 
-        public void Reset(TypeConstraint.IConstraint[] constraints)
+        public void Reset(TypeConstraint.IConstraint[] constraints, Func<Type, bool> filter)
         {
             if (constraints == null)
                 constraints = new TypeConstraint.IConstraint[0];
+            if (filter == null)
+                filter = (type) => type.IsVisible;
 
             Popup.WantPopupOpen = false;
             Popup.value = "";
             _treeview.SetRootItems<TypePopupItemData>(null);
             _constraints = constraints;
+            _filter = filter;
         }
 
         // We don't want this element to have children.

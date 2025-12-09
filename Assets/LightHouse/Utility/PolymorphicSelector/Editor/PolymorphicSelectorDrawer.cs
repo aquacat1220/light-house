@@ -1,5 +1,6 @@
 namespace LightHouse
 {
+    using System;
     using System.Linq;
     using Unity.VisualScripting;
     using UnityEditor;
@@ -34,10 +35,40 @@ namespace LightHouse
             var typePopup = drawer.Q<TypePopup>(className: "polymorphic-selector-drawer__type-popup");
             var propertyField = drawer.Q<PropertyField>(className: "polymorphic-selector-drawer__property-field");
 
+            typePopup.Reset(
+                new TypeConstraint.IConstraint[]
+                {
+                    new TypeConstraint.UpperBound(fieldInfo.FieldType),
+                    new TypeConstraint.DefaultConstructor()
+                },
+                (type) => type.IsVisible && !type.IsAbstract && !type.IsValueType && !typeof(UnityEngine.Object).IsAssignableFrom(type) && Attribute.IsDefined(type, typeof(SerializableAttribute))
+            );
+
             if (property.managedReferenceValue != null)
-                typePopup.Popup.value = property.managedReferenceValue.GetType().CSharpFullName();
+                typePopup.Popup.value = property.managedReferenceValue.GetType().CSharpName();
             else
                 typePopup.Popup.value = "Undetermined";
+            typePopup.TypeSelected += (type) =>
+            {
+                if (type == null)
+                    return;
+
+                // Start
+                // Code from https://github.com/mackysoft/Unity-SerializeReferenceExtensions/blob/main/Assets/MackySoft/MackySoft.SerializeReferenceExtensions/Editor/ManagedReferenceUtility.cs
+                object result = null;
+                if (property.managedReferenceValue != null)
+                {
+                    string json = JsonUtility.ToJson(property.managedReferenceValue);
+                    result = JsonUtility.FromJson(json, type);
+                }
+                if (result == null)
+                    result = Activator.CreateInstance(type);
+
+                property.managedReferenceValue = result;
+                // End
+                property.serializedObject.ApplyModifiedProperties();
+            };
+            propertyField.BindProperty(property);
 
             return drawer;
         }

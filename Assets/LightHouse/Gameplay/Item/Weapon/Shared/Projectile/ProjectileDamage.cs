@@ -1,5 +1,6 @@
 namespace LightHouse
 {
+    using System;
     using System.Runtime.CompilerServices;
     using FishNet.Object;
     using LightHouse.Fn;
@@ -14,17 +15,19 @@ namespace LightHouse
         [SerializeField]
         GameObject _visual;
 
+        [Serializable]
+        public class Foo { }
+        [Serializable]
+        public class Bar : Foo { }
+
         [PolymorphicSelector]
         [SerializeReference]
-        public Tuple<int> _test = new();
+        public Fn.Tuple<int> _test = new();
 
-        [SubclassSelector]
+        [PolymorphicSelector]
         [SerializeReference]
-        public Tuple<int> _test2 = new(1);
+        public Event<DamageInfoBase, Foo> _test2;
 
-        public Tuple<int> _test3 = new(1);
-
-        public int _test4 = 3;
 
         void Awake()
         {

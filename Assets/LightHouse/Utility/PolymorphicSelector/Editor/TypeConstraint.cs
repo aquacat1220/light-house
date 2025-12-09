@@ -628,7 +628,7 @@ namespace LightHouse
                 }
                 else if (constraint is DefaultConstructor)
                 {
-                    if (type.GetConstructor(Type.EmptyTypes) != null)
+                    if (type.GetConstructor(Type.EmptyTypes) == null)
                         return null;
                 }
                 else
@@ -1257,7 +1257,7 @@ namespace LightHouse
                 else
                     throw new Exception();
 
-                if (info.NeedsDefault && info.FixedType.GetConstructor(Type.EmptyTypes) != null)
+                if (info.NeedsDefault && info.FixedType.GetConstructor(Type.EmptyTypes) == null)
                     return false;
 
                 // The quick check passed; time for iteration.
