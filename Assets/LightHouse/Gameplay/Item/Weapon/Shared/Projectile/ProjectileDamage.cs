@@ -1,19 +1,48 @@
 namespace LightHouse
 {
-    using FishNet;
+    using System;
+    using System.Runtime.CompilerServices;
     using FishNet.Object;
-    using NaughtyAttributes;
+    using LightHouse.Fn;
     using UnityEngine;
 
     public class ProjectileDamage : NetworkBehaviour
     {
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         DamageInfoBase _damageInfo;
 
         [SerializeField]
-        [Required]
         GameObject _visual;
+
+        [Serializable]
+        public class Foo
+        {
+            public int FooData = 2;
+        }
+        [Serializable]
+        public class Bar : Foo
+        {
+            public int BarData = 22;
+        }
+
+        [PolySelector]
+        [SerializeReference]
+        public Foo _foo;
+
+        [PolySelector]
+        [SerializeReference]
+        public Bar _bar;
+
+
+        void Awake()
+        {
+            if (_visual == null)
+            {
+                Debug.Log("`_visual` was not set.");
+                throw new System.Exception();
+            }
+        }
 
         void OnTriggerEnter2D(Collider2D other)
         {

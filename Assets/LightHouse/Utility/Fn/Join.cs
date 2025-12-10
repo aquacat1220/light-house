@@ -7,7 +7,7 @@ namespace LightHouse.Fn
     public class Join<TParam, TResult> : IFn<TParam, Tuple<TResult>> where TParam : ITupleBase
     {
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult> _first;
 
         public Join() { }
@@ -29,10 +29,10 @@ namespace LightHouse.Fn
     public class Join<TParam, TResult1, TResult2> : IFn<TParam, Tuple<TResult1, TResult2>> where TParam : ITupleBase
     {
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult1> _first;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult2> _second;
 
         public Join() { }
@@ -57,13 +57,13 @@ namespace LightHouse.Fn
     public class Join<TParam, TResult1, TResult2, TResult3> : IFn<TParam, Tuple<TResult1, TResult2, TResult3>> where TParam : ITupleBase
     {
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult1> _first;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult2> _second;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult3> _third;
 
         public Join() { }
@@ -91,16 +91,16 @@ namespace LightHouse.Fn
     public class Join<TParam, TResult1, TResult2, TResult3, TResult4> : IFn<TParam, Tuple<TResult1, TResult2, TResult3, TResult4>> where TParam : ITupleBase
     {
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult1> _first;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult2> _second;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult3> _third;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult4> _fourth;
 
         public Join() { }
@@ -131,19 +131,19 @@ namespace LightHouse.Fn
     public class Join<TParam, TResult1, TResult2, TResult3, TResult4, TResult5> : IFn<TParam, Tuple<TResult1, TResult2, TResult3, TResult4, TResult5>> where TParam : ITupleBase
     {
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult1> _first;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult2> _second;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult3> _third;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult4> _fourth;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult5> _fifth;
 
         public Join() { }
@@ -177,22 +177,22 @@ namespace LightHouse.Fn
     public class Join<TParam, TResult1, TResult2, TResult3, TResult4, TResult5, TResult6> : IFn<TParam, Tuple<TResult1, TResult2, TResult3, TResult4, TResult5, TResult6>> where TParam : ITupleBase
     {
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult1> _first;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult2> _second;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult3> _third;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult4> _fourth;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult5> _fifth;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult6> _sixth;
 
         public Join() { }
@@ -229,25 +229,25 @@ namespace LightHouse.Fn
     public class Join<TParam, TResult1, TResult2, TResult3, TResult4, TResult5, TResult6, TResult7> : IFn<TParam, Tuple<TResult1, TResult2, TResult3, TResult4, TResult5, TResult6, TResult7>> where TParam : ITupleBase
     {
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult1> _first;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult2> _second;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult3> _third;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult4> _fourth;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult5> _fifth;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult6> _sixth;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult7> _seventh;
 
         public Join() { }
@@ -287,28 +287,28 @@ namespace LightHouse.Fn
     public class Join<TParam, TResult1, TResult2, TResult3, TResult4, TResult5, TResult6, TResult7, TResult8> : IFn<TParam, Tuple<TResult1, TResult2, TResult3, TResult4, TResult5, TResult6, TResult7, TResult8>> where TParam : ITupleBase
     {
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult1> _first;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult2> _second;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult3> _third;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult4> _fourth;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult5> _fifth;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult6> _sixth;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult7> _seventh;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult8> _eighth;
 
         public Join() { }

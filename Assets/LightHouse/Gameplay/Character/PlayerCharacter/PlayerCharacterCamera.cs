@@ -2,7 +2,6 @@ namespace LightHouse
 {
     using System;
     using FishNet.Object;
-    using NaughtyAttributes;
     using UnityEngine;
     using Fn;
 

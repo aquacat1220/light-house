@@ -4,14 +4,12 @@ namespace LightHouse
     using FishNet;
     using FishNet.Managing.Scened;
     using FishNet.Transporting;
-    using NaughtyAttributes;
     using UnityEngine;
     using UnityEngine.UIElements;
 
     public class SessionMenuController : MonoBehaviour
     {
         [SerializeField]
-        [Required]
         VisualTreeAsset _sessionMenu;
 
         MenuManager.MenuHandle _handle;

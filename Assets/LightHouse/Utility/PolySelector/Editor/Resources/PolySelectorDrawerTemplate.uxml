@@ -1,0 +1,9 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/LightHouse/Utility/PolySelector/Editor/Resources/PolySelectorDrawer.uss"/>
+    <ui:VisualElement class="poly-selector-drawer">
+        <ui:Label text="Type" class="poly-selector-drawer__label"/>
+        <LightHouse.TypePopup class="poly-selector-drawer__type-popup"/>
+        <ui:VisualElement class="poly-selector-drawer__drag"/>
+    </ui:VisualElement>
+    <uie:PropertyField class="poly-selector-drawer__property-field"/>
+</ui:UXML>

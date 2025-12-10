@@ -1,0 +1,10 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/LightHouse/Utility/Fn/MethodFn/Editor/Resources/MethodInfoDrawer.uss?fileID=7433441132597879392&amp;guid=062fd9a9c252f0a56baa424e3e89f579&amp;type=3#MethodInfoDrawer"/>
+    <ui:VisualElement class="method-info-drawer">
+        <uie:ObjectField label="" binding-path="Target" class="method-info-drawer__object"/>
+        <ui:Label text="." style="width: auto; margin-right: 0; padding-right: 1px; padding-bottom: 0;"/>
+        <LightHouse.Popup focusable="true" binding-path="MethodName" value="" class="method-info-drawer__popup">
+            <ui:TreeView class="method-info-drawer__treeview"/>
+        </LightHouse.Popup>
+    </ui:VisualElement>
+</ui:UXML>

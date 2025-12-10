@@ -7,10 +7,10 @@ namespace LightHouse.Fn
     public class Branch<TResult> : IFn<ITuple<bool>, TResult>
     {
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<Tuple, TResult> _true;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<Tuple, TResult> _false;
 
         public Branch() { }
@@ -44,10 +44,10 @@ namespace LightHouse.Fn
     public class Branch<TParam, TResult> : IFn<ITuple<bool, TParam>, TResult> where TParam : ITupleBase
     {
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult> _true;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult> _false;
 
         public Branch() { }

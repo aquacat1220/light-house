@@ -8,7 +8,7 @@ namespace LightHouse
     public class LimitPulse : IFn<ITuple<bool>, Fn.Tuple>
     {
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<ITuple<bool>, Fn.Tuple> _inner;
 
         [SerializeField]

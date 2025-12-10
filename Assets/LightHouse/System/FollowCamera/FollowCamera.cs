@@ -1,22 +1,26 @@
 namespace LightHouse
 {
     using System;
-    using NaughtyAttributes;
     using UnityEngine;
-    
+
     public class FollowCamera : MonoBehaviour
     {
         public static FollowCamera Singleton { get; private set; }
-    
+
         // The target transform to follow.
         public Transform Target;
         // Whether or not to follow the rotation of the target.
         public bool FollowRotation;
-        [Required]
+
         public Camera Camera;
-    
+
         void Awake()
         {
+            if (Camera == null)
+            {
+                Debug.Log("`Camera` was not set.");
+                throw new Exception();
+            }
             if (Singleton != null)
             {
                 Debug.Log("`Singleton` was non-null, implying there are multiple instances of `FollowCamera`s in this scene.");
@@ -24,7 +28,7 @@ namespace LightHouse
             }
             Singleton = this;
         }
-    
+
         void LateUpdate()
         {
             if (Target == null)

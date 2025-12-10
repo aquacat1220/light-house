@@ -7,7 +7,6 @@ namespace LightHouse
     using FishNet.Object;
     using FishNet.Observing;
     using LightHouse.Fn;
-    using NaughtyAttributes;
     using UnityEngine;
     using UnityEngine.Events;
 
@@ -16,7 +15,6 @@ namespace LightHouse
         [SerializeField]
         GameObject _projectile;
         [SerializeField]
-        [Required]
         Transform _spawnPoint;
 
         [SerializeField]

@@ -6,7 +6,7 @@ namespace LightHouse
     public class DamageProcessor : MonoBehaviour
     {
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         public List<DamageHandlerBase> DamageHandlers;
 
         public void ProcessDamage(DamageInfoBase damageInfo)

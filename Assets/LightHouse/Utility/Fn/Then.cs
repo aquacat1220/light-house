@@ -7,10 +7,10 @@ namespace LightHouse.Fn
     public class Then<TParam, TInter, TResult> : IFn<TParam, TResult> where TParam : ITupleBase
     {
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TInter> _first;
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<ITuple<TInter>, TResult> _second;
 
         public Then() { }

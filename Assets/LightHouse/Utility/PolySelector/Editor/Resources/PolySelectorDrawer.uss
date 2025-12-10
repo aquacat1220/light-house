@@ -1,0 +1,42 @@
+.poly-selector-drawer {
+    margin-top: 1px;
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-bottom: 1px;
+    flex-direction: row;
+}
+
+.poly-selector-drawer__label {
+    padding-top: 2px;
+    margin-right: 10px;
+}
+
+.poly-selector-drawer__type-popup {
+    flex-grow: 1;
+}
+
+.poly-selector-drawer__property-field {
+}
+
+.poly-selector-drawer__drag {
+    width: 36px;
+    background-color: rgb(32, 32, 32);
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+    border-left-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+    border-left-color: rgb(24, 24, 24);
+    border-right-color: rgb(24, 24, 24);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(24, 24, 24);
+    margin-left: 4px;
+}
+
+.poly-selector-drawer__drag--dragging {
+    background-color: rgb(42, 42, 42);
+    border-color: rgb(200, 200, 200);
+}

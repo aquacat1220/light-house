@@ -2,14 +2,12 @@ namespace LightHouse
 {
     using System;
     using FishNet.Object;
-    using NaughtyAttributes;
     using UnityEngine;
     using Fn;
 
     public class Vitality : NetworkBehaviour
     {
         [SerializeField]
-        [MinMaxSlider(-100f, 500f)]
         Vector2 _minMaxVit = new Vector2(0f, 100f);
 
         [SerializeField]

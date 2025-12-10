@@ -3,15 +3,12 @@ namespace LightHouse
     using System;
     using FishNet.Managing.Timing;
     using FishNet.Object;
-    using NaughtyAttributes;
     using UnityEngine;
     using UnityEngine.Rendering.Universal;
     using Fn;
 
     public class LightControl : NetworkBehaviour
     {
-        [Required]
-        [ValidateInput("IsValidLight", "The light should be a point light with blend mode \"Default\"")]
         [SerializeField]
         Light2D _light;
 
@@ -23,13 +20,10 @@ namespace LightHouse
         float _intensityChangeRate = 0f;
 
         [SerializeField]
-        [MinMaxSlider(0f, 100f)]
         Vector2 _minMaxRange;
         [SerializeField]
-        [MinMaxSlider(0f, 360f)]
         Vector2 _minMaxAngle;
         [SerializeField]
-        [MinMaxSlider(0f, 1f)]
         Vector2 _minMaxIntensity;
 
         [SerializeField]
@@ -57,6 +51,12 @@ namespace LightHouse
 
         void Awake()
         {
+            if (!IsValidLight(_light))
+            {
+                Debug.Log("`_light` is not valid.");
+                throw new Exception();
+            }
+
             if (_timeToChange != 0f)
             {
                 _rangeChangeRate = (_minMaxRange.y - _minMaxRange.x) / _timeToChange;
@@ -450,7 +450,7 @@ namespace LightHouse
         bool IsValidLight(Light2D light)
         {
             if (light == null)
-                return true;
+                return false;
             if (light.lightType != Light2D.LightType.Point)
                 return false;
             if (light.blendStyleIndex != 1)
