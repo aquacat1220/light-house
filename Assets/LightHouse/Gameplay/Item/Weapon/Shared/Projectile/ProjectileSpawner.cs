@@ -67,7 +67,7 @@ namespace LightHouse
                 Debug.Log("`_projectile` wasn't set.");
                 throw new Exception();
             }
-            var projectile = _projectile.GetComponent<ProjectileTransform>();
+            var projectile = _projectile.GetComponentInChildren<ProjectileTransform>();
             if (projectile == null)
             {
                 Debug.Log("`_projectile` does not have the `ProjectileTransform` component.");
@@ -148,19 +148,18 @@ namespace LightHouse
                 {
                     Debug.Log($"Clearing old ticket from ticket waitlist.");
                     var evictedTicket = _waitingTickets.Dequeue();
-                    var projectileGameObject = Instantiate(_projectile, evictedTicket.Position, Quaternion.Euler(0f, 0f, evictedTicket.Rotation));
-                    var projectile = projectileGameObject.GetComponent<ProjectileTransform>();
+                    var projectileNob = NetworkManager.GetPooledInstantiated(_projectile, _spawnPoint.position, _spawnPoint.rotation, true);
+                    var projectile = projectileNob.GetComponentInChildren<ProjectileTransform>();
                     projectile.ProjectileSpawner = this;
                     Spawn(
-                        projectileGameObject,
+                        projectileNob,
                         null,
                         gameObject.scene
                     );
                     projectile.ResetSpawn(evictedTicket.Tick, evictedTicket.Position, evictedTicket.Rotation);
 
                     // Disable the alwaysfalse condition to make the projectile observable to everyone.
-                    var nob = projectile.NetworkObject;
-                    nob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
+                    projectileNob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
                     // One waitlisted ticket has been officially spawned!
                     _counter += 1;
                     _predictedDelta -= 1;
@@ -203,17 +202,17 @@ namespace LightHouse
                 if (!base.IsServerInitialized)
                     return;
 
-                var projectileGameObject = Instantiate(_projectile, _spawnPoint.position, _spawnPoint.rotation);
-                var projectile = projectileGameObject.GetComponent<ProjectileTransform>();
+                Debug.Log("POOL");
+                var projectileNob = NetworkManager.GetPooledInstantiated(_projectile, _spawnPoint.position, _spawnPoint.rotation, true);
+                var projectile = projectileNob.GetComponentInChildren<ProjectileTransform>();
                 projectile.ProjectileSpawner = this;
-                var nob = projectile.NetworkObject;
                 Spawn(
-                    projectileGameObject,
+                    projectileNob,
                     null,
                     gameObject.scene
                 );
                 // Make sure to disable the alwaysfalse condition to ensure the projectile observable to everyone.
-                nob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
+                projectileNob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
                 _counter += 1;
                 // Flush counter changes and trigger events.
                 FlushCounterChanges();
@@ -227,17 +226,16 @@ namespace LightHouse
             // If we are the owning host, we are the authority anyway; just do normal spawning.
             if (base.IsServerInitialized && base.IsOwner)
             {
-                var projectileGameObject = Instantiate(_projectile, _spawnPoint.position, _spawnPoint.rotation);
-                var projectile = projectileGameObject.GetComponent<ProjectileTransform>();
+                var projectileNob = NetworkManager.GetPooledInstantiated(_projectile, _spawnPoint.position, _spawnPoint.rotation, true);
+                var projectile = projectileNob.GetComponentInChildren<ProjectileTransform>();
                 projectile.ProjectileSpawner = this;
-                var nob = projectile.NetworkObject;
                 Spawn(
-                    projectileGameObject,
+                    projectileNob,
                     null,
                     gameObject.scene
                 );
                 // Make sure to disable the alwaysfalse condition to ensure the projectile observable to everyone.
-                nob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
+                projectileNob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
                 _counter += 1;
                 // Flush counter changes and trigger events.
                 FlushCounterChanges();
@@ -261,11 +259,11 @@ namespace LightHouse
                     throw new Exception();
                 }
                 // If we are the owning, non-server client, initiate predictive spawn!
-                var projectileGameObject = Instantiate(_projectile, _spawnPoint.position, _spawnPoint.rotation);
-                var projectile = projectileGameObject.GetComponent<ProjectileTransform>();
+                var projectileNob = NetworkManager.GetPooledInstantiated(_projectile, _spawnPoint.position, _spawnPoint.rotation, true);
+                var projectile = projectileNob.GetComponentInChildren<ProjectileTransform>();
                 projectile.ProjectileSpawner = this;
                 Spawn(
-                    projectileGameObject,
+                    projectileNob,
                     null,
                     gameObject.scene
                 );
@@ -296,7 +294,8 @@ namespace LightHouse
                 projectile.transform.position = position;
                 projectile.transform.rotation = Quaternion.Euler(0f, 0f, rotation);
                 projectile.ResetSpawn(tick, position, rotation);
-                projectile.SetActive(true);
+                // Activate the fakeroot.
+                projectile.gameObject.SetActive(true);
 
                 // Disable the alwaysfalse condition to make the projectile observable to everyone.
                 var nob = projectile.NetworkObject;
@@ -316,19 +315,18 @@ namespace LightHouse
             {
                 Debug.Log($"Attempting to add a ticket to an already full waitlist. Evicting the oldest ticket.");
                 var ticket = _waitingTickets.Dequeue();
-                var projectileGameObject = Instantiate(_projectile, ticket.Position, Quaternion.Euler(0f, 0f, ticket.Rotation));
-                var projectile = projectileGameObject.GetComponent<ProjectileTransform>();
+                var projectileNob = NetworkManager.GetPooledInstantiated(_projectile, _spawnPoint.position, _spawnPoint.rotation, true);
+                var projectile = projectileNob.GetComponentInChildren<ProjectileTransform>();
                 projectile.ProjectileSpawner = this;
                 Spawn(
-                    projectileGameObject,
+                    projectileNob,
                     null,
                     gameObject.scene
                 );
                 projectile.ResetSpawn(ticket.Tick, ticket.Position, ticket.Rotation);
 
                 // Disable the alwaysfalse condition to make the projectile observable to everyone.
-                var nob = projectile.NetworkObject;
-                nob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
+                projectileNob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
                 // One waitlisted ticket has been officially spawned!
                 _counter += 1;
                 _predictedDelta -= 1;
@@ -378,7 +376,8 @@ namespace LightHouse
                 projectile.ResetSpawn(ticket.Tick, ticket.Position, ticket.Rotation);
 
                 // Disable the alwaysfalse condition to make the projectile observable to everyone.
-                var nob = projectile.GetComponent<NetworkObject>();
+                // var nob = projectile.GetComponent<NetworkObject>();
+                var nob = projectile.NetworkObject;
                 nob.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(false);
                 // One waitlisted ticket has been officially spawned!
                 _counter += 1;
@@ -412,7 +411,10 @@ namespace LightHouse
 
             // This line isn't needed, but just to make sure the condition is enabled before adding to the waitlist.
             projectile.NetworkObserver.GetObserverCondition<AlwaysFalseCondition>().SetIsEnabled(true);
-            projectile.SetActive(false);
+            // We don't want the projectile interacting with the scene during waitlisted, as it is conceptually "not yet valid".
+            // But due to FishNet's limitations `NetworkObject` components shouldn't be deactivated.
+            // So I place all my logic inside a child gameobject and deactivate that instead.
+            projectile.gameObject.SetActive(false);
             _waitingProjectiles.Enqueue((TimeManager.GetPreciseTick(TickType.Tick), projectile));
             _clearWaitlistAlarm.Start();
         }

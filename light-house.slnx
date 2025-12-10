@@ -3,9 +3,7 @@
   <Project Path="FishNet.Runtime.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="GameKit.Dependencies.csproj" />
-  <Project Path="MackySoft.SerializeReferenceExtensions.Editor.csproj" />
   <Project Path="Unity.FishNet.Codegen.csproj" />
-  <Project Path="MackySoft.SerializeReferenceExtensions.csproj" />
   <Project Path="FishNet.Demos.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
 </Solution>
