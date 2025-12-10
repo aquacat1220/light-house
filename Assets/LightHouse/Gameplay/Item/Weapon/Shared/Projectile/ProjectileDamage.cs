@@ -9,7 +9,7 @@ namespace LightHouse
     public class ProjectileDamage : NetworkBehaviour
     {
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         DamageInfoBase _damageInfo;
 
         [SerializeField]

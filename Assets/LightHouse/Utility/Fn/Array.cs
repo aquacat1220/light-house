@@ -7,7 +7,7 @@ namespace LightHouse.Fn
     public class Array<TParam> : IFn<TParam, Tuple> where TParam : ITupleBase
     {
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, Tuple>[] _inners = new IFn<TParam, Tuple>[0];
 
         public Array() { }

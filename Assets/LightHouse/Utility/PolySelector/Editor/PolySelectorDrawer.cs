@@ -32,9 +32,12 @@ namespace LightHouse
                 _polymorphicSelectorDrawerTemplate = Resources.Load<VisualTreeAsset>("PolySelectorDrawerTemplate");
             var drawer = _polymorphicSelectorDrawerTemplate.Instantiate();
 
+            var label = drawer.Q<Label>(className: "poly-selector-drawer__label");
             var typePopup = drawer.Q<TypePopup>(className: "poly-selector-drawer__type-popup");
             var drag = drawer.Q<VisualElement>(className: "poly-selector-drawer__drag");
             var propertyField = drawer.Q<PropertyField>(className: "poly-selector-drawer__property-field");
+
+            label.text = preferredLabel;
 
             typePopup.Reset(
                 new TypeConstraint.IConstraint[]

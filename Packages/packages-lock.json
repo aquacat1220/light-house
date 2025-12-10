@@ -1,11 +1,5 @@
 {
   "dependencies": {
-    "com.mackysoft.serializereference-extensions": {
-      "version": "file:com.mackysoft.serializereference-extensions",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
     "com.unity.2d.animation": {
       "version": "13.0.1",
       "depth": 1,

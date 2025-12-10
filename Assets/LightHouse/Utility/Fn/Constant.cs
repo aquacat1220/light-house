@@ -7,7 +7,7 @@ namespace LightHouse.Fn
     public class ConstantRef<TResult> : IFn<ITupleBase, TResult> where TResult : class
     {
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         public TResult Value;
 
         public ConstantRef() { }
@@ -27,7 +27,7 @@ namespace LightHouse.Fn
     [Serializable]
     public class ConstantVal<TResult> : IFn<ITupleBase, TResult> where TResult : struct
     {
-        [SubclassSelector]
+        [PolySelector]
         public TResult Value;
 
         public ConstantVal() { }

@@ -7,7 +7,7 @@ namespace LightHouse.Fn
     public class Unpack<TParam, TResult> : IFn<ITuple<TParam>, TResult> where TParam : ITupleBase
     {
         [SerializeReference]
-        [SubclassSelector]
+        [PolySelector]
         IFn<TParam, TResult> _inner;
 
         public Unpack() { }
