@@ -36,7 +36,6 @@ namespace LightHouse.Fn
                     text += "void";
                 else
                 {
-                    Debug.Log(methodInfo.ReturnType);
                     text += methodInfo.ReturnType.CSharpName();
                 }
                 text += $" {methodInfo.Name}(";
@@ -54,7 +53,9 @@ namespace LightHouse.Fn
                 if (item.ReturnType == null)
                     text += "void";
                 else
+                {
                     text += item.ReturnType.CSharpName();
+                }
                 text += $" {item.Name}(";
                 text += string.Join(", ", item.GetParameters().Select((param) => $"{param.ParameterType.CSharpName()}"));
                 text += ")";
@@ -79,7 +80,10 @@ namespace LightHouse.Fn
                 {
                     string methodName = popup.value.Split("(")[0].Split(" ")[^1];
                     var methodInfo = objectField.value.GetType().GetMethod(name: methodName, types: parameterTypes);
-                    if (methodInfo == null || methodInfo.ReturnType != returnType)
+                    Type methodReturnType = methodInfo?.ReturnType;
+                    if (methodReturnType == typeof(void))
+                        methodReturnType = null;
+                    if (methodInfo == null || methodReturnType != returnType)
                         popup.value = "";
                 }
 
@@ -87,7 +91,21 @@ namespace LightHouse.Fn
                 var methodInfos = objectField.value.GetType().GetMethods().Where(
                     (methodInfo) =>
                     {
-                        if (methodInfo.ReturnType != returnType)
+                        string text = "";
+                        if (methodInfo.ReturnType == null)
+                            text += "void";
+                        else
+                        {
+                            text += methodInfo.ReturnType.CSharpName();
+                        }
+                        text += $" {methodInfo.Name}(";
+                        text += string.Join(", ", methodInfo.GetParameters().Select((param) => $"{param.ParameterType.CSharpName()}"));
+                        text += ")";
+
+                        Type methodReturnType = methodInfo.ReturnType;
+                        if (methodReturnType == typeof(void))
+                            methodReturnType = null;
+                        if (methodReturnType != returnType)
                             return false;
                         var parameters = methodInfo.GetParameters().Select((parameter) => parameter.ParameterType);
                         if (!parameterTypes.SequenceEqual(parameters))
@@ -122,7 +140,10 @@ namespace LightHouse.Fn
 
                 string methodName = popup.value.Split("(")[0].Split(" ")[^1];
                 var methodInfo = objectField.value.GetType().GetMethod(name: methodName, types: parameterTypes);
-                if (methodInfo == null || methodInfo.ReturnType != returnType)
+                Type methodReturnType = methodInfo?.ReturnType;
+                if (methodReturnType == typeof(void))
+                    methodReturnType = null;
+                if (methodInfo == null || methodReturnType != returnType)
                     popup.value = "";
             }
 

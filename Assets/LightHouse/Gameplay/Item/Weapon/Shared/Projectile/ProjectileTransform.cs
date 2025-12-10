@@ -1,13 +1,11 @@
 namespace LightHouse
 {
     using System;
-    using FishNet.Component.Ownership;
     using FishNet.Connection;
     using FishNet.Managing.Timing;
     using FishNet.Object;
     using FishNet.Serializing;
     using UnityEngine;
-
 
     public class ProjectileTransform : NetworkBehaviour
     {
@@ -16,6 +14,7 @@ namespace LightHouse
         [SerializeField]
         Rigidbody2D _rigidbody;
 
+        [HideInInspector]
         public ProjectileSpawner ProjectileSpawner;
 
         // If `_isRejected` is true, this projectile was predicted-spawned, we are the predicted spawning client, and the server rejected the request.
@@ -90,6 +89,19 @@ namespace LightHouse
                 TimeManager.OnTick -= OnTick;
                 _subscribedToTimeManager = false;
             }
+
+            // Reset all variables back to default, so that when this component is retrieved from the object pool, it should look brand new.
+            // Without this reset, we might see dirty values during `ReadPayload()`.
+            // See log of 2025-12-11 00:21:39 for more.
+            ProjectileSpawner = null;
+            _isRejected = false;
+            _spawnedTick = PreciseTick.GetUnsetValue();
+            _spawnedPosition = Vector2.zero;
+            _localTick = PreciseTick.GetUnsetValue();
+            _localPosition = Vector2.zero;
+            _timeToCatchUp = 0f;
+            _distanceToCatchUp = Vector2.zero;
+            _calculatedCatchUp = false;
         }
 
         public override void OnStartServer()
@@ -97,7 +109,7 @@ namespace LightHouse
             if (!_spawnedTick.IsValid())
             {
                 _spawnedTick = TimeManager.GetPreciseTick(TickType.Tick);
-                _spawnedPosition = transform.position;
+                _spawnedPosition = _rigidbody.position;
             }
         }
 
@@ -111,7 +123,7 @@ namespace LightHouse
             }
             _spawnedTick = spawnedTick;
             _spawnedPosition = spawnedPosition;
-            transform.rotation = Quaternion.Euler(0f, 0f, spawnedRotation);
+            _rigidbody.rotation = spawnedRotation;
         }
 
         // Reject a predicted-spawned projectile.
@@ -121,25 +133,12 @@ namespace LightHouse
             _isRejected = true;
         }
 
-        // Disables this component, and deactivates all child gameobjects.
-        // This is because the `NetworkObject` component shouldn't ever be disabled, but we still need a way to stop the projectile GO from affecting the game.
-        // Components that should be disabled during waitlist should be added to a separate child GO.
-        public void SetActive(bool active)
-        {
-            enabled = active;
-            foreach (Transform childTransform in transform)
-            {
-                var child = childTransform.gameObject;
-                child.SetActive(active);
-            }
-        }
-
         void OnTick()
         {
             if (!_localTick.IsValid())
             {
                 _localTick = TimeManager.GetPreciseTick(TickType.Tick);
-                _localPosition = transform.position;
+                _localPosition = _rigidbody.position;
             }
             if (!_calculatedCatchUp && _spawnedTick.IsValid())
             {
@@ -153,7 +152,7 @@ namespace LightHouse
 
             if (_timeToCatchUp >= _maxCatchUpTime)
             {
-                _rigidbody.position = _rigidbody.position + (Vector2)(transform.up * _speed * _timeToCatchUp);
+                _rigidbody.position = _rigidbody.position + _rigidbody.GetRelativeVector(Vector2.up).normalized * _speed * _timeToCatchUp;
                 _timeToCatchUp = 0f;
                 // Debug.Log($"{TimeManager.LocalTick}: Catchup time too long, snapping.");
             }
@@ -180,7 +179,7 @@ namespace LightHouse
                 // Debug.Log($"{TimeManager.LocalTick}: Catching up {catchUp * 1000}ms.");
                 catchUp = 0f;
             }
-            Vector2 delta = transform.up * _speed * deltaTime;
+            Vector2 delta = _rigidbody.GetRelativeVector(Vector2.up).normalized * _speed * deltaTime;
             if (_distanceToCatchUp != Vector2.zero)
             {
                 Vector2 catchUp = _distanceToCatchUp * 0.01f;

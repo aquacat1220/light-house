@@ -39,10 +39,12 @@ namespace LightHouse
 
             label.text = preferredLabel;
 
+            Type fieldType = TypeFromTypeName(property.managedReferenceFieldTypename);
+
             typePopup.Reset(
                 new TypeConstraint.IConstraint[]
                 {
-                    new TypeConstraint.UpperBound(fieldInfo.FieldType),
+                    new TypeConstraint.UpperBound(fieldType),
                     new TypeConstraint.DefaultConstructor()
                 },
                 (type) => type.IsVisible && !type.IsAbstract && !type.IsValueType && !typeof(UnityEngine.Object).IsAssignableFrom(type) && Attribute.IsDefined(type, typeof(SerializableAttribute))
@@ -124,6 +126,15 @@ namespace LightHouse
             }
 
             return drawer;
+        }
+
+        Type TypeFromTypeName(string typeName)
+        {
+            int idx = typeName.IndexOf(" ");
+            string assemblyName = typeName[..idx];
+            string rest = typeName[idx..];
+            string fullName = rest.Replace("/", "+");
+            return Type.GetType($"{fullName}, {assemblyName}");
         }
     }
 }
