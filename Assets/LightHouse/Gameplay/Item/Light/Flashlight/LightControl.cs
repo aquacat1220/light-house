@@ -46,9 +46,12 @@ namespace LightHouse
 
         Alarm _alarm;
 
-        short _rangeChange = 0;
-        short _intensityChange = 0;
-        short _angleChange = 0;
+        bool _rangeUp = false;
+        bool _rangeDown = false;
+        bool _intensityUp = false;
+        bool _intensityDown = false;
+        bool _angleUp = false;
+        bool _angleDown = false;
 
         void Awake()
         {
@@ -176,114 +179,6 @@ namespace LightHouse
             }
         }
 
-        [Serializable]
-        public class StartRangeChangeFn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public LightControl LightControl;
-            public bool DefaultParam = false;
-
-            public Fn.Tuple Invoke(ITuple<bool> param)
-            {
-                if (LightControl.IsServerInitialized is false)
-                    return Fn.Tuple.Unit;
-                LightControl.StartRangeChange(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                if (LightControl.IsServerInitialized is false)
-                    return Fn.Tuple.Unit;
-                LightControl.StartRangeChange(DefaultParam);
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        [Serializable]
-        public class StopRangeChangeFn : IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public LightControl LightControl;
-
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                if (LightControl.IsServerInitialized is false)
-                    return Fn.Tuple.Unit;
-                LightControl.StopRangeChange();
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        [Serializable]
-        public class StartIntensityChangeFn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public LightControl LightControl;
-            public bool DefaultParam = false;
-
-            public Fn.Tuple Invoke(ITuple<bool> param)
-            {
-                if (LightControl.IsServerInitialized is false)
-                    return Fn.Tuple.Unit;
-                LightControl.StartIntensityChange(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                if (LightControl.IsServerInitialized is false)
-                    return Fn.Tuple.Unit;
-                LightControl.StartIntensityChange(DefaultParam);
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        [Serializable]
-        public class StopIntensityChangeFn : IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public LightControl LightControl;
-
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                if (LightControl.IsServerInitialized is false)
-                    return Fn.Tuple.Unit;
-                LightControl.StopIntensityChange();
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        [Serializable]
-        public class StartAngleChangeFn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public LightControl LightControl;
-            public bool DefaultParam = false;
-
-            public Fn.Tuple Invoke(ITuple<bool> param)
-            {
-                if (LightControl.IsServerInitialized is false)
-                    return Fn.Tuple.Unit;
-                LightControl.StartAngleChange(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                if (LightControl.IsServerInitialized is false)
-                    return Fn.Tuple.Unit;
-                LightControl.StartAngleChange(DefaultParam);
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        [Serializable]
-        public class StopAngleChangeFn : IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public LightControl LightControl;
-
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                if (LightControl.IsServerInitialized is false)
-                    return Fn.Tuple.Unit;
-                LightControl.StopAngleChange();
-                return Fn.Tuple.Unit;
-            }
-        }
-
         [Server]
         public bool IsOn()
         {
@@ -307,49 +202,97 @@ namespace LightHouse
         }
 
         [Server]
-        public void StartRangeChange(bool up)
+        public void StartRangeUp()
         {
-            _rangeChange = up ? (short)1 : (short)-1;
+            _rangeUp = true;
             SyncState();
             _alarm.Arm();
         }
 
         [Server]
-        public void StopRangeChange()
+        public void StopRangeUp()
         {
-            _rangeChange = 0;
+            _rangeUp = false;
             SyncState();
             _alarm.Arm();
         }
 
         [Server]
-        public void StartIntensityChange(bool up)
+        public void StartRangeDown()
         {
-            _intensityChange = up ? (short)1 : (short)-1;
+            _rangeDown = true;
             SyncState();
             _alarm.Arm();
         }
 
         [Server]
-        public void StopIntensityChange()
+        public void StopRangeDown()
         {
-            _intensityChange = 0;
+            _rangeDown = false;
             SyncState();
             _alarm.Arm();
         }
 
         [Server]
-        public void StartAngleChange(bool up)
+        public void StartIntensityUp()
         {
-            _angleChange = up ? (short)1 : (short)-1;
+            _intensityUp = true;
             SyncState();
             _alarm.Arm();
         }
 
         [Server]
-        public void StopAngleChange()
+        public void StopIntensityUp()
         {
-            _angleChange = 0;
+            _intensityUp = false;
+            SyncState();
+            _alarm.Arm();
+        }
+
+        [Server]
+        public void StartIntensityDown()
+        {
+            _intensityDown = true;
+            SyncState();
+            _alarm.Arm();
+        }
+
+        [Server]
+        public void StopIntensityDown()
+        {
+            _intensityDown = false;
+            SyncState();
+            _alarm.Arm();
+        }
+
+        [Server]
+        public void StartAngleUp()
+        {
+            _angleUp = true;
+            SyncState();
+            _alarm.Arm();
+        }
+
+        [Server]
+        public void StopAngleUp()
+        {
+            _angleUp = false;
+            SyncState();
+            _alarm.Arm();
+        }
+
+        [Server]
+        public void StartAngleDown()
+        {
+            _angleDown = true;
+            SyncState();
+            _alarm.Arm();
+        }
+
+        [Server]
+        public void StopAngleDown()
+        {
+            _angleDown = false;
             SyncState();
             _alarm.Arm();
         }
@@ -357,56 +300,75 @@ namespace LightHouse
         [Server]
         void SyncState()
         {
-            SyncStateRpc(_rangeChange, _light.pointLightOuterRadius, _intensityChange, _light.intensity, _angleChange, _light.pointLightOuterAngle, _light.enabled);
+            SyncStateRpc(
+                _rangeUp, _rangeDown, _light.pointLightOuterRadius,
+                _intensityUp, _intensityDown, _light.intensity,
+                _angleUp, _angleDown, _light.pointLightOuterAngle,
+                _light.enabled
+            );
         }
 
         [ObserversRpc(BufferLast = true, ExcludeServer = true)]
-        void SyncStateRpc(short rangeChange, float range, short intensityChange, float intensity, short angleChange, float angle, bool enabled)
+        void SyncStateRpc(
+            bool rangeUp, bool rangeDown, float range,
+            bool intensityUp, bool intensityDown, float intensity,
+            bool angleUp, bool angleDown, float angle,
+            bool enabled)
         {
             SetRange(range);
             SetAngle(angle);
             SetIntensity(intensity);
             SetEnabled(enabled);
-            _rangeChange = rangeChange;
-            _angleChange = angleChange;
-            _intensityChange = intensityChange;
+
+            // Update flags locally
+            _rangeUp = rangeUp;
+            _rangeDown = rangeDown;
+            _intensityUp = intensityUp;
+            _intensityDown = intensityDown;
+            _angleUp = angleUp;
+            _angleDown = angleDown;
+
             _alarm.Arm();
         }
 
         void OnAlarm(float _)
         {
+            short rangeChange = (short)((_rangeUp ? 1 : 0) + (_rangeDown ? -1 : 0));
+            short angleChange = (short)((_angleUp ? 1 : 0) + (_angleDown ? -1 : 0));
+            short intensityChange = (short)((_intensityUp ? 1 : 0) + (_intensityDown ? -1 : 0));
+
             if (_rangeChangeRate != 0f)
-                SetRange(_light.pointLightOuterRadius + _rangeChange * _rangeChangeRate * (float)TimeManager.TickDelta);
+                SetRange(_light.pointLightOuterRadius + rangeChange * _rangeChangeRate * (float)TimeManager.TickDelta);
             else
             {
-                if (_rangeChange > 0)
+                if (rangeChange > 0)
                     SetRange(_minMaxRange.y);
-                else if (_rangeChange < 0)
+                else if (rangeChange < 0)
                     SetRange(_minMaxRange.x);
             }
             if (_angleChangeRate != 0f)
-                SetAngle(_light.pointLightOuterAngle + _angleChange * _angleChangeRate * (float)TimeManager.TickDelta);
+                SetAngle(_light.pointLightOuterAngle + angleChange * _angleChangeRate * (float)TimeManager.TickDelta);
             else
             {
-                if (_angleChange > 0)
+                if (angleChange > 0)
                     SetAngle(_minMaxAngle.y);
-                else if (_angleChange < 0)
+                else if (angleChange < 0)
                     SetAngle(_minMaxAngle.x);
             }
             if (_intensityChangeRate != 0f)
-                SetIntensity(_light.intensity + _intensityChange * _intensityChangeRate * (float)TimeManager.TickDelta);
+                SetIntensity(_light.intensity + intensityChange * _intensityChangeRate * (float)TimeManager.TickDelta);
             else
             {
-                if (_intensityChange > 0)
+                if (intensityChange > 0)
                     SetIntensity(_minMaxIntensity.y);
-                else if (_intensityChange < 0)
+                else if (intensityChange < 0)
                     SetIntensity(_minMaxIntensity.x);
             }
 
             RefreshVision();
 
             // If no more changes are detected, put the alarm to sleep.
-            if (_rangeChange == 0 && _intensityChange == 0 && _angleChange == 0)
+            if (!_rangeUp && !_rangeDown && !_intensityUp && !_intensityDown && !_angleUp && !_angleDown)
                 _alarm.Disarm();
         }
 

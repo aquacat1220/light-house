@@ -11,12 +11,12 @@ namespace LightHouse.Fn
         IFn<TParam, TInter> _first;
         [SerializeReference]
         [PolySelector]
-        IFn<ITuple<TInter>, TResult> _second;
+        IFn<Tuple<TInter>, TResult> _second;
 
         public Then() { }
         public Then(
             IFn<TParam, TInter> first,
-            IFn<ITuple<TInter>, TResult> second
+            IFn<Tuple<TInter>, TResult> second
         )
         {
             _first = first;

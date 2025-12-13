@@ -60,6 +60,7 @@ namespace LightHouse
         string _searchString = "";
 
         public event Action<Type> TypeSelected;
+        public event Action Unsatisfiable;
 
         public TypePopup() : this(null, null) { }
 
@@ -165,27 +166,29 @@ namespace LightHouse
                         label.text = $"{data.GenericParameter.TypeParameter.CSharpFullName()}";
                         innerPopup.TypeSelected += (type) =>
                         {
-                            if (type == null)
-                            {
-                                // A `null` type means the typepopup determined that the constraints were not satisfiable.
-                                int parentId = _treeview.viewController.GetParentId(id);
-                                var parentData = _treeview.GetItemDataForId<TypePopupItemData>(parentId);
-                                if (parentData.Enum != TypePopupItemDataEnum.Generic || parentData.Generic.Disabled)
-                                    throw new Exception();
-                                parentData.Generic.Disabled = true;
-                                foreach (int childId in _treeview.viewController.GetChildrenIds(parentId))
-                                {
-                                    var childData = _treeview.GetItemDataForId<TypePopupItemData>(childId);
-                                    childData.GenericParameter.Disabled = true;
-                                }
-                                _treeview.RefreshItems();
-                                return;
-                            }
                             data.GenericParameter.SelectedType = type;
-                        }; ;
+                        };
+                        innerPopup.Unsatisfiable += () =>
+                        {
+                            // The inner typepopup determined that the constraints were not satisfiable.
+                            int parentId = _treeview.viewController.GetParentId(id);
+                            var parentData = _treeview.GetItemDataForId<TypePopupItemData>(parentId);
+                            if (parentData.Enum != TypePopupItemDataEnum.Generic || parentData.Generic.Disabled)
+                                throw new Exception();
+                            parentData.Generic.Disabled = true;
+                            foreach (int childId in _treeview.viewController.GetChildrenIds(parentId))
+                            {
+                                var childData = _treeview.GetItemDataForId<TypePopupItemData>(childId);
+                                childData.GenericParameter.Disabled = true;
+                            }
+                            _treeview.RefreshItems();
+                            return;
+                        };
                         innerPopup.Reset(data.GenericParameter.Constraints, null); // Reset with propagated constraints.
                         if (data.GenericParameter.SelectedType != null)
                             innerPopup.Popup.value = data.GenericParameter.SelectedType.CSharpName();
+                        else
+                            innerPopup.Popup.value = "Undetermined";
                         innerPopup.RemoveFromClassList("type-popup__treeview-item-inner-popup--disabled");
                         return;
                     }
@@ -216,7 +219,14 @@ namespace LightHouse
             _treeview.itemsChosen += (items) =>
             {
                 TypePopupItemData data = (TypePopupItemData)items.First();
-                if (data.Enum == TypePopupItemDataEnum.Nongeneric)
+                if (data.Enum == TypePopupItemDataEnum.Info)
+                {
+                    Popup.value = "Undetermined";
+                    TypeSelected?.Invoke(null);
+                    Popup.WantPopupOpen = false;
+                    return;
+                }
+                else if (data.Enum == TypePopupItemDataEnum.Nongeneric)
                 {
                     Popup.value = data.Nongeneric.Type.CSharpName();
                     TypeSelected?.Invoke(data.Nongeneric.Type);
@@ -270,14 +280,7 @@ namespace LightHouse
                 .Where(_filter)
                 .Where((type) => type.CSharpFullName().Contains(_searchString));
             var candidateTypes = TypeConstraint.GetCandidates(_constraints, allTypes);
-            if (candidateTypes.Count == 0 && string.IsNullOrEmpty(_searchString))
-            {
-                Popup.value = "Unsatisfiable";
-                TypeSelected?.Invoke(null);
-                return;
-            }
 
-            // id 0 is for the info on top.
             int id = 0;
             var items = candidateTypes.Select(
                 candidateType =>
@@ -322,16 +325,23 @@ namespace LightHouse
                 }
             );
 
-            var itemsList = items.ToList();
-            if (itemsList.Count == 0)
+            var infoData = new TypePopupItemData();
+            infoData.Enum = TypePopupItemDataEnum.Info;
+            infoData.Id = id;
+            var info = new Info();
+            info.Text = "<null>";
+            infoData.Info = info;
+            var infoItem = new TreeViewItemData<TypePopupItemData>(id++, infoData, null);
+            var itemsList = items.Prepend(infoItem).ToList();
+
+            if (itemsList.Count == 1)
             {
-                var infoData = new TypePopupItemData();
-                infoData.Enum = TypePopupItemDataEnum.Info;
-                infoData.Id = id;
-                var info = new Info();
-                info.Text = "No candidate types were found.";
-                infoData.Info = info;
-                itemsList = new List<TreeViewItemData<TypePopupItemData>> { new TreeViewItemData<TypePopupItemData>(id++, infoData, null) };
+                info.Text = "Types not found.";
+                if (string.IsNullOrEmpty(_searchString))
+                {
+                    Popup.value = "Unsatisfiable";
+                    Unsatisfiable?.Invoke();
+                }
             }
 
             _treeview.ClearSelection();
