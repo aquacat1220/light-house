@@ -40,7 +40,7 @@ namespace LightHouse
         float _modifier = 2f;
 
         [SerializeField]
-        [Range(0f, 1f)]
+        [Min(0f)]
         float _falloffDistance = 1f;
 
         RangeModifierHandle _handle;

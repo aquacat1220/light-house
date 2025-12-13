@@ -279,6 +279,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a73ae8065cec7dc0b746ebef58200e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSlotInput
+--- !u!1 &7431248783489196820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4734755022205498180}
+  m_Layer: 0
+  m_Name: CameraTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4734755022205498180
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7431248783489196820}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3359726144973146153}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7607644197097961152
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,6 +802,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6891197595918081331, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8272814554145449712}
+    - targetCorrespondingSourceObject: {fileID: 7435475543984397019, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4734755022205498180}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       insertIndex: -1
@@ -830,7 +864,7 @@ MonoBehaviour:
   m_ComponentVersion: 2
   m_LightType: 3
   m_BlendStyleIndex: 2
-  m_FalloffIntensity: 0.5
+  m_FalloffIntensity: 0.7
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_LightVolumeIntensity: 1
@@ -867,6 +901,11 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!4 &3359726144973146153 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7435475543984397019, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+  m_PrefabInstance: {fileID: 5300799141838639858}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3864649624005245443 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8949152631726614769, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
@@ -1132,17 +1171,19 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 2566409721090996822}
   _visionLight: {fileID: 1963208907921747166}
   _modifier: 2
-  _falloffDistance: 1
+  _falloffDistance: 0.1
   _rangeChanged:
     _listeners:
-    - rid: 2166532276616953977
+    - rid: 109098250384441759
   references:
     version: 2
     RefIds:
-    - rid: 2166532276616953977
-      type: {class: PlayerCharacterCamera/OnRangeChangedFn, ns: LightHouse, asm: Assembly-CSharp}
+    - rid: 109098250384441759
+      type: {class: 'MethodFn`2[[System.Single, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        PlayerCharacterCamera: {fileID: 7544029604669326017}
+        MethodInfo:
+          Target: {fileID: 7544029604669326017}
+          MethodName: void OnRangeChanged(float)
 --- !u!114 &7544029604669326017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1158,7 +1199,16 @@ MonoBehaviour:
   _componentIndexCache: 6
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
-  _minimumCameraSize: 6
+  _maxFrontRange: 10
+  _maxRearRange: 6
+  _minFrontRange: 3
+  _minRearRange: 3
+  _cameraTarget: {fileID: 4734755022205498180}
+  _sizeChanged:
+    _listeners: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &3253198443913536155
 MonoBehaviour:
   m_ObjectHideFlags: 0

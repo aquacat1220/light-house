@@ -8,11 +8,22 @@ namespace LightHouse
     public class PlayerCharacterCamera : NetworkBehaviour
     {
         [SerializeField]
-        [Min(1f)]
-        float _minimumCameraSize = 6f;
+        [Min(0f)]
+        float _maxFrontRange = 10f;
+        [SerializeField]
+        [Min(0f)]
+        float _maxRearRange = 6f;
+        [SerializeField]
+        [Min(0f)]
+        float _minFrontRange = 3f;
+        [SerializeField]
+        [Min(0f)]
+        float _minRearRange = 3f;
+
+        [SerializeField]
+        Transform _cameraTarget;
 
         FollowCamera _followCamera = null;
-
 
         float _size = 6f;
         public float Size
@@ -20,12 +31,6 @@ namespace LightHouse
             get
             {
                 return _size;
-            }
-            private set
-            {
-                var newSize = Mathf.Max(value, _minimumCameraSize);
-                _size = newSize;
-                _sizeChanged?.Invoke(newSize);
             }
         }
 
@@ -40,6 +45,15 @@ namespace LightHouse
         public void RemoveSizeChangedListener(IFn<Fn.Tuple<float>, Fn.Tuple> listener)
         {
             _sizeChanged._listeners.Remove(listener);
+        }
+
+        void Awake()
+        {
+            if (_cameraTarget == null)
+            {
+                Debug.Log("`_cameraTarget` was not set.");
+                throw new Exception();
+            }
         }
 
         void OnEnable()
@@ -77,7 +91,7 @@ namespace LightHouse
                 Debug.Log($"Attempted to hijack a followcamera that was targeting {_followCamera.Target}.");
                 throw new Exception();
             }
-            _followCamera.Target = transform;
+            _followCamera.Target = _cameraTarget;
             _followCamera.Camera.orthographicSize = Size;
         }
 
@@ -101,11 +115,17 @@ namespace LightHouse
 
         public void OnRangeChanged(float newRange)
         {
-            Size = newRange;
+            float frontRange = Mathf.Clamp(newRange, _minFrontRange, _maxFrontRange);
+            float rearRange = Mathf.Clamp(newRange, _minRearRange, _maxRearRange);
+            var oldSize = Size;
+            _size = (frontRange + rearRange) / 2;
+            _cameraTarget.localPosition = ((frontRange - rearRange) / 2) * Vector2.up;
+
             if (_followCamera != null)
-            {
                 _followCamera.Camera.orthographicSize = Size;
-            }
+
+            if (oldSize != Size)
+                _sizeChanged?.Invoke(Size);
         }
     }
 }
