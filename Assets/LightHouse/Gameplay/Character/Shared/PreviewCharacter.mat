@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-9175224488951811724
+--- !u!114 &-1858074234473071744
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CharacterFill
+  m_Name: PreviewCharacter
   m_Shader: {fileID: -6465566751694194690, guid: 85df0bd18aea0a88aa6f94ee35b5f3ab, type: 3}
   m_Parent: {fileID: 2100000, guid: cd8a3090526dc877ca679dfa496eab26, type: 2}
   m_ModifiedSerializedProperties: 0
@@ -40,6 +40,7 @@ Material:
     m_Floats:
     - _LightInfluence: 0
     m_Colors:
-    - _NoLight: {r: 1, g: 1, b: 1, a: 1}
+    - _NoLight: {r: 0.88235295, g: 0.88235295, b: 0.88235295, a: 1}
+    - _NotVisible: {r: 0.88235295, g: 0.88235295, b: 0.88235295, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

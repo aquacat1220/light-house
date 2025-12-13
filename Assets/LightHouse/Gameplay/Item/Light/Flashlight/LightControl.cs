@@ -6,6 +6,7 @@ namespace LightHouse
     using UnityEngine;
     using UnityEngine.Rendering.Universal;
     using Fn;
+    using FishNet.Connection;
 
     public class LightControl : NetworkBehaviour
     {
@@ -35,10 +36,10 @@ namespace LightHouse
         [SerializeField]
         bool _initialEnabled = false;
 
-        [SerializeField, Range(0f, 1f)]
-        float _innerToOuterRangeRatio = 0.8f;
-        [SerializeField, Range(0f, 1f)]
-        float _innerToOuterAngleRatio = 0.8f;
+        [SerializeField]
+        float _falloffRange = 0.1f;
+        [SerializeField]
+        float _falloffAngle = 1f;
 
         Vision _vision;
         Vision.RangeHandle _handle = null;
@@ -68,6 +69,15 @@ namespace LightHouse
             SetRange(_initialRange);
             SetAngle(_initialAngle);
             SetIntensity(_initialIntensity);
+        }
+
+        // Set the light color based on ownership.
+        public override void OnOwnershipClient(NetworkConnection prevOwner)
+        {
+            if (base.IsOwner)
+                _light.color = Color.green;
+            else
+                _light.color = Color.red;
         }
 
         [Serializable]
@@ -428,7 +438,7 @@ namespace LightHouse
         {
             newRange = Math.Clamp(newRange, _minMaxRange.x, _minMaxRange.y);
             _light.pointLightOuterRadius = newRange;
-            _light.pointLightInnerRadius = newRange * _innerToOuterRangeRatio;
+            _light.pointLightInnerRadius = Math.Max(0f, newRange - _falloffRange);
             // RefreshVision();
         }
 
@@ -436,7 +446,7 @@ namespace LightHouse
         {
             newAngle = Math.Clamp(newAngle, _minMaxAngle.x, _minMaxAngle.y);
             _light.pointLightOuterAngle = newAngle;
-            _light.pointLightInnerAngle = newAngle * _innerToOuterAngleRatio;
+            _light.pointLightInnerAngle = Math.Max(0f, newAngle - _falloffAngle);
             // RefreshVision();
         }
 

@@ -63,7 +63,7 @@ MonoBehaviour:
   m_UseNormalMap: 0
   m_ShadowsEnabled: 1
   m_ShadowIntensity: 1
-  m_ShadowSoftness: 0.3
+  m_ShadowSoftness: 0.1
   m_ShadowSoftnessFalloffIntensity: 0.7
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
@@ -71,9 +71,9 @@ MonoBehaviour:
     m_Center: {x: 0, y: -0.00000011920929, z: 0}
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 0
-  m_PointLightOuterAngle: 15
+  m_PointLightOuterAngle: 0
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 4
+  m_PointLightOuterRadius: 0
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 7265689023493595385}
   - component: {fileID: 2171927294598790543}
   - component: {fileID: 3443445690164091086}
+  - component: {fileID: 1256873109010793699}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -175,6 +176,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1165209190750227689}
   m_Mesh: {fileID: 4300000, guid: 9250988653ea4375e82a7fcb3614aa1e, type: 2}
+--- !u!114 &1256873109010793699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165209190750227689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c209507eaf93dad96b11ab765bc6016e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.MaterialSelector
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 6621121559563478381}
+  _networkObjectCache: {fileID: 0}
+  _ownerMaterial: {fileID: 2100000, guid: 3f1b2235af90081fe953174fecea7c81, type: 2}
+  _nonownerMaterial: {fileID: 2100000, guid: e72456764bcb56272aa0085c388c0e29, type: 2}
+  _target_renderers:
+  - {fileID: 2171927294598790543}
 --- !u!1 &4979753340546533646
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,7 +379,7 @@ MonoBehaviour:
   _action2:
     _listeners:
     - rid: 2166532283608596555
-  _reload:
+  _action3:
     _listeners: []
   references:
     version: 2
