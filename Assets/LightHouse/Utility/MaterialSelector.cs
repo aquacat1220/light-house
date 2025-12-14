@@ -5,57 +5,56 @@ namespace LightHouse
     using FishNet.Connection;
     using FishNet.Object;
     using UnityEngine;
-    
+
     public class MaterialSelector : NetworkBehaviour
     {
-    
-        // Material to use when the PlayerCharacter is owned.
+
+        // Material to use when the networkobject is owned.
         [SerializeField]
-        Material _owner_material;
-    
-        // Material to use when the PlayerCharacter is non-owned.
+        Material _ownerMaterial;
+        // Material to use when the networkobject is non-owned.
         [SerializeField]
-        Material _nonowner_material;
-    
+        Material _nonownerMaterial;
+
         // List of sprite renderers to set materials based on ownership.
         [SerializeField]
-        List<SpriteRenderer> _sprite_renderers = new List<SpriteRenderer>();
-    
+        List<Renderer> _target_renderers;
+
         void Awake()
         {
-            if (_owner_material == null)
+            if (_ownerMaterial == null)
             {
                 Debug.Log("`_owner_material` wasn't set.");
                 throw new Exception();
             }
-    
-            if (_nonowner_material == null)
+
+            if (_nonownerMaterial == null)
             {
                 Debug.Log("`_nonowner_material` wasn't set.");
                 throw new Exception();
             }
-    
-            if (_sprite_renderers.Count == 0)
+
+            if (_target_renderers.Count == 0)
             {
-                Debug.Log("`_sprite_renderers` is an empty list, so the component won't be doing anything. Is this intentional?");
+                Debug.Log("`_target_renderers` is an empty list, so the component won't be doing anything. Is this intentional?");
             }
         }
-    
+
         // Set the material based on ownership.
         public override void OnOwnershipClient(NetworkConnection prevOwner)
         {
             if (base.IsOwner)
             {
-                foreach (var sprite_renderer in _sprite_renderers)
+                foreach (var renderer in _target_renderers)
                 {
-                    sprite_renderer.material = _owner_material;
+                    renderer.material = _ownerMaterial;
                 }
             }
             else
             {
-                foreach (var sprite_renderer in _sprite_renderers)
+                foreach (var renderer in _target_renderers)
                 {
-                    sprite_renderer.material = _nonowner_material;
+                    renderer.material = _nonownerMaterial;
                 }
             }
         }

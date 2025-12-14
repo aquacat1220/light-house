@@ -11,12 +11,12 @@ namespace LightHouse.Fn
     }
 
     [Serializable]
-    public class MethodFn<TResult> : IFn<Tuple, TResult>
+    public class MethodFn<TResult> : IFn<ITupleBase, TResult>
     {
         public MethodInfo MethodInfo;
 
         Func<TResult> _delegate;
-        public TResult Invoke(Tuple _)
+        public TResult Invoke(ITupleBase _)
         {
             if (_delegate == null)
             {

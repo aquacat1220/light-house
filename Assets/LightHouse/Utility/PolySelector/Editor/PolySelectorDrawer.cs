@@ -57,7 +57,11 @@ namespace LightHouse
             typePopup.TypeSelected += (type) =>
             {
                 if (type == null)
+                {
+                    property.managedReferenceValue = null;
+                    property.serializedObject.ApplyModifiedProperties();
                     return;
+                }
 
                 // Start
                 // Code from https://github.com/mackysoft/Unity-SerializeReferenceExtensions/blob/main/Assets/MackySoft/MackySoft.SerializeReferenceExtensions/Editor/ManagedReferenceUtility.cs
@@ -92,8 +96,9 @@ namespace LightHouse
                 var destination = drag.panel.Pick(evt.position);
                 if (destination == drag)
                 {
-                    // Clicking on self should null the current value.
-                    property.managedReferenceValue = null;
+                    // Clicking on self should perform a shallow copy.
+                    string json = JsonUtility.ToJson(property.managedReferenceValue);
+                    property.managedReferenceValue = JsonUtility.FromJson(json, property.managedReferenceValue.GetType());
                     property.serializedObject.ApplyModifiedProperties();
                     return;
                 }
@@ -104,9 +109,9 @@ namespace LightHouse
                     return;
                 SerializedProperty destinationProperty = (SerializedProperty)destination.userData;
                 destinationProperty.serializedObject.Update();
-                if (!destinationProperty.GetUnderlyingField().FieldType.IsAssignableFrom(property.managedReferenceValue.GetType()))
+                if (!TypeFromTypeName(destinationProperty.managedReferenceFieldTypename).IsAssignableFrom(property.managedReferenceValue.GetType()))
                 {
-                    Debug.Log("Source property's reference value isn't compatible with the destination.");
+                    Debug.Log($"Destination requires type: {TypeFromTypeName(destinationProperty.managedReferenceFieldTypename).CSharpName()}, but source property has type: {property.managedReferenceValue.GetType().CSharpName()}, which wasn't compatible.");
                     return;
                 }
                 destinationProperty.managedReferenceValue = property.managedReferenceValue;
@@ -120,7 +125,11 @@ namespace LightHouse
             void OnPropertyChange(SerializedProperty changedProperty)
             {
                 if (changedProperty.managedReferenceValue != null)
+                {
                     typePopup.Popup.value = changedProperty.managedReferenceValue.GetType().CSharpName();
+                    var rng = new SplitMix64((ulong)changedProperty.managedReferenceId);
+                    drag.style.backgroundColor = new Color(r: rng.NextFloat(), g: rng.NextFloat(), b: rng.NextFloat());
+                }
                 else
                     typePopup.Popup.value = "Undetermined";
             }

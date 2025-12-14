@@ -3,7 +3,7 @@ namespace LightHouse.Fn
     using System;
     using UnityEngine;
 
-    [Serializable]
+    [Serializable, Obsolete]
     public class EnableFn : IFn<ITuple<bool>, Tuple>, IFn<Tuple, Tuple>
     {
         public MonoBehaviour MonoBehaviour;

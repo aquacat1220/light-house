@@ -1,7 +1,7 @@
-using System;
-
 namespace LightHouse
 {
+    using System;
+
     [Serializable]
     public abstract class DamageInfoBase
     {

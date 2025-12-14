@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9011010165433911751}
   - component: {fileID: 4910340789884352298}
+  - component: {fileID: 5339725898429877577}
   m_Layer: 0
   m_Name: Placeholder
   m_TagString: Untagged
@@ -91,6 +92,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &5339725898429877577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599221219507220311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c209507eaf93dad96b11ab765bc6016e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.MaterialSelector
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 3458800118198264783}
+  _networkObjectCache: {fileID: 0}
+  _ownerMaterial: {fileID: 2100000, guid: 3f1b2235af90081fe953174fecea7c81, type: 2}
+  _nonownerMaterial: {fileID: 2100000, guid: e72456764bcb56272aa0085c388c0e29, type: 2}
+  _target_renderers:
+  - {fileID: 4910340789884352298}
 --- !u!1 &948197007501555658
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,24 +308,28 @@ MonoBehaviour:
       type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
         _true:
-          rid: 109097971698630856
+          rid: 109098201736020041
         _false:
           rid: -2
-    - rid: 109097971698630856
-      type: {class: Magazine/StartReloadFn, ns: LightHouse, asm: Assembly-CSharp}
+    - rid: 109098201736020040
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        Magazine: {fileID: 6129219461553058081}
+        MethodInfo:
+          Target: {fileID: 6129219461553058081}
+          MethodName: void TryFire()
+    - rid: 109098201736020041
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 6129219461553058081}
+          MethodName: void StartReload()
     - rid: 2166532276616953942
       type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
         _true:
-          rid: 2166532276616953943
+          rid: 109098201736020040
         _false:
           rid: -2
-    - rid: 2166532276616953943
-      type: {class: Magazine/TryFireFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        Magazine: {fileID: 6129219461553058081}
 --- !u!114 &6129219461553058081
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -63,7 +63,7 @@ MonoBehaviour:
   m_UseNormalMap: 0
   m_ShadowsEnabled: 1
   m_ShadowIntensity: 1
-  m_ShadowSoftness: 0.3
+  m_ShadowSoftness: 0.1
   m_ShadowSoftnessFalloffIntensity: 0.7
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
@@ -71,9 +71,9 @@ MonoBehaviour:
     m_Center: {x: 0, y: -0.00000011920929, z: 0}
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 0
-  m_PointLightOuterAngle: 15
+  m_PointLightOuterAngle: 0
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 4
+  m_PointLightOuterRadius: 0
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 7265689023493595385}
   - component: {fileID: 2171927294598790543}
   - component: {fileID: 3443445690164091086}
+  - component: {fileID: 1256873109010793699}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -175,6 +176,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1165209190750227689}
   m_Mesh: {fileID: 4300000, guid: 9250988653ea4375e82a7fcb3614aa1e, type: 2}
+--- !u!114 &1256873109010793699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165209190750227689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c209507eaf93dad96b11ab765bc6016e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.MaterialSelector
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 6621121559563478381}
+  _networkObjectCache: {fileID: 0}
+  _ownerMaterial: {fileID: 2100000, guid: 3f1b2235af90081fe953174fecea7c81, type: 2}
+  _nonownerMaterial: {fileID: 2100000, guid: e72456764bcb56272aa0085c388c0e29, type: 2}
+  _target_renderers:
+  - {fileID: 2171927294598790543}
 --- !u!1 &4979753340546533646
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,105 +368,249 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemInput
   _primary:
     _listeners:
-    - rid: 2166532283608596564
+    - rid: 109098250384441422
   _secondary:
-    _listeners:
-    - rid: 2166532276616953992
-    - rid: 2166532276616953993
+    _listeners: []
   _action1:
     _listeners:
-    - rid: 2166532283608596560
+    - rid: 109098250384441729
   _action2:
     _listeners:
-    - rid: 2166532283608596555
-  _reload:
+    - rid: 109098250384441745
+  _action3:
     _listeners: []
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 2166532276616953990
-      type: {class: LightControl/StartRangeChangeFn, ns: LightHouse, asm: Assembly-CSharp}
+    - rid: 109098250384441422
+      type: {class: 'Then`3[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        LightControl: {fileID: 1162655753089864281}
-        DefaultParam: 1
-    - rid: 2166532276616953991
-      type: {class: LightControl/StartAngleChangeFn, ns: LightHouse, asm: Assembly-CSharp}
+        _first:
+          rid: 109098250384441423
+        _second:
+          rid: 109098250384441424
+    - rid: 109098250384441423
+      type: {class: 'And`1[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        LightControl: {fileID: 1162655753089864281}
-        DefaultParam: 0
-    - rid: 2166532276616953992
-      type: {class: LightControl/StartRangeChangeFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        LightControl: {fileID: 1162655753089864281}
-        DefaultParam: 0
-    - rid: 2166532276616953993
-      type: {class: LightControl/StartAngleChangeFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        LightControl: {fileID: 1162655753089864281}
-        DefaultParam: 1
-    - rid: 2166532283608596555
+        Conditions:
+        - rid: 109098250384441425
+        - rid: 109098250384441432
+    - rid: 109098250384441424
       type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
         _true:
-          rid: 2166532283608596556
-        _false:
-          rid: 2166532283608596557
-    - rid: 2166532283608596556
-      type: {class: 'Array`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _inners:
-        - rid: 2166532276616953990
-        - rid: 2166532276616953991
-    - rid: 2166532283608596557
-      type: {class: 'Array`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _inners:
-        - rid: 2166532283608596558
-        - rid: 2166532283608596559
-    - rid: 2166532283608596558
-      type: {class: LightControl/StopRangeChangeFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        LightControl: {fileID: 1162655753089864281}
-    - rid: 2166532283608596559
-      type: {class: LightControl/StopAngleChangeFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        LightControl: {fileID: 1162655753089864281}
-    - rid: 2166532283608596560
-      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _true:
-          rid: 2166532283608596561
-        _false:
-          rid: 2166532283608596557
-    - rid: 2166532283608596561
-      type: {class: 'Array`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _inners:
-        - rid: 2166532283608596562
-        - rid: 2166532283608596563
-    - rid: 2166532283608596562
-      type: {class: LightControl/StartRangeChangeFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        LightControl: {fileID: 1162655753089864281}
-        DefaultParam: 0
-    - rid: 2166532283608596563
-      type: {class: LightControl/StartAngleChangeFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        LightControl: {fileID: 1162655753089864281}
-        DefaultParam: 1
-    - rid: 2166532283608596564
-      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _true:
-          rid: 2166532283608596565
+          rid: 109098250384441434
         _false:
           rid: -2
-    - rid: 2166532283608596565
-      type: {class: LightControl/ToggleFn, ns: LightHouse, asm: Assembly-CSharp}
+    - rid: 109098250384441425
+      type: {class: 'Identity`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data: 
+    - rid: 109098250384441432
+      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        LightControl: {fileID: 1162655753089864281}
+        MethodInfo:
+          Target: {fileID: 1162655753089864281}
+          MethodName: bool get_IsServerInitialized()
+    - rid: 109098250384441434
+      type: {class: 'Then`3[[LightHouse.Fn.Tuple, Assembly-CSharp],[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _first:
+          rid: 109098250384441435
+        _second:
+          rid: 109098250384441436
+    - rid: 109098250384441435
+      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 1162655753089864281}
+          MethodName: bool IsOn()
+    - rid: 109098250384441436
+      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _true:
+          rid: 109098250384441742
+        _false:
+          rid: 109098250384441744
+    - rid: 109098250384441729
+      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _true:
+          rid: 109098250384441730
+        _false:
+          rid: 109098250384441731
+    - rid: 109098250384441730
+      type: {class: 'Then`3[[LightHouse.Fn.Tuple, Assembly-CSharp],[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _first:
+          rid: 109098250384441732
+        _second:
+          rid: 109098250384441733
+    - rid: 109098250384441731
+      type: {class: 'Then`3[[LightHouse.Fn.Tuple, Assembly-CSharp],[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _first:
+          rid: 109098250384441734
+        _second:
+          rid: 109098250384441735
+    - rid: 109098250384441732
+      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 1162655753089864281}
+          MethodName: bool get_IsServerInitialized()
+    - rid: 109098250384441733
+      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _true:
+          rid: 109098250384441736
+        _false:
+          rid: -2
+    - rid: 109098250384441734
+      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 1162655753089864281}
+          MethodName: bool get_IsServerInitialized()
+    - rid: 109098250384441735
+      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _true:
+          rid: 109098250384441737
+        _false:
+          rid: -2
+    - rid: 109098250384441736
+      type: {class: 'Array`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _inners:
+        - rid: 109098250384441738
+        - rid: 109098250384441739
+    - rid: 109098250384441737
+      type: {class: 'Array`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _inners:
+        - rid: 109098250384441740
+        - rid: 109098250384441741
+    - rid: 109098250384441738
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 1162655753089864281}
+          MethodName: void StartRangeDown()
+    - rid: 109098250384441739
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 1162655753089864281}
+          MethodName: void StartAngleUp()
+    - rid: 109098250384441740
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 1162655753089864281}
+          MethodName: void StopRangeDown()
+    - rid: 109098250384441741
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 1162655753089864281}
+          MethodName: void StopAngleUp()
+    - rid: 109098250384441742
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 1162655753089864281}
+          MethodName: void Off()
+    - rid: 109098250384441744
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 1162655753089864281}
+          MethodName: void On()
+    - rid: 109098250384441745
+      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _true:
+          rid: 109098250384441746
+        _false:
+          rid: 109098250384441747
+    - rid: 109098250384441746
+      type: {class: 'Then`3[[LightHouse.Fn.Tuple, Assembly-CSharp],[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _first:
+          rid: 109098250384441748
+        _second:
+          rid: 109098250384441749
+    - rid: 109098250384441747
+      type: {class: 'Then`3[[LightHouse.Fn.Tuple, Assembly-CSharp],[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _first:
+          rid: 109098250384441750
+        _second:
+          rid: 109098250384441751
+    - rid: 109098250384441748
+      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 1162655753089864281}
+          MethodName: bool get_IsServerInitialized()
+    - rid: 109098250384441749
+      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _true:
+          rid: 109098250384441752
+        _false:
+          rid: -2
+    - rid: 109098250384441750
+      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 1162655753089864281}
+          MethodName: bool get_IsServerInitialized()
+    - rid: 109098250384441751
+      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _true:
+          rid: 109098250384441753
+        _false:
+          rid: -2
+    - rid: 109098250384441752
+      type: {class: 'Array`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _inners:
+        - rid: 109098250384441754
+        - rid: 109098250384441755
+    - rid: 109098250384441753
+      type: {class: 'Array`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _inners:
+        - rid: 109098250384441756
+        - rid: 109098250384441757
+    - rid: 109098250384441754
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 1162655753089864281}
+          MethodName: void StartRangeUp()
+    - rid: 109098250384441755
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 1162655753089864281}
+          MethodName: void StartAngleDown()
+    - rid: 109098250384441756
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 1162655753089864281}
+          MethodName: void StopRangeUp()
+    - rid: 109098250384441757
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 1162655753089864281}
+          MethodName: void StopAngleDown()
 --- !u!114 &1162655753089864281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -471,5 +635,5 @@ MonoBehaviour:
   _initialAngle: 135
   _initialIntensity: 1
   _initialEnabled: 1
-  _innerToOuterRangeRatio: 0.9
-  _innerToOuterAngleRatio: 0.7
+  _falloffRange: 0.1
+  _falloffAngle: 1

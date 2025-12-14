@@ -436,6 +436,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6550054319881265475, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6287834833403180115}
+    - targetCorrespondingSourceObject: {fileID: 6550054319881265475, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7705894005217490428}
   m_SourcePrefab: {fileID: 100100000, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
 --- !u!114 &636056201720858014 stripped
 MonoBehaviour:
@@ -459,6 +462,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff412e866c9576996b54193a308fcb7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemTransform
+--- !u!114 &4050651003901469989 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3458800118198264783, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+  m_PrefabInstance: {fileID: 591921817433212650}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5967439324891850665 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6550054319881265475, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
@@ -521,6 +535,25 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7705894005217490428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5967439324891850665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c209507eaf93dad96b11ab765bc6016e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.MaterialSelector
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 4050651003901469989}
+  _networkObjectCache: {fileID: 0}
+  _ownerMaterial: {fileID: 2100000, guid: 3f1b2235af90081fe953174fecea7c81, type: 2}
+  _nonownerMaterial: {fileID: 2100000, guid: e72456764bcb56272aa0085c388c0e29, type: 2}
+  _target_renderers:
+  - {fileID: 6287834833403180115}
 --- !u!114 &6235746699911802751 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6827245192062937493, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
