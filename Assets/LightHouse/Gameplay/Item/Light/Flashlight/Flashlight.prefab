@@ -304,41 +304,53 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 6621121559563478381}
   _register:
     _listeners:
-    - rid: 2166532276616953987
-    - rid: 2166532276616953986
-    - rid: 2166532283608596566
+    - rid: 109098271068651596
+    - rid: 109098271068651594
+    - rid: 109098271068651595
   _unregister:
     _listeners:
-    - rid: 2166532276616953989
-    - rid: 2166532276616953988
-    - rid: 2166532283608596567
+    - rid: 109098271068651598
+    - rid: 109098271068651599
+    - rid: 109098271068651600
   references:
     version: 2
     RefIds:
-    - rid: 2166532276616953986
-      type: {class: ItemInput/OnRegisterFn, ns: LightHouse, asm: Assembly-CSharp}
+    - rid: 109098271068651594
+      type: {class: 'MethodFn`2[[LightHouse.ItemSlot, Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        ItemInput: {fileID: 9029418283135670705}
-    - rid: 2166532276616953987
-      type: {class: ItemTransform/OnRegisterFn, ns: LightHouse, asm: Assembly-CSharp}
+        MethodInfo:
+          Target: {fileID: 9029418283135670705}
+          MethodName: void OnRegister(ItemSlot)
+    - rid: 109098271068651595
+      type: {class: 'MethodFn`2[[LightHouse.ItemSlot, Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        ItemTransform: {fileID: 6343127056236506670}
-    - rid: 2166532276616953988
-      type: {class: ItemInput/OnUnregisterFn, ns: LightHouse, asm: Assembly-CSharp}
+        MethodInfo:
+          Target: {fileID: 1162655753089864281}
+          MethodName: void OnRegister(ItemSlot)
+    - rid: 109098271068651596
+      type: {class: 'MethodFn`2[[LightHouse.ItemSlot, Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        ItemInput: {fileID: 9029418283135670705}
-    - rid: 2166532276616953989
-      type: {class: ItemTransform/OnUnregisterFn, ns: LightHouse, asm: Assembly-CSharp}
+        MethodInfo:
+          Target: {fileID: 6343127056236506670}
+          MethodName: void OnRegister(ItemSlot)
+    - rid: 109098271068651598
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        ItemTransform: {fileID: 6343127056236506670}
-    - rid: 2166532283608596566
-      type: {class: LightControl/OnRegisterFn, ns: LightHouse, asm: Assembly-CSharp}
+        MethodInfo:
+          Target: {fileID: 6343127056236506670}
+          MethodName: void OnUnregister()
+    - rid: 109098271068651599
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        LightControl: {fileID: 1162655753089864281}
-    - rid: 2166532283608596567
-      type: {class: LightControl/OnUnregisterFn, ns: LightHouse, asm: Assembly-CSharp}
+        MethodInfo:
+          Target: {fileID: 9029418283135670705}
+          MethodName: void OnUnregister()
+    - rid: 109098271068651600
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        LightControl: {fileID: 1162655753089864281}
+        MethodInfo:
+          Target: {fileID: 1162655753089864281}
+          MethodName: void OnUnregister()
 --- !u!114 &6343127056236506670
 MonoBehaviour:
   m_ObjectHideFlags: 0
