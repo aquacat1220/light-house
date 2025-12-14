@@ -9,7 +9,7 @@ namespace LightHouse
     {
         [SerializeReference]
         [PolySelector]
-        IFn<ITuple<bool>, Fn.Tuple> _inner;
+        IFn<Fn.Tuple<bool>, Fn.Tuple> _inner;
 
         [SerializeField]
         float _repeatDelay = 0.25f;
@@ -19,7 +19,7 @@ namespace LightHouse
 
         public RepeatPulse() { }
         public RepeatPulse(
-            IFn<ITuple<bool>, Fn.Tuple> inner
+            IFn<Fn.Tuple<bool>, Fn.Tuple> inner
         )
         {
             _inner = inner;
