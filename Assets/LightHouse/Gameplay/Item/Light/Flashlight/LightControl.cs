@@ -83,44 +83,12 @@ namespace LightHouse
                 _light.color = Color.red;
         }
 
-        [Serializable]
-        public class OnRegisterFn : IFn<ITuple<ItemSlot>, Fn.Tuple>
-        {
-            public LightControl LightControl;
-            public Fn.Tuple Invoke(ITuple<ItemSlot> param)
-            {
-                LightControl.OnRegister(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        [Serializable]
-        public class OnUnregisterFn : IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public LightControl LightControl;
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                LightControl.OnUnregister();
-                return Fn.Tuple.Unit;
-            }
-        }
-
         public void OnRegister(ItemSlot itemSlot)
         {
             // Controlling vision is only possible on the server.
             if (base.IsServerInitialized)
                 _vision = itemSlot.User.GetComponent<Vision>();
             RefreshVision();
-            _alarm = TimerManager.Singleton.AddAlarm(
-                cooldown: (float)TimeManager.TickDelta,
-                callback: OnAlarm,
-                startImmediately: true,
-                armImmediately: true,
-                autoRestart: true,
-                autoRearm: true,
-                initialCooldown: 0f,
-                destroyAfterTriggered: false
-            );
         }
 
         public void OnUnregister()
@@ -131,52 +99,20 @@ namespace LightHouse
                 _handle = null;
             }
             _vision = null;
-            _alarm.Remove();
+            _rangeUp = false;
+            _rangeDown = false;
+            _intensityUp = false;
+            _intensityDown = false;
+            _angleUp = false;
+            _angleDown = false;
+            // We don't want the alarm callback to be triggered after the light is unregistered.
+            _alarm?.Remove();
+            _alarm = null;
         }
 
-        [Serializable]
-        public class ToggleFn : IFn<Fn.Tuple, Fn.Tuple>
+        void Update()
         {
-            public LightControl LightControl;
-
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                if (LightControl.IsServerInitialized is false)
-                    return Fn.Tuple.Unit;
-                if (LightControl.IsOn() is true)
-                    LightControl.Off();
-                else
-                    LightControl.On();
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        [Serializable]
-        public class SwitchFn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public LightControl LightControl;
-            public bool DefaultParam = false;
-
-            public Fn.Tuple Invoke(ITuple<bool> param)
-            {
-                if (LightControl.IsServerInitialized is false)
-                    return Fn.Tuple.Unit;
-                if (param.Item1)
-                    LightControl.On();
-                else
-                    LightControl.Off();
-                return Fn.Tuple.Unit;
-            }
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                if (LightControl.IsServerInitialized is false)
-                    return Fn.Tuple.Unit;
-                if (DefaultParam)
-                    LightControl.On();
-                else
-                    LightControl.Off();
-                return Fn.Tuple.Unit;
-            }
+            _alarm?.Start();
         }
 
         [Server]
@@ -206,7 +142,17 @@ namespace LightHouse
         {
             _rangeUp = true;
             SyncState();
-            _alarm.Arm();
+            if (_alarm == null)
+                _alarm = TimerManager.Singleton.AddAlarm(
+                    cooldown: 0f,
+                    callback: OnAlarm,
+                    startImmediately: true,
+                    armImmediately: true,
+                    autoRestart: false,
+                    autoRearm: true,
+                    initialCooldown: 0f,
+                    destroyAfterTriggered: false
+                );
         }
 
         [Server]
@@ -214,7 +160,17 @@ namespace LightHouse
         {
             _rangeUp = false;
             SyncState();
-            _alarm.Arm();
+            if (_alarm == null)
+                _alarm = TimerManager.Singleton.AddAlarm(
+                    cooldown: 0f,
+                    callback: OnAlarm,
+                    startImmediately: true,
+                    armImmediately: true,
+                    autoRestart: false,
+                    autoRearm: true,
+                    initialCooldown: 0f,
+                    destroyAfterTriggered: false
+                );
         }
 
         [Server]
@@ -222,7 +178,17 @@ namespace LightHouse
         {
             _rangeDown = true;
             SyncState();
-            _alarm.Arm();
+            if (_alarm == null)
+                _alarm = TimerManager.Singleton.AddAlarm(
+                    cooldown: 0f,
+                    callback: OnAlarm,
+                    startImmediately: true,
+                    armImmediately: true,
+                    autoRestart: false,
+                    autoRearm: true,
+                    initialCooldown: 0f,
+                    destroyAfterTriggered: false
+                );
         }
 
         [Server]
@@ -230,7 +196,17 @@ namespace LightHouse
         {
             _rangeDown = false;
             SyncState();
-            _alarm.Arm();
+            if (_alarm == null)
+                _alarm = TimerManager.Singleton.AddAlarm(
+                    cooldown: 0f,
+                    callback: OnAlarm,
+                    startImmediately: true,
+                    armImmediately: true,
+                    autoRestart: false,
+                    autoRearm: true,
+                    initialCooldown: 0f,
+                    destroyAfterTriggered: false
+                );
         }
 
         [Server]
@@ -238,7 +214,17 @@ namespace LightHouse
         {
             _intensityUp = true;
             SyncState();
-            _alarm.Arm();
+            if (_alarm == null)
+                _alarm = TimerManager.Singleton.AddAlarm(
+                    cooldown: 0f,
+                    callback: OnAlarm,
+                    startImmediately: true,
+                    armImmediately: true,
+                    autoRestart: false,
+                    autoRearm: true,
+                    initialCooldown: 0f,
+                    destroyAfterTriggered: false
+                );
         }
 
         [Server]
@@ -246,7 +232,17 @@ namespace LightHouse
         {
             _intensityUp = false;
             SyncState();
-            _alarm.Arm();
+            if (_alarm == null)
+                _alarm = TimerManager.Singleton.AddAlarm(
+                    cooldown: 0f,
+                    callback: OnAlarm,
+                    startImmediately: true,
+                    armImmediately: true,
+                    autoRestart: false,
+                    autoRearm: true,
+                    initialCooldown: 0f,
+                    destroyAfterTriggered: false
+                );
         }
 
         [Server]
@@ -254,7 +250,17 @@ namespace LightHouse
         {
             _intensityDown = true;
             SyncState();
-            _alarm.Arm();
+            if (_alarm == null)
+                _alarm = TimerManager.Singleton.AddAlarm(
+                    cooldown: 0f,
+                    callback: OnAlarm,
+                    startImmediately: true,
+                    armImmediately: true,
+                    autoRestart: false,
+                    autoRearm: true,
+                    initialCooldown: 0f,
+                    destroyAfterTriggered: false
+                );
         }
 
         [Server]
@@ -262,7 +268,17 @@ namespace LightHouse
         {
             _intensityDown = false;
             SyncState();
-            _alarm.Arm();
+            if (_alarm == null)
+                _alarm = TimerManager.Singleton.AddAlarm(
+                    cooldown: 0f,
+                    callback: OnAlarm,
+                    startImmediately: true,
+                    armImmediately: true,
+                    autoRestart: false,
+                    autoRearm: true,
+                    initialCooldown: 0f,
+                    destroyAfterTriggered: false
+                );
         }
 
         [Server]
@@ -270,7 +286,17 @@ namespace LightHouse
         {
             _angleUp = true;
             SyncState();
-            _alarm.Arm();
+            if (_alarm == null)
+                _alarm = TimerManager.Singleton.AddAlarm(
+                    cooldown: 0f,
+                    callback: OnAlarm,
+                    startImmediately: true,
+                    armImmediately: true,
+                    autoRestart: false,
+                    autoRearm: true,
+                    initialCooldown: 0f,
+                    destroyAfterTriggered: false
+                );
         }
 
         [Server]
@@ -278,7 +304,17 @@ namespace LightHouse
         {
             _angleUp = false;
             SyncState();
-            _alarm.Arm();
+            if (_alarm == null)
+                _alarm = TimerManager.Singleton.AddAlarm(
+                    cooldown: 0f,
+                    callback: OnAlarm,
+                    startImmediately: true,
+                    armImmediately: true,
+                    autoRestart: false,
+                    autoRearm: true,
+                    initialCooldown: 0f,
+                    destroyAfterTriggered: false
+                );
         }
 
         [Server]
@@ -286,7 +322,17 @@ namespace LightHouse
         {
             _angleDown = true;
             SyncState();
-            _alarm.Arm();
+            if (_alarm == null)
+                _alarm = TimerManager.Singleton.AddAlarm(
+                    cooldown: 0f,
+                    callback: OnAlarm,
+                    startImmediately: true,
+                    armImmediately: true,
+                    autoRestart: false,
+                    autoRearm: true,
+                    initialCooldown: 0f,
+                    destroyAfterTriggered: false
+                );
         }
 
         [Server]
@@ -294,7 +340,17 @@ namespace LightHouse
         {
             _angleDown = false;
             SyncState();
-            _alarm.Arm();
+            if (_alarm == null)
+                _alarm = TimerManager.Singleton.AddAlarm(
+                    cooldown: 0f,
+                    callback: OnAlarm,
+                    startImmediately: true,
+                    armImmediately: true,
+                    autoRestart: false,
+                    autoRearm: true,
+                    initialCooldown: 0f,
+                    destroyAfterTriggered: false
+                );
         }
 
         [Server]
@@ -328,17 +384,28 @@ namespace LightHouse
             _angleUp = angleUp;
             _angleDown = angleDown;
 
-            _alarm.Arm();
+            if (_alarm == null)
+                _alarm = TimerManager.Singleton.AddAlarm(
+                    cooldown: 0f,
+                    callback: OnAlarm,
+                    startImmediately: true,
+                    armImmediately: true,
+                    autoRestart: false,
+                    autoRearm: true,
+                    initialCooldown: 0f,
+                    destroyAfterTriggered: false
+                );
         }
 
-        void OnAlarm(float _)
+        void OnAlarm(float deltaTime)
         {
+            // This callback will be triggered every frame, as long as the alarm exists.
             short rangeChange = (short)((_rangeUp ? 1 : 0) + (_rangeDown ? -1 : 0));
             short angleChange = (short)((_angleUp ? 1 : 0) + (_angleDown ? -1 : 0));
             short intensityChange = (short)((_intensityUp ? 1 : 0) + (_intensityDown ? -1 : 0));
 
             if (_rangeChangeRate != 0f)
-                SetRange(_light.pointLightOuterRadius + rangeChange * _rangeChangeRate * (float)TimeManager.TickDelta);
+                SetRange(_light.pointLightOuterRadius + rangeChange * _rangeChangeRate * deltaTime);
             else
             {
                 if (rangeChange > 0)
@@ -347,7 +414,7 @@ namespace LightHouse
                     SetRange(_minMaxRange.x);
             }
             if (_angleChangeRate != 0f)
-                SetAngle(_light.pointLightOuterAngle + angleChange * _angleChangeRate * (float)TimeManager.TickDelta);
+                SetAngle(_light.pointLightOuterAngle + angleChange * _angleChangeRate * deltaTime);
             else
             {
                 if (angleChange > 0)
@@ -356,7 +423,7 @@ namespace LightHouse
                     SetAngle(_minMaxAngle.x);
             }
             if (_intensityChangeRate != 0f)
-                SetIntensity(_light.intensity + intensityChange * _intensityChangeRate * (float)TimeManager.TickDelta);
+                SetIntensity(_light.intensity + intensityChange * _intensityChangeRate * deltaTime);
             else
             {
                 if (intensityChange > 0)
@@ -367,9 +434,12 @@ namespace LightHouse
 
             RefreshVision();
 
-            // If no more changes are detected, put the alarm to sleep.
+            // If no more changes are detected, remove the alarm.
             if (!_rangeUp && !_rangeDown && !_intensityUp && !_intensityDown && !_angleUp && !_angleDown)
-                _alarm.Disarm();
+            {
+                _alarm?.Remove();
+                _alarm = null;
+            }
         }
 
         void RefreshVision()

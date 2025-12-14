@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8393856002408595147}
   m_Layer: 0
-  m_Name: ItemSlot1Anchor
+  m_Name: BackupAnchor0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4948472767338910798}
+  - {fileID: 5044678673360049852}
   m_Father: {fileID: 1599423349212434369}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1532790280739083752
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 2131203046410730692}
   - component: {fileID: 3925544483451715106}
   m_Layer: 0
-  m_Name: ItemSlot3
+  m_Name: ItemSlot2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5109930308355377376}
+  m_Father: {fileID: 8393856002408595147}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2131203046410730692
 MonoBehaviour:
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 6375065255222121820}
   - component: {fileID: 1573172200987606179}
   m_Layer: 0
-  m_Name: ItemSlot2
+  m_Name: ItemSlot1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,12 +119,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1854462782529126222}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2843514402021381243}
+  m_Father: {fileID: 3864649624005245443}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6375065255222121820
 MonoBehaviour:
@@ -154,38 +154,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a73ae8065cec7dc0b746ebef58200e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSlotInput
---- !u!1 &3149329687944057124
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2843514402021381243}
-  m_Layer: 0
-  m_Name: ItemSlot2Anchor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2843514402021381243
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3149329687944057124}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.2, y: -0.75, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6600868814318269205}
-  m_Father: {fileID: 1599423349212434369}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3521787922867469661
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,7 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8272814554145449712}
   m_Layer: 0
-  m_Name: ItemSlot4Anchor
+  m_Name: BackupAnchor1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,7 +198,7 @@ GameObject:
   - component: {fileID: 1837316924962321096}
   - component: {fileID: 142130059822729987}
   m_Layer: 0
-  m_Name: ItemSlot4
+  m_Name: ItemSlot3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -322,7 +290,7 @@ GameObject:
   - component: {fileID: 5481230686748954216}
   - component: {fileID: 1055169062239762129}
   m_Layer: 0
-  m_Name: ItemSlot1
+  m_Name: ItemSlot0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -341,7 +309,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8393856002408595147}
+  m_Father: {fileID: 8119588425305905567}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5481230686748954216
 MonoBehaviour:
@@ -371,38 +339,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a73ae8065cec7dc0b746ebef58200e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSlotInput
---- !u!1 &8709400850298079651
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5109930308355377376}
-  m_Layer: 0
-  m_Name: ItemSlot3Anchor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5109930308355377376
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8709400850298079651}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.2, y: -0.75, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5044678673360049852}
-  m_Father: {fileID: 1599423349212434369}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5300799141838639858
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -795,16 +731,16 @@ PrefabInstance:
       addedObject: {fileID: 8393856002408595147}
     - targetCorrespondingSourceObject: {fileID: 6891197595918081331, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2843514402021381243}
-    - targetCorrespondingSourceObject: {fileID: 6891197595918081331, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5109930308355377376}
-    - targetCorrespondingSourceObject: {fileID: 6891197595918081331, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 8272814554145449712}
     - targetCorrespondingSourceObject: {fileID: 7435475543984397019, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4734755022205498180}
+    - targetCorrespondingSourceObject: {fileID: 4124921343106321261, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4948472767338910798}
+    - targetCorrespondingSourceObject: {fileID: 8949152631726614769, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6600868814318269205}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       insertIndex: -1
@@ -944,103 +880,275 @@ MonoBehaviour:
     - rid: 2166532276616953949
   _primary:
     _listeners:
-    - rid: 2166532276616953950
+    - rid: 109098271068651615
   _secondary:
     _listeners:
-    - rid: 2166532276616953951
+    - rid: 109098271068651675
   _action1:
     _listeners:
-    - rid: 109097971698630852
+    - rid: 109098271068651678
   _action2:
     _listeners:
-    - rid: 109097971698630853
+    - rid: 109098271068651681
   _action3:
     _listeners:
-    - rid: 109097971698630854
-  _selectItem1:
+    - rid: 109098271068651684
+  _swapItem:
     _listeners:
-    - rid: 2166532276616953955
-  _dropItem1:
+    - rid: 109098271068651687
+  _swapToBackup1:
     _listeners:
-    - rid: 2166532276616953959
-  _selectItem2:
+    - rid: 109098271068651694
+  _swapToBackup2:
     _listeners:
-    - rid: 2166532276616953961
-  _dropItem2:
+    - rid: 109098271068651698
+  _dropItem:
     _listeners:
-    - rid: 2166532276616953963
-  _selectItem3:
-    _listeners:
-    - rid: 2166532276616953967
-  _dropItem3:
-    _listeners:
-    - rid: 2166532276616953968
-  _selectItem4:
-    _listeners:
-    - rid: 2166532276616953969
-  _dropItem4:
-    _listeners:
-    - rid: 2166532276616953970
+    - rid: 109098271068651691
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 109097971698630852
-      type: {class: PlayerCharacterInventory/OnAction1Fn, ns: LightHouse, asm: Assembly-CSharp}
+    - rid: 109098271068651615
+      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 1
-    - rid: 109097971698630853
-      type: {class: PlayerCharacterInventory/OnAction2Fn, ns: LightHouse, asm: Assembly-CSharp}
+        _condition:
+          rid: 109098271068651617
+        _true:
+          rid: 109098271068651619
+        _false:
+          rid: -2
+    - rid: 109098271068651617
+      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 1
-    - rid: 109097971698630854
-      type: {class: PlayerCharacterInventory/OnAction3Fn, ns: LightHouse, asm: Assembly-CSharp}
+        MethodInfo:
+          Target: {fileID: 7613401983510641006}
+          MethodName: bool get_IsOwner()
+    - rid: 109098271068651619
+      type: {class: 'MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 1
-    - rid: 109098073642500277
-      type: {class: PlayerCharacterInventory/OnSelectItemFn, ns: LightHouse, asm: Assembly-CSharp}
+        MethodInfo:
+          Target: {fileID: 7613401983510641006}
+          MethodName: void OnPrimary(bool)
+        DefaultParam:
+          _item1: 0
+    - rid: 109098271068651675
+      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 0
-    - rid: 109098073642500278
-      type: {class: PlayerCharacterInventory/OnDropItemFn, ns: LightHouse, asm: Assembly-CSharp}
+        _condition:
+          rid: 109098271068651676
+        _true:
+          rid: 109098271068651677
+        _false:
+          rid: -2
+    - rid: 109098271068651676
+      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 0
-    - rid: 109098073642500279
-      type: {class: PlayerCharacterInventory/OnSelectItemFn, ns: LightHouse, asm: Assembly-CSharp}
+        MethodInfo:
+          Target: {fileID: 7613401983510641006}
+          MethodName: bool get_IsOwner()
+    - rid: 109098271068651677
+      type: {class: 'MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 1
-    - rid: 109098073642500280
-      type: {class: PlayerCharacterInventory/OnDropItemFn, ns: LightHouse, asm: Assembly-CSharp}
+        MethodInfo:
+          Target: {fileID: 7613401983510641006}
+          MethodName: void OnSecondary(bool)
+        DefaultParam:
+          _item1: 0
+    - rid: 109098271068651678
+      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 1
-    - rid: 109098073642500282
-      type: {class: PlayerCharacterInventory/OnSelectItemFn, ns: LightHouse, asm: Assembly-CSharp}
+        _condition:
+          rid: 109098271068651679
+        _true:
+          rid: 109098271068651680
+        _false:
+          rid: -2
+    - rid: 109098271068651679
+      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 2
-    - rid: 109098073642500283
-      type: {class: PlayerCharacterInventory/OnDropItemFn, ns: LightHouse, asm: Assembly-CSharp}
+        MethodInfo:
+          Target: {fileID: 7613401983510641006}
+          MethodName: bool get_IsOwner()
+    - rid: 109098271068651680
+      type: {class: 'MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 2
-    - rid: 109098073642500284
-      type: {class: PlayerCharacterInventory/OnSelectItemFn, ns: LightHouse, asm: Assembly-CSharp}
+        MethodInfo:
+          Target: {fileID: 7613401983510641006}
+          MethodName: void OnAction1(bool)
+        DefaultParam:
+          _item1: 0
+    - rid: 109098271068651681
+      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 3
-    - rid: 109098073642500285
-      type: {class: PlayerCharacterInventory/OnDropItemFn, ns: LightHouse, asm: Assembly-CSharp}
+        _condition:
+          rid: 109098271068651682
+        _true:
+          rid: 109098271068651683
+        _false:
+          rid: -2
+    - rid: 109098271068651682
+      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 3
+        MethodInfo:
+          Target: {fileID: 7613401983510641006}
+          MethodName: bool get_IsOwner()
+    - rid: 109098271068651683
+      type: {class: 'MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 7613401983510641006}
+          MethodName: void OnAction2(bool)
+        DefaultParam:
+          _item1: 0
+    - rid: 109098271068651684
+      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _condition:
+          rid: 109098271068651685
+        _true:
+          rid: 109098271068651686
+        _false:
+          rid: -2
+    - rid: 109098271068651685
+      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 7613401983510641006}
+          MethodName: bool get_IsOwner()
+    - rid: 109098271068651686
+      type: {class: 'MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 7613401983510641006}
+          MethodName: void OnAction3(bool)
+        DefaultParam:
+          _item1: 0
+    - rid: 109098271068651687
+      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _condition:
+          rid: 109098271068651708
+        _true:
+          rid: 109098271068651690
+        _false:
+          rid: -2
+    - rid: 109098271068651690
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 7613401983510641006}
+          MethodName: void OnSwapItem()
+    - rid: 109098271068651691
+      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _condition:
+          rid: 109098271068651711
+        _true:
+          rid: 109098271068651693
+        _false:
+          rid: -2
+    - rid: 109098271068651693
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 7613401983510641006}
+          MethodName: void OnDropItem()
+    - rid: 109098271068651694
+      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _condition:
+          rid: 109098271068651701
+        _true:
+          rid: 109098271068651697
+        _false:
+          rid: -2
+    - rid: 109098271068651697
+      type: {class: 'MethodFn`2[[System.Int32, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 7613401983510641006}
+          MethodName: void OnSwapToBackup(int)
+        DefaultParam:
+          _item1: 0
+    - rid: 109098271068651698
+      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _condition:
+          rid: 109098271068651705
+        _true:
+          rid: 109098271068651700
+        _false:
+          rid: -2
+    - rid: 109098271068651700
+      type: {class: 'MethodFn`2[[System.Int32, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 7613401983510641006}
+          MethodName: void OnSwapToBackup(int)
+        DefaultParam:
+          _item1: 1
+    - rid: 109098271068651701
+      type: {class: 'And`1[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        Conditions:
+        - rid: 109098271068651704
+        - rid: 109098271068651703
+    - rid: 109098271068651703
+      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 7613401983510641006}
+          MethodName: bool get_IsOwner()
+    - rid: 109098271068651704
+      type: {class: 'Identity`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data: 
+    - rid: 109098271068651705
+      type: {class: 'And`1[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        Conditions:
+        - rid: 109098271068651706
+        - rid: 109098271068651707
+    - rid: 109098271068651706
+      type: {class: 'Identity`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data: 
+    - rid: 109098271068651707
+      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 7613401983510641006}
+          MethodName: bool get_IsOwner()
+    - rid: 109098271068651708
+      type: {class: 'And`1[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        Conditions:
+        - rid: 109098271068651709
+        - rid: 109098271068651710
+    - rid: 109098271068651709
+      type: {class: 'Identity`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data: 
+    - rid: 109098271068651710
+      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 7613401983510641006}
+          MethodName: bool get_IsOwner()
+    - rid: 109098271068651711
+      type: {class: 'And`1[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        Conditions:
+        - rid: 109098271068651712
+        - rid: 109098271068651713
+    - rid: 109098271068651712
+      type: {class: 'Identity`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data: 
+    - rid: 109098271068651713
+      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 7613401983510641006}
+          MethodName: bool get_IsOwner()
     - rid: 2166532276616953948
       type: {class: PredictedMovement/OnMoveFn, ns: LightHouse, asm: Assembly-CSharp}
       data:
@@ -1049,72 +1157,6 @@ MonoBehaviour:
       type: {class: PredictedMovement/OnLookFn, ns: LightHouse, asm: Assembly-CSharp}
       data:
         PredictedMovement: {fileID: 3324938354885705573}
-    - rid: 2166532276616953950
-      type: {class: PlayerCharacterInventory/OnPrimaryFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 1
-    - rid: 2166532276616953951
-      type: {class: PlayerCharacterInventory/OnSecondaryFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        PlayerCharacterInventory: {fileID: 7613401983510641006}
-        DefaultParam: 1
-    - rid: 2166532276616953955
-      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _true:
-          rid: 109098073642500277
-        _false:
-          rid: -2
-    - rid: 2166532276616953959
-      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _true:
-          rid: 109098073642500278
-        _false:
-          rid: -2
-    - rid: 2166532276616953961
-      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _true:
-          rid: 109098073642500279
-        _false:
-          rid: -2
-    - rid: 2166532276616953963
-      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _true:
-          rid: 109098073642500280
-        _false:
-          rid: -2
-    - rid: 2166532276616953967
-      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _true:
-          rid: 109098073642500282
-        _false:
-          rid: -2
-    - rid: 2166532276616953968
-      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _true:
-          rid: 109098073642500283
-        _false:
-          rid: -2
-    - rid: 2166532276616953969
-      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _true:
-          rid: 109098073642500284
-        _false:
-          rid: -2
-    - rid: 2166532276616953970
-      type: {class: 'Branch`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _true:
-          rid: 109098073642500285
-        _false:
-          rid: -2
 --- !u!114 &3324938354885705573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1147,13 +1189,11 @@ MonoBehaviour:
   _componentIndexCache: 4
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
-  _itemSlots:
-  - {fileID: 5481230686748954216}
-  - {fileID: 6375065255222121820}
-  - {fileID: 2131203046410730692}
-  - {fileID: 1837316924962321096}
-  _mainItemAnchor: {fileID: 8119588425305905567}
-  _subItemAnchor: {fileID: 3864649624005245443}
+  _mainHandAnchor: {fileID: 8119588425305905567}
+  _subHandAnchor: {fileID: 3864649624005245443}
+  _backupAnchors:
+  - {fileID: 8393856002408595147}
+  - {fileID: 8272814554145449712}
 --- !u!114 &6290294256753253600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1184,6 +1224,8 @@ MonoBehaviour:
         MethodInfo:
           Target: {fileID: 7544029604669326017}
           MethodName: void OnRangeChanged(float)
+        DefaultParam:
+          _item1: 0
 --- !u!114 &7544029604669326017
 MonoBehaviour:
   m_ObjectHideFlags: 0

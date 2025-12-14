@@ -90,13 +90,15 @@ namespace LightHouse
         public override void OnStopNetwork()
         {
             _delayAlarm.Remove();
+            _delayAlarm = null;
             _coolAlarm?.Remove();
+            _coolAlarm = null;
         }
 
         void Update()
         {
             // Arm alarm every frame, so the alarm will trigger on every frame as long as it is started.
-            _coolAlarm?.Arm();
+            _coolAlarm?.Start();
         }
 
         [Serializable]
@@ -145,8 +147,8 @@ namespace LightHouse
             }
             _coolAlarm?.Remove();
             _coolAlarm = null;
-            _delayAlarm?.Reset(_coolDelay);
-            _delayAlarm?.Start();
+            _delayAlarm.Reset(_coolDelay);
+            _delayAlarm.Start();
         }
 
         [Serializable]
@@ -178,8 +180,8 @@ namespace LightHouse
                 callback: Cool,
                 startImmediately: true,
                 armImmediately: true,
-                autoRestart: true,
-                autoRearm: false,
+                autoRestart: false,
+                autoRearm: true,
                 initialCooldown: 0f,
                 destroyAfterTriggered: false
             );

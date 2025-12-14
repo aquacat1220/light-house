@@ -25,30 +25,14 @@ namespace LightHouse
         Event<bool> _action2;
         [SerializeField]
         Event<bool> _action3;
-        // Triggered when the select item 1 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
         [SerializeField]
-        Event<bool> _selectItem1;
-        // Triggered when the drop item 1 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
+        Event<bool> _swapItem;
         [SerializeField]
-        Event<bool> _dropItem1;
-        // Triggered when the select item 2 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
+        Event<bool> _swapToBackup1;
         [SerializeField]
-        Event<bool> _selectItem2;
-        // Triggered when the drop item 2 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
+        Event<bool> _swapToBackup2;
         [SerializeField]
-        Event<bool> _dropItem2;
-        // Triggered when the select item 3 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
-        [SerializeField]
-        Event<bool> _selectItem3;
-        // Triggered when the drop item 3 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
-        [SerializeField]
-        Event<bool> _dropItem3;
-        // Triggered when the select item 4 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
-        [SerializeField]
-        Event<bool> _selectItem4;
-        // Triggered when the drop item 4 action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
-        [SerializeField]
-        Event<bool> _dropItem4;
+        Event<bool> _dropItem;
 
         bool _isSubscribedToInputManager = false;
 
@@ -100,22 +84,14 @@ namespace LightHouse
                 InputManager.Singleton.InputActions.Gameplay.Action2.canceled += OnAction2;
                 InputManager.Singleton.InputActions.Gameplay.Action3.performed += OnAction3;
                 InputManager.Singleton.InputActions.Gameplay.Action3.canceled += OnAction3;
-                InputManager.Singleton.InputActions.Gameplay.SelectItem1.performed += OnSelectItem1;
-                InputManager.Singleton.InputActions.Gameplay.SelectItem1.canceled += OnSelectItem1;
-                InputManager.Singleton.InputActions.Gameplay.DropItem1.performed += OnDropItem1;
-                InputManager.Singleton.InputActions.Gameplay.DropItem1.canceled += OnDropItem1;
-                InputManager.Singleton.InputActions.Gameplay.SelectItem2.performed += OnSelectItem2;
-                InputManager.Singleton.InputActions.Gameplay.SelectItem2.canceled += OnSelectItem2;
-                InputManager.Singleton.InputActions.Gameplay.DropItem2.performed += OnDropItem2;
-                InputManager.Singleton.InputActions.Gameplay.DropItem2.canceled += OnDropItem2;
-                InputManager.Singleton.InputActions.Gameplay.SelectItem3.performed += OnSelectItem3;
-                InputManager.Singleton.InputActions.Gameplay.SelectItem3.canceled += OnSelectItem3;
-                InputManager.Singleton.InputActions.Gameplay.DropItem3.performed += OnDropItem3;
-                InputManager.Singleton.InputActions.Gameplay.DropItem3.canceled += OnDropItem3;
-                InputManager.Singleton.InputActions.Gameplay.SelectItem4.performed += OnSelectItem4;
-                InputManager.Singleton.InputActions.Gameplay.SelectItem4.canceled += OnSelectItem4;
-                InputManager.Singleton.InputActions.Gameplay.DropItem4.performed += OnDropItem4;
-                InputManager.Singleton.InputActions.Gameplay.DropItem4.canceled += OnDropItem4;
+                InputManager.Singleton.InputActions.Gameplay.SwapItem.performed += OnSwapItem;
+                InputManager.Singleton.InputActions.Gameplay.SwapItem.canceled += OnSwapItem;
+                InputManager.Singleton.InputActions.Gameplay.SwapToBackup1.performed += OnSwapToBackup1;
+                InputManager.Singleton.InputActions.Gameplay.SwapToBackup1.canceled += OnSwapToBackup1;
+                InputManager.Singleton.InputActions.Gameplay.SwapToBackup2.performed += OnSwapToBackup2;
+                InputManager.Singleton.InputActions.Gameplay.SwapToBackup2.canceled += OnSwapToBackup2;
+                InputManager.Singleton.InputActions.Gameplay.DropItem.performed += OnDropItem;
+                InputManager.Singleton.InputActions.Gameplay.DropItem.canceled += OnDropItem;
                 _isSubscribedToInputManager = true;
             }
         }
@@ -138,22 +114,14 @@ namespace LightHouse
                 InputManager.Singleton.InputActions.Gameplay.Action2.canceled -= OnAction2;
                 InputManager.Singleton.InputActions.Gameplay.Action3.performed -= OnAction3;
                 InputManager.Singleton.InputActions.Gameplay.Action3.canceled -= OnAction3;
-                InputManager.Singleton.InputActions.Gameplay.SelectItem1.performed -= OnSelectItem1;
-                InputManager.Singleton.InputActions.Gameplay.SelectItem1.canceled -= OnSelectItem1;
-                InputManager.Singleton.InputActions.Gameplay.DropItem1.performed -= OnDropItem1;
-                InputManager.Singleton.InputActions.Gameplay.DropItem1.canceled -= OnDropItem1;
-                InputManager.Singleton.InputActions.Gameplay.SelectItem2.performed -= OnSelectItem2;
-                InputManager.Singleton.InputActions.Gameplay.SelectItem2.canceled -= OnSelectItem2;
-                InputManager.Singleton.InputActions.Gameplay.DropItem2.performed -= OnDropItem2;
-                InputManager.Singleton.InputActions.Gameplay.DropItem2.canceled -= OnDropItem2;
-                InputManager.Singleton.InputActions.Gameplay.SelectItem3.performed -= OnSelectItem3;
-                InputManager.Singleton.InputActions.Gameplay.SelectItem3.canceled -= OnSelectItem3;
-                InputManager.Singleton.InputActions.Gameplay.DropItem3.performed -= OnDropItem3;
-                InputManager.Singleton.InputActions.Gameplay.DropItem3.canceled -= OnDropItem3;
-                InputManager.Singleton.InputActions.Gameplay.SelectItem4.performed -= OnSelectItem4;
-                InputManager.Singleton.InputActions.Gameplay.SelectItem4.canceled -= OnSelectItem4;
-                InputManager.Singleton.InputActions.Gameplay.DropItem4.performed -= OnDropItem4;
-                InputManager.Singleton.InputActions.Gameplay.DropItem4.canceled -= OnDropItem4;
+                InputManager.Singleton.InputActions.Gameplay.SwapItem.performed -= OnSwapItem;
+                InputManager.Singleton.InputActions.Gameplay.SwapItem.canceled -= OnSwapItem;
+                InputManager.Singleton.InputActions.Gameplay.SwapToBackup1.performed -= OnSwapToBackup1;
+                InputManager.Singleton.InputActions.Gameplay.SwapToBackup1.canceled -= OnSwapToBackup1;
+                InputManager.Singleton.InputActions.Gameplay.SwapToBackup2.performed -= OnSwapToBackup2;
+                InputManager.Singleton.InputActions.Gameplay.SwapToBackup2.canceled -= OnSwapToBackup2;
+                InputManager.Singleton.InputActions.Gameplay.DropItem.performed -= OnDropItem;
+                InputManager.Singleton.InputActions.Gameplay.DropItem.canceled -= OnDropItem;
                 _isSubscribedToInputManager = false;
             }
         }
@@ -208,68 +176,36 @@ namespace LightHouse
                 _action3?.Invoke(false);
         }
 
-        void OnSelectItem1(InputAction.CallbackContext context)
+        void OnSwapItem(InputAction.CallbackContext context)
         {
             if (context.performed)
-                _selectItem1?.Invoke(true);
+                _swapItem?.Invoke(true);
             else if (context.canceled)
-                _selectItem1?.Invoke(false);
+                _swapItem?.Invoke(false);
         }
 
-        void OnDropItem1(InputAction.CallbackContext context)
+        void OnSwapToBackup1(InputAction.CallbackContext context)
         {
             if (context.performed)
-                _dropItem1?.Invoke(true);
+                _swapToBackup1?.Invoke(true);
             else if (context.canceled)
-                _dropItem1?.Invoke(false);
+                _swapToBackup1?.Invoke(false);
         }
 
-        void OnSelectItem2(InputAction.CallbackContext context)
+        void OnSwapToBackup2(InputAction.CallbackContext context)
         {
             if (context.performed)
-                _selectItem2?.Invoke(true);
+                _swapToBackup2?.Invoke(true);
             else if (context.canceled)
-                _selectItem2?.Invoke(false);
+                _swapToBackup2?.Invoke(false);
         }
 
-        void OnDropItem2(InputAction.CallbackContext context)
+        void OnDropItem(InputAction.CallbackContext context)
         {
             if (context.performed)
-                _dropItem2?.Invoke(true);
+                _dropItem?.Invoke(true);
             else if (context.canceled)
-                _dropItem2?.Invoke(false);
-        }
-
-        void OnSelectItem3(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-                _selectItem3?.Invoke(true);
-            else if (context.canceled)
-                _selectItem3?.Invoke(false);
-        }
-
-        void OnDropItem3(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-                _dropItem3?.Invoke(true);
-            else if (context.canceled)
-                _dropItem3?.Invoke(false);
-        }
-
-        void OnSelectItem4(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-                _selectItem4?.Invoke(true);
-            else if (context.canceled)
-                _selectItem4?.Invoke(false);
-        }
-
-        void OnDropItem4(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-                _dropItem4?.Invoke(true);
-            else if (context.canceled)
-                _dropItem4?.Invoke(false);
+                _dropItem?.Invoke(false);
         }
     }
 }

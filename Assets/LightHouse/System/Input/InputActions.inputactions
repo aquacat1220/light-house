@@ -79,72 +79,36 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SelectItem1",
+                    "name": "SwapItem",
                     "type": "Button",
-                    "id": "be83f1ac-11ba-4d8f-b4cf-06fcf40cd546",
+                    "id": "63d5b66a-ed63-421a-8122-0bbbb19910fa",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SelectItem2",
+                    "name": "SwapToBackup1",
                     "type": "Button",
-                    "id": "713652c8-e56e-4543-82eb-ea29500c4a42",
+                    "id": "4c1b6a30-c1d0-45c7-aaf2-0b199c8c022f",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SelectItem3",
+                    "name": "SwapToBackup2",
                     "type": "Button",
-                    "id": "89520106-0e82-4787-8d29-08c3c6b15ba7",
+                    "id": "549cb5ca-23d9-467e-a64c-f4026e4c3697",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SelectItem4",
+                    "name": "DropItem",
                     "type": "Button",
-                    "id": "3d2f5d50-2808-4a43-b902-9d352f43efc3",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "DropItem1",
-                    "type": "Button",
-                    "id": "5551a6ef-f561-4bb8-82f6-3688a1e33ab4",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "DropItem2",
-                    "type": "Button",
-                    "id": "3e8f2357-4a48-439e-990f-22908884f6cd",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "DropItem3",
-                    "type": "Button",
-                    "id": "373e0bff-e5fd-4a53-bac7-c932fcb4de81",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "DropItem4",
-                    "type": "Button",
-                    "id": "6c20e201-7b2e-45b9-b5cc-df30b2325e3a",
+                    "id": "15ffe0a8-1e36-4e51-994b-13dd2137eaa1",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -297,94 +261,6 @@
                 },
                 {
                     "name": "",
-                    "id": "2bdbea6e-6c1a-4ef1-9b48-2ec7752aee54",
-                    "path": "<Keyboard>/1",
-                    "interactions": "Tap",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "SelectItem1",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c7d92b1d-515a-44cc-9ab7-b3742a921210",
-                    "path": "<Keyboard>/2",
-                    "interactions": "Tap",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "SelectItem2",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "283459c6-de10-4d14-8245-8df4a579ccf2",
-                    "path": "<Keyboard>/3",
-                    "interactions": "Tap",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "SelectItem3",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5bfa5254-3392-4be7-97e6-6e50bd62bace",
-                    "path": "<Keyboard>/4",
-                    "interactions": "Tap",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "SelectItem4",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d62f7921-c42a-4cbc-b5f0-7e007a66b566",
-                    "path": "<Keyboard>/1",
-                    "interactions": "Hold",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "DropItem1",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "309e45b3-9c93-4bc2-89c0-e3877229818b",
-                    "path": "<Keyboard>/2",
-                    "interactions": "Hold",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "DropItem2",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5f9e992f-c9f8-4ad6-b0f1-8fe84c5c3bba",
-                    "path": "<Keyboard>/3",
-                    "interactions": "Hold",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "DropItem3",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "087a4c38-1683-4f1d-be9b-781a2abc0141",
-                    "path": "<Keyboard>/4",
-                    "interactions": "Hold",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "DropItem4",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "d078ead7-0036-4c88-ab63-236ac153f360",
                     "path": "<Keyboard>/r",
                     "interactions": "",
@@ -413,6 +289,50 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Action2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d0ac0e84-67fd-40eb-8b0e-6939428de444",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SwapItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fe2e9bb4-62e7-4e6b-a557-aef700fd81a0",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SwapToBackup1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ed2955a4-5b37-490e-84cc-61fe674637d6",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SwapToBackup2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "99245fe1-0dae-4025-b2db-99ac09202f55",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "DropItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

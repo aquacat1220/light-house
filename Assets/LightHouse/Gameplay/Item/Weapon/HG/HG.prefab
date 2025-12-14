@@ -53,16 +53,21 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5501519788436619483, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
-      propertyPath: _primary._listeners.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5501519788436619483, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: '_primary._listeners.Array.data[0]'
       value: 2166532276616953985
       objectReference: {fileID: 0}
     - target: {fileID: 5501519788436619483, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
-      propertyPath: '_primary._listeners.Array.data[1]'
-      value: 2166532276616953985
+      propertyPath: 'managedReferences[109098271068651669]'
+      value: 'Assembly-CSharp LightHouse.Fn.Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean,
+        mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501519788436619483, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: 'managedReferences[109098271068651670]'
+      value: 'Assembly-CSharp LightHouse.Fn.Identity`1[[System.Boolean, mscorlib]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501519788436619483, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: 'managedReferences[109098271068651671]'
+      value: 'Assembly-CSharp LightHouse.Fn.MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]'
       objectReference: {fileID: 0}
     - target: {fileID: 5501519788436619483, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: 'managedReferences[2166532276616953984]'
@@ -71,6 +76,14 @@ PrefabInstance:
     - target: {fileID: 5501519788436619483, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: 'managedReferences[2166532276616953985]'
       value: Assembly-CSharp LightHouse.LimitPulse
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501519788436619483, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[109098271068651669]._true
+      value: 109098271068651671
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501519788436619483, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[109098271068651669]._false
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 5501519788436619483, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: managedReferences[2166532276616953984]._true
@@ -86,11 +99,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5501519788436619483, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: managedReferences[2166532276616953985]._inner
-      value: 2166532276616953942
+      value: 109098271068651663
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501519788436619483, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[109098271068651669]._condition
+      value: 109098271068651670
       objectReference: {fileID: 0}
     - target: {fileID: 5501519788436619483, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: managedReferences[2166532276616953985]._bufferInput
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501519788436619483, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[109098271068651671].MethodInfo.Target
+      value: 
+      objectReference: {fileID: 8103414571367426104}
+    - target: {fileID: 5501519788436619483, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: managedReferences[109098271068651671].MethodInfo.MethodName
+      value: void TryFire()
       objectReference: {fileID: 0}
     - target: {fileID: 6129219461553058081, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: _capacity

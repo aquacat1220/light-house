@@ -5,93 +5,66 @@ namespace LightHouse
     using UnityEngine;
     using UnityEngine.Assertions;
     using Fn;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class PlayerCharacterInventory : NetworkBehaviour
     {
         [SerializeField]
-        ItemSlot[] _itemSlots = new ItemSlot[4];
+        Transform _mainHandAnchor;
         [SerializeField]
-        Transform _mainItemAnchor;
+        Transform _subHandAnchor;
         [SerializeField]
-        Transform _subItemAnchor;
+        Transform[] _backupAnchors;
 
-        Transform[] _itemSlotAnchors = new Transform[4];
-        ItemSlotInput[] _itemSlotInputs = new ItemSlotInput[4];
-
-        int _mainHand = 0;
-        int _subHand = 1;
+        List<(ItemSlot Slot, ItemSlotInput Input)> _itemSlots = new();
+        int _mainHandIdx;
+        int _subHandIdx;
+        List<int> _backupIdxs = new();
 
         InputState<bool> _primaryState = new();
         InputState<bool> _secondaryState = new();
         InputState<bool> _action1State = new();
         InputState<bool> _action2State = new();
-        InputState<bool> _reloadState = new();
+        InputState<bool> _action3State = new();
 
         bool _blockInputs = true;
 
         void Awake()
         {
-            if (_itemSlots == null || _itemSlots.Length != 4)
+            if (_mainHandAnchor == null || _mainHandAnchor.childCount != 1 || _mainHandAnchor.GetChild(0).GetComponent<ItemSlot>() == null || _mainHandAnchor.GetChild(0).GetComponent<ItemSlotInput>() == null)
             {
-                Debug.Log("`_itemSlots` must be an array of size 4.");
+                Debug.Log("`_mainHandAnchor` should be a transform, have one child, and the child must have `ItemSlot` and `ItemSlotInput` components.");
                 throw new Exception();
             }
-            if (_mainItemAnchor == null)
+            _itemSlots.Add((_mainHandAnchor.GetChild(0).GetComponent<ItemSlot>(), _mainHandAnchor.GetChild(0).GetComponent<ItemSlotInput>()));
+            _mainHandIdx = 0;
+            if (_subHandAnchor == null || _subHandAnchor.childCount != 1 || _subHandAnchor.GetChild(0).GetComponent<ItemSlot>() == null || _subHandAnchor.GetChild(0).GetComponent<ItemSlotInput>() == null)
             {
-                Debug.Log("`_mainItemAnchor` wasn't set.");
+                Debug.Log("`_subHandAnchor` should be a transform, have one child, and the child must have `ItemSlot` and `ItemSlotInput` components.");
                 throw new Exception();
             }
-            if (_subItemAnchor == null)
+            _itemSlots.Add((_subHandAnchor.GetChild(0).GetComponent<ItemSlot>(), _subHandAnchor.GetChild(0).GetComponent<ItemSlotInput>()));
+            _subHandIdx = 1;
+
+            int backupIdx = 2;
+            foreach (var backup in _backupAnchors)
             {
-                Debug.Log("`_subItemAnchor` wasn't set.");
-                throw new Exception();
+                if (backup == null || backup.childCount != 1 || backup.GetChild(0).GetComponent<ItemSlot>() == null || backup.GetChild(0).GetComponent<ItemSlotInput>() == null)
+                {
+                    Debug.Log("Element of `_backupAnchors` should be a transform, have one child, and the child must have `ItemSlot` and `ItemSlotInput` components.");
+                    throw new Exception();
+                }
+                _itemSlots.Add((backup.GetChild(0).GetComponent<ItemSlot>(), backup.GetChild(0).GetComponent<ItemSlotInput>()));
+                _backupIdxs.Add(backupIdx++);
             }
 
-            for (int i = 0; i < 4; i++)
-            {
-                var itemSlot = _itemSlots[i];
-                if (itemSlot == null)
-                {
-                    Debug.Log("Item slots in `_itemSlots` must be non-null references.");
-                    throw new Exception();
-                }
-                for (int j = 0; j < i; j++)
-                {
-                    var otherItemSlot = _itemSlots[j];
-                    if (otherItemSlot == itemSlot)
-                    {
-                        Debug.Log("Item slots in `_itemSlots` must be distinct references.");
-                        throw new Exception();
-                    }
-                }
-
-                var itemSlotAnchor = itemSlot.transform.parent;
-                if (itemSlotAnchor == null)
-                {
-                    Debug.Log("Item slot in `_itemSlots` does not have a parent transform. How is that possible?");
-                    throw new Exception();
-                }
-                _itemSlotAnchors[i] = itemSlotAnchor;
-
-                var itemSlotInput = itemSlot.GetComponent<ItemSlotInput>();
-                if (itemSlotInput == null)
-                {
-                    Debug.Log("Item slot in `_itemSlots` does not have an item slot input component.");
-                    throw new Exception();
-                }
-                _itemSlotInputs[i] = itemSlotInput;
-            }
-
-            // For correctness, ensure the main/sub hand itemslots start equipped on the main/sub anchors!
-            _itemSlots[_mainHand].transform.SetParent(_mainItemAnchor, worldPositionStays: false);
-            _itemSlots[_subHand].transform.SetParent(_subItemAnchor, worldPositionStays: false);
-
-            // Trickle input down to main hand item.
-            _itemSlotInputs[_mainHand].PrimaryState.Parent = _primaryState;
-            _itemSlotInputs[_mainHand].SecondaryState.Parent = _secondaryState;
-            _itemSlotInputs[_mainHand].Action1State.Parent = _action1State;
-            _itemSlotInputs[_mainHand].Action2State.Parent = _action2State;
-            _itemSlotInputs[_mainHand].Action3State.Parent = _reloadState;
+            var mainInput = _itemSlots[_mainHandIdx].Input;
+            mainInput.PrimaryState.Parent = _primaryState;
+            mainInput.SecondaryState.Parent = _secondaryState;
+            mainInput.Action1State.Parent = _action1State;
+            mainInput.Action2State.Parent = _action2State;
+            mainInput.Action3State.Parent = _action3State;
         }
 
         void OnEnable()
@@ -100,7 +73,7 @@ namespace LightHouse
             _secondaryState.Enable();
             _action1State.Enable();
             _action2State.Enable();
-            _reloadState.Enable();
+            _action3State.Enable();
             _blockInputs = false;
         }
 
@@ -110,139 +83,23 @@ namespace LightHouse
             _secondaryState.Disable();
             _action1State.Disable();
             _action2State.Disable();
-            _reloadState.Disable();
+            _action3State.Disable();
             _blockInputs = true;
         }
 
         [Server]
         public bool AddItem(Item item)
         {
-            foreach (var itemSlot in _itemSlots)
+            if (_itemSlots[_mainHandIdx].Slot.Equip(item))
+                return true;
+            if (_itemSlots[_subHandIdx].Slot.Equip(item))
+                return true;
+            foreach (int backupIdx in _backupIdxs)
             {
-                // `ItemSlot.Equip()` returns true only if both the slot and the item was non-null and unequipped.
-                if (itemSlot.Equip(item))
+                if (_itemSlots[backupIdx].Slot.Equip(item))
                     return true;
             }
             return false;
-        }
-
-        [Serializable]
-        public class OnPrimaryFn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public PlayerCharacterInventory PlayerCharacterInventory;
-            public bool DefaultParam = true;
-            public Fn.Tuple Invoke(ITuple<bool> param)
-            {
-                PlayerCharacterInventory?.OnPrimary(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                PlayerCharacterInventory?.OnPrimary(DefaultParam);
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        [Serializable]
-        public class OnSecondaryFn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public PlayerCharacterInventory PlayerCharacterInventory;
-            public bool DefaultParam = true;
-            public Fn.Tuple Invoke(ITuple<bool> param)
-            {
-                PlayerCharacterInventory?.OnSecondary(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                PlayerCharacterInventory?.OnSecondary(DefaultParam);
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        [Serializable]
-        public class OnAction1Fn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public PlayerCharacterInventory PlayerCharacterInventory;
-            public bool DefaultParam = true;
-            public Fn.Tuple Invoke(ITuple<bool> param)
-            {
-                PlayerCharacterInventory?.OnAction1(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                PlayerCharacterInventory?.OnAction1(DefaultParam);
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        [Serializable]
-        public class OnAction2Fn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public PlayerCharacterInventory PlayerCharacterInventory;
-            public bool DefaultParam = true;
-            public Fn.Tuple Invoke(ITuple<bool> param)
-            {
-                PlayerCharacterInventory?.OnAction2(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                PlayerCharacterInventory?.OnAction2(DefaultParam);
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        [Serializable]
-        public class OnAction3Fn : IFn<ITuple<bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public PlayerCharacterInventory PlayerCharacterInventory;
-            public bool DefaultParam = true;
-            public Fn.Tuple Invoke(ITuple<bool> param)
-            {
-                PlayerCharacterInventory?.OnAction3(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                PlayerCharacterInventory?.OnAction3(DefaultParam);
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        [Serializable]
-        public class OnSelectItemFn : IFn<ITuple<int>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public PlayerCharacterInventory PlayerCharacterInventory;
-            public int DefaultParam = 0;
-            public Fn.Tuple Invoke(ITuple<int> param)
-            {
-                PlayerCharacterInventory?.OnSelectItem(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-            public Fn.Tuple Invoke(Fn.Tuple param)
-            {
-                PlayerCharacterInventory?.OnSelectItem(DefaultParam);
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        [Serializable]
-        public class OnDropItemFn : IFn<ITuple<int>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public PlayerCharacterInventory PlayerCharacterInventory;
-            public int DefaultParam = 0;
-            public Fn.Tuple Invoke(ITuple<int> param)
-            {
-                PlayerCharacterInventory?.OnDropItem(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-            public Fn.Tuple Invoke(Fn.Tuple param)
-            {
-                PlayerCharacterInventory?.OnDropItem(DefaultParam);
-                return Fn.Tuple.Unit;
-            }
         }
 
         [Client(RequireOwnership = true)]
@@ -371,76 +228,95 @@ namespace LightHouse
         void OnAction3Local(bool newState)
         {
             // We don't check `_blockInputs` here because `InputState`s have their own `Enable()` `Disable()` logic.
-            var rootChangeResult = _reloadState.RootChangeState(newState);
+            var rootChangeResult = _action3State.RootChangeState(newState);
             Assert.IsTrue(rootChangeResult);
         }
 
         [ServerRpc(RequireOwnership = true)]
-        public void OnSelectItem(int item)
+        public void OnSwapItem()
         {
             if (_blockInputs)
                 return;
-            ChangeMainHand(item);
+            SubToMain();
         }
 
         [ServerRpc(RequireOwnership = true)]
-        public void OnDropItem(int item)
+        public void OnSwapToBackup(int backup)
         {
             if (_blockInputs)
                 return;
-            DropItem(item);
+            BackupToMain(backup);
         }
 
-        [Server]
-        void ChangeMainHand(int newMainHand)
+        [ServerRpc(RequireOwnership = true)]
+        public void OnDropItem()
         {
-            if (newMainHand == _mainHand)
+            if (_blockInputs)
                 return;
-
-            ChangeMainHandRpc(newMainHand, _mainHand);
+            _itemSlots[_mainHandIdx].Slot.Unequip();
         }
 
         [Server]
-        void DropItem(int hand)
+        void SubToMain()
         {
-            _itemSlots[hand].Unequip();
-            // We don't need bufferlast observerrpcs to sync this, since `ItemSlot` already handles that.
+            int newMainHandIdx = _subHandIdx;
+            int newSubHandIdx = _mainHandIdx;
+            List<int> newBackupIdxs = _backupIdxs.ToList();
+            SyncInventory(newMainHandIdx, newSubHandIdx, newBackupIdxs);
+        }
+
+        [Server]
+        void BackupToMain(int backup)
+        {
+            int newMainHandIdx = _backupIdxs[backup];
+            int newSubHandIdx = _subHandIdx;
+            List<int> newBackupIdxs = _backupIdxs.ToList();
+            newBackupIdxs[backup] = _mainHandIdx;
+            SyncInventory(newMainHandIdx, newSubHandIdx, newBackupIdxs);
         }
 
         [ObserversRpc(BufferLast = true, RunLocally = true)]
-        void ChangeMainHandRpc(int newMainHand, int newSubHand)
+        void SyncInventory(int newMainHandIdx, int newSubHandIdx, List<int> newBackupIdxs)
         {
-            if (newMainHand == newSubHand)
+            Debug.Log($"{newMainHandIdx}, {newSubHandIdx}, {newBackupIdxs}");
+            if (_mainHandIdx != newMainHandIdx)
             {
-                Debug.Log("`newMainHand == newSubHand`, which shouldn't be possible with correct server-side checks.");
-                throw new Exception();
+                var newMainInput = _itemSlots[newMainHandIdx].Input;
+                newMainInput.PrimaryState.Parent = _primaryState;
+                newMainInput.SecondaryState.Parent = _secondaryState;
+                newMainInput.Action1State.Parent = _action1State;
+                newMainInput.Action2State.Parent = _action2State;
+                newMainInput.Action3State.Parent = _action3State;
+                newMainInput.transform.SetParent(_mainHandAnchor, worldPositionStays: false);
+                _mainHandIdx = newMainHandIdx;
             }
-            // Before we swap items, we should stop our inputs from trickling down to the old main hand.
-            // This will also send an input cancel signal down the chain.
-            _itemSlotInputs[_mainHand].PrimaryState.Parent = null;
-            _itemSlotInputs[_mainHand].SecondaryState.Parent = null;
-            _itemSlotInputs[_mainHand].Action1State.Parent = null;
-            _itemSlotInputs[_mainHand].Action2State.Parent = null;
-            _itemSlotInputs[_mainHand].Action3State.Parent = null;
-
-            // First reposition the old main/subhand item slots back to where they belong.
-            _itemSlots[_mainHand].transform.SetParent(_itemSlotAnchors[_mainHand], worldPositionStays: false);
-            _itemSlots[_subHand].transform.SetParent(_itemSlotAnchors[_subHand], worldPositionStays: false);
-
-            _mainHand = newMainHand;
-            _subHand = newSubHand;
-
-            // Then position the new main/subhand item slots!
-            _itemSlots[_mainHand].transform.SetParent(_mainItemAnchor, worldPositionStays: false);
-            _itemSlots[_subHand].transform.SetParent(_subItemAnchor, worldPositionStays: false);
-
-            // After we swap items, make sure the new main hand item receives inputs.
-            // This will also sync the current input state with the item.
-            _itemSlotInputs[_mainHand].PrimaryState.Parent = _primaryState;
-            _itemSlotInputs[_mainHand].SecondaryState.Parent = _secondaryState;
-            _itemSlotInputs[_mainHand].Action1State.Parent = _action1State;
-            _itemSlotInputs[_mainHand].Action2State.Parent = _action2State;
-            _itemSlotInputs[_mainHand].Action3State.Parent = _reloadState;
+            if (_subHandIdx != newSubHandIdx)
+            {
+                var newSubInput = _itemSlots[newSubHandIdx].Input;
+                newSubInput.PrimaryState.Parent = null;
+                newSubInput.SecondaryState.Parent = null;
+                newSubInput.Action1State.Parent = null;
+                newSubInput.Action2State.Parent = null;
+                newSubInput.Action3State.Parent = null;
+                newSubInput.transform.SetParent(_subHandAnchor, worldPositionStays: false);
+                _subHandIdx = newSubHandIdx;
+            }
+            for (int backup = 0; backup < _backupIdxs.Count; backup++)
+            {
+                int backupIdx = _backupIdxs[backup];
+                int newBackupIdx = newBackupIdxs[backup];
+                if (backupIdx != newBackupIdx)
+                {
+                    var newBackupInput = _itemSlots[newBackupIdx].Input;
+                    newBackupInput.PrimaryState.Parent = null;
+                    newBackupInput.SecondaryState.Parent = null;
+                    newBackupInput.Action1State.Parent = null;
+                    newBackupInput.Action2State.Parent = null;
+                    newBackupInput.Action3State.Parent = null;
+                    newBackupInput.transform.SetParent(_backupAnchors[backup], worldPositionStays: false);
+                    _backupIdxs[backup] = newBackupIdx;
+                }
+            }
         }
     }
 }
