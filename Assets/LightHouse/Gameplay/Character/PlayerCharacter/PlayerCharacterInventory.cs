@@ -278,7 +278,6 @@ namespace LightHouse
         [ObserversRpc(BufferLast = true, RunLocally = true)]
         void SyncInventory(int newMainHandIdx, int newSubHandIdx, List<int> newBackupIdxs)
         {
-            Debug.Log($"{newMainHandIdx}, {newSubHandIdx}, {newBackupIdxs}");
             if (_mainHandIdx != newMainHandIdx)
             {
                 var newMainInput = _itemSlots[newMainHandIdx].Input;

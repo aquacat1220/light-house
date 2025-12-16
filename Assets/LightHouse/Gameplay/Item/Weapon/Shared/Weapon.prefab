@@ -473,7 +473,7 @@ MonoBehaviour:
   _randomSpread: {fileID: 6827245192062937493}
   _pixelsPerUnit: 100
   _maxAimLineLength: 10
-  _cameraSizeToAimLineLength: 0.6
+  _cameraSizeToAimLineLength: 0.8
 --- !u!1 &1888319515093233070
 GameObject:
   m_ObjectHideFlags: 0

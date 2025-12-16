@@ -22,7 +22,7 @@ namespace LightHouse
         float _maxAimLineLength = 10f;
         // Ratio of aimline length to the orthographic camera size.
         [SerializeField]
-        float _cameraSizeToAimLineLength = 0.6f;
+        float _cameraSizeToAimLineLength = 0.8f;
 
         float _aimLineLength = 0f;
         float _aimLineWidth = 0f;
@@ -32,7 +32,7 @@ namespace LightHouse
         static float _lengthToStub = 0.015f;
 
         PlayerCharacterCamera _playerCharacterCamera;
-        OnSizeChangeFn _sizeChangeListener = null;
+        ActionFn<float> _sizeChangeListener;
 
         AimLine _aimLine;
 
@@ -52,20 +52,9 @@ namespace LightHouse
             Refresh();
         }
 
-        [Serializable]
-        public class OnSizeChangeFn : IFn<ITuple<float>, Fn.Tuple>
+        public void OnFrontSizeChange(float newFrontSize)
         {
-            public AimLineController AimLineController;
-            public Fn.Tuple Invoke(ITuple<float> param)
-            {
-                AimLineController?.OnSizeChange(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        public void OnSizeChange(float newSize)
-        {
-            _aimLineLength = Mathf.Min(_maxAimLineLength, newSize * _cameraSizeToAimLineLength);
+            _aimLineLength = Mathf.Min(_maxAimLineLength, newFrontSize * _cameraSizeToAimLineLength);
             _aimLineWidth = _aimLineLength * _lengtoToWidth;
             _stubLength = _aimLineLength * _lengthToStub;
             Refresh();
@@ -135,10 +124,9 @@ namespace LightHouse
             _playerCharacterCamera = itemSlot.User.GetComponent<PlayerCharacterCamera>();
             if (_playerCharacterCamera != null)
             {
-                _sizeChangeListener = new OnSizeChangeFn();
-                _sizeChangeListener.AimLineController = this;
-                _playerCharacterCamera.AddSizeChangedListener(_sizeChangeListener);
-                OnSizeChange(_playerCharacterCamera.Size);
+                _sizeChangeListener = new ActionFn<float>(OnFrontSizeChange);
+                _playerCharacterCamera.AddFrontSizeChangedListener(_sizeChangeListener);
+                OnFrontSizeChange(_playerCharacterCamera.FrontSize);
             }
             Refresh();
         }
@@ -148,7 +136,7 @@ namespace LightHouse
             _aimLineDocument.enabled = false;
             if (_playerCharacterCamera != null)
             {
-                _playerCharacterCamera.RemoveSizeChangedListener(_sizeChangeListener);
+                _playerCharacterCamera.RemoveFrontSizeChangedListener(_sizeChangeListener);
                 _sizeChangeListener = null;
                 _playerCharacterCamera = null;
             }
