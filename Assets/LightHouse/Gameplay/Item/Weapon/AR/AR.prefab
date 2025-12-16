@@ -122,11 +122,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3458800118198264783, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: <PrefabId>k__BackingField
-      value: 12
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 3458800118198264783, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: NetworkBehaviours.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3458800118198264783, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: <AssetPathHash>k__BackingField
@@ -148,6 +148,10 @@ PrefabInstance:
       propertyPath: 'NetworkBehaviours.Array.data[4]'
       value: 
       objectReference: {fileID: 636056201720858014}
+    - target: {fileID: 3458800118198264783, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[5]'
+      value: 
+      objectReference: {fileID: 7705894005217490428}
     - target: {fileID: 5494872604823970513, guid: 308c0f0b2f75d0057a6f1830576ed53d, type: 3}
       propertyPath: _aimLineWidth
       value: 0.02
@@ -572,9 +576,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c209507eaf93dad96b11ab765bc6016e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightHouse.MaterialSelector
-  _componentIndexCache: 255
+  _componentIndexCache: 5
   _addedNetworkObject: {fileID: 4050651003901469989}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 4050651003901469989}
   _ownerMaterial: {fileID: 2100000, guid: 3f1b2235af90081fe953174fecea7c81, type: 2}
   _nonownerMaterial: {fileID: 2100000, guid: e72456764bcb56272aa0085c388c0e29, type: 2}
   _target_renderers:

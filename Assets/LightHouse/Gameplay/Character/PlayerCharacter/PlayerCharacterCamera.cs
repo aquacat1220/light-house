@@ -9,16 +9,16 @@ namespace LightHouse
     {
         [SerializeField]
         [Min(0f)]
-        float _maxFrontRange = 10f;
+        float _maxFrontSize = 10f;
         [SerializeField]
         [Min(0f)]
-        float _maxRearRange = 6f;
+        float _maxRearSize = 6f;
         [SerializeField]
         [Min(0f)]
-        float _minFrontRange = 3f;
+        float _minFrontSize = 3f;
         [SerializeField]
         [Min(0f)]
-        float _minRearRange = 3f;
+        float _minRearSize = 3f;
 
         [SerializeField]
         Transform _cameraTarget;
@@ -37,6 +37,24 @@ namespace LightHouse
         [SerializeField]
         Event<float> _sizeChanged;
 
+        float _frontSize = 3f;
+        public float FrontSize
+        {
+            get => _frontSize;
+        }
+
+        float _rearSize = 3f;
+        public float RearSize
+        {
+            get => _rearSize;
+        }
+
+        [SerializeField]
+        Event<float> _frontSizeChanged;
+        [SerializeField]
+        Event<float> _rearSizeChanged;
+
+
         public void AddSizeChangedListener(IFn<Fn.Tuple<float>, Fn.Tuple> listener)
         {
             _sizeChanged._listeners.Add(listener);
@@ -45,6 +63,26 @@ namespace LightHouse
         public void RemoveSizeChangedListener(IFn<Fn.Tuple<float>, Fn.Tuple> listener)
         {
             _sizeChanged._listeners.Remove(listener);
+        }
+
+        public void AddFrontSizeChangedListener(IFn<Fn.Tuple<float>, Fn.Tuple> listener)
+        {
+            _frontSizeChanged._listeners.Add(listener);
+        }
+
+        public void RemoveFrontSizeChangedListener(IFn<Fn.Tuple<float>, Fn.Tuple> listener)
+        {
+            _frontSizeChanged._listeners.Remove(listener);
+        }
+
+        public void AddRearSizeChangedListener(IFn<Fn.Tuple<float>, Fn.Tuple> listener)
+        {
+            _rearSizeChanged._listeners.Add(listener);
+        }
+
+        public void RemoveRearSizeChangedListener(IFn<Fn.Tuple<float>, Fn.Tuple> listener)
+        {
+            _rearSizeChanged._listeners.Remove(listener);
         }
 
         void Awake()
@@ -102,30 +140,32 @@ namespace LightHouse
             _followCamera = null;
         }
 
-        [Serializable]
-        public class OnRangeChangedFn : IFn<ITuple<float>, Fn.Tuple>
-        {
-            public PlayerCharacterCamera PlayerCharacterCamera;
-            public Fn.Tuple Invoke(ITuple<float> param)
-            {
-                PlayerCharacterCamera?.OnRangeChanged(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-        }
-
         public void OnRangeChanged(float newRange)
         {
-            float frontRange = Mathf.Clamp(newRange, _minFrontRange, _maxFrontRange);
-            float rearRange = Mathf.Clamp(newRange, _minRearRange, _maxRearRange);
+            Debug.Log($"RANGECHANGE {newRange}");
+            float frontSize = Mathf.Clamp(newRange, _minFrontSize, _maxFrontSize);
+            float rearSize = Mathf.Clamp(newRange, _minRearSize, _maxRearSize);
+
             var oldSize = Size;
-            _size = (frontRange + rearRange) / 2;
-            _cameraTarget.localPosition = ((frontRange - rearRange) / 2) * Vector2.up;
+            var oldFrontSize = FrontSize;
+            var oldRearSize = RearSize;
+
+            _size = (frontSize + rearSize) / 2;
+            _frontSize = frontSize;
+            _rearSize = rearSize;
+
+            _cameraTarget.localPosition = ((FrontSize - RearSize) / 2) * Vector2.up;
 
             if (_followCamera != null)
                 _followCamera.Camera.orthographicSize = Size;
 
             if (oldSize != Size)
                 _sizeChanged?.Invoke(Size);
+            if (oldFrontSize != FrontSize)
+                _frontSizeChanged?.Invoke(FrontSize);
+            if (oldRearSize != RearSize)
+                _rearSizeChanged?.Invoke(RearSize);
+            Debug.Log($"{Size}, {FrontSize}, {RearSize}");
         }
     }
 }

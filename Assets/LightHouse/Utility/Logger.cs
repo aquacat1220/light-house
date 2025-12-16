@@ -5,7 +5,7 @@ namespace LightHouse
     using UnityEngine;
 
     [Serializable]
-    public class Logger : IFn<ITuple<string>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
+    public class Logger : IFn<ITuple<string>, Fn.Tuple>, IFn<Fn.ITupleBase, Fn.Tuple>
     {
         public string DefaultArgument = "Log string.";
         public Fn.Tuple Invoke(ITuple<string> param)
@@ -14,7 +14,7 @@ namespace LightHouse
             return Fn.Tuple.Unit;
         }
 
-        public Fn.Tuple Invoke(Fn.Tuple _)
+        public Fn.Tuple Invoke(Fn.ITupleBase _)
         {
             Debug.Log($"{Time.time}: {DefaultArgument}");
             return Fn.Tuple.Unit;
