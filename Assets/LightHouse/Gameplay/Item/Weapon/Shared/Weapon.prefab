@@ -59,7 +59,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 460a46a4356b7b078ba5e2e3a4b5fe34, type: 2}
+  - {fileID: 2100000, guid: 8d602f430514536bfa9c33fb1463c479, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107,8 +107,8 @@ MonoBehaviour:
   _componentIndexCache: 5
   _addedNetworkObject: {fileID: 3458800118198264783}
   _networkObjectCache: {fileID: 3458800118198264783}
-  _ownerMaterial: {fileID: 2100000, guid: 3f1b2235af90081fe953174fecea7c81, type: 2}
-  _nonownerMaterial: {fileID: 2100000, guid: e72456764bcb56272aa0085c388c0e29, type: 2}
+  _ownerMaterial: {fileID: 2100000, guid: eb9ab9c391fde4aa6b7b1e9f733f5cd8, type: 2}
+  _nonownerMaterial: {fileID: 2100000, guid: ea55ae55102fecf9091c88d8383b0407, type: 2}
   _target_renderers:
   - {fileID: 4910340789884352298}
 --- !u!1 &948197007501555658

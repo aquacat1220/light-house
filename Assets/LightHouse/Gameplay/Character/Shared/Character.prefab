@@ -543,7 +543,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 59e24c3afc55ea6aea0e9daacba9e70f, type: 2}
+  - {fileID: 2100000, guid: 572598c26d98aec78adbf0c68697ffc9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -590,8 +590,8 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 7641905666977704100}
   _networkObjectCache: {fileID: 0}
-  _ownerMaterial: {fileID: 2100000, guid: d29dc95e91c6efa62853d02d8beced10, type: 2}
-  _nonownerMaterial: {fileID: 2100000, guid: 2973a88db69e54db7ae064470d2a1169, type: 2}
+  _ownerMaterial: {fileID: 2100000, guid: 3a2d94c95e20c4dcf968a03ada99b97d, type: 2}
+  _nonownerMaterial: {fileID: 2100000, guid: c679d75e1a952a776857298355b402c7, type: 2}
   _target_renderers:
   - {fileID: 8586640149748357918}
 --- !u!1 &8895062538996833147
