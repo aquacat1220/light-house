@@ -41,6 +41,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlwaysLit: 1
+    - _AlwaysVisible: 1
     - _IsVectorSprite: 0
     - _LightInfluence: 1
     m_Colors:

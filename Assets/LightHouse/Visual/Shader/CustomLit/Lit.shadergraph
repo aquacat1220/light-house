@@ -1358,8 +1358,8 @@
     "m_ObjectId": "30cf57a616f24fc7ac84beb249adba62",
     "m_Title": "Main Texture",
     "m_Position": {
-        "x": -3611.0,
-        "y": -467.9999694824219
+        "x": -3611.00048828125,
+        "y": -468.0
     }
 }
 
@@ -4714,8 +4714,8 @@
     "m_ObjectId": "f3634b2321e5439a83f4f4469b89cb7f",
     "m_Title": "Vision Light Texture",
     "m_Position": {
-        "x": -3621.0,
-        "y": 161.00006103515626
+        "x": -3621.00048828125,
+        "y": 161.0
     }
 }
 
@@ -4980,8 +4980,8 @@
     "m_ObjectId": "ff2afc51f8d64c188c57db7418b3067d",
     "m_Title": "Default Light Texture",
     "m_Position": {
-        "x": -3623.0,
-        "y": 830.0000610351563
+        "x": -3623.00048828125,
+        "y": 830.0001220703125
     }
 }
 
