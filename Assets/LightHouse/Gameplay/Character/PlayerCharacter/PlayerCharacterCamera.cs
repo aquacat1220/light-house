@@ -55,32 +55,32 @@ namespace LightHouse
         Event<float> _rearSizeChanged;
 
 
-        public void AddSizeChangedListener(IFn<Fn.Tuple<float>, Fn.Tuple> listener)
+        public void AddSizeChangedListener(IFn<Fn.ITuple<float>, Fn.Tuple> listener)
         {
             _sizeChanged._listeners.Add(listener);
         }
 
-        public void RemoveSizeChangedListener(IFn<Fn.Tuple<float>, Fn.Tuple> listener)
+        public void RemoveSizeChangedListener(IFn<Fn.ITuple<float>, Fn.Tuple> listener)
         {
             _sizeChanged._listeners.Remove(listener);
         }
 
-        public void AddFrontSizeChangedListener(IFn<Fn.Tuple<float>, Fn.Tuple> listener)
+        public void AddFrontSizeChangedListener(IFn<Fn.ITuple<float>, Fn.Tuple> listener)
         {
             _frontSizeChanged._listeners.Add(listener);
         }
 
-        public void RemoveFrontSizeChangedListener(IFn<Fn.Tuple<float>, Fn.Tuple> listener)
+        public void RemoveFrontSizeChangedListener(IFn<Fn.ITuple<float>, Fn.Tuple> listener)
         {
             _frontSizeChanged._listeners.Remove(listener);
         }
 
-        public void AddRearSizeChangedListener(IFn<Fn.Tuple<float>, Fn.Tuple> listener)
+        public void AddRearSizeChangedListener(IFn<Fn.ITuple<float>, Fn.Tuple> listener)
         {
             _rearSizeChanged._listeners.Add(listener);
         }
 
-        public void RemoveRearSizeChangedListener(IFn<Fn.Tuple<float>, Fn.Tuple> listener)
+        public void RemoveRearSizeChangedListener(IFn<Fn.ITuple<float>, Fn.Tuple> listener)
         {
             _rearSizeChanged._listeners.Remove(listener);
         }

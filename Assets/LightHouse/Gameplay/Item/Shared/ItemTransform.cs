@@ -26,28 +26,6 @@ namespace LightHouse
             _rotation = transform.rotation.eulerAngles.z;
         }
 
-        [Serializable]
-        public class OnRegisterFn : IFn<ITuple<ItemSlot>, Fn.Tuple>
-        {
-            public ItemTransform ItemTransform;
-            public Fn.Tuple Invoke(ITuple<ItemSlot> param)
-            {
-                ItemTransform?.OnRegister(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        [Serializable]
-        public class OnUnregisterFn : IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public ItemTransform ItemTransform;
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                ItemTransform?.OnUnregister();
-                return Fn.Tuple.Unit;
-            }
-        }
-
         public void OnRegister(ItemSlot itemSlot)
         {
             AttachToTransform(itemSlot.transform);

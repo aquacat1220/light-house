@@ -8,12 +8,12 @@ namespace LightHouse.Fn
     {
         [UnityEngine.SerializeReference]
         [PolySelector]
-        public List<IFn<Tuple, Tuple>> _listeners = new List<IFn<Tuple, Tuple>>();
+        public List<IFn<ITuple, Tuple>> _listeners = new List<IFn<ITuple, Tuple>>();
         public void Invoke()
         {
             foreach (var listener in _listeners)
             {
-                listener.Invoke(Tuple.Unit);
+                listener.Invoke(new Tuple());
             }
         }
     }
@@ -23,7 +23,7 @@ namespace LightHouse.Fn
     {
         [UnityEngine.SerializeReference]
         [PolySelector]
-        public List<IFn<Tuple<T1>, Tuple>> _listeners = new List<IFn<Tuple<T1>, Tuple>>();
+        public List<IFn<ITuple<T1>, Tuple>> _listeners = new List<IFn<ITuple<T1>, Tuple>>();
         public void Invoke(T1 param1)
         {
             foreach (var listener in _listeners)
@@ -38,7 +38,7 @@ namespace LightHouse.Fn
     {
         [UnityEngine.SerializeReference]
         [PolySelector]
-        public List<IFn<Tuple<T1, T2>, Tuple>> _listeners = new List<IFn<Tuple<T1, T2>, Tuple>>();
+        public List<IFn<ITuple<T1, T2>, Tuple>> _listeners = new List<IFn<ITuple<T1, T2>, Tuple>>();
         public void Invoke(T1 param1, T2 param2)
         {
             foreach (var listener in _listeners)
@@ -53,7 +53,7 @@ namespace LightHouse.Fn
     {
         [UnityEngine.SerializeReference]
         [PolySelector]
-        public List<IFn<Tuple<T1, T2, T3>, Tuple>> _listeners = new List<IFn<Tuple<T1, T2, T3>, Tuple>>();
+        public List<IFn<ITuple<T1, T2, T3>, Tuple>> _listeners = new List<IFn<ITuple<T1, T2, T3>, Tuple>>();
         public void Invoke(T1 param1, T2 param2, T3 param3)
         {
             foreach (var listener in _listeners)
@@ -68,7 +68,7 @@ namespace LightHouse.Fn
     {
         [UnityEngine.SerializeReference]
         [PolySelector]
-        public List<IFn<Tuple<T1, T2, T3, T4>, Tuple>> _listeners = new List<IFn<Tuple<T1, T2, T3, T4>, Tuple>>();
+        public List<IFn<ITuple<T1, T2, T3, T4>, Tuple>> _listeners = new List<IFn<ITuple<T1, T2, T3, T4>, Tuple>>();
         public void Invoke(T1 param1, T2 param2, T3 param3, T4 param4)
         {
             foreach (var listener in _listeners)
@@ -83,7 +83,7 @@ namespace LightHouse.Fn
     {
         [UnityEngine.SerializeReference]
         [PolySelector]
-        public List<IFn<Tuple<T1, T2, T3, T4, T5>, Tuple>> _listeners = new List<IFn<Tuple<T1, T2, T3, T4, T5>, Tuple>>();
+        public List<IFn<ITuple<T1, T2, T3, T4, T5>, Tuple>> _listeners = new List<IFn<ITuple<T1, T2, T3, T4, T5>, Tuple>>();
         public void Invoke(T1 param1, T2 param2, T3 param3, T4 param4, T5 param5)
         {
             foreach (var listener in _listeners)
@@ -98,7 +98,7 @@ namespace LightHouse.Fn
     {
         [UnityEngine.SerializeReference]
         [PolySelector]
-        public List<IFn<Tuple<T1, T2, T3, T4, T5, T6>, Tuple>> _listeners = new List<IFn<Tuple<T1, T2, T3, T4, T5, T6>, Tuple>>();
+        public List<IFn<ITuple<T1, T2, T3, T4, T5, T6>, Tuple>> _listeners = new List<IFn<ITuple<T1, T2, T3, T4, T5, T6>, Tuple>>();
         public void Invoke(T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6)
         {
             foreach (var listener in _listeners)
@@ -113,7 +113,7 @@ namespace LightHouse.Fn
     {
         [UnityEngine.SerializeReference]
         [PolySelector]
-        public List<IFn<Tuple<T1, T2, T3, T4, T5, T6, T7>, Tuple>> _listeners = new List<IFn<Tuple<T1, T2, T3, T4, T5, T6, T7>, Tuple>>();
+        public List<IFn<ITuple<T1, T2, T3, T4, T5, T6, T7>, Tuple>> _listeners = new List<IFn<ITuple<T1, T2, T3, T4, T5, T6, T7>, Tuple>>();
         public void Invoke(T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7)
         {
             foreach (var listener in _listeners)
@@ -128,7 +128,7 @@ namespace LightHouse.Fn
     {
         [UnityEngine.SerializeReference]
         [PolySelector]
-        public List<IFn<Tuple<T1, T2, T3, T4, T5, T6, T7, T8>, Tuple>> _listeners = new List<IFn<Tuple<T1, T2, T3, T4, T5, T6, T7, T8>, Tuple>>();
+        public List<IFn<ITuple<T1, T2, T3, T4, T5, T6, T7, T8>, Tuple>> _listeners = new List<IFn<ITuple<T1, T2, T3, T4, T5, T6, T7, T8>, Tuple>>();
         public void Invoke(T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8)
         {
             foreach (var listener in _listeners)

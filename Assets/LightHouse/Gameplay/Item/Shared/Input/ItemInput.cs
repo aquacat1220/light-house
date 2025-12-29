@@ -59,28 +59,6 @@ namespace LightHouse
             _action3State.Disable();
         }
 
-        [Serializable]
-        public class OnRegisterFn : IFn<ITuple<ItemSlot>, Fn.Tuple>
-        {
-            public ItemInput ItemInput;
-            public Fn.Tuple Invoke(ITuple<ItemSlot> param)
-            {
-                ItemInput?.OnRegister(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        [Serializable]
-        public class OnUnregisterFn : IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public ItemInput ItemInput;
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                ItemInput?.OnUnregister();
-                return Fn.Tuple.Unit;
-            }
-        }
-
         public void OnRegister(ItemSlot itemSlot)
         {
             var itemSlotInput = itemSlot.GetComponent<ItemSlotInput>();

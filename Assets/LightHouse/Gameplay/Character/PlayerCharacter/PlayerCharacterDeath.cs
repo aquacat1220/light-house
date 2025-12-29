@@ -26,18 +26,6 @@ namespace LightHouse
             base.ServerManager.OnRemoteConnectionState -= OnRemoteConnectionState;
         }
 
-
-        [Serializable]
-        public class DieFn : IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public PlayerCharacterDeath PlayerCharacterDeath;
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                PlayerCharacterDeath?.Die();
-                return Fn.Tuple.Unit;
-            }
-        }
-
         // [Server]
         public void Die()
         {

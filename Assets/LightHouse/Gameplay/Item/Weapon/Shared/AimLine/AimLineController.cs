@@ -101,7 +101,7 @@ namespace LightHouse
             public Fn.Tuple Invoke(ITuple<ItemSlot> param)
             {
                 AimLineController?.OnRegister(param.Item1);
-                return Fn.Tuple.Unit;
+                return new Fn.Tuple();
             }
         }
 
@@ -112,7 +112,7 @@ namespace LightHouse
             public Fn.Tuple Invoke(Fn.Tuple _)
             {
                 AimLineController?.OnUnregister();
-                return Fn.Tuple.Unit;
+                return new Fn.Tuple();
             }
         }
 

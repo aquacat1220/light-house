@@ -32,7 +32,7 @@ namespace LightHouse.Fn
                 var methodInfo = treeView.GetItemDataForIndex<System.Reflection.MethodInfo>(index);
                 var id = treeView.GetIdForIndex(index);
                 string text = "";
-                if (methodInfo.ReturnType == null)
+                if (methodInfo.ReturnType == typeof(void))
                     text += "void";
                 else
                 {
@@ -50,7 +50,7 @@ namespace LightHouse.Fn
             {
                 System.Reflection.MethodInfo item = (System.Reflection.MethodInfo)items.First();
                 string text = "";
-                if (item.ReturnType == null)
+                if (item.ReturnType == typeof(void))
                     text += "void";
                 else
                 {
@@ -91,17 +91,6 @@ namespace LightHouse.Fn
                 var methodInfos = objectField.value.GetType().GetMethods().Where(
                     (methodInfo) =>
                     {
-                        string text = "";
-                        if (methodInfo.ReturnType == null)
-                            text += "void";
-                        else
-                        {
-                            text += methodInfo.ReturnType.CSharpName();
-                        }
-                        text += $" {methodInfo.Name}(";
-                        text += string.Join(", ", methodInfo.GetParameters().Select((param) => $"{param.ParameterType.CSharpName()}"));
-                        text += ")";
-
                         Type methodReturnType = methodInfo.ReturnType;
                         if (methodReturnType == typeof(void))
                             methodReturnType = null;

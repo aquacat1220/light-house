@@ -101,26 +101,6 @@ namespace LightHouse
             _coolAlarm?.Start();
         }
 
-        [Serializable]
-        public class ApplySpreadFn : IFn<ITuple<bool, bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public RandomSpread RandomSpread;
-            public bool AddHeat = true;
-            public bool ReuseAimError = false;
-
-            public Fn.Tuple Invoke(ITuple<bool, bool> param)
-            {
-                RandomSpread?.ApplySpread(param.Item1, param.Item2);
-                return Fn.Tuple.Unit;
-            }
-
-            public Fn.Tuple Invoke(Fn.Tuple param)
-            {
-                RandomSpread?.ApplySpread(AddHeat, ReuseAimError);
-                return Fn.Tuple.Unit;
-            }
-        }
-
         public void ApplySpread(bool addHeat = true, bool reuseAimError = false)
         {
             var rng = new SplitMix64((ulong)_predictedCounter);
@@ -149,18 +129,6 @@ namespace LightHouse
             _coolAlarm = null;
             _delayAlarm.Reset(_coolDelay);
             _delayAlarm.Start();
-        }
-
-        [Serializable]
-        public class OnPredictedCounterChangeFn : IFn<ITuple<int>, Fn.Tuple>
-        {
-            public RandomSpread RandomSpread;
-
-            public Fn.Tuple Invoke(ITuple<int> param)
-            {
-                RandomSpread?.OnPredictedCounterChange(param.Item1);
-                return Fn.Tuple.Unit;
-            }
         }
 
         public void OnPredictedCounterChange(int newPredictedCounter)

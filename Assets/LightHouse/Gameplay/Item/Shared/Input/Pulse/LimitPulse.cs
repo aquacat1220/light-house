@@ -9,7 +9,7 @@ namespace LightHouse
     {
         [SerializeReference]
         [PolySelector]
-        IFn<Fn.Tuple<bool>, Fn.Tuple> _inner;
+        IFn<Fn.ITuple<bool>, Fn.Tuple> _inner;
 
         [SerializeField]
         float _delay = 1f;
@@ -23,7 +23,7 @@ namespace LightHouse
 
         public LimitPulse() { }
         public LimitPulse(
-            IFn<Fn.Tuple<bool>, Fn.Tuple> inner
+            IFn<Fn.ITuple<bool>, Fn.Tuple> inner
         )
         {
             _inner = inner;
@@ -70,7 +70,7 @@ namespace LightHouse
                 _bufferedUp = false;
                 _inner?.Invoke(new Fn.Tuple<bool>(false));
             }
-            return Fn.Tuple.Unit;
+            return new Fn.Tuple();
         }
     }
 }

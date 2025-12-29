@@ -92,39 +92,6 @@ namespace LightHouse
             _predictedReloadAlarm?.Remove();
         }
 
-        [Serializable]
-        public class TryFireFn : IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public Magazine Magazine;
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                Magazine?.TryFire();
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        [Serializable]
-        public class StartReloadFn : IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public Magazine Magazine;
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                Magazine?.StartReload();
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        [Serializable]
-        public class CancelReloadFn : IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public Magazine Magazine;
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                Magazine?.CancelReload();
-                return Fn.Tuple.Unit;
-            }
-        }
-
         public void TryFire()
         {
             if (!base.IsServerInitialized && !base.IsOwner)
@@ -411,17 +378,6 @@ namespace LightHouse
                 _leftAmmoChange?.Invoke(oldLeftAmmo1, LeftAmmo);
         }
 
-        [Serializable]
-        public class OnPredictedCounterChangeFn : IFn<ITuple<int>, Fn.Tuple>
-        {
-            public Magazine Magazine;
-
-            public Fn.Tuple Invoke(ITuple<int> param)
-            {
-                Magazine?.OnPredictedCounterChange(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-        }
         public void OnPredictedCounterChange(int newPredictedCounter)
         {
             _shotsFired = (uint)newPredictedCounter;

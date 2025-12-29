@@ -24,7 +24,7 @@ namespace LightHouse.Fn
             {
                 inner.Invoke(param);
             }
-            return Tuple.Unit;
+            return new Tuple();
         }
     }
 }

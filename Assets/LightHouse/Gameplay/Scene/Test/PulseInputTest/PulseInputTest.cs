@@ -26,7 +26,7 @@ namespace LightHouse
             public Fn.Tuple Invoke(Fn.ITuple<bool> param)
             {
                 PulseInputTest.OnPulseChange(param.Item1);
-                return Fn.Tuple.Unit;
+                return new Fn.Tuple();
             }
         }
 

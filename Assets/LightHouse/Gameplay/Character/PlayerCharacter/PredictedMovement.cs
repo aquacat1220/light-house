@@ -262,28 +262,6 @@ namespace LightHouse
             Reconcile(data);
         }
 
-        [Serializable]
-        public class OnMoveFn : IFn<ITuple<Vector2>, Fn.Tuple>
-        {
-            public PredictedMovement PredictedMovement;
-            public Fn.Tuple Invoke(ITuple<Vector2> param)
-            {
-                PredictedMovement?.OnMove(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        [Serializable]
-        public class OnLookFn : IFn<ITuple<Vector2>, Fn.Tuple>
-        {
-            public PredictedMovement PredictedMovement;
-            public Fn.Tuple Invoke(ITuple<Vector2> param)
-            {
-                PredictedMovement?.OnLook(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-        }
-
         // Called to notify movement input change.
         // Sets `_recentMoveInput` to reflect the input.
         [Client(RequireOwnership = true)]

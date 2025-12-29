@@ -226,41 +226,59 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 3458800118198264783}
   _register:
     _listeners:
-    - rid: 2166532276616953938
-    - rid: 2166532276616953940
-    - rid: 109098073642500273
+    - rid: 109098604277530756
+    - rid: 109098604277530758
+    - rid: 109098604277530757
   _unregister:
     _listeners:
-    - rid: 2166532276616953939
-    - rid: 2166532276616953941
-    - rid: 109098073642500274
+    - rid: 109098604277530759
+    - rid: 109098604277530761
+    - rid: 109098604277530760
   references:
     version: 2
     RefIds:
-    - rid: 109098073642500273
-      type: {class: AimLineController/OnRegisterFn, ns: LightHouse, asm: Assembly-CSharp}
+    - rid: 109098604277530756
+      type: {class: 'MethodFn`2[[LightHouse.ItemSlot, Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        AimLineController: {fileID: 5494872604823970513}
-    - rid: 109098073642500274
-      type: {class: AimLineController/OnUnregisterFn, ns: LightHouse, asm: Assembly-CSharp}
+        MethodInfo:
+          Target: {fileID: 3260175829585409224}
+          MethodName: void OnRegister(ItemSlot)
+        DefaultParam:
+          _item1: {fileID: 0}
+    - rid: 109098604277530757
+      type: {class: 'MethodFn`2[[LightHouse.ItemSlot, Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        AimLineController: {fileID: 5494872604823970513}
-    - rid: 2166532276616953938
-      type: {class: ItemTransform/OnRegisterFn, ns: LightHouse, asm: Assembly-CSharp}
+        MethodInfo:
+          Target: {fileID: 5494872604823970513}
+          MethodName: void OnRegister(ItemSlot)
+        DefaultParam:
+          _item1: {fileID: 0}
+    - rid: 109098604277530758
+      type: {class: 'MethodFn`2[[LightHouse.ItemSlot, Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        ItemTransform: {fileID: 3260175829585409224}
-    - rid: 2166532276616953939
-      type: {class: ItemTransform/OnUnregisterFn, ns: LightHouse, asm: Assembly-CSharp}
+        MethodInfo:
+          Target: {fileID: 5501519788436619483}
+          MethodName: void OnRegister(ItemSlot)
+        DefaultParam:
+          _item1: {fileID: 0}
+    - rid: 109098604277530759
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        ItemTransform: {fileID: 3260175829585409224}
-    - rid: 2166532276616953940
-      type: {class: ItemInput/OnRegisterFn, ns: LightHouse, asm: Assembly-CSharp}
+        MethodInfo:
+          Target: {fileID: 3260175829585409224}
+          MethodName: void OnUnregister()
+    - rid: 109098604277530760
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        ItemInput: {fileID: 5501519788436619483}
-    - rid: 2166532276616953941
-      type: {class: ItemInput/OnUnregisterFn, ns: LightHouse, asm: Assembly-CSharp}
+        MethodInfo:
+          Target: {fileID: 5494872604823970513}
+          MethodName: void OnUnregister()
+    - rid: 109098604277530761
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        ItemInput: {fileID: 5501519788436619483}
+        MethodInfo:
+          Target: {fileID: 5501519788436619483}
+          MethodName: void OnUnregister()
 --- !u!114 &3260175829585409224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,7 +308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemInput
   _primary:
     _listeners:
-    - rid: 109098271068651663
+    - rid: 109098604277530770
   _secondary:
     _listeners: []
   _action1:
@@ -299,48 +317,48 @@ MonoBehaviour:
     _listeners: []
   _action3:
     _listeners:
-    - rid: 109098271068651665
+    - rid: 109098604277530762
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 109098201736020040
-      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 6129219461553058081}
-          MethodName: void TryFire()
-    - rid: 109098271068651663
-      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+    - rid: 109098604277530762
+      type: {class: 'Branch`2[[LightHouse.Fn.ITuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
         _condition:
-          rid: 109098271068651664
+          rid: 109098604277530763
         _true:
-          rid: 109098201736020040
+          rid: 109098604277530764
         _false:
           rid: -2
-    - rid: 109098271068651664
+    - rid: 109098604277530763
       type: {class: 'Identity`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data: 
-    - rid: 109098271068651665
-      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _condition:
-          rid: 109098271068651666
-        _true:
-          rid: 109098271068651668
-        _false:
-          rid: -2
-    - rid: 109098271068651666
-      type: {class: 'Identity`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data: 
-    - rid: 109098271068651668
+    - rid: 109098604277530764
       type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
         MethodInfo:
           Target: {fileID: 6129219461553058081}
           MethodName: void StartReload()
+    - rid: 109098604277530770
+      type: {class: 'Branch`2[[LightHouse.Fn.ITuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        _condition:
+          rid: 109098604277530771
+        _true:
+          rid: 109098604277530772
+        _false:
+          rid: -2
+    - rid: 109098604277530771
+      type: {class: 'Identity`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data: 
+    - rid: 109098604277530772
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
+      data:
+        MethodInfo:
+          Target: {fileID: 6129219461553058081}
+          MethodName: void TryFire()
 --- !u!114 &6129219461553058081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,23 +378,28 @@ MonoBehaviour:
     _listeners: []
   _fire:
     _listeners:
-    - rid: 2166532276616953937
-    - rid: 2166532276616953935
+    - rid: 109098604277530766
+    - rid: 109098604277530767
   _capacity: 10
   _reloadTime: 0.15
   references:
     version: 2
     RefIds:
-    - rid: 2166532276616953935
-      type: {class: ProjectileSpawner/SpawnProjectileFn, ns: LightHouse, asm: Assembly-CSharp}
+    - rid: 109098604277530766
+      type: {class: 'MethodFn`3[[System.Boolean, mscorlib],[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        ProjectileSpawner: {fileID: 64550675818251124}
-    - rid: 2166532276616953937
-      type: {class: RandomSpread/ApplySpreadFn, ns: LightHouse, asm: Assembly-CSharp}
+        MethodInfo:
+          Target: {fileID: 6827245192062937493}
+          MethodName: void ApplySpread(bool, bool)
+        DefaultParam:
+          _item1: 1
+          _item2: 0
+    - rid: 109098604277530767
+      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        RandomSpread: {fileID: 6827245192062937493}
-        AddHeat: 1
-        ReuseAimError: 0
+        MethodInfo:
+          Target: {fileID: 64550675818251124}
+          MethodName: void SpawnProjectile()
 --- !u!114 &6827245192062937493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,8 +467,8 @@ MonoBehaviour:
     _listeners: []
   _predictedCounterChange:
     _listeners:
-    - rid: 2166532276616953936
-    - rid: 2166532283608596568
+    - rid: 109098604277530768
+    - rid: 109098604277530769
     - rid: 109098524170256600
   references:
     version: 2
@@ -456,14 +479,22 @@ MonoBehaviour:
         MethodInfo:
           Target: {fileID: 2351881921870109}
           MethodName: void Play()
-    - rid: 2166532276616953936
-      type: {class: Magazine/OnPredictedCounterChangeFn, ns: LightHouse, asm: Assembly-CSharp}
+    - rid: 109098604277530768
+      type: {class: 'MethodFn`2[[System.Int32, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        Magazine: {fileID: 6129219461553058081}
-    - rid: 2166532283608596568
-      type: {class: RandomSpread/OnPredictedCounterChangeFn, ns: LightHouse, asm: Assembly-CSharp}
+        MethodInfo:
+          Target: {fileID: 6129219461553058081}
+          MethodName: void OnPredictedCounterChange(int)
+        DefaultParam:
+          _item1: 0
+    - rid: 109098604277530769
+      type: {class: 'MethodFn`2[[System.Int32, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
-        RandomSpread: {fileID: 6827245192062937493}
+        MethodInfo:
+          Target: {fileID: 6827245192062937493}
+          MethodName: void OnPredictedCounterChange(int)
+        DefaultParam:
+          _item1: 0
 --- !u!114 &5494872604823970513
 MonoBehaviour:
   m_ObjectHideFlags: 0

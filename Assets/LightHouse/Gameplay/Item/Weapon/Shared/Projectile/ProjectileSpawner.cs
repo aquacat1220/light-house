@@ -184,7 +184,7 @@ namespace LightHouse
             public Fn.Tuple Invoke(Fn.Tuple param)
             {
                 ProjectileSpawner?.SpawnProjectile();
-                return Fn.Tuple.Unit;
+                return new Fn.Tuple();
             }
         }
 
