@@ -7,7 +7,7 @@ namespace LightHouse
     using UnityEngine;
     using Fn;
 
-    public class PlayerCharacterDeath : NetworkBehaviour
+    public class CharacterDeath : NetworkBehaviour
     {
         [SerializeField]
         Fn.Event _death;

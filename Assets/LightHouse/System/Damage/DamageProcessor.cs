@@ -7,7 +7,7 @@ namespace LightHouse
     {
         [SerializeReference]
         [PolySelector]
-        public List<DamageHandlerBase> DamageHandlers;
+        public List<IDamageHandler> DamageHandlers;
 
         public void ProcessDamage(DamageInfoBase damageInfo)
         {

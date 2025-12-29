@@ -351,70 +351,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCharacter
       objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+    - target: {fileID: 2223553293404720658, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'managedReferences[-2]'
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: _vitBelowZero._listeners.Array.size
+    - target: {fileID: 2223553293404720658, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: _rangeChanged._listeners.Array.size
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: 'managedReferences[109098604277530753]'
-      value: 'Assembly-CSharp LightHouse.Fn.MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]'
-      objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: 'managedReferences[109098604277530754]'
-      value: 'Assembly-CSharp LightHouse.Fn.Branch`2[[LightHouse.Fn.ITuple, Assembly-CSharp],[LightHouse.Fn.Tuple,
+    - target: {fileID: 2223553293404720658, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'managedReferences[109098607350382700]'
+      value: 'Assembly-CSharp LightHouse.Fn.MethodFn`2[[System.Single, mscorlib],[LightHouse.Fn.Tuple,
         Assembly-CSharp]]'
       objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: 'managedReferences[109098604277530755]'
-      value: 'Assembly-CSharp LightHouse.Fn.MethodFn`1[[System.Boolean, mscorlib]]'
+    - target: {fileID: 2223553293404720658, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: '_rangeChanged._listeners.Array.data[0]'
+      value: 109098607350382700
       objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: 'managedReferences[109098607350382667]'
-      value: 'Assembly-CSharp LightHouse.Fn.MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]'
-      objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: '_vitBelowZero._listeners.Array.data[0]'
-      value: 109098607350382667
-      objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: managedReferences[109098604277530754]._true
-      value: 109098604277530753
-      objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: managedReferences[109098604277530754]._false
-      value: -2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: managedReferences[109098604277530754]._condition
-      value: 109098604277530755
-      objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: managedReferences[109098604277530753].MethodInfo.Target
+    - target: {fileID: 2223553293404720658, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382700].MethodInfo.Target
       value: 
-      objectReference: {fileID: 3253198443913536155}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: managedReferences[109098604277530755].MethodInfo.Target
-      value: 
-      objectReference: {fileID: 3253198443913536155}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: managedReferences[109098607350382667].MethodInfo.Target
-      value: 
-      objectReference: {fileID: 3253198443913536155}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: managedReferences[109098604277530753].MethodInfo.MethodName
-      value: void Die()
+      objectReference: {fileID: 7544029604669326017}
+    - target: {fileID: 2223553293404720658, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382700].DefaultParam._item1
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: managedReferences[109098604277530755].MethodInfo.MethodName
-      value: bool get_IsServerInitialized()
-      objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: managedReferences[109098607350382667].MethodInfo.MethodName
-      value: void Die()
+    - target: {fileID: 2223553293404720658, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382700].MethodInfo.MethodName
+      value: void OnRangeChanged(float)
       objectReference: {fileID: 0}
     - target: {fileID: 5989156536031541926, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.size
@@ -636,10 +600,6 @@ PrefabInstance:
       propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[26].y
       value: 0.3654186
       objectReference: {fileID: 0}
-    - target: {fileID: 6590988795066372338, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: managedReferences[4866375275036803349].Vitality
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6891197595918081331, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -679,6 +639,98 @@ PrefabInstance:
     - target: {fileID: 6891197595918081331, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'managedReferences[-2]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: _death._listeners.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: '_death._listeners.Array.data[0]'
+      value: 109098607350382705
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: '_death._listeners.Array.data[1]'
+      value: 109098607350382702
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: '_death._listeners.Array.data[2]'
+      value: 109098607350382703
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: '_death._listeners.Array.data[3]'
+      value: 109098607350382704
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'managedReferences[109098607350382702]'
+      value: 'Assembly-CSharp LightHouse.Fn.MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple,
+        Assembly-CSharp]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'managedReferences[109098607350382703]'
+      value: 'Assembly-CSharp LightHouse.Fn.MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple,
+        Assembly-CSharp]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'managedReferences[109098607350382704]'
+      value: 'Assembly-CSharp LightHouse.Fn.MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple,
+        Assembly-CSharp]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'managedReferences[109098607350382705]'
+      value: 'Assembly-CSharp LightHouse.Fn.MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple,
+        Assembly-CSharp]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382702].MethodInfo.Target
+      value: 
+      objectReference: {fileID: 8895098666123999204}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382703].MethodInfo.Target
+      value: 
+      objectReference: {fileID: 7613401983510641006}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382704].MethodInfo.Target
+      value: 
+      objectReference: {fileID: 7544029604669326017}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382705].MethodInfo.Target
+      value: 
+      objectReference: {fileID: 286916112871301450}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382702].DefaultParam._item1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382703].DefaultParam._item1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382704].DefaultParam._item1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382705].DefaultParam._item1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382702].MethodInfo.MethodName
+      value: void set_enabled(bool)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382703].MethodInfo.MethodName
+      value: void set_enabled(bool)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382704].MethodInfo.MethodName
+      value: void set_enabled(bool)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382705].MethodInfo.MethodName
+      value: void set_enabled(bool)
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: WasActiveDuringEdit
@@ -720,10 +772,6 @@ PrefabInstance:
       propertyPath: 'NetworkBehaviours.Array.data[2]'
       value: 
       objectReference: {fileID: 286916112871301450}
-    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: 'NetworkBehaviours.Array.data[3]'
-      value: 
-      objectReference: {fileID: 3324938354885705573}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[4]'
       value: 
@@ -792,22 +840,13 @@ PrefabInstance:
       addedObject: {fileID: 286916112871301450}
     - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3324938354885705573}
+      addedObject: {fileID: 8895098666123999204}
     - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7613401983510641006}
     - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6290294256753253600}
-    - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 7544029604669326017}
-    - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3253198443913536155}
-    - targetCorrespondingSourceObject: {fileID: 7333554619945174216, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1963208907921747166}
   m_SourcePrefab: {fileID: 100100000, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
 --- !u!4 &1599423349212434369 stripped
 Transform:
@@ -825,63 +864,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &3194808805283927610 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7333554619945174216, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+--- !u!114 &3253198443913536155 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
   m_PrefabInstance: {fileID: 5300799141838639858}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1963208907921747166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3194808805283927610}
-  m_Enabled: 0
+  m_GameObject: {fileID: 5139385379916303670}
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Script: {fileID: 11500000, guid: d8a1b5f64b205776abed91de20e38c09, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.Light2D
-  m_ComponentVersion: 2
-  m_LightType: 3
-  m_BlendStyleIndex: 2
-  m_FalloffIntensity: 0.7
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_LightVolumeIntensity: 1
-  m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 43cd770900000000e91fe1b6
-  m_LightCookieSprite: {fileID: 0}
-  m_DeprecatedPointLightCookieSprite: {fileID: 0}
-  m_LightOrder: 0
-  m_AlphaBlendOnOverlap: 0
-  m_OverlapOperation: 0
-  m_NormalMapDistance: 3
-  m_NormalMapQuality: 2
-  m_UseNormalMap: 0
-  m_ShadowsEnabled: 0
-  m_ShadowIntensity: 0.75
-  m_ShadowSoftness: 0.3
-  m_ShadowSoftnessFalloffIntensity: 0.5
-  m_ShadowVolumeIntensityEnabled: 0
-  m_ShadowVolumeIntensity: 0.75
-  m_LocalBounds:
-    m_Center: {x: 0, y: -0.00000011920929, z: 0}
-    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
-  m_PointLightInnerAngle: 360
-  m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 0
-  m_ShapeLightParametricSides: 5
-  m_ShapeLightParametricAngleOffset: 0
-  m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 0.5
-  m_ShapeLightFalloffOffset: {x: 0, y: 0}
-  m_ShapePath:
-  - {x: -0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: 0.5, z: 0}
-  - {x: -0.5, y: 0.5, z: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCharacterDeath
 --- !u!4 &3359726144973146153 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7435475543984397019, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
@@ -1069,7 +1062,7 @@ MonoBehaviour:
       type: {class: 'MethodFn`2[[UnityEngine.Vector2, UnityEngine.CoreModule],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
         MethodInfo:
-          Target: {fileID: 3324938354885705573}
+          Target: {fileID: 8895098666123999204}
           MethodName: void OnMove(Vector2)
         DefaultParam:
           _item1: {x: 0, y: 0}
@@ -1077,7 +1070,7 @@ MonoBehaviour:
       type: {class: 'MethodFn`2[[UnityEngine.Vector2, UnityEngine.CoreModule],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
       data:
         MethodInfo:
-          Target: {fileID: 3324938354885705573}
+          Target: {fileID: 8895098666123999204}
           MethodName: void OnLook(Vector2)
         DefaultParam:
           _item1: {x: 0, y: 0}
@@ -1087,7 +1080,7 @@ MonoBehaviour:
         MethodInfo:
           Target: {fileID: 7613401983510641006}
           MethodName: void OnSwapItem()
---- !u!114 &3324938354885705573
+--- !u!114 &8895098666123999204
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1124,38 +1117,6 @@ MonoBehaviour:
   _backupAnchors:
   - {fileID: 8393856002408595147}
   - {fileID: 8272814554145449712}
---- !u!114 &6290294256753253600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5139385379916303670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d49b2f94a0a84eac88a3a97d5f15f68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 5
-  _addedNetworkObject: {fileID: 2566409721090996822}
-  _networkObjectCache: {fileID: 2566409721090996822}
-  _visionLight: {fileID: 1963208907921747166}
-  _modifier: 2
-  _falloffDistance: 0.1
-  _rangeChanged:
-    _listeners:
-    - rid: 109098250384441759
-  references:
-    version: 2
-    RefIds:
-    - rid: 109098250384441759
-      type: {class: 'MethodFn`2[[System.Single, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7544029604669326017}
-          MethodName: void OnRangeChanged(float)
-        DefaultParam:
-          _item1: 0
 --- !u!114 &7544029604669326017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1185,64 +1146,17 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
---- !u!114 &3253198443913536155
+--- !u!114 &6290294256753253600 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 2223553293404720658, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+  m_PrefabInstance: {fileID: 5300799141838639858}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5139385379916303670}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8a1b5f64b205776abed91de20e38c09, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d49b2f94a0a84eac88a3a97d5f15f68, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCharacterDeath
-  _componentIndexCache: 7
-  _addedNetworkObject: {fileID: 2566409721090996822}
-  _networkObjectCache: {fileID: 2566409721090996822}
-  _death:
-    _listeners:
-    - rid: 109098604277530746
-    - rid: 109098604277530748
-    - rid: 109098604277530747
-    - rid: 109098604277530749
-  _respawnDelay: 3
-  _despawnDelay: 5
-  references:
-    version: 2
-    RefIds:
-    - rid: 109098604277530746
-      type: {class: 'MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 286916112871301450}
-          MethodName: void set_enabled(bool)
-        DefaultParam:
-          _item1: 0
-    - rid: 109098604277530747
-      type: {class: 'MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7613401983510641006}
-          MethodName: void set_enabled(bool)
-        DefaultParam:
-          _item1: 0
-    - rid: 109098604277530748
-      type: {class: 'MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 3324938354885705573}
-          MethodName: void set_enabled(bool)
-        DefaultParam:
-          _item1: 0
-    - rid: 109098604277530749
-      type: {class: 'MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7544029604669326017}
-          MethodName: void set_enabled(bool)
-        DefaultParam:
-          _item1: 0
+  m_EditorClassIdentifier: 
 --- !u!114 &6648798440151713100 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1573302493790001086, guid: d2c828e519c166684af8c10a7975ee06, type: 3}

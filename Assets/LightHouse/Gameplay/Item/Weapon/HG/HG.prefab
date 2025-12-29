@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 9167137747559419533}
   - component: {fileID: 3829613549400509822}
-  - component: {fileID: 1852491474910151795}
+  - component: {fileID: 2508521704106666568}
+  - component: {fileID: 3892194685509070599}
   m_Layer: 0
   m_Name: Fill
   m_TagString: Untagged
@@ -92,7 +93,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &1852491474910151795
+--- !u!114 &2508521704106666568
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,16 +102,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 3230334932775723922}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c209507eaf93dad96b11ab765bc6016e, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e5ce5674ae3cd9cbad55d208e7608e4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.MaterialSelector
-  _componentIndexCache: 5
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.LitController
+  _target: {fileID: 3829613549400509822}
+  _isVectorSprite: 1
+  _tintColor: {r: 1, g: 1, b: 1, a: 1}
+  _alwaysLit: 1
+  _alwaysVisible: 1
+--- !u!114 &3892194685509070599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3230334932775723922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b22aaefb4b0b1ea62a745b3f0214d46f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.OwnerColorSelector
+  _componentIndexCache: 255
   _addedNetworkObject: {fileID: 7977932258337733582}
   _networkObjectCache: {fileID: 0}
-  _ownerMaterial: {fileID: 2100000, guid: eb9ab9c391fde4aa6b7b1e9f733f5cd8, type: 2}
-  _nonownerMaterial: {fileID: 2100000, guid: ea55ae55102fecf9091c88d8383b0407, type: 2}
-  _target_renderers:
-  - {fileID: 3829613549400509822}
+  _controller: {fileID: 2508521704106666568}
+  _ownerColor: {r: 1, g: 1, b: 1, a: 1}
+  _ownerAlwaysLit: 1
+  _ownerAlwaysVisible: 1
+  _nonownerColor: {r: 1, g: 1, b: 1, a: 1}
+  _nonownerAlwaysLit: 0
+  _nonownerAlwaysVisible: 0
+  _order: 0
 --- !u!1 &7953598815636032244
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,7 +143,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2921563522628724213}
   - component: {fileID: 2004549804105506121}
-  - component: {fileID: 6045489766635297517}
+  - component: {fileID: 61424518893342285}
+  - component: {fileID: 4429474963973158983}
   m_Layer: 0
   m_Name: Outline
   m_TagString: Untagged
@@ -203,7 +226,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &6045489766635297517
+--- !u!114 &61424518893342285
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -212,16 +235,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 7953598815636032244}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c209507eaf93dad96b11ab765bc6016e, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e5ce5674ae3cd9cbad55d208e7608e4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.MaterialSelector
-  _componentIndexCache: 5
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.LitController
+  _target: {fileID: 2004549804105506121}
+  _isVectorSprite: 1
+  _tintColor: {r: 1, g: 1, b: 1, a: 1}
+  _alwaysLit: 1
+  _alwaysVisible: 1
+--- !u!114 &4429474963973158983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7953598815636032244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b22aaefb4b0b1ea62a745b3f0214d46f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.OwnerColorSelector
+  _componentIndexCache: 255
   _addedNetworkObject: {fileID: 7977932258337733582}
   _networkObjectCache: {fileID: 0}
-  _ownerMaterial: {fileID: 2100000, guid: eb9ab9c391fde4aa6b7b1e9f733f5cd8, type: 2}
-  _nonownerMaterial: {fileID: 2100000, guid: ea55ae55102fecf9091c88d8383b0407, type: 2}
-  _target_renderers:
-  - {fileID: 2004549804105506121}
+  _controller: {fileID: 61424518893342285}
+  _ownerColor: {r: 1, g: 1, b: 1, a: 1}
+  _ownerAlwaysLit: 1
+  _ownerAlwaysVisible: 1
+  _nonownerColor: {r: 1, g: 1, b: 1, a: 1}
+  _nonownerAlwaysLit: 0
+  _nonownerAlwaysVisible: 0
+  _order: 0
 --- !u!1001 &6825046353535621121
 PrefabInstance:
   m_ObjectHideFlags: 0

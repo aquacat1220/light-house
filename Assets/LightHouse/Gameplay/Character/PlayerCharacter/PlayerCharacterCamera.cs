@@ -142,7 +142,6 @@ namespace LightHouse
 
         public void OnRangeChanged(float newRange)
         {
-            Debug.Log($"RANGECHANGE {newRange}");
             float frontSize = Mathf.Clamp(newRange, _minFrontSize, _maxFrontSize);
             float rearSize = Mathf.Clamp(newRange, _minRearSize, _maxRearSize);
 
@@ -165,7 +164,6 @@ namespace LightHouse
                 _frontSizeChanged?.Invoke(FrontSize);
             if (oldRearSize != RearSize)
                 _rearSizeChanged?.Invoke(RearSize);
-            Debug.Log($"{Size}, {FrontSize}, {RearSize}");
         }
     }
 }

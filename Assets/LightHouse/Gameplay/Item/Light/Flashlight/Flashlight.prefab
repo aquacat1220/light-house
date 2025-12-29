@@ -128,7 +128,8 @@ GameObject:
   m_Component:
   - component: {fileID: 9022363871858521}
   - component: {fileID: 3846314596723024801}
-  - component: {fileID: 4674024156891545713}
+  - component: {fileID: 6639799417948760954}
+  - component: {fileID: 421832614644063829}
   m_Layer: 0
   m_Name: Fill
   m_TagString: Untagged
@@ -210,7 +211,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &4674024156891545713
+--- !u!114 &6639799417948760954
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,16 +220,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 2804420236039352731}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c209507eaf93dad96b11ab765bc6016e, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e5ce5674ae3cd9cbad55d208e7608e4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.MaterialSelector
-  _componentIndexCache: 3
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.LitController
+  _target: {fileID: 3846314596723024801}
+  _isVectorSprite: 1
+  _tintColor: {r: 1, g: 1, b: 1, a: 1}
+  _alwaysLit: 1
+  _alwaysVisible: 1
+--- !u!114 &421832614644063829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2804420236039352731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b22aaefb4b0b1ea62a745b3f0214d46f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.OwnerColorSelector
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 6621121559563478381}
   _networkObjectCache: {fileID: 6621121559563478381}
-  _ownerMaterial: {fileID: 2100000, guid: eb9ab9c391fde4aa6b7b1e9f733f5cd8, type: 2}
-  _nonownerMaterial: {fileID: 2100000, guid: ea55ae55102fecf9091c88d8383b0407, type: 2}
-  _target_renderers:
-  - {fileID: 3846314596723024801}
+  _controller: {fileID: 6639799417948760954}
+  _ownerColor: {r: 1, g: 1, b: 1, a: 1}
+  _ownerAlwaysLit: 1
+  _ownerAlwaysVisible: 1
+  _nonownerColor: {r: 1, g: 1, b: 1, a: 1}
+  _nonownerAlwaysLit: 0
+  _nonownerAlwaysVisible: 0
+  _order: 0
 --- !u!1 &4979753340546533646
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,8 +333,9 @@ MonoBehaviour:
   - {fileID: 4750419483905691176}
   - {fileID: 6343127056236506670}
   - {fileID: 1162655753089864281}
-  - {fileID: 4674024156891545713}
-  - {fileID: 3902769155410106293}
+  - {fileID: 0}
+  - {fileID: 421832614644063829}
+  - {fileID: 7189169809102341683}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -609,7 +632,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2664355627558286261}
   - component: {fileID: 2532032569339488834}
-  - component: {fileID: 3902769155410106293}
+  - component: {fileID: 2111581745729181870}
+  - component: {fileID: 7189169809102341683}
   m_Layer: 0
   m_Name: Outline
   m_TagString: Untagged
@@ -691,7 +715,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &3902769155410106293
+--- !u!114 &2111581745729181870
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -700,13 +724,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 6060449885022217286}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c209507eaf93dad96b11ab765bc6016e, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e5ce5674ae3cd9cbad55d208e7608e4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.MaterialSelector
-  _componentIndexCache: 4
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.LitController
+  _target: {fileID: 2532032569339488834}
+  _isVectorSprite: 1
+  _tintColor: {r: 1, g: 1, b: 1, a: 1}
+  _alwaysLit: 1
+  _alwaysVisible: 1
+--- !u!114 &7189169809102341683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6060449885022217286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b22aaefb4b0b1ea62a745b3f0214d46f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.OwnerColorSelector
+  _componentIndexCache: 5
   _addedNetworkObject: {fileID: 6621121559563478381}
   _networkObjectCache: {fileID: 6621121559563478381}
-  _ownerMaterial: {fileID: 2100000, guid: eb9ab9c391fde4aa6b7b1e9f733f5cd8, type: 2}
-  _nonownerMaterial: {fileID: 2100000, guid: ea55ae55102fecf9091c88d8383b0407, type: 2}
-  _target_renderers:
-  - {fileID: 2532032569339488834}
+  _controller: {fileID: 2111581745729181870}
+  _ownerColor: {r: 1, g: 1, b: 1, a: 1}
+  _ownerAlwaysLit: 1
+  _ownerAlwaysVisible: 1
+  _nonownerColor: {r: 1, g: 1, b: 1, a: 1}
+  _nonownerAlwaysLit: 0
+  _nonownerAlwaysVisible: 0
+  _order: 0

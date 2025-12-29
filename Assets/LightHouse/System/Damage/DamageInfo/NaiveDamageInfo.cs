@@ -1,8 +1,7 @@
-using System;
-using UnityEngine;
-
 namespace LightHouse
 {
+    using System;
+    using UnityEngine;
     [Serializable]
     public class NaiveDamageInfo : DamageInfoBase
     {

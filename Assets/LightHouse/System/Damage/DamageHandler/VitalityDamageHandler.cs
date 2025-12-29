@@ -2,8 +2,9 @@ namespace LightHouse
 {
     using System;
     using UnityEngine;
+
     [Serializable]
-    public class VitalityDamageHandler : DamageHandlerBase
+    public class VitalityDamageHandler : IDamageHandler
     {
         public Vitality Vitality;
         public bool CanHarmSelf;
@@ -11,7 +12,7 @@ namespace LightHouse
         // Handle the damage, and returns `true` if damage propagation should stop here.
         // Ex. If this handler was for applying explosive damage, and the damage wasn't explosive,
         // we would return `false` to signal the `DamageProcessor` to keep iterating handlers.
-        public override bool Handle(DamageProcessor processor, DamageInfoBase damageInfo)
+        public bool Handle(DamageProcessor processor, DamageInfoBase damageInfo)
         {
             if (Vitality == null)
                 return false;

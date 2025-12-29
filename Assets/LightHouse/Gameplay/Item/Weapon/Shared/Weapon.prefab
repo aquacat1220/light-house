@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9011010165433911751}
   - component: {fileID: 4910340789884352298}
-  - component: {fileID: 5339725898429877577}
   m_Layer: 0
   m_Name: Placeholder
   m_TagString: Untagged
@@ -92,25 +91,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &5339725898429877577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 599221219507220311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c209507eaf93dad96b11ab765bc6016e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.MaterialSelector
-  _componentIndexCache: 5
-  _addedNetworkObject: {fileID: 3458800118198264783}
-  _networkObjectCache: {fileID: 3458800118198264783}
-  _ownerMaterial: {fileID: 2100000, guid: eb9ab9c391fde4aa6b7b1e9f733f5cd8, type: 2}
-  _nonownerMaterial: {fileID: 2100000, guid: ea55ae55102fecf9091c88d8383b0407, type: 2}
-  _target_renderers:
-  - {fileID: 4910340789884352298}
 --- !u!1 &948197007501555658
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,7 +178,7 @@ MonoBehaviour:
   - {fileID: 6129219461553058081}
   - {fileID: 6827245192062937493}
   - {fileID: 64550675818251124}
-  - {fileID: 5339725898429877577}
+  - {fileID: 0}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
