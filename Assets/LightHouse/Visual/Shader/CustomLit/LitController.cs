@@ -55,11 +55,6 @@ namespace LightHouse
             set => _material.SetFloat(_alwaysVisibleId, value ? 1f : 0f);
         }
 
-        void Update()
-        {
-            Debug.Log($"{gameObject.name}: {AlwaysLit}, {AlwaysVisible}");
-        }
-
         public void ReevaluateModifiers()
         {
             _modifiers.Sort((x, y) =>

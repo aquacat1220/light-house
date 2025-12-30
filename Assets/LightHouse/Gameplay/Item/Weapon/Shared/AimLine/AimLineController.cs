@@ -8,6 +8,9 @@ namespace LightHouse
     public class AimLineController : MonoBehaviour
     {
         [SerializeField]
+        Item _item;
+
+        [SerializeField]
         UIDocument _aimLineDocument;
 
         [SerializeField]
@@ -37,6 +40,13 @@ namespace LightHouse
 
         void Awake()
         {
+            if (_item == null)
+            {
+                Debug.Log("`_item` was not set.");
+                throw new Exception();
+            }
+            _item.Register += OnRegister;
+            _item.Unregister += OnUnregister;
             if (_aimLineDocument == null)
             {
                 Debug.Log("`_aimLineDocument` wasn't set.");
@@ -51,7 +61,13 @@ namespace LightHouse
             Refresh();
         }
 
-        public void OnFrontSizeChange(float newFrontSize)
+        void OnDestroy()
+        {
+            _item.Register -= OnRegister;
+            _item.Unregister -= OnUnregister;
+        }
+
+        void OnFrontSizeChange(float newFrontSize)
         {
             _aimLineLength = Mathf.Min(_maxAimLineLength, newFrontSize * _cameraSizeToAimLineLength);
             _aimLineWidth = _aimLineLength * _lengtoToWidth;
@@ -93,29 +109,7 @@ namespace LightHouse
             }
         }
 
-        [Serializable]
-        public class OnRegisterFn : IFn<ITuple<ItemSlot>, Fn.Tuple>
-        {
-            public AimLineController AimLineController;
-            public Fn.Tuple Invoke(ITuple<ItemSlot> param)
-            {
-                AimLineController?.OnRegister(param.Item1);
-                return new Fn.Tuple();
-            }
-        }
-
-        [Serializable]
-        public class OnUnregisterFn : IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public AimLineController AimLineController;
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                AimLineController?.OnUnregister();
-                return new Fn.Tuple();
-            }
-        }
-
-        public void OnRegister(ItemSlot itemSlot)
+        void OnRegister(ItemSlot itemSlot)
         {
             if (!itemSlot.Owner.IsLocalClient)
                 return;
@@ -129,7 +123,7 @@ namespace LightHouse
             Refresh();
         }
 
-        public void OnUnregister()
+        void OnUnregister()
         {
             _aimLineDocument.enabled = false;
             if (_playerCharacterCamera != null)

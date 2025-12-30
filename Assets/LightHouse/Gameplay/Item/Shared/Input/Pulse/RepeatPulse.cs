@@ -1,36 +1,36 @@
 namespace LightHouse
 {
     using System;
-    using UnityEngine;
-    using Fn;
 
     [Serializable]
-    public class RepeatPulse : IFn<ITuple<bool>, Fn.Tuple>
+    public class RepeatPulse
     {
-        [SerializeReference]
-        [PolySelector]
-        IFn<Fn.ITuple<bool>, Fn.Tuple> _inner;
-
-        [SerializeField]
-        float _repeatDelay = 0.25f;
+        Action<bool> _inner;
+        float _repeatDelay;
+        TimerBase _timer;
 
         Alarm _alarm;
         bool _isUp = false;
 
-        public RepeatPulse() { }
         public RepeatPulse(
-            IFn<Fn.ITuple<bool>, Fn.Tuple> inner
+            Action<bool> inner,
+            float repeatDelay = 1f,
+            TimerBase timer = null
         )
         {
             _inner = inner;
+            _repeatDelay = repeatDelay;
+            _timer = timer;
+            if (_timer == null)
+                _timer = TimerManager.Singleton;
         }
 
         void OnAlarm(float _)
         {
             if (_isUp)
             {
-                _inner?.Invoke(new Fn.Tuple<bool>(true));
-                _inner?.Invoke(new Fn.Tuple<bool>(false));
+                _inner?.Invoke(true);
+                _inner?.Invoke(false);
             }
             else
             {
@@ -39,23 +39,24 @@ namespace LightHouse
             }
         }
 
-        public Fn.Tuple Invoke(ITuple<bool> param)
+        public void Invoke(bool isUp)
         {
-            _isUp = param.Item1;
+            _isUp = isUp;
             if (_isUp && _alarm == null)
             {
-                _alarm = TimerManager.Singleton.AddAlarm(
+                _inner?.Invoke(true);
+                _inner?.Invoke(false);
+                _alarm = _timer.AddAlarm(
                     cooldown: _repeatDelay,
                     callback: OnAlarm,
                     startImmediately: true,
                     armImmediately: true,
                     autoRestart: true,
                     autoRearm: true,
-                    initialCooldown: 0f,
+                    initialCooldown: _repeatDelay,
                     destroyAfterTriggered: false
                 );
             }
-            return new Fn.Tuple();
         }
     }
 }

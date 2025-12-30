@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8323674693388983420}
   - component: {fileID: 5989156536031541926}
   - component: {fileID: 7641905666977704100}
-  - component: {fileID: 5449249308545545449}
   - component: {fileID: 6590988795066372338}
   - component: {fileID: 5606094261152223815}
   - component: {fileID: 1573302493790001086}
@@ -352,40 +351,6 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
---- !u!114 &5449249308545545449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1063688963136659396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 623b100fcbd31d2ebb4235e93069713a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.NetworkEvent
-  _componentIndexCache: 255
-  _addedNetworkObject: {fileID: 7641905666977704100}
-  _networkObjectCache: {fileID: 0}
-  _onStartNetwork:
-    _listeners: []
-  _onStartServer:
-    _listeners: []
-  _onStartClient:
-    _listeners: []
-  _onStopNetwork:
-    _listeners: []
-  _onStopServer:
-    _listeners: []
-  _onStopClient:
-    _listeners: []
-  _onOwnershipServer:
-    _listeners: []
-  _onOwnershipClient:
-    _listeners: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &6590988795066372338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,7 +388,7 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 7641905666977704100}
   _networkObjectCache: {fileID: 7641905666977704100}
-  _minMaxVit: {x: 0, y: 100}
+  _maxVit: 100
   _initialVit: 100
 --- !u!114 &1573302493790001086
 MonoBehaviour:
@@ -440,15 +405,8 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 7641905666977704100}
   _networkObjectCache: {fileID: 7641905666977704100}
-  _minMaxSan: {x: 0, y: 100}
+  _maxSan: 100
   _initialSan: 100
-  _sanChange:
-    _listeners: []
-  _sanBelowZero:
-    _listeners: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &2223553293404720658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -467,11 +425,6 @@ MonoBehaviour:
   _visionLight: {fileID: 5957840806343753260}
   _modifier: 2
   _falloffDistance: 0.1
-  _rangeChanged:
-    _listeners: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &7256871317220962409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,13 +441,9 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 7641905666977704100}
   _networkObjectCache: {fileID: 7641905666977704100}
   _vitality: {fileID: 5606094261152223815}
-  _death:
-    _listeners: []
+  _disableOnDeath: []
   _respawnDelay: 3
   _despawnDelay: 5
-  references:
-    version: 2
-    RefIds: []
 --- !u!1 &3320970893476492054
 GameObject:
   m_ObjectHideFlags: 0

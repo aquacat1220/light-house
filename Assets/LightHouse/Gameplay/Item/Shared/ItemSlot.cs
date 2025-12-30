@@ -3,15 +3,15 @@ namespace LightHouse
     using System;
     using FishNet.Object;
     using UnityEngine;
-    
+
     public class ItemSlot : NetworkBehaviour
     {
         // The item this slot is equipping. Defaults to `null`, which means the slot is unoccupied.
         public Item Item { get; private set; }
-    
+
         // The user of this item slot.
         public GameObject User;
-    
+
         [Server]
         public bool Equip(Item item)
         {
@@ -27,10 +27,10 @@ namespace LightHouse
             EquipRpc(item);
             if (base.IsServerOnlyStarted)
                 EquipLocal(item);
-            item.Register(this);
+            item.RegisterTo(this);
             return true;
         }
-    
+
         [Server]
         public bool Unequip()
         {
@@ -43,18 +43,18 @@ namespace LightHouse
             EquipRpc(null);
             if (base.IsServerStarted)
                 EquipLocal(null);
-            oldItem.Unregister();
+            oldItem.UnregisterFrom();
             // Remove ownership after RPC calls, so clients will still have ownership on their callbacks.
             oldItem.RemoveOwnership();
             return true;
         }
-    
+
         [ObserversRpc(BufferLast = true)]
         void EquipRpc(Item item)
         {
             EquipLocal(item);
         }
-    
+
         void EquipLocal(Item item)
         {
             if (item == Item)
@@ -68,17 +68,17 @@ namespace LightHouse
             if (item != null)
             {
                 // `item` is not null. We are attempting to equip an item to this slot.
-    
+
                 // First unlink all items and item slots participating in this new link formation.
                 // `Item.UnregisterInner()` must always come before the matching `ItemSlot.UnequipInner()`
                 // to ensure `Item.ItemSlot` is set to the last itemslot during unregister callback.
                 Item?.UnregisterInner();
                 UnequipInner();
-    
+
                 ItemSlot oldItemSlot = item.ItemSlot;
                 item.UnregisterInner();
                 oldItemSlot?.UnequipInner();
-    
+
                 // Then link the item and slot together.
                 // `Item.RegisterInner()` must always come after the matching `ItemSlot.EquipInner()`
                 // to ensure `Item.ItemSlot` is set to the latest itemslot during register callback.
@@ -92,7 +92,7 @@ namespace LightHouse
                 UnequipInner();
             }
         }
-    
+
         public void EquipInner(Item item)
         {
             if (Item == item)
@@ -104,7 +104,7 @@ namespace LightHouse
             }
             Item = item;
         }
-    
+
         public void UnequipInner()
         {
             if (Item == null)

@@ -7,6 +7,9 @@ namespace LightHouse
 
     public class ItemTransform : NetworkBehaviour
     {
+        [SerializeField]
+        Item _item;
+
         enum TransformMode
         {
             Attached,
@@ -22,16 +25,29 @@ namespace LightHouse
 
         void Awake()
         {
+            if (_item == null)
+            {
+                Debug.Log("`_item` was not set.");
+                throw new Exception();
+            }
+            _item.Register += OnRegister;
+            _item.Unregister += OnUnregister;
             _position = transform.position;
             _rotation = transform.rotation.eulerAngles.z;
         }
 
-        public void OnRegister(ItemSlot itemSlot)
+        void OnDestroy()
+        {
+            _item.Register -= OnRegister;
+            _item.Unregister -= OnUnregister;
+        }
+
+        void OnRegister(ItemSlot itemSlot)
         {
             AttachToTransform(itemSlot.transform);
         }
 
-        public void OnUnregister()
+        void OnUnregister()
         {
             DetachFromTransform();
         }

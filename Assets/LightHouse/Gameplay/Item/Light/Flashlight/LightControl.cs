@@ -1,15 +1,16 @@
 namespace LightHouse
 {
     using System;
-    using FishNet.Managing.Timing;
     using FishNet.Object;
     using UnityEngine;
     using UnityEngine.Rendering.Universal;
-    using Fn;
     using FishNet.Connection;
 
     public class LightControl : NetworkBehaviour
     {
+        [SerializeField]
+        Item _item;
+
         [SerializeField]
         Light2D _light;
 
@@ -55,6 +56,14 @@ namespace LightHouse
 
         void Awake()
         {
+            if (_item == null)
+            {
+                Debug.Log("`_item` was not set.");
+                throw new Exception();
+            }
+            _item.Register += OnRegister;
+            _item.Unregister += OnUnregister;
+
             if (!IsValidLight(_light))
             {
                 Debug.Log("`_light` is not valid.");
@@ -74,6 +83,12 @@ namespace LightHouse
             SetIntensity(_initialIntensity);
         }
 
+        void OnDestroy()
+        {
+            _item.Register -= OnRegister;
+            _item.Unregister -= OnUnregister;
+        }
+
         // Set the light color based on ownership.
         public override void OnOwnershipClient(NetworkConnection prevOwner)
         {
@@ -83,7 +98,7 @@ namespace LightHouse
                 _light.color = Color.red;
         }
 
-        public void OnRegister(ItemSlot itemSlot)
+        void OnRegister(ItemSlot itemSlot)
         {
             // Controlling vision is only possible on the server.
             if (base.IsServerInitialized)
@@ -91,7 +106,7 @@ namespace LightHouse
             RefreshVision();
         }
 
-        public void OnUnregister()
+        void OnUnregister()
         {
             if (_vision != null && _handle is Vision.RangeHandle handle)
             {

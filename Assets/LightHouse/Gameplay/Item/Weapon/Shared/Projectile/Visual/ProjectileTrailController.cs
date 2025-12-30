@@ -5,7 +5,7 @@ namespace LightHouse
     using UnityEngine;
     using UnityEngine.VFX;
 
-    public class ProjectileTrail : NetworkBehaviour
+    public class ProjectileTrailController : NetworkBehaviour
     {
         [SerializeField]
         VisualEffect _projectileTrail;

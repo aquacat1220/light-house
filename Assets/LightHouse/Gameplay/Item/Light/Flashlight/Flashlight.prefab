@@ -361,61 +361,6 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 6621121559563478381}
   _networkObjectCache: {fileID: 6621121559563478381}
-  _register:
-    _listeners:
-    - rid: 109098271068651596
-    - rid: 109098271068651594
-    - rid: 109098271068651595
-  _unregister:
-    _listeners:
-    - rid: 109098607350382669
-    - rid: 109098607350382670
-    - rid: 109098607350382671
-  references:
-    version: 2
-    RefIds:
-    - rid: 109098271068651594
-      type: {class: 'MethodFn`2[[LightHouse.ItemSlot, Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 9029418283135670705}
-          MethodName: void OnRegister(ItemSlot)
-        DefaultParam:
-          _item1: {fileID: 0}
-    - rid: 109098271068651595
-      type: {class: 'MethodFn`2[[LightHouse.ItemSlot, Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 1162655753089864281}
-          MethodName: void OnRegister(ItemSlot)
-        DefaultParam:
-          _item1: {fileID: 0}
-    - rid: 109098271068651596
-      type: {class: 'MethodFn`2[[LightHouse.ItemSlot, Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 6343127056236506670}
-          MethodName: void OnRegister(ItemSlot)
-        DefaultParam:
-          _item1: {fileID: 0}
-    - rid: 109098607350382669
-      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 6343127056236506670}
-          MethodName: void OnUnregister()
-    - rid: 109098607350382670
-      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 9029418283135670705}
-          MethodName: void OnUnregister()
-    - rid: 109098607350382671
-      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 1162655753089864281}
-          MethodName: void OnUnregister()
 --- !u!114 &6343127056236506670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,6 +376,7 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 6621121559563478381}
   _networkObjectCache: {fileID: 6621121559563478381}
+  _item: {fileID: 4750419483905691176}
 --- !u!114 &9029418283135670705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,159 +389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d70d2f7c475822ec848483b6330894d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemInput
-  _primary:
-    _listeners:
-    - rid: 109098604277530773
-  _secondary:
-    _listeners: []
-  _action1:
-    _listeners:
-    - rid: 109098607350382684
-  _action2:
-    _listeners:
-    - rid: 109098607350382692
-  _action3:
-    _listeners: []
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 109098604277530773
-      type: {class: 'Branch`2[[LightHouse.Fn.ITuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _condition:
-          rid: 109098604277530774
-        _true:
-          rid: 109098604277530775
-        _false:
-          rid: -2
-    - rid: 109098604277530774
-      type: {class: 'Identity`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data: 
-    - rid: 109098604277530775
-      type: {class: 'Branch`2[[LightHouse.Fn.ITuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _condition:
-          rid: 109098604277530782
-        _true:
-          rid: 109098604277530781
-        _false:
-          rid: 109098604277530783
-    - rid: 109098604277530781
-      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 1162655753089864281}
-          MethodName: void Off()
-    - rid: 109098604277530782
-      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 1162655753089864281}
-          MethodName: bool IsOn()
-    - rid: 109098604277530783
-      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 1162655753089864281}
-          MethodName: void On()
-    - rid: 109098607350382684
-      type: {class: 'Branch`2[[LightHouse.Fn.ITuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _condition:
-          rid: 109098607350382685
-        _true:
-          rid: 109098607350382686
-        _false:
-          rid: 109098607350382687
-    - rid: 109098607350382685
-      type: {class: 'Identity`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data: 
-    - rid: 109098607350382686
-      type: {class: 'Array`1[[LightHouse.Fn.ITuple`1[[System.Boolean, mscorlib]], Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _inners:
-        - rid: 109098607350382688
-        - rid: 109098607350382689
-    - rid: 109098607350382687
-      type: {class: 'Array`1[[LightHouse.Fn.ITuple`1[[System.Boolean, mscorlib]], Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _inners:
-        - rid: 109098607350382690
-        - rid: 109098607350382691
-    - rid: 109098607350382688
-      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 1162655753089864281}
-          MethodName: void StartRangeDown()
-    - rid: 109098607350382689
-      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 1162655753089864281}
-          MethodName: void StartAngleUp()
-    - rid: 109098607350382690
-      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 1162655753089864281}
-          MethodName: void StopRangeDown()
-    - rid: 109098607350382691
-      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 1162655753089864281}
-          MethodName: void StopAngleUp()
-    - rid: 109098607350382692
-      type: {class: 'Branch`2[[LightHouse.Fn.ITuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _condition:
-          rid: 109098607350382693
-        _true:
-          rid: 109098607350382694
-        _false:
-          rid: 109098607350382695
-    - rid: 109098607350382693
-      type: {class: 'Identity`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data: 
-    - rid: 109098607350382694
-      type: {class: 'Array`1[[LightHouse.Fn.ITuple`1[[System.Boolean, mscorlib]], Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _inners:
-        - rid: 109098607350382696
-        - rid: 109098607350382697
-    - rid: 109098607350382695
-      type: {class: 'Array`1[[LightHouse.Fn.ITuple`1[[System.Boolean, mscorlib]], Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _inners:
-        - rid: 109098607350382698
-        - rid: 109098607350382699
-    - rid: 109098607350382696
-      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 1162655753089864281}
-          MethodName: void StartRangeUp()
-    - rid: 109098607350382697
-      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 1162655753089864281}
-          MethodName: void StartAngleDown()
-    - rid: 109098607350382698
-      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 1162655753089864281}
-          MethodName: void StopRangeUp()
-    - rid: 109098607350382699
-      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 1162655753089864281}
-          MethodName: void StopAngleDown()
+  _item: {fileID: 4750419483905691176}
 --- !u!114 &1162655753089864281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -611,6 +405,7 @@ MonoBehaviour:
   _componentIndexCache: 2
   _addedNetworkObject: {fileID: 6621121559563478381}
   _networkObjectCache: {fileID: 6621121559563478381}
+  _item: {fileID: 4750419483905691176}
   _light: {fileID: 2763725900317454453}
   _timeToChange: 1
   _minMaxRange: {x: 4, y: 12}

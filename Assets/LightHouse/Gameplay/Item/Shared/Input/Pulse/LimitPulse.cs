@@ -2,75 +2,96 @@ namespace LightHouse
 {
     using System;
     using UnityEngine;
-    using Fn;
 
     [Serializable]
-    public class LimitPulse : IFn<ITuple<bool>, Fn.Tuple>
+    public class LimitPulse
     {
-        [SerializeReference]
-        [PolySelector]
-        IFn<Fn.ITuple<bool>, Fn.Tuple> _inner;
-
-        [SerializeField]
+        Action<bool> _inner;
         float _delay = 1f;
         // `true` if we want to buffer a pulse-up that arrived during the delay.
-        [SerializeField]
-        bool _bufferInput = false;
+        bool _bufferPulse = false;
+        TimerBase _timer;
 
+        // If `_alarm != null`, this means we are in cooldown.
         Alarm _alarm;
-        // `true` if the next alarm trigger should propagate a pulse-up.
-        bool _bufferedUp = false;
+        bool _innerUp = false;
+        bool _bufferedPulse = false;
 
-        public LimitPulse() { }
         public LimitPulse(
-            IFn<Fn.ITuple<bool>, Fn.Tuple> inner
+            Action<bool> inner,
+            float delay = 1f,
+            bool bufferPulse = false,
+            TimerBase timer = null
         )
         {
             _inner = inner;
+            _delay = delay;
+            _bufferPulse = bufferPulse;
+            _timer = timer;
+            if (_timer == null)
+                _timer = TimerManager.Singleton;
         }
 
         void OnAlarm(float _)
         {
-            if (_bufferedUp)
+            if (_bufferedPulse)
             {
-                _inner?.Invoke(new Fn.Tuple<bool>(true));
-                _bufferedUp = false;
+                InnerUp();
+                _alarm.Arm();
+                _alarm.Start();
+                _bufferedPulse = false;
+                return;
+            }
+            _alarm.Remove();
+            _alarm = null;
+        }
+
+        public void Invoke(bool isUp)
+        {
+            Debug.Log("Invoke");
+            if (isUp)
+            {
+                if (_alarm != null)
+                {
+                    _bufferedPulse = _bufferPulse;
+                    return;
+                }
+
+                InnerUp();
+                _alarm = _timer.AddAlarm(
+                    cooldown: _delay,
+                    callback: OnAlarm,
+                    startImmediately: true,
+                    armImmediately: true,
+                    autoRestart: false,
+                    autoRearm: false,
+                    initialCooldown: _delay,
+                    destroyAfterTriggered: false
+                );
             }
             else
             {
-                _alarm.Remove();
-                _alarm = null;
+                _bufferedPulse = false;
+                InnerDown();
             }
         }
 
-        public Fn.Tuple Invoke(ITuple<bool> param)
+        void InnerUp()
         {
-            bool isUp = param.Item1;
-            if (isUp)
+            if (!_innerUp)
             {
-                if (_bufferInput)
-                    _bufferedUp = true;
-                if (_alarm == null)
-                {
-                    _bufferedUp = true;
-                    _alarm = TimerManager.Singleton.AddAlarm(
-                        cooldown: _delay,
-                        callback: OnAlarm,
-                        startImmediately: true,
-                        armImmediately: true,
-                        autoRestart: true,
-                        autoRearm: true,
-                        initialCooldown: 0f,
-                        destroyAfterTriggered: false
-                    );
-                }
+                _inner?.Invoke(true);
+                _innerUp = true;
             }
-            else
+        }
+
+        void InnerDown()
+        {
+            if (_innerUp)
             {
-                _bufferedUp = false;
-                _inner?.Invoke(new Fn.Tuple<bool>(false));
+                _inner?.Invoke(false);
+                _innerUp = false;
             }
-            return new Fn.Tuple();
         }
     }
 }

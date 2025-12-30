@@ -323,7 +323,7 @@ MonoBehaviour:
   NetworkBehaviours:
   - {fileID: 3245403586699975347}
   - {fileID: 2407176968873372816}
-  - {fileID: 6475626445685616633}
+  - {fileID: 0}
   - {fileID: 4433649382633271224}
   - {fileID: 2834847976491215699}
   InitializedParentNetworkBehaviour: {fileID: 0}
@@ -467,30 +467,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b2c442f2e1fb8eaabf677948b73c9f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightHouse.Collision2DEvent
-  CollisionEnter2D:
-    _listeners: []
-  CollisionStay2D:
-    _listeners: []
-  CollisionExit2D:
-    _listeners: []
-  TriggerEnter2D:
-    _listeners:
-    - rid: 109098175990333632
-  TriggerStay2D:
-    _listeners: []
-  TriggerExit2D:
-    _listeners: []
-  references:
-    version: 2
-    RefIds:
-    - rid: 109098175990333632
-      type: {class: 'MethodFn`2[[UnityEngine.Collider2D, UnityEngine.Physics2DModule],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 4433649382633271224}
-          MethodName: void OnTriggerEnter2D(Collider2D)
-        DefaultParam:
-          _item1: {fileID: 0}
 --- !u!1 &3137681004212832384
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,7 +568,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7614910987638363507}
   - component: {fileID: 2407176968873372816}
-  - component: {fileID: 6475626445685616633}
   - component: {fileID: 4433649382633271224}
   - component: {fileID: 2834847976491215699}
   m_Layer: 0
@@ -639,31 +614,6 @@ MonoBehaviour:
   ProjectileSpawner: {fileID: 0}
   _maxCatchUpTime: 1
   _maxCatchUpDistance: 1
---- !u!114 &6475626445685616633
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5033026217020574515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10196ec4fa59c330190527260a40c013, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ProjectileDamage
-  _componentIndexCache: 2
-  _addedNetworkObject: {fileID: 8589813380030189686}
-  _networkObjectCache: {fileID: 8589813380030189686}
-  _damageInfo:
-    rid: 4866375275036803350
-  references:
-    version: 2
-    RefIds:
-    - rid: 4866375275036803350
-      type: {class: NaiveDamageInfo, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        Attacker: {fileID: 0}
-        Damage: 15
 --- !u!114 &4433649382633271224
 MonoBehaviour:
   m_ObjectHideFlags: 0
