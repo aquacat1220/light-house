@@ -406,6 +406,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 6621121559563478381}
   _networkObjectCache: {fileID: 6621121559563478381}
   _item: {fileID: 4750419483905691176}
+  _itemInput: {fileID: 9029418283135670705}
   _light: {fileID: 2763725900317454453}
   _timeToChange: 1
   _minMaxRange: {x: 4, y: 12}

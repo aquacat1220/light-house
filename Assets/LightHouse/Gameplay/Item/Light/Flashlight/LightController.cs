@@ -5,11 +5,14 @@ namespace LightHouse
     using UnityEngine;
     using UnityEngine.Rendering.Universal;
     using FishNet.Connection;
+    using UnityEngine.Assertions;
 
-    public class LightControl : NetworkBehaviour
+    public class LightController : NetworkBehaviour
     {
         [SerializeField]
         Item _item;
+        [SerializeField]
+        ItemInput _itemInput;
 
         [SerializeField]
         Light2D _light;
@@ -64,6 +67,8 @@ namespace LightHouse
             _item.Register += OnRegister;
             _item.Unregister += OnUnregister;
 
+            Assert.IsNotNull(_itemInput);
+
             if (!IsValidLight(_light))
             {
                 Debug.Log("`_light` is not valid.");
@@ -87,6 +92,20 @@ namespace LightHouse
         {
             _item.Register -= OnRegister;
             _item.Unregister -= OnUnregister;
+        }
+
+        public override void OnStartServer()
+        {
+            _itemInput.Primary += OnPrimary;
+            _itemInput.Action1 += OnAction1;
+            _itemInput.Action2 += OnAction2;
+        }
+
+        public override void OnStopServer()
+        {
+            _itemInput.Primary -= OnPrimary;
+            _itemInput.Action1 -= OnAction1;
+            _itemInput.Action2 -= OnAction2;
         }
 
         // Set the light color based on ownership.
@@ -130,14 +149,52 @@ namespace LightHouse
             _alarm?.Start();
         }
 
+        void OnPrimary(bool newState)
+        {
+            if (!newState)
+                return;
+            if (IsOn())
+                Off();
+            else
+                On();
+        }
+
+        void OnAction1(bool newState)
+        {
+            if (newState)
+            {
+                StartRangeDown();
+                StartAngleUp();
+            }
+            else
+            {
+                StopRangeDown();
+                StopAngleUp();
+            }
+        }
+
+        void OnAction2(bool newState)
+        {
+            if (newState)
+            {
+                StartRangeUp();
+                StartAngleDown();
+            }
+            else
+            {
+                StopRangeUp();
+                StopAngleDown();
+            }
+        }
+
         [Server]
-        public bool IsOn()
+        bool IsOn()
         {
             return _light.enabled;
         }
 
         [Server]
-        public void On()
+        void On()
         {
             SetEnabled(true);
             SyncState();
@@ -145,7 +202,7 @@ namespace LightHouse
         }
 
         [Server]
-        public void Off()
+        void Off()
         {
             SetEnabled(false);
             SyncState();
@@ -153,7 +210,7 @@ namespace LightHouse
         }
 
         [Server]
-        public void StartRangeUp()
+        void StartRangeUp()
         {
             _rangeUp = true;
             SyncState();
@@ -171,7 +228,7 @@ namespace LightHouse
         }
 
         [Server]
-        public void StopRangeUp()
+        void StopRangeUp()
         {
             _rangeUp = false;
             SyncState();
@@ -189,7 +246,7 @@ namespace LightHouse
         }
 
         [Server]
-        public void StartRangeDown()
+        void StartRangeDown()
         {
             _rangeDown = true;
             SyncState();
@@ -207,7 +264,7 @@ namespace LightHouse
         }
 
         [Server]
-        public void StopRangeDown()
+        void StopRangeDown()
         {
             _rangeDown = false;
             SyncState();
@@ -225,7 +282,7 @@ namespace LightHouse
         }
 
         [Server]
-        public void StartIntensityUp()
+        void StartIntensityUp()
         {
             _intensityUp = true;
             SyncState();
@@ -243,7 +300,7 @@ namespace LightHouse
         }
 
         [Server]
-        public void StopIntensityUp()
+        void StopIntensityUp()
         {
             _intensityUp = false;
             SyncState();
@@ -261,7 +318,7 @@ namespace LightHouse
         }
 
         [Server]
-        public void StartIntensityDown()
+        void StartIntensityDown()
         {
             _intensityDown = true;
             SyncState();
@@ -279,7 +336,7 @@ namespace LightHouse
         }
 
         [Server]
-        public void StopIntensityDown()
+        void StopIntensityDown()
         {
             _intensityDown = false;
             SyncState();
@@ -297,7 +354,7 @@ namespace LightHouse
         }
 
         [Server]
-        public void StartAngleUp()
+        void StartAngleUp()
         {
             _angleUp = true;
             SyncState();
@@ -315,7 +372,7 @@ namespace LightHouse
         }
 
         [Server]
-        public void StopAngleUp()
+        void StopAngleUp()
         {
             _angleUp = false;
             SyncState();
@@ -333,7 +390,7 @@ namespace LightHouse
         }
 
         [Server]
-        public void StartAngleDown()
+        void StartAngleDown()
         {
             _angleDown = true;
             SyncState();
@@ -351,7 +408,7 @@ namespace LightHouse
         }
 
         [Server]
-        public void StopAngleDown()
+        void StopAngleDown()
         {
             _angleDown = false;
             SyncState();
