@@ -8,24 +8,28 @@ namespace LightHouse
     public class PlayerCharacterCamera : NetworkBehaviour
     {
         [SerializeField]
-        [Min(0f)]
-        float _maxFrontSize = 10f;
-        [SerializeField]
-        [Min(0f)]
-        float _maxRearSize = 6f;
+        Vision _vision;
+
         [SerializeField]
         [Min(0f)]
         float _minFrontSize = 3f;
         [SerializeField]
         [Min(0f)]
+        float _maxFrontSize = 10f;
+        [SerializeField]
+        [Min(0f)]
         float _minRearSize = 3f;
+        [SerializeField]
+        [Min(0f)]
+        float _maxRearSize = 6f;
 
         [SerializeField]
         Transform _cameraTarget;
 
         FollowCamera _followCamera = null;
 
-        float _size = 6f;
+        // Initial values don't matter, because they will be overwritten as soon as the component gets initialized in `Awake()`.
+        float _size;
         public float Size
         {
             get
@@ -34,56 +38,22 @@ namespace LightHouse
             }
         }
 
-        [SerializeField]
-        Event<float> _sizeChanged;
+        public event Action<float> SizeChanged;
 
-        float _frontSize = 3f;
+        float _frontSize;
         public float FrontSize
         {
             get => _frontSize;
         }
 
-        float _rearSize = 3f;
+        float _rearSize;
         public float RearSize
         {
             get => _rearSize;
         }
 
-        [SerializeField]
-        Event<float> _frontSizeChanged;
-        [SerializeField]
-        Event<float> _rearSizeChanged;
-
-
-        public void AddSizeChangedListener(IFn<Fn.ITuple<float>, Fn.Tuple> listener)
-        {
-            _sizeChanged._listeners.Add(listener);
-        }
-
-        public void RemoveSizeChangedListener(IFn<Fn.ITuple<float>, Fn.Tuple> listener)
-        {
-            _sizeChanged._listeners.Remove(listener);
-        }
-
-        public void AddFrontSizeChangedListener(IFn<Fn.ITuple<float>, Fn.Tuple> listener)
-        {
-            _frontSizeChanged._listeners.Add(listener);
-        }
-
-        public void RemoveFrontSizeChangedListener(IFn<Fn.ITuple<float>, Fn.Tuple> listener)
-        {
-            _frontSizeChanged._listeners.Remove(listener);
-        }
-
-        public void AddRearSizeChangedListener(IFn<Fn.ITuple<float>, Fn.Tuple> listener)
-        {
-            _rearSizeChanged._listeners.Add(listener);
-        }
-
-        public void RemoveRearSizeChangedListener(IFn<Fn.ITuple<float>, Fn.Tuple> listener)
-        {
-            _rearSizeChanged._listeners.Remove(listener);
-        }
+        public event Action<float> FrontSizeChanged;
+        public event Action<float> RearSizeChanged;
 
         void Awake()
         {
@@ -92,6 +62,19 @@ namespace LightHouse
                 Debug.Log("`_cameraTarget` was not set.");
                 throw new Exception();
             }
+
+            if (_vision == null)
+            {
+                Debug.Log("`_vision` wasn't set.");
+                throw new Exception();
+            }
+            _vision.RangeChanged += OnRangeChanged;
+            OnRangeChanged(_vision.Range);
+        }
+
+        void OnDestroy()
+        {
+            _vision.RangeChanged -= OnRangeChanged;
         }
 
         void OnEnable()
@@ -140,7 +123,7 @@ namespace LightHouse
             _followCamera = null;
         }
 
-        public void OnRangeChanged(float newRange)
+        void OnRangeChanged(float newRange)
         {
             float frontSize = Mathf.Clamp(newRange, _minFrontSize, _maxFrontSize);
             float rearSize = Mathf.Clamp(newRange, _minRearSize, _maxRearSize);
@@ -159,11 +142,11 @@ namespace LightHouse
                 _followCamera.Camera.orthographicSize = Size;
 
             if (oldSize != Size)
-                _sizeChanged?.Invoke(Size);
+                SizeChanged?.Invoke(Size);
             if (oldFrontSize != FrontSize)
-                _frontSizeChanged?.Invoke(FrontSize);
+                FrontSizeChanged?.Invoke(FrontSize);
             if (oldRearSize != RearSize)
-                _rearSizeChanged?.Invoke(RearSize);
+                RearSizeChanged?.Invoke(RearSize);
         }
     }
 }

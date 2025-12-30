@@ -425,20 +425,6 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 7641905666977704100}
   _minMaxVit: {x: 0, y: 100}
   _initialVit: 100
-  _vitChange:
-    _listeners: []
-  _vitBelowZero:
-    _listeners:
-    - rid: 109098607350382701
-  references:
-    version: 2
-    RefIds:
-    - rid: 109098607350382701
-      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7256871317220962409}
-          MethodName: void Die()
 --- !u!114 &1573302493790001086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -501,6 +487,7 @@ MonoBehaviour:
   _componentIndexCache: 7
   _addedNetworkObject: {fileID: 7641905666977704100}
   _networkObjectCache: {fileID: 7641905666977704100}
+  _vitality: {fileID: 5606094261152223815}
   _death:
     _listeners: []
   _respawnDelay: 3

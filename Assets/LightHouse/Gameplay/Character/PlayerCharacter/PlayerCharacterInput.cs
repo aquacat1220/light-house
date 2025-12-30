@@ -4,35 +4,25 @@ namespace LightHouse
     using UnityEngine;
     using Fn;
     using UnityEngine.InputSystem;
+    using System;
 
     public class PlayerCharacterInput : NetworkBehaviour
     {
         // Triggered when the move input changes. Argument holds the new input value.
-        [SerializeField]
-        Event<Vector2> _move;
+        public event Action<Vector2> Move;
         // Triggered when the look input changes. Argument holds the new input value.
-        [SerializeField]
-        Event<Vector2> _look;
+        public event Action<Vector2> Look;
         // Triggered when the primary action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
-        [SerializeField]
-        Event<bool> _primary;
+        public event Action<bool> Primary;
         // Triggered when the secondary action is performed or canceled. Argument is `true` when the action is performed, `false` when canceled.
-        [SerializeField]
-        Event<bool> _secondary;
-        [SerializeField]
-        Event<bool> _action1;
-        [SerializeField]
-        Event<bool> _action2;
-        [SerializeField]
-        Event<bool> _action3;
-        [SerializeField]
-        Event<bool> _swapItem;
-        [SerializeField]
-        Event<bool> _swapToBackup1;
-        [SerializeField]
-        Event<bool> _swapToBackup2;
-        [SerializeField]
-        Event<bool> _dropItem;
+        public event Action<bool> Secondary;
+        public event Action<bool> Action1;
+        public event Action<bool> Action2;
+        public event Action<bool> Action3;
+        public event Action<bool> SwapItem;
+        public event Action<bool> SwapToBackup1;
+        public event Action<bool> SwapToBackup2;
+        public event Action<bool> DropItem;
 
         bool _isSubscribedToInputManager = false;
 
@@ -128,84 +118,84 @@ namespace LightHouse
 
         void OnMove(InputAction.CallbackContext context)
         {
-            _move?.Invoke(context.ReadValue<Vector2>());
+            Move?.Invoke(context.ReadValue<Vector2>());
         }
 
         void OnLook(InputAction.CallbackContext context)
         {
-            _look?.Invoke(context.ReadValue<Vector2>());
+            Look?.Invoke(context.ReadValue<Vector2>());
         }
 
         void OnPrimary(InputAction.CallbackContext context)
         {
             if (context.performed)
-                _primary?.Invoke(true);
+                Primary?.Invoke(true);
             else if (context.canceled)
-                _primary?.Invoke(false);
+                Primary?.Invoke(false);
         }
 
         void OnSecondary(InputAction.CallbackContext context)
         {
             if (context.performed)
-                _secondary?.Invoke(true);
+                Secondary?.Invoke(true);
             else if (context.canceled)
-                _secondary?.Invoke(false);
+                Secondary?.Invoke(false);
         }
 
         void OnAction1(InputAction.CallbackContext context)
         {
             if (context.performed)
-                _action1?.Invoke(true);
+                Action1?.Invoke(true);
             else if (context.canceled)
-                _action1?.Invoke(false);
+                Action1?.Invoke(false);
         }
 
         void OnAction2(InputAction.CallbackContext context)
         {
             if (context.performed)
-                _action2?.Invoke(true);
+                Action2?.Invoke(true);
             else if (context.canceled)
-                _action2?.Invoke(false);
+                Action2?.Invoke(false);
         }
 
         void OnAction3(InputAction.CallbackContext context)
         {
             if (context.performed)
-                _action3?.Invoke(true);
+                Action3?.Invoke(true);
             else if (context.canceled)
-                _action3?.Invoke(false);
+                Action3?.Invoke(false);
         }
 
         void OnSwapItem(InputAction.CallbackContext context)
         {
             if (context.performed)
-                _swapItem?.Invoke(true);
+                SwapItem?.Invoke(true);
             else if (context.canceled)
-                _swapItem?.Invoke(false);
+                SwapItem?.Invoke(false);
         }
 
         void OnSwapToBackup1(InputAction.CallbackContext context)
         {
             if (context.performed)
-                _swapToBackup1?.Invoke(true);
+                SwapToBackup1?.Invoke(true);
             else if (context.canceled)
-                _swapToBackup1?.Invoke(false);
+                SwapToBackup1?.Invoke(false);
         }
 
         void OnSwapToBackup2(InputAction.CallbackContext context)
         {
             if (context.performed)
-                _swapToBackup2?.Invoke(true);
+                SwapToBackup2?.Invoke(true);
             else if (context.canceled)
-                _swapToBackup2?.Invoke(false);
+                SwapToBackup2?.Invoke(false);
         }
 
         void OnDropItem(InputAction.CallbackContext context)
         {
             if (context.performed)
-                _dropItem?.Invoke(true);
+                DropItem?.Invoke(true);
             else if (context.canceled)
-                _dropItem?.Invoke(false);
+                DropItem?.Invoke(false);
         }
     }
 }

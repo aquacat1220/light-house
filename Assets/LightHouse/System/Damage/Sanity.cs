@@ -3,33 +3,34 @@ namespace LightHouse
     using System;
     using FishNet.Object;
     using UnityEngine;
-    using Fn;
+
     public class Sanity : NetworkBehaviour
     {
         [SerializeField]
-        Vector2 _minMaxSan = new Vector2(0f, 100f);
+        float _maxSan = 100f;
+        public float MaxSan
+        {
+            get => _maxSan;
+        }
 
         [SerializeField]
         [Min(0f)]
         float _initialSan = 100.0f;
 
-        [SerializeField]
-        Event<float> _sanChange;
-        [SerializeField]
-        Fn.Event _sanBelowZero;
-
         float _san = 0f;
         public float San
         {
-            get { return _san; }
+            get => _san;
         }
+        public event Action<float> SanChange;
+        public event Action SanBelowZero;
 
         void Awake()
         {
-            _san = Math.Clamp(_initialSan, _minMaxSan.x, _minMaxSan.y);
-            _sanChange?.Invoke(_san);
+            _san = Mathf.Min(_initialSan, _maxSan);
+            SanChange?.Invoke(_san);
             if (_san <= 0f)
-                _sanBelowZero?.Invoke();
+                SanBelowZero?.Invoke();
         }
 
         [Server]
@@ -38,12 +39,12 @@ namespace LightHouse
             if (!canHeal)
                 damage = Math.Max(damage, 0f);
             var oldSan = _san;
-            _san = Math.Clamp(_san - damage, _minMaxSan.x, _minMaxSan.y);
+            _san = Mathf.Min(_san - damage, _maxSan);
             if (oldSan != _san)
             {
-                _sanChange?.Invoke(_san);
+                SanChange?.Invoke(_san);
                 if (_san <= 0f)
-                    _sanBelowZero?.Invoke();
+                    SanBelowZero?.Invoke();
                 SanChangeRpc(_san);
             }
         }
@@ -52,9 +53,9 @@ namespace LightHouse
         void SanChangeRpc(float newSan)
         {
             _san = newSan;
-            _sanChange?.Invoke(_san);
+            SanChange?.Invoke(_san);
             if (_san <= 0f)
-                _sanBelowZero?.Invoke();
+                SanBelowZero?.Invoke();
         }
     }
 }

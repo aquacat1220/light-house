@@ -11,6 +11,9 @@ namespace LightHouse
     public class PlayerCharacterInventory : NetworkBehaviour
     {
         [SerializeField]
+        PlayerCharacterInput _input;
+
+        [SerializeField]
         Transform _mainHandAnchor;
         [SerializeField]
         Transform _subHandAnchor;
@@ -28,7 +31,7 @@ namespace LightHouse
         InputState<bool> _action2State = new();
         InputState<bool> _action3State = new();
 
-        bool _blockInputs = true;
+        bool _isSubscribedToInput = false;
 
         void Awake()
         {
@@ -74,7 +77,9 @@ namespace LightHouse
             _action1State.Enable();
             _action2State.Enable();
             _action3State.Enable();
-            _blockInputs = false;
+
+            if (base.IsClientInitialized && base.IsOwner)
+                SubscribeToInput();
         }
 
         void OnDisable()
@@ -84,7 +89,53 @@ namespace LightHouse
             _action1State.Disable();
             _action2State.Disable();
             _action3State.Disable();
-            _blockInputs = true;
+
+            UnsubscribeFromInput();
+        }
+
+        public override void OnStartClient()
+        {
+            if (base.isActiveAndEnabled && base.IsOwner)
+                SubscribeToInput();
+        }
+
+        public override void OnStopClient()
+        {
+            UnsubscribeFromInput();
+        }
+
+        void SubscribeToInput()
+        {
+            if (!_isSubscribedToInput)
+            {
+                _input.Primary += OnPrimary;
+                _input.Secondary += OnSecondary;
+                _input.Action1 += OnAction1;
+                _input.Action2 += OnAction2;
+                _input.Action3 += OnAction3;
+                _input.SwapItem += OnSwapItem;
+                _input.SwapToBackup1 += OnSwapToBackup1;
+                _input.SwapToBackup2 += OnSwapToBackup2;
+                _input.DropItem += OnDropItem;
+                _isSubscribedToInput = true;
+            }
+        }
+
+        void UnsubscribeFromInput()
+        {
+            if (_isSubscribedToInput)
+            {
+                _input.Primary -= OnPrimary;
+                _input.Secondary -= OnSecondary;
+                _input.Action1 -= OnAction1;
+                _input.Action2 -= OnAction2;
+                _input.Action3 -= OnAction3;
+                _input.SwapItem -= OnSwapItem;
+                _input.SwapToBackup1 -= OnSwapToBackup1;
+                _input.SwapToBackup2 -= OnSwapToBackup2;
+                _input.DropItem -= OnDropItem;
+                _isSubscribedToInput = false;
+            }
         }
 
         [Server]
@@ -103,7 +154,7 @@ namespace LightHouse
         }
 
         [Client(RequireOwnership = true)]
-        public void OnPrimary(bool newState)
+        void OnPrimary(bool newState)
         {
             // Let the input pulse flow down the chain on the client.
             OnPrimaryLocal(newState);
@@ -155,7 +206,7 @@ namespace LightHouse
         }
 
         [Client(RequireOwnership = true)]
-        public void OnAction1(bool newState)
+        void OnAction1(bool newState)
         {
             // Let the input pulse flow down the chain on the client.
             OnAction1Local(newState);
@@ -181,7 +232,7 @@ namespace LightHouse
         }
 
         [Client(RequireOwnership = true)]
-        public void OnAction2(bool newState)
+        void OnAction2(bool newState)
         {
             // Let the input pulse flow down the chain on the client.
             OnAction2Local(newState);
@@ -207,7 +258,7 @@ namespace LightHouse
         }
 
         [Client(RequireOwnership = true)]
-        public void OnAction3(bool newState)
+        void OnAction3(bool newState)
         {
             // Let the input pulse flow down the chain on the client.
             OnAction3Local(newState);
@@ -232,27 +283,53 @@ namespace LightHouse
             Assert.IsTrue(rootChangeResult);
         }
 
-        [ServerRpc(RequireOwnership = true)]
-        public void OnSwapItem()
+        [Client(RequireOwnership = true)]
+        void OnSwapItem(bool newState)
         {
-            if (_blockInputs)
+            if (!newState)
                 return;
+            OnSwapItemRpc();
+        }
+
+        [ServerRpc(RequireOwnership = true)]
+        void OnSwapItemRpc()
+        {
             SubToMain();
         }
 
-        [ServerRpc(RequireOwnership = true)]
-        public void OnSwapToBackup(int backup)
+        [Client(RequireOwnership = true)]
+        void OnSwapToBackup1(bool newState)
         {
-            if (_blockInputs)
+            if (!newState)
                 return;
-            BackupToMain(backup);
+            OnSwapToBackupRpc(0);
+        }
+
+        [Client(RequireOwnership = true)]
+        void OnSwapToBackup2(bool newState)
+        {
+            if (!newState)
+                return;
+            OnSwapToBackupRpc(1);
         }
 
         [ServerRpc(RequireOwnership = true)]
-        public void OnDropItem()
+        void OnSwapToBackupRpc(int backup)
         {
-            if (_blockInputs)
+            BackupToMain(backup);
+        }
+
+        [Client(RequireOwnership = true)]
+        void OnDropItem(bool newState)
+        {
+            if (!newState)
                 return;
+            OnDropItemRpc();
+        }
+
+        [ServerRpc(RequireOwnership = true)]
+        void OnDropItemRpc()
+        {
             _itemSlots[_mainHandIdx].Slot.Unequip();
         }
 

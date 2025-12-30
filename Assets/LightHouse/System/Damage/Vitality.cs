@@ -3,34 +3,34 @@ namespace LightHouse
     using System;
     using FishNet.Object;
     using UnityEngine;
-    using Fn;
 
     public class Vitality : NetworkBehaviour
     {
         [SerializeField]
-        Vector2 _minMaxVit = new Vector2(0f, 100f);
+        float _maxVit = 100f;
+        public float MaxVit
+        {
+            get => _maxVit;
+        }
 
         [SerializeField]
         [Min(0f)]
         float _initialVit = 100.0f;
 
-        [SerializeField]
-        Event<float> _vitChange;
-        [SerializeField]
-        Fn.Event _vitBelowZero;
-
         float _vit = 0f;
         public float Vit
         {
-            get { return _vit; }
+            get => _vit;
         }
+        public event Action<float> VitChange;
+        public event Action VitBelowZero;
 
         void Awake()
         {
-            _vit = Math.Clamp(_initialVit, _minMaxVit.x, _minMaxVit.y);
-            _vitChange?.Invoke(_vit);
+            _vit = Mathf.Min(_initialVit, _maxVit);
+            VitChange?.Invoke(_vit);
             if (_vit <= 0f)
-                _vitBelowZero?.Invoke();
+                VitBelowZero?.Invoke();
         }
 
         [Server]
@@ -39,12 +39,12 @@ namespace LightHouse
             if (!canHeal)
                 damage = Math.Max(damage, 0f);
             var oldVit = _vit;
-            _vit = Math.Clamp(_vit - damage, _minMaxVit.x, _minMaxVit.y);
+            _vit = Mathf.Min(_vit - damage, _maxVit);
             if (oldVit != _vit)
             {
-                _vitChange?.Invoke(_vit);
+                VitChange?.Invoke(_vit);
                 if (_vit <= 0f)
-                    _vitBelowZero?.Invoke();
+                    VitBelowZero?.Invoke();
                 VitChangeRpc(_vit);
             }
         }
@@ -53,9 +53,9 @@ namespace LightHouse
         void VitChangeRpc(float newVit)
         {
             _vit = newVit;
-            _vitChange?.Invoke(_vit);
+            VitChange?.Invoke(_vit);
             if (_vit <= 0f)
-                _vitBelowZero?.Invoke();
+                VitBelowZero?.Invoke();
         }
     }
 }

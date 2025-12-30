@@ -32,7 +32,6 @@ namespace LightHouse
         static float _lengthToStub = 0.015f;
 
         PlayerCharacterCamera _playerCharacterCamera;
-        ActionFn<float> _sizeChangeListener;
 
         AimLine _aimLine;
 
@@ -124,8 +123,7 @@ namespace LightHouse
             _playerCharacterCamera = itemSlot.User.GetComponent<PlayerCharacterCamera>();
             if (_playerCharacterCamera != null)
             {
-                _sizeChangeListener = new ActionFn<float>(OnFrontSizeChange);
-                _playerCharacterCamera.AddFrontSizeChangedListener(_sizeChangeListener);
+                _playerCharacterCamera.FrontSizeChanged += OnFrontSizeChange;
                 OnFrontSizeChange(_playerCharacterCamera.FrontSize);
             }
             Refresh();
@@ -136,8 +134,7 @@ namespace LightHouse
             _aimLineDocument.enabled = false;
             if (_playerCharacterCamera != null)
             {
-                _playerCharacterCamera.RemoveFrontSizeChangedListener(_sizeChangeListener);
-                _sizeChangeListener = null;
+                _playerCharacterCamera.FrontSizeChanged -= OnFrontSizeChange;
                 _playerCharacterCamera = null;
             }
         }

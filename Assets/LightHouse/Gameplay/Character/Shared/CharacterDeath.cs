@@ -10,11 +10,25 @@ namespace LightHouse
     public class CharacterDeath : NetworkBehaviour
     {
         [SerializeField]
-        Fn.Event _death;
+        Vitality _vitality;
+
+        [SerializeField]
+        MonoBehaviour[] _disableOnDeath = new MonoBehaviour[0];
+
         [SerializeField, Min(0f)]
         float _respawnDelay = 0f;
         [SerializeField, Min(0f)]
         float _despawnDelay = 0f;
+
+        void Awake()
+        {
+            if (_vitality == null)
+            {
+                Debug.Log("`_vitality` was not set.");
+                throw new Exception();
+            }
+            _vitality.VitBelowZero += Die;
+        }
 
         public override void OnStartServer()
         {
@@ -24,6 +38,11 @@ namespace LightHouse
         public override void OnStopServer()
         {
             base.ServerManager.OnRemoteConnectionState -= OnRemoteConnectionState;
+        }
+
+        void OnDestroy()
+        {
+            _vitality.VitBelowZero -= Die;
         }
 
         // [Server]
@@ -72,7 +91,8 @@ namespace LightHouse
 
         void DieLocal()
         {
-            _death?.Invoke();
+            foreach (var component in _disableOnDeath)
+                component.enabled = false;
         }
 
         void OnRemoteConnectionState(NetworkConnection connection, RemoteConnectionStateArgs args)

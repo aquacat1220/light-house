@@ -63,16 +63,18 @@ namespace LightHouse
             public void SetTick(uint value) => _tick = value;
         }
 
-        PredictionRigidbody2D _predictionRigidbody2D;
-
         // Maximum movement speed of this character.
         [SerializeField]
         float _maxSpeed;
+
+        [SerializeField]
+        PlayerCharacterInput _input;
 
         // Reference to the character's Rigidbody2D.
         [SerializeField]
         Rigidbody2D _rigidBody;
 
+        PredictionRigidbody2D _predictionRigidbody2D;
         // The most recent movement input from the client controlling this character.
         Vector2 _recentMoveInput;
         // The most recent desired angular velocity for this character.
@@ -80,10 +82,7 @@ namespace LightHouse
 
         // Is the component subscribed to timemanager callbacks?
         bool _isSubscribedToTimeManager = false;
-
-        // Is the component subscribed to input actions?
-        bool _isInputBlocked = true;
-
+        bool _isSubscribedToInput = false;
 
         void Awake()
         {
@@ -94,6 +93,12 @@ namespace LightHouse
             }
             _predictionRigidbody2D = new PredictionRigidbody2D();
             _predictionRigidbody2D.Initialize(_rigidBody);
+
+            if (_input == null)
+            {
+                Debug.Log("`_input` wasn't set.");
+                throw new Exception();
+            }
         }
 
         public override void OnStartNetwork()
@@ -111,14 +116,14 @@ namespace LightHouse
             if (base.isActiveAndEnabled && base.IsOwner)
             {
                 // We are the owning client of this character. Subscribe movement functions to the action.
-                AllowInputs();
+                SubscribeToInput();
             }
         }
 
         public override void OnStopClient()
         {
-            // We don't check for ownership here, since calling `UnsubscribeFromAction()` when we are not subscribed shouldn't cause any problems.
-            BlockInputs();
+            // We don't check for ownership here, since calling `UnsubscribeFromInput()` when we are not subscribed shouldn't cause any problems.
+            UnsubscribeFromInput();
             // And call `ResetInputs()` to make sure past inputs don't stay in affect during disabled periods.
             ResetInputs();
         }
@@ -129,35 +134,19 @@ namespace LightHouse
             {
                 // We are the owning client of this character. Allow inputs to control the character.
                 // We need this functionality because we unsubscribe on disable.
-                AllowInputs();
+                SubscribeToInput();
             }
         }
 
         void OnDisable()
         {
-            // We don't check for ownership here, since calling `BlockInputs()` when we are not subscribed shouldn't cause any problems.
-            BlockInputs();
+            // We don't check for ownership here, since calling `UnsubscribeFromInput()` when we are not subscribed shouldn't cause any problems.
+            UnsubscribeFromInput();
             // And call `ResetInputs()` to make sure past inputs don't stay in affect during disabled periods.
             ResetInputs();
 
             // Unsubscribing from time manager will disrupt client side prediction, resulting in desynced positions.
             // UnsubscribeFromTimeManager();
-        }
-
-        void AllowInputs()
-        {
-            if (_isInputBlocked)
-            {
-                _isInputBlocked = false;
-            }
-        }
-
-        void BlockInputs()
-        {
-            if (!_isInputBlocked)
-            {
-                _isInputBlocked = true;
-            }
         }
 
         void SubscribeToTimeManager()
@@ -177,6 +166,26 @@ namespace LightHouse
                 base.TimeManager.OnTick -= OnTimeManagerTick;
                 base.TimeManager.OnPostTick -= OnTimeManagerPostTick;
                 _isSubscribedToTimeManager = false;
+            }
+        }
+
+        void SubscribeToInput()
+        {
+            if (!_isSubscribedToInput)
+            {
+                _input.Move += OnMove;
+                _input.Look += OnLook;
+                _isSubscribedToInput = true;
+            }
+        }
+
+        void UnsubscribeFromInput()
+        {
+            if (_isSubscribedToInput)
+            {
+                _input.Move -= OnMove;
+                _input.Look -= OnLook;
+                _isSubscribedToInput = false;
             }
         }
 
@@ -267,8 +276,6 @@ namespace LightHouse
         [Client(RequireOwnership = true)]
         public void OnMove(Vector2 moveInput)
         {
-            // If input is blocked, ignore it.
-            if (_isInputBlocked) { return; }
             _recentMoveInput = moveInput;
         }
 
@@ -277,8 +284,6 @@ namespace LightHouse
         [Client(RequireOwnership = true)]
         public void OnLook(Vector2 lookInput)
         {
-            // If input is blocked, ignore it.
-            if (_isInputBlocked) { return; }
             float mouseDeltaX = lookInput.x;
             _accumulatedMouseDeltaX += mouseDeltaX;
         }
