@@ -629,6 +629,7 @@ MonoBehaviour:
   _componentIndexCache: 3
   _addedNetworkObject: {fileID: 8589813380030189686}
   _networkObjectCache: {fileID: 8589813380030189686}
+  _collisionEvent: {fileID: 5759999682613790133}
   _damageInfo:
     rid: 4866375275036803350
   references:

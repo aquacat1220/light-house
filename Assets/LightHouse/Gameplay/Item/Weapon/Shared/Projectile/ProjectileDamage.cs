@@ -2,14 +2,30 @@ namespace LightHouse
 {
     using FishNet.Object;
     using UnityEngine;
+    using UnityEngine.Assertions;
 
     public class ProjectileDamage : NetworkBehaviour
     {
+        [SerializeField]
+        Collision2DEvent _collisionEvent;
         [SerializeReference]
         [PolySelector]
         DamageInfoBase _damageInfo;
 
-        public void OnTriggerEnter2D(Collider2D other)
+        void Awake()
+        {
+            Assert.IsNotNull(_collisionEvent);
+            _collisionEvent.TriggerEnter2D += OnTriggerEnter2D;
+
+            Assert.IsNotNull(_damageInfo);
+        }
+
+        void OnDestroy()
+        {
+            _collisionEvent.TriggerEnter2D -= OnTriggerEnter2D;
+        }
+
+        void OnTriggerEnter2D(Collider2D other)
         {
             if (base.IsServerInitialized)
             {

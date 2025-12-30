@@ -20,6 +20,9 @@ namespace LightHouse
         [SerializeField, Min(0f)]
         float _despawnDelay = 0f;
 
+        // Make sure the character only dies once.
+        bool _isDead = false;
+
         void Awake()
         {
             if (_vitality == null)
@@ -50,6 +53,9 @@ namespace LightHouse
         {
             if (!base.IsServerInitialized)
                 return;
+            if (_isDead)
+                return;
+            _isDead = true;
             DieLocal();
             DieRpc();
 

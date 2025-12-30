@@ -24,7 +24,8 @@ namespace LightHouse
         [SerializeField]
         bool _alwaysVisible = false;
 
-        List<(Fn.IFn<Fn.ITuple<Color>, Color> Modifier, int Order)> _modifiers = new();
+        List<(Func<Color, Color> Modifier, int Order)> _modifiers = new();
+        bool _unsorted = true;
 
         Material _material;
 
@@ -38,9 +39,9 @@ namespace LightHouse
             }
 
             _material.SetFloat(_isVectorSpriteId, _isVectorSprite ? 1f : 0f);
-            _material.SetFloat(_alwaysLitId, _alwaysLit ? 1f : 0f);
+            AlwaysLit = _alwaysLit;
             ReevaluateModifiers();
-            _material.SetFloat(_alwaysVisibleId, _alwaysVisible ? 1f : 0f);
+            AlwaysVisible = _alwaysVisible;
         }
 
         public bool AlwaysLit
@@ -57,28 +58,35 @@ namespace LightHouse
 
         public void ReevaluateModifiers()
         {
-            _modifiers.Sort((x, y) =>
+            if (_unsorted)
             {
-                return x.Order.CompareTo(y.Order);
-            });
-            var color = new Fn.Tuple<Color>(_tintColor);
-            foreach (var modifier in _modifiers)
-            {
-                color.Item1 = modifier.Modifier.Invoke(color);
+                _modifiers.Sort((x, y) =>
+                {
+                    return x.Order.CompareTo(y.Order);
+                });
+                _unsorted = false;
             }
 
-            _material.SetColor(_tintColorId, color.Item1);
+            var color = _tintColor;
+            foreach (var modifier in _modifiers)
+            {
+                color = modifier.Modifier.Invoke(color);
+            }
+
+            _material.SetColor(_tintColorId, color);
         }
 
-        public void AddModifier(Fn.IFn<Fn.ITuple<Color>, Color> modifier, int order)
+        public void AddModifier(Func<Color, Color> modifier, int order)
         {
             _modifiers.Add((modifier, order));
+            _unsorted = true;
             ReevaluateModifiers();
         }
 
-        public void RemoveModifier(Fn.IFn<Fn.ITuple<Color>, Color> modifier)
+        public void RemoveModifier(Func<Color, Color> modifier)
         {
             _modifiers.RemoveAll(x => x.Modifier == modifier);
+            _unsorted = true;
             ReevaluateModifiers();
         }
 

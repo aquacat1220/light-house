@@ -4,9 +4,8 @@ namespace LightHouse
     using FishNet.Connection;
     using FishNet.Object;
     using UnityEngine;
-    using Fn;
 
-    public class OwnerColorSelector : NetworkBehaviour
+    public class OwnershipColorModifier : NetworkBehaviour
     {
         [SerializeField]
         LitController _controller;
@@ -28,7 +27,6 @@ namespace LightHouse
         [SerializeField]
         int _order = 0;
 
-        FuncFn<Color, Color> _modifier;
 
         void Awake()
         {
@@ -37,30 +35,35 @@ namespace LightHouse
                 Debug.Log("`_controller` was not set.");
                 throw new Exception();
             }
+            _controller.AddModifier(Modifier, _order);
         }
 
         public override void OnOwnershipClient(NetworkConnection prevOwner)
         {
-            if (_modifier != null)
-            {
-                _controller.RemoveModifier(_modifier);
-                _modifier = null;
-            }
-
             if (base.IsOwner)
             {
-                _modifier = new FuncFn<Color, Color>((_) => _ownerColor);
-                _controller.AddModifier(_modifier, _order);
                 _controller.AlwaysLit = _ownerAlwaysLit;
                 _controller.AlwaysVisible = _ownerAlwaysVisible;
             }
             else
             {
-                _modifier = new FuncFn<Color, Color>((_) => _nonownerColor);
-                _controller.AddModifier(_modifier, _order);
                 _controller.AlwaysLit = _nonownerAlwaysLit;
                 _controller.AlwaysVisible = _nonownerAlwaysVisible;
             }
+
+            _controller.ReevaluateModifiers();
+        }
+
+        void OnDestroy()
+        {
+            _controller.RemoveModifier(Modifier);
+        }
+
+        Color Modifier(Color _)
+        {
+            if (base.IsOwner)
+                return _ownerColor;
+            return _nonownerColor;
         }
     }
 }

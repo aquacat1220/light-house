@@ -110,7 +110,6 @@ namespace LightHouse
         void OnPrimary(bool newState)
         {
             var result = _inputState.RootChangeState(newState);
-            Debug.Log($"OnPrimary {newState} {result}");
             Assert.IsTrue(result);
         }
 
@@ -121,7 +120,6 @@ namespace LightHouse
 
         void TryFire(bool isUp)
         {
-            Debug.Log("TryFire");
             if (!isUp)
                 return;
             _magazine.TryFire();

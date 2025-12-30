@@ -520,6 +520,7 @@ GameObject:
   - component: {fileID: 5677574305675582770}
   - component: {fileID: 5809936151698356531}
   - component: {fileID: 5456794794088366628}
+  - component: {fileID: 5601523307597404578}
   - component: {fileID: 5957840806343753260}
   m_Layer: 0
   m_Name: Visual
@@ -642,6 +643,25 @@ MonoBehaviour:
   _nonownerAlwaysLit: 0
   _nonownerAlwaysVisible: 0
   _order: 0
+--- !u!114 &5601523307597404578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7333554619945174216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e47ddf488f3df3b15a507cfd0fbef029, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.VitalityColorModifier
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 7641905666977704100}
+  _networkObjectCache: {fileID: 0}
+  _controller: {fileID: 5809936151698356531}
+  _vitality: {fileID: 5606094261152223815}
+  _colorAtZero: {r: 0, g: 0, b: 0, a: 1}
+  _order: 1
 --- !u!114 &5957840806343753260
 MonoBehaviour:
   m_ObjectHideFlags: 0

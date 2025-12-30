@@ -48,7 +48,6 @@ namespace LightHouse
 
         public void Invoke(bool isUp)
         {
-            Debug.Log("Invoke");
             if (isUp)
             {
                 if (_alarm != null)
