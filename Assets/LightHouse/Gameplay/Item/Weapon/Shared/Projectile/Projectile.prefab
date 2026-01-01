@@ -255,7 +255,7 @@ GameObject:
   - component: {fileID: 3245403586699975347}
   - component: {fileID: 548014548624377779}
   - component: {fileID: 167218790755596482}
-  - component: {fileID: 5759999682613790133}
+  - component: {fileID: 4638762276619463648}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Untagged
@@ -323,7 +323,6 @@ MonoBehaviour:
   NetworkBehaviours:
   - {fileID: 3245403586699975347}
   - {fileID: 2407176968873372816}
-  - {fileID: 0}
   - {fileID: 4433649382633271224}
   - {fileID: 2834847976491215699}
   InitializedParentNetworkBehaviour: {fileID: 0}
@@ -364,9 +363,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2b597e1828355a4d994a69cbb11ef85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Ownership.PredictedSpawn
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 8589813380030189686}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 8589813380030189686}
   _allowSpawning: 1
   _allowDespawning: 0
 --- !u!50 &548014548624377779
@@ -379,7 +378,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 2787902506105217941}
   m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
@@ -455,7 +454,7 @@ CompositeCollider2D:
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 2787902506105217941}
---- !u!114 &5759999682613790133
+--- !u!114 &4638762276619463648
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -467,6 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b2c442f2e1fb8eaabf677948b73c9f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightHouse.Collision2DEvent
+  _collider2D: {fileID: 167218790755596482}
 --- !u!1 &3137681004212832384
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,6 +477,7 @@ GameObject:
   m_Component:
   - component: {fileID: 956650441183175514}
   - component: {fileID: 7494408195169227935}
+  - component: {fileID: 1477332755628100741}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -525,7 +526,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 74b2bcd9946a701b59bf0b9d83cc6928, type: 2}
+  - {fileID: 2100000, guid: a1cb24ec13b0fe23b9573f1c4e9e0ebb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -558,6 +559,23 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1477332755628100741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3137681004212832384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e5ce5674ae3cd9cbad55d208e7608e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.LitController
+  _target: {fileID: 7494408195169227935}
+  _isVectorSprite: 1
+  _tintColor: {r: 0.9647059, g: 0.9921569, b: 0.6745098, a: 1}
+  _alwaysLit: 1
+  _alwaysVisible: 1
 --- !u!1 &5033026217020574515
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,6 +588,7 @@ GameObject:
   - component: {fileID: 2407176968873372816}
   - component: {fileID: 4433649382633271224}
   - component: {fileID: 2834847976491215699}
+  - component: {fileID: 4078803355397368474}
   m_Layer: 0
   m_Name: FakeRoot
   m_TagString: Untagged
@@ -626,10 +645,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10196ec4fa59c330190527260a40c013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileDamage
-  _componentIndexCache: 3
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 8589813380030189686}
   _networkObjectCache: {fileID: 8589813380030189686}
-  _collisionEvent: {fileID: 5759999682613790133}
+  _collisionEvent: {fileID: 4638762276619463648}
   _damageInfo:
     rid: 4866375275036803350
   references:
@@ -652,7 +671,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ac6df6cd12da3c0eb116f7f7d4c0511, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileTrail
-  _componentIndexCache: 4
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 8589813380030189686}
   _networkObjectCache: {fileID: 8589813380030189686}
   _projectileTrail: {fileID: 4382401428697629230}
+--- !u!114 &4078803355397368474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5033026217020574515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf5dac66561fe04fc9172da0fcfdcca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.ProjectileImpactSpawner
+  _collisionEvent: {fileID: 4638762276619463648}
+  _projectileImpactPrefab: {fileID: 4614371162327880660, guid: 9c360d1f9145c7affb09cb157628f75d, type: 3}
