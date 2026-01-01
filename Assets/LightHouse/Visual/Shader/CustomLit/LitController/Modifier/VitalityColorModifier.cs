@@ -51,7 +51,6 @@ namespace LightHouse
 
         Color Modifier(Color color)
         {
-            Debug.Log($"Evaluating. {_vit}, {_maxVit}");
             return Color.Lerp(_colorAtZero, color, _vit / _maxVit);
         }
     }
