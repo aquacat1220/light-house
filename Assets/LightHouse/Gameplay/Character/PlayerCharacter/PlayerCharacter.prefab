@@ -351,30 +351,35 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCharacter
       objectReference: {fileID: 0}
-    - target: {fileID: 2135755891203379405, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: m_DynamicOccludee
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+    - target: {fileID: 2223553293404720658, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'managedReferences[-2]'
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: _vitBelowZero._listeners.Array.size
+    - target: {fileID: 2223553293404720658, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: _rangeChanged._listeners.Array.size
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: '_vitBelowZero._listeners.Array.data[0]'
-      value: 2166532276616953978
+    - target: {fileID: 2223553293404720658, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'managedReferences[109098607350382700]'
+      value: 'Assembly-CSharp LightHouse.Fn.MethodFn`2[[System.Single, mscorlib],[LightHouse.Fn.Tuple,
+        Assembly-CSharp]]'
       objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: 'managedReferences[2166532276616953978]'
-      value: Assembly-CSharp LightHouse.PlayerCharacterDeath/DieFn
+    - target: {fileID: 2223553293404720658, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: '_rangeChanged._listeners.Array.data[0]'
+      value: 109098607350382700
       objectReference: {fileID: 0}
-    - target: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: managedReferences[2166532276616953978].PlayerCharacterDeath
+    - target: {fileID: 2223553293404720658, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382700].MethodInfo.Target
       value: 
-      objectReference: {fileID: 3253198443913536155}
+      objectReference: {fileID: 7544029604669326017}
+    - target: {fileID: 2223553293404720658, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382700].DefaultParam._item1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2223553293404720658, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382700].MethodInfo.MethodName
+      value: void OnRangeChanged(float)
+      objectReference: {fileID: 0}
     - target: {fileID: 5989156536031541926, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.size
       value: 60
@@ -635,6 +640,118 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'managedReferences[-2]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: _disableOnDeath.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: _death._listeners.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: '_disableOnDeath.Array.data[0]'
+      value: 
+      objectReference: {fileID: 286916112871301450}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: '_disableOnDeath.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8895098666123999204}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: '_disableOnDeath.Array.data[2]'
+      value: 
+      objectReference: {fileID: 7613401983510641006}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: '_disableOnDeath.Array.data[3]'
+      value: 
+      objectReference: {fileID: 7544029604669326017}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: '_death._listeners.Array.data[0]'
+      value: 109098607350382705
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: '_death._listeners.Array.data[1]'
+      value: 109098607350382702
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: '_death._listeners.Array.data[2]'
+      value: 109098607350382703
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: '_death._listeners.Array.data[3]'
+      value: 109098607350382704
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'managedReferences[109098607350382702]'
+      value: 'Assembly-CSharp LightHouse.Fn.MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple,
+        Assembly-CSharp]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'managedReferences[109098607350382703]'
+      value: 'Assembly-CSharp LightHouse.Fn.MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple,
+        Assembly-CSharp]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'managedReferences[109098607350382704]'
+      value: 'Assembly-CSharp LightHouse.Fn.MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple,
+        Assembly-CSharp]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'managedReferences[109098607350382705]'
+      value: 'Assembly-CSharp LightHouse.Fn.MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple,
+        Assembly-CSharp]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382702].MethodInfo.Target
+      value: 
+      objectReference: {fileID: 8895098666123999204}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382703].MethodInfo.Target
+      value: 
+      objectReference: {fileID: 7613401983510641006}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382704].MethodInfo.Target
+      value: 
+      objectReference: {fileID: 7544029604669326017}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382705].MethodInfo.Target
+      value: 
+      objectReference: {fileID: 286916112871301450}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382702].DefaultParam._item1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382703].DefaultParam._item1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382704].DefaultParam._item1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382705].DefaultParam._item1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382702].MethodInfo.MethodName
+      value: void set_enabled(bool)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382703].MethodInfo.MethodName
+      value: void set_enabled(bool)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382704].MethodInfo.MethodName
+      value: void set_enabled(bool)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: managedReferences[109098607350382705].MethodInfo.MethodName
+      value: void set_enabled(bool)
+      objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: WasActiveDuringEdit
       value: 0
@@ -664,6 +781,10 @@ PrefabInstance:
       value: 12883523950948078267
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[0]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[1]'
       value: 
       objectReference: {fileID: 6648798440151713100}
@@ -671,10 +792,6 @@ PrefabInstance:
       propertyPath: 'NetworkBehaviours.Array.data[2]'
       value: 
       objectReference: {fileID: 286916112871301450}
-    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: 'NetworkBehaviours.Array.data[3]'
-      value: 
-      objectReference: {fileID: 3324938354885705573}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[4]'
       value: 
@@ -719,10 +836,6 @@ PrefabInstance:
       propertyPath: InitializedNestedNetworkObjects.Array.size
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7886958773888455847, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      propertyPath: m_DynamicOccludee
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -747,22 +860,13 @@ PrefabInstance:
       addedObject: {fileID: 286916112871301450}
     - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3324938354885705573}
+      addedObject: {fileID: 8895098666123999204}
     - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7613401983510641006}
     - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6290294256753253600}
-    - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 7544029604669326017}
-    - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3253198443913536155}
-    - targetCorrespondingSourceObject: {fileID: 7333554619945174216, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1963208907921747166}
   m_SourcePrefab: {fileID: 100100000, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
 --- !u!4 &1599423349212434369 stripped
 Transform:
@@ -780,63 +884,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &3194808805283927610 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7333554619945174216, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+--- !u!114 &3253198443913536155 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
   m_PrefabInstance: {fileID: 5300799141838639858}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1963208907921747166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3194808805283927610}
-  m_Enabled: 0
+  m_GameObject: {fileID: 5139385379916303670}
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Script: {fileID: 11500000, guid: d8a1b5f64b205776abed91de20e38c09, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.Light2D
-  m_ComponentVersion: 2
-  m_LightType: 3
-  m_BlendStyleIndex: 2
-  m_FalloffIntensity: 0.7
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_LightVolumeIntensity: 1
-  m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 43cd770900000000e91fe1b6
-  m_LightCookieSprite: {fileID: 0}
-  m_DeprecatedPointLightCookieSprite: {fileID: 0}
-  m_LightOrder: 0
-  m_AlphaBlendOnOverlap: 0
-  m_OverlapOperation: 0
-  m_NormalMapDistance: 3
-  m_NormalMapQuality: 2
-  m_UseNormalMap: 0
-  m_ShadowsEnabled: 0
-  m_ShadowIntensity: 0.75
-  m_ShadowSoftness: 0.3
-  m_ShadowSoftnessFalloffIntensity: 0.5
-  m_ShadowVolumeIntensityEnabled: 0
-  m_ShadowVolumeIntensity: 0.75
-  m_LocalBounds:
-    m_Center: {x: 0, y: -0.00000011920929, z: 0}
-    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
-  m_PointLightInnerAngle: 360
-  m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 0
-  m_ShapeLightParametricSides: 5
-  m_ShapeLightParametricAngleOffset: 0
-  m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 0.5
-  m_ShapeLightFalloffOffset: {x: 0, y: 0}
-  m_ShapePath:
-  - {x: -0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: 0.5, z: 0}
-  - {x: -0.5, y: 0.5, z: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCharacterDeath
 --- !u!4 &3359726144973146153 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7435475543984397019, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
@@ -872,292 +930,7 @@ MonoBehaviour:
   _componentIndexCache: 2
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
-  _move:
-    _listeners:
-    - rid: 2166532276616953948
-  _look:
-    _listeners:
-    - rid: 2166532276616953949
-  _primary:
-    _listeners:
-    - rid: 109098271068651615
-  _secondary:
-    _listeners:
-    - rid: 109098271068651675
-  _action1:
-    _listeners:
-    - rid: 109098271068651678
-  _action2:
-    _listeners:
-    - rid: 109098271068651681
-  _action3:
-    _listeners:
-    - rid: 109098271068651684
-  _swapItem:
-    _listeners:
-    - rid: 109098271068651687
-  _swapToBackup1:
-    _listeners:
-    - rid: 109098271068651694
-  _swapToBackup2:
-    _listeners:
-    - rid: 109098271068651698
-  _dropItem:
-    _listeners:
-    - rid: 109098271068651691
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 109098271068651615
-      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _condition:
-          rid: 109098271068651617
-        _true:
-          rid: 109098271068651619
-        _false:
-          rid: -2
-    - rid: 109098271068651617
-      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7613401983510641006}
-          MethodName: bool get_IsOwner()
-    - rid: 109098271068651619
-      type: {class: 'MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7613401983510641006}
-          MethodName: void OnPrimary(bool)
-        DefaultParam:
-          _item1: 0
-    - rid: 109098271068651675
-      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _condition:
-          rid: 109098271068651676
-        _true:
-          rid: 109098271068651677
-        _false:
-          rid: -2
-    - rid: 109098271068651676
-      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7613401983510641006}
-          MethodName: bool get_IsOwner()
-    - rid: 109098271068651677
-      type: {class: 'MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7613401983510641006}
-          MethodName: void OnSecondary(bool)
-        DefaultParam:
-          _item1: 0
-    - rid: 109098271068651678
-      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _condition:
-          rid: 109098271068651679
-        _true:
-          rid: 109098271068651680
-        _false:
-          rid: -2
-    - rid: 109098271068651679
-      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7613401983510641006}
-          MethodName: bool get_IsOwner()
-    - rid: 109098271068651680
-      type: {class: 'MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7613401983510641006}
-          MethodName: void OnAction1(bool)
-        DefaultParam:
-          _item1: 0
-    - rid: 109098271068651681
-      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _condition:
-          rid: 109098271068651682
-        _true:
-          rid: 109098271068651683
-        _false:
-          rid: -2
-    - rid: 109098271068651682
-      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7613401983510641006}
-          MethodName: bool get_IsOwner()
-    - rid: 109098271068651683
-      type: {class: 'MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7613401983510641006}
-          MethodName: void OnAction2(bool)
-        DefaultParam:
-          _item1: 0
-    - rid: 109098271068651684
-      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _condition:
-          rid: 109098271068651685
-        _true:
-          rid: 109098271068651686
-        _false:
-          rid: -2
-    - rid: 109098271068651685
-      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7613401983510641006}
-          MethodName: bool get_IsOwner()
-    - rid: 109098271068651686
-      type: {class: 'MethodFn`2[[System.Boolean, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7613401983510641006}
-          MethodName: void OnAction3(bool)
-        DefaultParam:
-          _item1: 0
-    - rid: 109098271068651687
-      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _condition:
-          rid: 109098271068651708
-        _true:
-          rid: 109098271068651690
-        _false:
-          rid: -2
-    - rid: 109098271068651690
-      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7613401983510641006}
-          MethodName: void OnSwapItem()
-    - rid: 109098271068651691
-      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _condition:
-          rid: 109098271068651711
-        _true:
-          rid: 109098271068651693
-        _false:
-          rid: -2
-    - rid: 109098271068651693
-      type: {class: 'MethodFn`1[[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7613401983510641006}
-          MethodName: void OnDropItem()
-    - rid: 109098271068651694
-      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _condition:
-          rid: 109098271068651701
-        _true:
-          rid: 109098271068651697
-        _false:
-          rid: -2
-    - rid: 109098271068651697
-      type: {class: 'MethodFn`2[[System.Int32, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7613401983510641006}
-          MethodName: void OnSwapToBackup(int)
-        DefaultParam:
-          _item1: 0
-    - rid: 109098271068651698
-      type: {class: 'Branch`2[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        _condition:
-          rid: 109098271068651705
-        _true:
-          rid: 109098271068651700
-        _false:
-          rid: -2
-    - rid: 109098271068651700
-      type: {class: 'MethodFn`2[[System.Int32, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7613401983510641006}
-          MethodName: void OnSwapToBackup(int)
-        DefaultParam:
-          _item1: 1
-    - rid: 109098271068651701
-      type: {class: 'And`1[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        Conditions:
-        - rid: 109098271068651704
-        - rid: 109098271068651703
-    - rid: 109098271068651703
-      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7613401983510641006}
-          MethodName: bool get_IsOwner()
-    - rid: 109098271068651704
-      type: {class: 'Identity`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data: 
-    - rid: 109098271068651705
-      type: {class: 'And`1[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        Conditions:
-        - rid: 109098271068651706
-        - rid: 109098271068651707
-    - rid: 109098271068651706
-      type: {class: 'Identity`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data: 
-    - rid: 109098271068651707
-      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7613401983510641006}
-          MethodName: bool get_IsOwner()
-    - rid: 109098271068651708
-      type: {class: 'And`1[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        Conditions:
-        - rid: 109098271068651709
-        - rid: 109098271068651710
-    - rid: 109098271068651709
-      type: {class: 'Identity`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data: 
-    - rid: 109098271068651710
-      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7613401983510641006}
-          MethodName: bool get_IsOwner()
-    - rid: 109098271068651711
-      type: {class: 'And`1[[LightHouse.Fn.Tuple`1[[System.Boolean, mscorlib]], Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        Conditions:
-        - rid: 109098271068651712
-        - rid: 109098271068651713
-    - rid: 109098271068651712
-      type: {class: 'Identity`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data: 
-    - rid: 109098271068651713
-      type: {class: 'MethodFn`1[[System.Boolean, mscorlib]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7613401983510641006}
-          MethodName: bool get_IsOwner()
-    - rid: 2166532276616953948
-      type: {class: PredictedMovement/OnMoveFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        PredictedMovement: {fileID: 3324938354885705573}
-    - rid: 2166532276616953949
-      type: {class: PredictedMovement/OnLookFn, ns: LightHouse, asm: Assembly-CSharp}
-      data:
-        PredictedMovement: {fileID: 3324938354885705573}
---- !u!114 &3324938354885705573
+--- !u!114 &8895098666123999204
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1173,6 +946,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
   _maxSpeed: 3
+  _input: {fileID: 286916112871301450}
   _rigidBody: {fileID: 4184858578783768206}
 --- !u!114 &7613401983510641006
 MonoBehaviour:
@@ -1189,43 +963,12 @@ MonoBehaviour:
   _componentIndexCache: 4
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
+  _input: {fileID: 286916112871301450}
   _mainHandAnchor: {fileID: 8119588425305905567}
   _subHandAnchor: {fileID: 3864649624005245443}
   _backupAnchors:
   - {fileID: 8393856002408595147}
   - {fileID: 8272814554145449712}
---- !u!114 &6290294256753253600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5139385379916303670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d49b2f94a0a84eac88a3a97d5f15f68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 5
-  _addedNetworkObject: {fileID: 2566409721090996822}
-  _networkObjectCache: {fileID: 2566409721090996822}
-  _visionLight: {fileID: 1963208907921747166}
-  _modifier: 2
-  _falloffDistance: 0.1
-  _rangeChanged:
-    _listeners:
-    - rid: 109098250384441759
-  references:
-    version: 2
-    RefIds:
-    - rid: 109098250384441759
-      type: {class: 'MethodFn`2[[System.Single, mscorlib],[LightHouse.Fn.Tuple, Assembly-CSharp]]', ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MethodInfo:
-          Target: {fileID: 7544029604669326017}
-          MethodName: void OnRangeChanged(float)
-        DefaultParam:
-          _item1: 0
 --- !u!114 &7544029604669326017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1241,62 +984,28 @@ MonoBehaviour:
   _componentIndexCache: 6
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
-  _maxFrontRange: 10
-  _maxRearRange: 6
-  _minFrontRange: 3
-  _minRearRange: 3
+  _vision: {fileID: 6290294256753253600}
+  _maxFrontSize: 10
+  _maxRearSize: 6
+  _minFrontSize: 3
+  _minRearSize: 3
   _cameraTarget: {fileID: 4734755022205498180}
   _sizeChanged:
     _listeners: []
   references:
     version: 2
     RefIds: []
---- !u!114 &3253198443913536155
+--- !u!114 &6290294256753253600 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 2223553293404720658, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+  m_PrefabInstance: {fileID: 5300799141838639858}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5139385379916303670}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8a1b5f64b205776abed91de20e38c09, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d49b2f94a0a84eac88a3a97d5f15f68, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCharacterDeath
-  _componentIndexCache: 7
-  _addedNetworkObject: {fileID: 2566409721090996822}
-  _networkObjectCache: {fileID: 2566409721090996822}
-  _death:
-    _listeners:
-    - rid: 2166532276616953979
-    - rid: 2166532276616953980
-    - rid: 2166532276616953981
-    - rid: 2166532276616953982
-  _respawnDelay: 3
-  _despawnDelay: 5
-  references:
-    version: 2
-    RefIds:
-    - rid: 2166532276616953979
-      type: {class: EnableFn, ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MonoBehaviour: {fileID: 286916112871301450}
-        DefaultParam: 0
-    - rid: 2166532276616953980
-      type: {class: EnableFn, ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MonoBehaviour: {fileID: 3324938354885705573}
-        DefaultParam: 0
-    - rid: 2166532276616953981
-      type: {class: EnableFn, ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MonoBehaviour: {fileID: 7613401983510641006}
-        DefaultParam: 0
-    - rid: 2166532276616953982
-      type: {class: EnableFn, ns: LightHouse.Fn, asm: Assembly-CSharp}
-      data:
-        MonoBehaviour: {fileID: 7544029604669326017}
-        DefaultParam: 0
+  m_EditorClassIdentifier: 
 --- !u!114 &6648798440151713100 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1573302493790001086, guid: d2c828e519c166684af8c10a7975ee06, type: 3}

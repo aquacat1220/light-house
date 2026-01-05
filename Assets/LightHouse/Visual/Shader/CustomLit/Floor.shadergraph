@@ -775,7 +775,7 @@
     "m_AlembicMotionVectors": false,
     "m_SupportsLODCrossFade": false,
     "m_CustomEditorGUI": "",
-    "m_SupportVFX": false
+    "m_SupportVFX": true
 }
 
 {
@@ -1335,8 +1335,8 @@
     "m_ObjectId": "30cf57a616f24fc7ac84beb249adba62",
     "m_Title": "Main Texture",
     "m_Position": {
-        "x": -2132.0,
-        "y": -926.0
+        "x": -2132.000244140625,
+        "y": -926.0001220703125
     }
 }
 
@@ -4680,7 +4680,7 @@
     "m_ObjectId": "f3634b2321e5439a83f4f4469b89cb7f",
     "m_Title": "Vision Light Texture",
     "m_Position": {
-        "x": -3621.0,
+        "x": -3621.000244140625,
         "y": 160.99989318847657
     }
 }
@@ -4977,8 +4977,8 @@
     "m_ObjectId": "ff2afc51f8d64c188c57db7418b3067d",
     "m_Title": "Default Light Texture",
     "m_Position": {
-        "x": -3623.0,
-        "y": 830.0003662109375
+        "x": -3623.000244140625,
+        "y": 829.9999389648438
     }
 }
 

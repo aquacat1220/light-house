@@ -3,20 +3,17 @@ namespace LightHouse
     using System;
     using FishNet.Object;
     using UnityEngine;
-    using Fn;
 
     public class Item : NetworkBehaviour
     {
-        [SerializeField]
-        Event<ItemSlot> _register;
-        [SerializeField]
-        Fn.Event _unregister;
+        public event Action<ItemSlot> Register;
+        public event Action Unregister;
 
         // The item slot this item is registered to. Defaults to `null`, which means the item isn't registered to anything.
         public ItemSlot ItemSlot { get; private set; }
 
         [Server]
-        public void Register(ItemSlot itemSlot)
+        public void RegisterTo(ItemSlot itemSlot)
         {
             RegisterRpc(itemSlot);
             if (base.IsServerOnlyStarted)
@@ -24,7 +21,7 @@ namespace LightHouse
         }
 
         [Server]
-        public void Unregister()
+        public void UnregisterFrom()
         {
             RegisterRpc(null);
             if (base.IsServerStarted)
@@ -81,14 +78,14 @@ namespace LightHouse
                 throw new Exception();
             }
             ItemSlot = itemSlot;
-            _register?.Invoke(itemSlot);
+            Register?.Invoke(itemSlot);
         }
 
         public void UnregisterInner()
         {
             if (ItemSlot == null)
                 return;
-            _unregister?.Invoke();
+            Unregister?.Invoke();
             ItemSlot = null;
         }
     }

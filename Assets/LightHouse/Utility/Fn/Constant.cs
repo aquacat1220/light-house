@@ -25,9 +25,8 @@ namespace LightHouse.Fn
     }
 
     [Serializable]
-    public class ConstantVal<TResult> : IFn<ITupleBase, TResult> where TResult : struct
+    public class ConstantVal<TResult> : IFn<ITupleBase, TResult>
     {
-        [PolySelector]
         public TResult Value;
 
         public ConstantVal() { }

@@ -4,9 +4,13 @@ namespace LightHouse
     using FishNet.Object;
     using LightHouse.Fn;
     using UnityEngine;
+    using UnityEngine.Assertions;
 
     public class RandomSpread : NetworkBehaviour
     {
+        [SerializeField]
+        ProjectileSpawner _projectileSpawner;
+
         [SerializeField]
         Transform _spawnPoint;
 
@@ -60,6 +64,10 @@ namespace LightHouse
 
         void Awake()
         {
+            Assert.IsNotNull(_projectileSpawner);
+            _projectileSpawner.PredictedCounterChange += OnPredictedCounterChange;
+            OnPredictedCounterChange(_projectileSpawner.PredictedCounter);
+
             if (_spawnPoint == null)
             {
                 Debug.Log("`_spawnPoint` was not set.");
@@ -101,26 +109,6 @@ namespace LightHouse
             _coolAlarm?.Start();
         }
 
-        [Serializable]
-        public class ApplySpreadFn : IFn<ITuple<bool, bool>, Fn.Tuple>, IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public RandomSpread RandomSpread;
-            public bool AddHeat = true;
-            public bool ReuseAimError = false;
-
-            public Fn.Tuple Invoke(ITuple<bool, bool> param)
-            {
-                RandomSpread?.ApplySpread(param.Item1, param.Item2);
-                return Fn.Tuple.Unit;
-            }
-
-            public Fn.Tuple Invoke(Fn.Tuple param)
-            {
-                RandomSpread?.ApplySpread(AddHeat, ReuseAimError);
-                return Fn.Tuple.Unit;
-            }
-        }
-
         public void ApplySpread(bool addHeat = true, bool reuseAimError = false)
         {
             var rng = new SplitMix64((ulong)_predictedCounter);
@@ -151,19 +139,7 @@ namespace LightHouse
             _delayAlarm.Start();
         }
 
-        [Serializable]
-        public class OnPredictedCounterChangeFn : IFn<ITuple<int>, Fn.Tuple>
-        {
-            public RandomSpread RandomSpread;
-
-            public Fn.Tuple Invoke(ITuple<int> param)
-            {
-                RandomSpread?.OnPredictedCounterChange(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        public void OnPredictedCounterChange(int newPredictedCounter)
+        void OnPredictedCounterChange(int newPredictedCounter)
         {
             _predictedCounter = newPredictedCounter;
         }
@@ -195,15 +171,6 @@ namespace LightHouse
                 _coolAlarm.Remove();
                 _coolAlarm = null;
             }
-        }
-
-        bool CheckSpawn(Transform spawnPoint)
-        {
-            if (_spawnPoint == null)
-                return true;
-            if (_spawnPoint.localPosition != Vector3.zero || _spawnPoint.localRotation != Quaternion.identity || _spawnPoint.localScale != Vector3.one)
-                return false;
-            return true;
         }
     }
 }

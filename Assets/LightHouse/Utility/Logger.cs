@@ -11,13 +11,13 @@ namespace LightHouse
         public Fn.Tuple Invoke(ITuple<string> param)
         {
             Debug.Log($"{Time.time}: {param.Item1}");
-            return Fn.Tuple.Unit;
+            return new Fn.Tuple();
         }
 
         public Fn.Tuple Invoke(Fn.ITupleBase _)
         {
             Debug.Log($"{Time.time}: {DefaultArgument}");
-            return Fn.Tuple.Unit;
+            return new Fn.Tuple();
         }
     }
 }

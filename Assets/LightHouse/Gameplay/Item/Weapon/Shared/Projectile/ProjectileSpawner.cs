@@ -6,9 +6,7 @@ namespace LightHouse
     using FishNet.Managing.Timing;
     using FishNet.Object;
     using FishNet.Observing;
-    using LightHouse.Fn;
     using UnityEngine;
-    using UnityEngine.Events;
 
     public class ProjectileSpawner : NetworkBehaviour
     {
@@ -22,10 +20,8 @@ namespace LightHouse
         [SerializeField]
         static float _maxWaitTime = 0.025f;
 
-        [SerializeField]
-        Event<int> _counterChange;
-        [SerializeField]
-        Event<int> _predictedCounterChange;
+        public event Action<int> CounterChange;
+        public event Action<int> PredictedCounterChange;
 
         // The number of projectiles that were spawned across the network.
         // On clients, this is the number of authoritative-spawned projectiles + accepted predicted-spawned projectiles.
@@ -177,17 +173,6 @@ namespace LightHouse
             }
         }
 
-        [Serializable]
-        public class SpawnProjectileFn : IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public ProjectileSpawner ProjectileSpawner;
-            public Fn.Tuple Invoke(Fn.Tuple param)
-            {
-                ProjectileSpawner?.SpawnProjectile();
-                return Fn.Tuple.Unit;
-            }
-        }
-
         public void SpawnProjectile()
         {
             if (!base.IsSpawned)
@@ -202,7 +187,6 @@ namespace LightHouse
                 if (!base.IsServerInitialized)
                     return;
 
-                Debug.Log("POOL");
                 var projectileNob = NetworkManager.GetPooledInstantiated(_projectile, _spawnPoint.position, _spawnPoint.rotation, true);
                 var projectile = projectileNob.GetComponentInChildren<ProjectileTransform>();
                 projectile.ProjectileSpawner = this;
@@ -425,13 +409,13 @@ namespace LightHouse
         {
             if (_oldCounter != _counter)
             {
-                _counterChange?.Invoke(_counter);
+                CounterChange?.Invoke(_counter);
                 // Debug.Log($"Counter changed: {_oldCounter} -> {_counter}.");
                 _oldCounter = _counter;
             }
             if (_oldPredictedCounter != _counter + _predictedDelta)
             {
-                _predictedCounterChange?.Invoke(_counter + _predictedDelta);
+                PredictedCounterChange?.Invoke(_counter + _predictedDelta);
                 // Debug.Log($"Predicted counter changed: {_oldPredictedCounter} -> {_counter + _predictedDelta}.");
                 _oldPredictedCounter = _counter + _predictedDelta;
             }

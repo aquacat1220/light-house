@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 6590988795066372338}
   - component: {fileID: 5606094261152223815}
   - component: {fileID: 1573302493790001086}
+  - component: {fileID: 2223553293404720658}
+  - component: {fileID: 7256871317220962409}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -386,15 +388,8 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 7641905666977704100}
   _networkObjectCache: {fileID: 7641905666977704100}
-  _minMaxVit: {x: 0, y: 100}
+  _maxVit: 100
   _initialVit: 100
-  _vitChange:
-    _listeners: []
-  _vitBelowZero:
-    _listeners: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &1573302493790001086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,15 +405,45 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 7641905666977704100}
   _networkObjectCache: {fileID: 7641905666977704100}
-  _minMaxSan: {x: 0, y: 100}
+  _maxSan: 100
   _initialSan: 100
-  _sanChange:
-    _listeners: []
-  _sanBelowZero:
-    _listeners: []
-  references:
-    version: 2
-    RefIds: []
+--- !u!114 &2223553293404720658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063688963136659396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d49b2f94a0a84eac88a3a97d5f15f68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 5
+  _addedNetworkObject: {fileID: 7641905666977704100}
+  _networkObjectCache: {fileID: 7641905666977704100}
+  _visionLight: {fileID: 5957840806343753260}
+  _modifier: 2
+  _falloffDistance: 0.1
+--- !u!114 &7256871317220962409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063688963136659396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8a1b5f64b205776abed91de20e38c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCharacterDeath
+  _componentIndexCache: 7
+  _addedNetworkObject: {fileID: 7641905666977704100}
+  _networkObjectCache: {fileID: 7641905666977704100}
+  _vitality: {fileID: 5606094261152223815}
+  _disableOnDeath: []
+  _respawnDelay: 3
+  _despawnDelay: 5
 --- !u!1 &3320970893476492054
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,9 +516,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7435475543984397019}
+  - component: {fileID: 5957840806343753260}
   - component: {fileID: 8586640149748357918}
   - component: {fileID: 5677574305675582770}
-  - component: {fileID: 3077033824436484649}
+  - component: {fileID: 5809936151698356531}
+  - component: {fileID: 5456794794088366628}
+  - component: {fileID: 5601523307597404578}
+  - component: {fileID: 2730616135195260171}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -518,6 +547,58 @@ Transform:
   - {fileID: 8949152631726614769}
   m_Father: {fileID: 6891197595918081331}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5957840806343753260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7333554619945174216}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.Light2D
+  m_ComponentVersion: 2
+  m_LightType: 3
+  m_BlendStyleIndex: 2
+  m_FalloffIntensity: 0.7
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_LightVolumeIntensity: 1
+  m_LightVolumeEnabled: 0
+  m_ApplyToSortingLayers: 43cd770900000000e91fe1b6
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowsEnabled: 0
+  m_ShadowIntensity: 0.75
+  m_ShadowSoftness: 0.3
+  m_ShadowSoftnessFalloffIntensity: 0.5
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: 0, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 0
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
 --- !u!23 &8586640149748357918
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -575,7 +656,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7333554619945174216}
   m_Mesh: {fileID: 4300000, guid: 0ee3d74b2a64bb8349af493e85a4a34a, type: 2}
---- !u!114 &3077033824436484649
+--- !u!114 &5809936151698356531
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -584,16 +665,77 @@ MonoBehaviour:
   m_GameObject: {fileID: 7333554619945174216}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c209507eaf93dad96b11ab765bc6016e, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e5ce5674ae3cd9cbad55d208e7608e4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.MaterialSelector
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.LitController
+  _target: {fileID: 8586640149748357918}
+  _isVectorSprite: 0
+  _tintColor: {r: 1, g: 1, b: 1, a: 1}
+  _alwaysLit: 1
+  _alwaysVisible: 1
+--- !u!114 &5456794794088366628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7333554619945174216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b22aaefb4b0b1ea62a745b3f0214d46f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.CharacterColorSelector
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 7641905666977704100}
   _networkObjectCache: {fileID: 0}
-  _ownerMaterial: {fileID: 2100000, guid: 3a2d94c95e20c4dcf968a03ada99b97d, type: 2}
-  _nonownerMaterial: {fileID: 2100000, guid: c679d75e1a952a776857298355b402c7, type: 2}
-  _target_renderers:
-  - {fileID: 8586640149748357918}
+  _controller: {fileID: 5809936151698356531}
+  _ownerColor: {r: 0.20392157, g: 0.69803923, b: 0.67058825, a: 1}
+  _ownerAlwaysLit: 1
+  _ownerAlwaysVisible: 1
+  _nonownerColor: {r: 0.93333334, g: 0.29411766, b: 0.27058825, a: 1}
+  _nonownerAlwaysLit: 0
+  _nonownerAlwaysVisible: 0
+  _order: 0
+--- !u!114 &5601523307597404578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7333554619945174216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e47ddf488f3df3b15a507cfd0fbef029, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.VitalityColorModifier
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 7641905666977704100}
+  _networkObjectCache: {fileID: 0}
+  _controller: {fileID: 5809936151698356531}
+  _vitality: {fileID: 5606094261152223815}
+  _colorAtZero: {r: 0, g: 0, b: 0, a: 1}
+  _order: 1
+--- !u!114 &2730616135195260171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7333554619945174216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bcf79a6c93735c89bc2dbe0ba56feee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.VitalityChangeColorModifier
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 7641905666977704100}
+  _networkObjectCache: {fileID: 0}
+  _controller: {fileID: 5809936151698356531}
+  _vitality: {fileID: 5606094261152223815}
+  _timer: {fileID: 0}
+  _colorOnHit: {r: 1, g: 1, b: 1, a: 1}
+  _duration: 0.1
+  _order: 2
 --- !u!1 &8895062538996833147
 GameObject:
   m_ObjectHideFlags: 0

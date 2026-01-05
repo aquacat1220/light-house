@@ -10,7 +10,7 @@ namespace LightHouse.Fn
         public Tuple Invoke(ITuple<T1> param)
         {
             _delegate(param.Item1);
-            return Tuple.Unit;
+            return new Tuple();
         }
 
         public ActionFn(Action<T1> @delegate)
@@ -27,7 +27,7 @@ namespace LightHouse.Fn
         public Tuple Invoke(ITuple<T1, T2> param)
         {
             _delegate(param.Item1, param.Item2);
-            return Tuple.Unit;
+            return new Tuple();
         }
 
         public ActionFn(Action<T1, T2> @delegate)
@@ -44,7 +44,7 @@ namespace LightHouse.Fn
         public Tuple Invoke(ITuple<T1, T2, T3> param)
         {
             _delegate(param.Item1, param.Item2, param.Item3);
-            return Tuple.Unit;
+            return new Tuple();
         }
 
         public ActionFn(Action<T1, T2, T3> @delegate)
@@ -61,7 +61,7 @@ namespace LightHouse.Fn
         public Tuple Invoke(ITuple<T1, T2, T3, T4> param)
         {
             _delegate(param.Item1, param.Item2, param.Item3, param.Item4);
-            return Tuple.Unit;
+            return new Tuple();
         }
 
         public ActionFn(Action<T1, T2, T3, T4> @delegate)
@@ -78,7 +78,7 @@ namespace LightHouse.Fn
         public Tuple Invoke(ITuple<T1, T2, T3, T4, T5> param)
         {
             _delegate(param.Item1, param.Item2, param.Item3, param.Item4, param.Item5);
-            return Tuple.Unit;
+            return new Tuple();
         }
 
         public ActionFn(Action<T1, T2, T3, T4, T5> @delegate)
@@ -95,7 +95,7 @@ namespace LightHouse.Fn
         public Tuple Invoke(ITuple<T1, T2, T3, T4, T5, T6> param)
         {
             _delegate(param.Item1, param.Item2, param.Item3, param.Item4, param.Item5, param.Item6);
-            return Tuple.Unit;
+            return new Tuple();
         }
 
         public ActionFn(Action<T1, T2, T3, T4, T5, T6> @delegate)
@@ -112,7 +112,7 @@ namespace LightHouse.Fn
         public Tuple Invoke(ITuple<T1, T2, T3, T4, T5, T6, T7> param)
         {
             _delegate(param.Item1, param.Item2, param.Item3, param.Item4, param.Item5, param.Item6, param.Item7);
-            return Tuple.Unit;
+            return new Tuple();
         }
 
         public ActionFn(Action<T1, T2, T3, T4, T5, T6, T7> @delegate)
@@ -129,7 +129,7 @@ namespace LightHouse.Fn
         public Tuple Invoke(ITuple<T1, T2, T3, T4, T5, T6, T7, T8> param)
         {
             _delegate(param.Item1, param.Item2, param.Item3, param.Item4, param.Item5, param.Item6, param.Item7, param.Item8);
-            return Tuple.Unit;
+            return new Tuple();
         }
 
         public ActionFn(Action<T1, T2, T3, T4, T5, T6, T7, T8> @delegate)

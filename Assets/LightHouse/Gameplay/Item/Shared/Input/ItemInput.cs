@@ -7,15 +7,13 @@ namespace LightHouse
     public class ItemInput : MonoBehaviour
     {
         [SerializeField]
-        Event<bool> _primary;
-        [SerializeField]
-        Event<bool> _secondary;
-        [SerializeField]
-        Event<bool> _action1;
-        [SerializeField]
-        Event<bool> _action2;
-        [SerializeField]
-        Event<bool> _action3;
+        Item _item;
+
+        public event Action<bool> Primary;
+        public event Action<bool> Secondary;
+        public event Action<bool> Action1;
+        public event Action<bool> Action2;
+        public event Action<bool> Action3;
 
         InputState<bool> _primaryState = new();
         InputState<bool> _secondaryState = new();
@@ -25,6 +23,13 @@ namespace LightHouse
 
         void Awake()
         {
+            if (_item == null)
+            {
+                Debug.Log("`_item` was not set.");
+                throw new Exception();
+            }
+            _item.Register += OnRegister;
+            _item.Unregister += OnUnregister;
             _primaryState.Change += OnPrimary;
             _secondaryState.Change += OnSecondary;
             _action1State.Change += OnAction1;
@@ -34,6 +39,8 @@ namespace LightHouse
 
         void OnDestroy()
         {
+            _item.Register -= OnRegister;
+            _item.Unregister -= OnUnregister;
             _primaryState.Change -= OnPrimary;
             _secondaryState.Change -= OnSecondary;
             _action1State.Change -= OnAction1;
@@ -59,29 +66,7 @@ namespace LightHouse
             _action3State.Disable();
         }
 
-        [Serializable]
-        public class OnRegisterFn : IFn<ITuple<ItemSlot>, Fn.Tuple>
-        {
-            public ItemInput ItemInput;
-            public Fn.Tuple Invoke(ITuple<ItemSlot> param)
-            {
-                ItemInput?.OnRegister(param.Item1);
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        [Serializable]
-        public class OnUnregisterFn : IFn<Fn.Tuple, Fn.Tuple>
-        {
-            public ItemInput ItemInput;
-            public Fn.Tuple Invoke(Fn.Tuple _)
-            {
-                ItemInput?.OnUnregister();
-                return Fn.Tuple.Unit;
-            }
-        }
-
-        public void OnRegister(ItemSlot itemSlot)
+        void OnRegister(ItemSlot itemSlot)
         {
             var itemSlotInput = itemSlot.GetComponent<ItemSlotInput>();
             if (itemSlotInput == null)
@@ -97,7 +82,7 @@ namespace LightHouse
             _action3State.Parent = itemSlotInput.Action3State;
         }
 
-        public void OnUnregister()
+        void OnUnregister()
         {
             _primaryState.Parent = null;
             _secondaryState.Parent = null;
@@ -108,27 +93,27 @@ namespace LightHouse
 
         void OnPrimary(bool newState)
         {
-            _primary?.Invoke(newState);
+            Primary?.Invoke(newState);
         }
 
         void OnSecondary(bool newState)
         {
-            _secondary?.Invoke(newState);
+            Secondary?.Invoke(newState);
         }
 
         void OnAction1(bool newState)
         {
-            _action1?.Invoke(newState);
+            Action1?.Invoke(newState);
         }
 
         void OnAction2(bool newState)
         {
-            _action2?.Invoke(newState);
+            Action2?.Invoke(newState);
         }
 
         void OnAction3(bool newState)
         {
-            _action3?.Invoke(newState);
+            Action3?.Invoke(newState);
         }
     }
 }

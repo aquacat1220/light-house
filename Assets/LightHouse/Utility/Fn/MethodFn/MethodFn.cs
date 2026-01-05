@@ -29,13 +29,12 @@ namespace LightHouse.Fn
                     _delegate = () =>
                     {
                         method();
-                        return (TResult)(object)(Tuple.Unit); // Cast is safe because `typeof(TResult) == typeof(Tuple)`.
+                        return (TResult)(object)(new Tuple()); // Cast is safe because `typeof(TResult) == typeof(Tuple)`.
                     };
                 }
                 else
                     _delegate = (Func<TResult>)Delegate.CreateDelegate(type: typeof(Func<TResult>), target: MethodInfo.Target, method: methodName);
             }
-
             return _delegate();
         }
     }
@@ -61,13 +60,12 @@ namespace LightHouse.Fn
                     _delegate = (p1) =>
                     {
                         method(p1);
-                        return (TResult)(object)(Tuple.Unit); // Cast is safe because `typeof(TResult) == typeof(Tuple)`.
+                        return (TResult)(object)(new Tuple()); // Cast is safe because `typeof(TResult) == typeof(Tuple)`.
                     };
                 }
                 else
                     _delegate = (Func<T1, TResult>)Delegate.CreateDelegate(type: typeof(Func<T1, TResult>), target: MethodInfo.Target, method: methodName);
             }
-
             return _delegate(param.Item1);
         }
 
@@ -84,13 +82,12 @@ namespace LightHouse.Fn
                     _delegate = (p1) =>
                     {
                         method(p1);
-                        return (TResult)(object)(Tuple.Unit); // Cast is safe because `typeof(TResult) == typeof(Tuple)`.
+                        return (TResult)(object)(new Tuple()); // Cast is safe because `typeof(TResult) == typeof(Tuple)`.
                     };
                 }
                 else
                     _delegate = (Func<T1, TResult>)Delegate.CreateDelegate(type: typeof(Func<T1, TResult>), target: MethodInfo.Target, method: methodName);
             }
-
             return _delegate(DefaultParam.Item1);
         }
     }
@@ -115,7 +112,7 @@ namespace LightHouse.Fn
                     _delegate = (p1, p2) =>
                     {
                         method(p1, p2);
-                        return (TResult)(object)(Tuple.Unit);
+                        return (TResult)(object)(new Tuple());
                     };
                 }
                 else
@@ -137,7 +134,7 @@ namespace LightHouse.Fn
                     _delegate = (p1, p2) =>
                     {
                         method(p1, p2);
-                        return (TResult)(object)(Tuple.Unit);
+                        return (TResult)(object)(new Tuple());
                     };
                 }
                 else
@@ -167,7 +164,7 @@ namespace LightHouse.Fn
                     _delegate = (p1, p2, p3) =>
                     {
                         method(p1, p2, p3);
-                        return (TResult)(object)(Tuple.Unit);
+                        return (TResult)(object)(new Tuple());
                     };
                 }
                 else
@@ -189,7 +186,7 @@ namespace LightHouse.Fn
                     _delegate = (p1, p2, p3) =>
                     {
                         method(p1, p2, p3);
-                        return (TResult)(object)(Tuple.Unit);
+                        return (TResult)(object)(new Tuple());
                     };
                 }
                 else
@@ -219,7 +216,7 @@ namespace LightHouse.Fn
                     _delegate = (p1, p2, p3, p4) =>
                     {
                         method(p1, p2, p3, p4);
-                        return (TResult)(object)(Tuple.Unit);
+                        return (TResult)(object)(new Tuple());
                     };
                 }
                 else
@@ -241,7 +238,7 @@ namespace LightHouse.Fn
                     _delegate = (p1, p2, p3, p4) =>
                     {
                         method(p1, p2, p3, p4);
-                        return (TResult)(object)(Tuple.Unit);
+                        return (TResult)(object)(new Tuple());
                     };
                 }
                 else
@@ -271,7 +268,7 @@ namespace LightHouse.Fn
                     _delegate = (p1, p2, p3, p4, p5) =>
                     {
                         method(p1, p2, p3, p4, p5);
-                        return (TResult)(object)(Tuple.Unit);
+                        return (TResult)(object)(new Tuple());
                     };
                 }
                 else
@@ -293,7 +290,7 @@ namespace LightHouse.Fn
                     _delegate = (p1, p2, p3, p4, p5) =>
                     {
                         method(p1, p2, p3, p4, p5);
-                        return (TResult)(object)(Tuple.Unit);
+                        return (TResult)(object)(new Tuple());
                     };
                 }
                 else
@@ -323,7 +320,7 @@ namespace LightHouse.Fn
                     _delegate = (p1, p2, p3, p4, p5, p6) =>
                     {
                         method(p1, p2, p3, p4, p5, p6);
-                        return (TResult)(object)(Tuple.Unit);
+                        return (TResult)(object)(new Tuple());
                     };
                 }
                 else
@@ -345,7 +342,7 @@ namespace LightHouse.Fn
                     _delegate = (p1, p2, p3, p4, p5, p6) =>
                     {
                         method(p1, p2, p3, p4, p5, p6);
-                        return (TResult)(object)(Tuple.Unit);
+                        return (TResult)(object)(new Tuple());
                     };
                 }
                 else
@@ -375,7 +372,7 @@ namespace LightHouse.Fn
                     _delegate = (p1, p2, p3, p4, p5, p6, p7) =>
                     {
                         method(p1, p2, p3, p4, p5, p6, p7);
-                        return (TResult)(object)(Tuple.Unit);
+                        return (TResult)(object)(new Tuple());
                     };
                 }
                 else
@@ -397,7 +394,7 @@ namespace LightHouse.Fn
                     _delegate = (p1, p2, p3, p4, p5, p6, p7) =>
                     {
                         method(p1, p2, p3, p4, p5, p6, p7);
-                        return (TResult)(object)(Tuple.Unit);
+                        return (TResult)(object)(new Tuple());
                     };
                 }
                 else
@@ -427,7 +424,7 @@ namespace LightHouse.Fn
                     _delegate = (p1, p2, p3, p4, p5, p6, p7, p8) =>
                     {
                         method(p1, p2, p3, p4, p5, p6, p7, p8);
-                        return (TResult)(object)(Tuple.Unit);
+                        return (TResult)(object)(new Tuple());
                     };
                 }
                 else
@@ -449,7 +446,7 @@ namespace LightHouse.Fn
                     _delegate = (p1, p2, p3, p4, p5, p6, p7, p8) =>
                     {
                         method(p1, p2, p3, p4, p5, p6, p7, p8);
-                        return (TResult)(object)(Tuple.Unit);
+                        return (TResult)(object)(new Tuple());
                     };
                 }
                 else

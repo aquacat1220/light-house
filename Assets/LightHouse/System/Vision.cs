@@ -54,8 +54,7 @@ namespace LightHouse
             }
         }
 
-        [SerializeField]
-        Event<float> _rangeChanged;
+        public event Action<float> RangeChanged;
 
         void Awake()
         {
@@ -109,7 +108,7 @@ namespace LightHouse
             _range = newRange;
             _visionLight.pointLightInnerRadius = Math.Max(_range - _falloffDistance, 0f);
             _visionLight.pointLightOuterRadius = _range;
-            _rangeChanged?.Invoke(_range);
+            RangeChanged?.Invoke(_range);
         }
 
         [ObserversRpc(BufferLast = true, ExcludeServer = true)]
