@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9265295abb9dfcba5abe125c6f8bbcef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSlot
-  _componentIndexCache: 10
+  _componentIndexCache: 13
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
   User: {fileID: 5139385379916303670}
@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9265295abb9dfcba5abe125c6f8bbcef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSlot
-  _componentIndexCache: 9
+  _componentIndexCache: 16
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
   User: {fileID: 5139385379916303670}
@@ -231,7 +231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9265295abb9dfcba5abe125c6f8bbcef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSlot
-  _componentIndexCache: 11
+  _componentIndexCache: 14
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
   User: {fileID: 5139385379916303670}
@@ -323,7 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9265295abb9dfcba5abe125c6f8bbcef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSlot
-  _componentIndexCache: 8
+  _componentIndexCache: 15
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
   User: {fileID: 5139385379916303670}
@@ -350,6 +350,10 @@ PrefabInstance:
     - target: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: m_Name
       value: PlayerCharacter
+      objectReference: {fileID: 0}
+    - target: {fileID: 2149844644819053305, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: _componentIndexCache
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2223553293404720658, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'managedReferences[-2]'
@@ -379,6 +383,14 @@ PrefabInstance:
     - target: {fileID: 2223553293404720658, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: managedReferences[109098607350382700].MethodInfo.MethodName
       value: void OnRangeChanged(float)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2322451921212734469, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: _componentIndexCache
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5703912270854037669, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: _componentIndexCache
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5989156536031541926, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.size
@@ -640,6 +652,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7099322403293898640, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: _componentIndexCache
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'managedReferences[-2]'
       value: 
@@ -762,7 +778,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: <PrefabId>k__BackingField
-      value: 9
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: _preventDespawnOnDisconnect
@@ -770,7 +786,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: NetworkBehaviours.Array.size
-      value: 12
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: _spectatorSmoothedProperties
@@ -783,7 +799,7 @@ PrefabInstance:
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[0]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 314374267949629621}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[1]'
       value: 
@@ -791,39 +807,59 @@ PrefabInstance:
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[2]'
       value: 
-      objectReference: {fileID: 286916112871301450}
+      objectReference: {fileID: 6290294256753253600}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[4]'
       value: 
-      objectReference: {fileID: 7613401983510641006}
+      objectReference: {fileID: 286916112871301450}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[5]'
       value: 
-      objectReference: {fileID: 6290294256753253600}
+      objectReference: {fileID: 8895098666123999204}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[6]'
       value: 
-      objectReference: {fileID: 7544029604669326017}
+      objectReference: {fileID: 7613401983510641006}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[7]'
       value: 
-      objectReference: {fileID: 3253198443913536155}
+      objectReference: {fileID: 7544029604669326017}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[8]'
       value: 
-      objectReference: {fileID: 5481230686748954216}
+      objectReference: {fileID: 3819067489061000716}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[9]'
       value: 
-      objectReference: {fileID: 6375065255222121820}
+      objectReference: {fileID: 7614242317514452727}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[10]'
       value: 
-      objectReference: {fileID: 2131203046410730692}
+      objectReference: {fileID: 6072524571033729035}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[11]'
       value: 
+      objectReference: {fileID: 3104638897086461282}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[12]'
+      value: 
+      objectReference: {fileID: 484248291077517911}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[13]'
+      value: 
+      objectReference: {fileID: 2131203046410730692}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[14]'
+      value: 
       objectReference: {fileID: 1837316924962321096}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[15]'
+      value: 
+      objectReference: {fileID: 5481230686748954216}
+    - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[16]'
+      value: 
+      objectReference: {fileID: 6375065255222121820}
     - target: {fileID: 7641905666977704100, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       propertyPath: SerializedTransformProperties.Scale.x
       value: 1
@@ -867,7 +903,32 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7544029604669326017}
+    - targetCorrespondingSourceObject: {fileID: 1063688963136659396, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3819067489061000716}
   m_SourcePrefab: {fileID: 100100000, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+--- !u!114 &314374267949629621 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5606094261152223815, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+  m_PrefabInstance: {fileID: 5300799141838639858}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5139385379916303670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06aebed318a9571baa9a65bf800eb37b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Vitality
+--- !u!114 &484248291077517911 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5703912270854037669, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+  m_PrefabInstance: {fileID: 5300799141838639858}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b22aaefb4b0b1ea62a745b3f0214d46f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.CharacterColorSelector
 --- !u!4 &1599423349212434369 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6891197595918081331, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
@@ -884,17 +945,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3253198443913536155 stripped
+--- !u!114 &3104638897086461282 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7256871317220962409, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7099322403293898640, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
   m_PrefabInstance: {fileID: 5300799141838639858}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5139385379916303670}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8a1b5f64b205776abed91de20e38c09, type: 3}
+  m_Script: {fileID: 11500000, guid: 3bcf79a6c93735c89bc2dbe0ba56feee, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCharacterDeath
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.VitalityChangeColorModifier
 --- !u!4 &3359726144973146153 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7435475543984397019, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
@@ -927,7 +988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16a3e4ef91f180ea0a9450b669d20c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCharacterInput
-  _componentIndexCache: 2
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
 --- !u!114 &8895098666123999204
@@ -942,10 +1003,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64a11691e8aa8456495080fae6ddb1dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 3
+  _componentIndexCache: 5
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
-  _maxSpeed: 3
+  _maxSpeed: 10
   _input: {fileID: 286916112871301450}
   _rigidBody: {fileID: 4184858578783768206}
 --- !u!114 &7613401983510641006
@@ -960,7 +1021,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2914d8886a5b6d35a89366d87bb6f4a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCharacterInventory
-  _componentIndexCache: 4
+  _componentIndexCache: 6
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
   _input: {fileID: 286916112871301450}
@@ -981,20 +1042,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71aa291e9cc890685a96c793a859b225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 6
+  _componentIndexCache: 7
   _addedNetworkObject: {fileID: 2566409721090996822}
   _networkObjectCache: {fileID: 2566409721090996822}
   _vision: {fileID: 6290294256753253600}
-  _maxFrontSize: 10
-  _maxRearSize: 6
   _minFrontSize: 3
+  _maxFrontSize: 10
   _minRearSize: 3
+  _maxRearSize: 6
   _cameraTarget: {fileID: 4734755022205498180}
-  _sizeChanged:
-    _listeners: []
-  references:
-    version: 2
-    RefIds: []
+--- !u!114 &3819067489061000716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5139385379916303670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aa6bed92b9ec455daeeb3a127a141d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.DashController
+  _componentIndexCache: 8
+  _addedNetworkObject: {fileID: 2566409721090996822}
+  _networkObjectCache: {fileID: 2566409721090996822}
+  _dashLength: 15
+  _dashSpeed: 10
+  _input: {fileID: 286916112871301450}
+  _predictedMovement: {fileID: 8895098666123999204}
+--- !u!114 &6072524571033729035 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2149844644819053305, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+  m_PrefabInstance: {fileID: 5300799141838639858}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e47ddf488f3df3b15a507cfd0fbef029, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.VitalityColorModifier
 --- !u!114 &6290294256753253600 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2223553293404720658, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
@@ -1017,6 +1103,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8f0b5df2a6d53bd2a0973075b266084, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Sanity
+--- !u!114 &7614242317514452727 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2322451921212734469, guid: d2c828e519c166684af8c10a7975ee06, type: 3}
+  m_PrefabInstance: {fileID: 5300799141838639858}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b22aaefb4b0b1ea62a745b3f0214d46f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightHouse.CharacterColorSelector
 --- !u!4 &8119588425305905567 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4124921343106321261, guid: d2c828e519c166684af8c10a7975ee06, type: 3}

@@ -23,6 +23,7 @@ namespace LightHouse
         public event Action<bool> SwapToBackup1;
         public event Action<bool> SwapToBackup2;
         public event Action<bool> DropItem;
+        public event Action<bool> Dash;
 
         bool _isSubscribedToInputManager = false;
 
@@ -82,6 +83,8 @@ namespace LightHouse
                 InputManager.Singleton.InputActions.Gameplay.SwapToBackup2.canceled += OnSwapToBackup2;
                 InputManager.Singleton.InputActions.Gameplay.DropItem.performed += OnDropItem;
                 InputManager.Singleton.InputActions.Gameplay.DropItem.canceled += OnDropItem;
+                InputManager.Singleton.InputActions.Gameplay.Dash.performed += OnDash;
+                InputManager.Singleton.InputActions.Gameplay.Dash.canceled += OnDash;
                 _isSubscribedToInputManager = true;
             }
         }
@@ -112,6 +115,8 @@ namespace LightHouse
                 InputManager.Singleton.InputActions.Gameplay.SwapToBackup2.canceled -= OnSwapToBackup2;
                 InputManager.Singleton.InputActions.Gameplay.DropItem.performed -= OnDropItem;
                 InputManager.Singleton.InputActions.Gameplay.DropItem.canceled -= OnDropItem;
+                InputManager.Singleton.InputActions.Gameplay.Dash.performed -= OnDash;
+                InputManager.Singleton.InputActions.Gameplay.Dash.canceled -= OnDash;
                 _isSubscribedToInputManager = false;
             }
         }
@@ -196,6 +201,14 @@ namespace LightHouse
                 DropItem?.Invoke(true);
             else if (context.canceled)
                 DropItem?.Invoke(false);
+        }
+
+        void OnDash(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                Dash?.Invoke(true);
+            else if (context.canceled)
+                Dash?.Invoke(false);
         }
     }
 }

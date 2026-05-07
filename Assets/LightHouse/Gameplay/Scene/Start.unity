@@ -127,6 +127,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2328161251702906922, guid: 8d965df2f9bb8e4f0b547fde1f5a9cd1, type: 3}
+      propertyPath: _stateInterpolation
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4175714327334874791, guid: 8d965df2f9bb8e4f0b547fde1f5a9cd1, type: 3}
+      propertyPath: _latencySimulator._enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4175714327334874791, guid: 8d965df2f9bb8e4f0b547fde1f5a9cd1, type: 3}
+      propertyPath: _latencySimulator._latency
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 4175714327334874791, guid: 8d965df2f9bb8e4f0b547fde1f5a9cd1, type: 3}
+      propertyPath: _latencySimulator._simulateHost
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6244724330501260983, guid: 8d965df2f9bb8e4f0b547fde1f5a9cd1, type: 3}
       propertyPath: _spawnablePrefabs
       value: 

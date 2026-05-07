@@ -1,22 +1,33 @@
 namespace LightHouse
 {
     using System;
+    using System.Collections.Generic;
     using FishNet.Managing.Timing;
     using FishNet.Object;
     using FishNet.Object.Prediction;
     using FishNet.Transporting;
     using UnityEngine;
-    using Fn;
+
+    public struct VelocityOverrideEffect
+    {
+        public VelocityOverrideEffect(Vector2 velocityOverride)
+        {
+            VelocityOverride = velocityOverride;
+        }
+
+        public Vector2 VelocityOverride;
+    }
 
     public class PredictedMovement : NetworkBehaviour
     {
         public struct ReplicateData : IReplicateData
         {
-            public ReplicateData(Vector2 worldMove, float worldRotation)
+            public ReplicateData(Vector2 worldMove, float worldRotation, uint tick)
             {
                 WorldMoveX = worldMove.x;
                 WorldMoveY = worldMove.y;
                 WorldRotation = worldRotation;
+                Tick = tick;
 
                 _tick = 0;
             }
@@ -36,6 +47,7 @@ namespace LightHouse
             public float WorldMoveY;
 
             public float WorldRotation;
+            public uint Tick;
 
             private uint _tick;
 
@@ -47,13 +59,15 @@ namespace LightHouse
 
         public struct ReconcileData : IReconcileData
         {
-            public ReconcileData(PredictionRigidbody2D predictionRigidbody2D)
+            public ReconcileData(PredictionRigidbody2D predictionRigidbody2D, uint tick)
             {
                 PredictionRigidbody2D = predictionRigidbody2D;
+                Tick = tick;
                 _tick = 0;
             }
 
             public PredictionRigidbody2D PredictionRigidbody2D;
+            public uint Tick;
 
             private uint _tick;
 
@@ -63,10 +77,37 @@ namespace LightHouse
             public void SetTick(uint value) => _tick = value;
         }
 
+        public class MovementEffectEntry
+        {
+            public VelocityOverrideEffect Effect;
+            public uint AddedTick;
+            public uint StartTick;
+            public uint? EndTick;
+
+            public MovementEffectEntry(VelocityOverrideEffect effect, uint addedTick, uint startTick, uint? endTick)
+            {
+                Effect = effect;
+                AddedTick = addedTick;
+                StartTick = startTick;
+                EndTick = endTick;
+            }
+        }
+
+        public class MovementEffectHandle
+        {
+            MovementEffectEntry _entry;
+
+            public MovementEffectHandle(MovementEffectEntry entry)
+            {
+                _entry = entry;
+            }
+        }
+
         // Maximum movement speed of this character.
         [SerializeField]
         float _maxSpeed;
 
+        // The `PlayerCharacterInput` this component subscribes to.
         [SerializeField]
         PlayerCharacterInput _input;
 
@@ -74,7 +115,11 @@ namespace LightHouse
         [SerializeField]
         Rigidbody2D _rigidBody;
 
+        // A snapshot of the rigidbody state, necesary for rollback-ing the character to a known past authoritative state.
         PredictionRigidbody2D _predictionRigidbody2D;
+        // A list of all `MovementEffect`s in effect, neccesary for replayed inputs to "tick" the character deterministically.
+        List<MovementEffectEntry> _movementEffects = new();
+
         // The most recent movement input from the client controlling this character.
         Vector2 _recentMoveInput;
         // The most recent desired angular velocity for this character.
@@ -191,6 +236,7 @@ namespace LightHouse
 
         private void OnTimeManagerTick()
         {
+            Debug.Log($"-------- Local: {TimeManager.LocalTick} | Server: {TimeManager.Tick} --------");
             Replicate(CreateReplicate());
         }
 
@@ -202,40 +248,51 @@ namespace LightHouse
         [Replicate]
         private void Replicate(ReplicateData data, ReplicateState state = ReplicateState.Invalid, Channel channel = Channel.Unreliable)
         {
+            Debug.Log($"Simulating replicate created on {data.Tick}, fishnet tick {data.GetTick()}");
             if (!state.ContainsCreated())
             {
                 // `data` isn't created by the owner; it is a default object provided by FishNet.
-
-
-                // {
-                //     // Return early so rotation doesn't have to snap.
-                //     // Rigidbody has inertia: it will keep its velocities from previous ticks.
-                //     // Thus, even without explicit input prediction, this early return implicitly predicts that
-                //     // *unobserved inputs* will be the same as the *last observed input*. (See devlog of 2025-04-19 12:13:32 for detail.)
-                //     // While this may be desirable in certain cases, this results in a *sudden jolt* when inputs change,
-                //     // since we are effectively extrapolating into the future.
-                //     return;
-                // }
-
-                {
-                    // Zero out the rigidbody velocity to stop extrapolation.
-                    _predictionRigidbody2D.Velocity(Vector2.zero);
-                    // But leave the rotation as it is, since it has nothing to do with inertia.
-                    _predictionRigidbody2D.Simulate();
-                    return;
-                }
+                // Zero out the rigidbody velocity to stop extrapolation.
+                _predictionRigidbody2D.Velocity(Vector2.zero);
+                // But leave the rotation as it is, since it has nothing to do with inertia.
             }
-            // `data` is created by the owner.
-            Vector2 worldMove = data.WorldMove;
-            if (worldMove.magnitude > 1f + 0.001f)
+            else
             {
-                // We add a small margin of error, since tiny errors can happen in floating point operations.
-                Debug.Log($"`data.WorldMove.magnitude > 1f` with a value of {worldMove.magnitude}, this might be an attempt for speed hacking.");
-                worldMove.Normalize();
+                // `data` is created by the owner.
+                Vector2 worldMove = data.WorldMove;
+                if (worldMove.magnitude > 1f + 0.001f)
+                {
+                    // We add a small margin of error, since tiny errors can happen in floating point operations.
+                    Debug.Log($"`data.WorldMove.magnitude > 1f` with a value of {worldMove.magnitude}, this might be an attempt for speed hacking.");
+                    worldMove.Normalize();
+                }
+                _predictionRigidbody2D.Velocity(worldMove * _maxSpeed);
+                // Since rigidbody has rotation frozen, we should directly set the rotation, instead of setting angular velocity.
+                _predictionRigidbody2D.Rotation(data.WorldRotation);
             }
-            _predictionRigidbody2D.Velocity(worldMove * _maxSpeed);
-            // Since rigidbody has rotation frozen, we should directly set the rotation, instead of setting angular velocity.
-            _predictionRigidbody2D.Rotation(data.WorldRotation);
+
+            // Now let's fetch the local tick for this particular `Replicate()` call.
+            uint currentTick = data.GetTick();
+            if (base.IsServerInitialized)
+            {
+                // On servers, `data.GetTick()` is always owner-ticked.
+                // Since servers never replay, we can assume the simulation is on the actual local tick.
+                currentTick = TimeManager.LocalTick;
+            }
+            else if (base.IsClientInitialized && !base.Owner.IsLocalClient)
+            {
+                // On non-owned clients, `data.GetTick()` are server-ticked.
+                currentTick = TimeManager.TickToLocalTick(currentTick);
+            }
+
+            foreach (var entry in _movementEffects)
+            {
+                if (!(entry.StartTick <= currentTick && currentTick < entry.EndTick))
+                    continue;
+
+                Debug.Log($"{TimeManager.LocalTick}: Dash in replicate, start: {entry.StartTick}, end: {entry.EndTick}");
+                _predictionRigidbody2D.Velocity(entry.Effect.VelocityOverride);
+            }
             _predictionRigidbody2D.Simulate();
         }
 
@@ -253,7 +310,7 @@ namespace LightHouse
 
             float worldRotation = transform.eulerAngles.z - (5.0f) * (float)TimeManager.TickDelta * _accumulatedMouseDeltaX;
 
-            ReplicateData data = new ReplicateData(worldMove, worldRotation);
+            ReplicateData data = new ReplicateData(worldMove, worldRotation, TimeManager.LocalTick);
             _accumulatedMouseDeltaX = 0f;
             return data;
         }
@@ -261,13 +318,15 @@ namespace LightHouse
         [Reconcile]
         private void Reconcile(ReconcileData data, Channel channel = Channel.Unreliable)
         {
+            Debug.Log($"Reconciling to state created on {data.Tick}, fishnet tick {data.GetTick()}");
             _predictionRigidbody2D.Reconcile(data.PredictionRigidbody2D);
         }
 
 
         public override void CreateReconcile()
         {
-            ReconcileData data = new ReconcileData(_predictionRigidbody2D);
+            // Debug.Log($"{TimeManager.LocalTick}: CreateReconcile");
+            ReconcileData data = new ReconcileData(_predictionRigidbody2D, TimeManager.LocalTick);
             Reconcile(data);
         }
 
@@ -294,5 +353,53 @@ namespace LightHouse
             _recentMoveInput = Vector2.zero;
             _accumulatedMouseDeltaX = 0f;
         }
+
+        // Authoritatively add a `MovementEffect` that will be active for `startLocalTick <= TimeManager.LocalTick < endLocalTick`.
+        // [Server]
+        public MovementEffectHandle AddMovementEffectAuthoritative(VelocityOverrideEffect effect, uint startLocalTick, uint endLocalTick)
+        {
+            if (TimeManager.LocalTick > startLocalTick)
+            {
+                Debug.Log("Attempted to add a movementeffect starting in the past.");
+                throw new Exception();
+            }
+            if (startLocalTick >= endLocalTick)
+            {
+                Debug.Log("Attempted to add a movementeffect with negative duration.");
+                throw new Exception();
+            }
+
+            MovementEffectEntry entry = new(effect, TimeManager.LocalTick, startLocalTick, endLocalTick);
+            _movementEffects.Add(entry);
+
+            MovementEffectHandle handle = new(entry);
+            return handle;
+        }
+
+        // Predictively add a `MovementEffect` that will be active for `startLocalTick <= TimeManager.LocalTick < endLocalTick`.
+        // Doesn't sync the effect with the server; requires the caller to replicate the effect on the server side.
+        // Note that predictive effects will be purged after 1RTT + alpha if the server doesn't validate them.
+        // [Client(RequireOwnership = true)]
+        public MovementEffectHandle AddMovementEffectPredictive(VelocityOverrideEffect effect, uint startLocalTick, uint endLocalTick)
+        {
+            if (TimeManager.LocalTick > startLocalTick)
+            {
+                Debug.Log("Attempted to add a movementeffect starting in the past.");
+                throw new Exception();
+            }
+            if (startLocalTick >= endLocalTick)
+            {
+                Debug.Log("Attempted to add a movementeffect with negative duration.");
+                throw new Exception();
+            }
+
+            MovementEffectEntry entry = new(effect, TimeManager.LocalTick, startLocalTick, endLocalTick);
+            _movementEffects.Add(entry);
+
+            MovementEffectHandle handle = new(entry);
+            return handle;
+        }
+
+
     }
 }
